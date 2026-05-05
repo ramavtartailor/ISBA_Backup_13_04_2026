@@ -1,0 +1,24 @@
+.THIS.card {
+    padding: 1rem;
+    border: .1rem solid #cdcdcd;
+    border-radius: .4rem;  
+    position: relative;
+    background: white;
+}
+.THIS .heading{
+    font-size: large;
+    font-weight: 600;  
+    cursor:pointer;
+}
+.THIS .body {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem .2rem 0;
+    font-size: small;
+    cursor: pointer;
+    border-bottom: 0.1rem solid #cdcdcd;
+}
+.THIS .contfoot {
+    margin-top: .5rem;
+    text-align: center;
+}

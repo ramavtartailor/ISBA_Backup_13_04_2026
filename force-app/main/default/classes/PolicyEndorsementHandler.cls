@@ -43,7 +43,6 @@ public with sharing class PolicyEndorsementHandler implements ITrigger {
     }
     
     public void afterUpdate(Map<Id,SObject> oldItems, Map<Id,SObject> newItems) {
-        system.debug('afterUpdate called');
         // Call the Gateway Function to update the fields for versioning and conga template.
         PolicyEndorsementGateway.updateEndorsementVersion(oldItems, newItems);
         // Call Gateway function to perform policy endorsement updates.

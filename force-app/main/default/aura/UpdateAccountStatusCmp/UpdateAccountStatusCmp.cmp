@@ -1,0 +1,99 @@
+<aura:component controller="UpdateAccountStatusCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+	<aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="userId" type="String" default="{!$SObjectType.CurrentUser.Id}"/>
+    <aura:attribute name="createTask" type="Boolean" default="false"/>
+    <aura:attribute name="activityDate" type="Date"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="task" type="Object"/>
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Hot', 'value': 'Hot'},
+                                                        {'label': 'Warm', 'value': 'Warm'},
+                                                        {'label': 'Cold', 'value': 'Cold'},
+                                                        {'label': 'Disqualified', 'value': 'Disqualified'}
+                                                        ]"/>
+    
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading"/>
+    </aura:if>
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Update Account Status</h1>
+    </div>
+    <div class="slds-modal__content" style="padding : 1.5rem">
+        <div class="" style="display: flex; gap: 1rem; width: 100%; flex-wrap: wrap;"> 
+            <div style="width: calc(70% - .5rem);">
+                <div>
+                    <lightning:input aura:id="field" required="true" name="ISBAM Quick Note" label="ISBAM Quick Note" value="{!v.record.ISBAM_Quick_Note__c}"/>
+                </div>
+            </div>
+            <div style="width: calc(30% - .5rem);">
+                <lightning:select aura:id="field" name="ISBAM_Rating" required="true" value="{!v.record.ISBAM_Rating__c}" label="ISBAM Rating">
+                    <option value="" text="--None--"></option>
+                    <aura:iteration items="{!v.options}" var="op">
+                        <option value="{!op.value}" text="{!op.label}"></option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <div style="width: calc(70% - .5rem);">
+                <lightning:recordEditForm objectApiName="Account">
+                    <label class="slds-form-element__label slds-no-flex">
+                        Owner
+                    </label>
+                    <lightning:inputField style="padding:0;" variant="label-hidden" fieldName="ISBAM_Rating_Last_Update_By__c" value="{!v.record.OwnerId}"/>
+                </lightning:recordEditForm>
+            </div>
+            <div style="width: calc(30% - .5rem); display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; flex-direction: column;">
+                    <lightning:button variant="brand" label="Assign To Me" title="assign" onclick="{!c.handleAssign}" />
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <lightning:input type="checkbox" label="Create Task" name="input1" checked="{!v.createTask}" onchange ="{!c.handleChange}"/>
+            </div>
+            <aura:if isTrue="{!v.createTask}">
+                <div style="width: calc(70% - .5rem);">
+                    <lightning:input aura:id="field" required="true" name="Subject" label="Subject" value="{!v.task.Subject}"/>
+                </div>
+                <div style="width: calc(30% - .5rem);"> 
+                    <lightning:input type="date" label="Activity Date" value="{!v.task.ActivityDate}"/>
+                </div>
+            </aura:if>
+        </div>
+        <div style="font-size: smaller; width: 100%; text-align: right; display: flex; justify-content: flex-end; gap: .5rem">
+            <i>
+                Last Update By:
+            </i>
+            <i>
+                {!v.record.ISBAM_Rating_Last_Update_By__r.Name}
+            </i>
+        </div>
+        <div style="font-size: smaller; width: 100%; text-align: right; display: flex; justify-content: flex-end; gap: .5rem">
+            <i>
+                Last Update Date:
+            </i>
+            <i>
+                <lightning:formattedDateTime value="{!v.record.ISBAM_Rating_Last_Update_Date__c}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" second="2-digit" />
+            </i>
+        </div>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button label="Cancel" title="Cancel" onclick="{!c.handleCancel}"/>
+        <lightning:button variant="brand" label="Save" title="save" onclick="{!c.handleSave}" />
+    </div>
+</aura:component>

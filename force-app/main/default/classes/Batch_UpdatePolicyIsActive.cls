@@ -2,7 +2,7 @@ global class Batch_UpdatePolicyIsActive implements Database.Batchable<sObject>,S
     
     global Database.QueryLocator start(Database.BatchableContext bc) {
         String query = 'SELECT Id,Active1__c,Active__c FROM Policy__c WHERE (Active1__c = false and Active__c = true) OR (Active1__c = true and Active__c = false)';
-        return Database.getQueryLocator(query); 
+        return Database.getQueryLocator(query);
     }
     
     global void execute(Database.BatchableContext bc, List<Policy__c> policyList) {

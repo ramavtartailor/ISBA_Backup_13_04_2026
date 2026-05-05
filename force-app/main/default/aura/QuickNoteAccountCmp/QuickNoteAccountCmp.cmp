@@ -1,0 +1,50 @@
+<aura:component controller="UpdateAccountStatusCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="showEdit" type="Boolean" default="false"/> 
+    <aura:attribute name="spinner" type="Boolean" default="true"/> 
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="Account" type="Object"/>
+    <div class="card" >
+        <aura:if isTrue="{!v.spinner}">
+            <lightning:spinner alternativeText="Loading" size="small" />
+        </aura:if>
+        <div style="display: flex; gap: 1rem;">
+            <div class="heading" onclick="{!c.handleEdit}">
+                <lightning:icon iconName="standard:note" alternativeText="Note" title="Note" />
+                Quick Note
+            </div>
+            <div style="text-align: right; flex: 1;">
+                <!--div>
+                    Modified: <lightning:formattedDateTime value="{!v.Account.ISBAM_Rating_Last_Update_Date__c}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" second="2-digit" />
+                </div>
+                <div>
+                    By: {!v.Account.ISBAM_Rating_Last_Update_By__r.Name}                 
+                </div-->
+                <div>
+                    Rating: {!v.Account.ISBAM_Rating__c}                 
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!!v.showEdit}">            
+            <div class="body" onclick="{!c.handleEdit}">
+                <aura:if isTrue="{!v.Account != null}">
+                    <div>
+                        {!v.Account.ISBAM_Quick_Note__c}
+                    </div>                    
+                </aura:if>
+            </div>
+            <aura:set attribute="else">
+                <div class="container">
+                    <div class="contbody">
+                        <lightning:input aura:id="field" required="true" name="ISBAM Quick Note" label="ISBAM Quick Note" value="{!v.note}"/>
+                    </div>
+                    <div class="contfoot">
+                        <lightning:button label="Cancel" title="Cancel" onclick="{!c.handleCancel}"/>
+                        <lightning:button variant="brand" label="Save" title="save" onclick="{!c.handleSave}" />
+                    </div>
+                </div>
+            </aura:set>
+        </aura:if>
+        
+    </div>
+</aura:component>

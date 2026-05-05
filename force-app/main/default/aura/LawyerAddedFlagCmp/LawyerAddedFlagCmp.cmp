@@ -1,0 +1,17 @@
+<aura:component controller="LawyerAddedFlagCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="addedLawyers" type="Integer" />
+    <aura:attribute name="removedLawyers" type="Integer" />
+    
+    <div class="slds-card" style="padding: 1rem;">
+        <div style="font-size:1rem; border-bottom:1px solid;margin-Bottom: .25rem;">
+            <b>Lawyer Updates:</b>
+        </div>
+        <div>
+            Added: {!v.addedLawyers}
+        </div>
+        <div>
+            Removed: {!v.removedLawyers}
+        </div>
+    </div>
+</aura:component>
