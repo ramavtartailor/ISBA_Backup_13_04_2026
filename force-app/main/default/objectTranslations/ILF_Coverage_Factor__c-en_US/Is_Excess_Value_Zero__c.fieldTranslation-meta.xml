@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Is Excess Value Zero --></label>
+    <name>Is_Excess_Value_Zero__c</name>
+</CustomFieldTranslation>

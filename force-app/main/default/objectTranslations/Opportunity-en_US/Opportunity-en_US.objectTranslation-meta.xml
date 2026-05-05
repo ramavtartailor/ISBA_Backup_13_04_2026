@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <layouts>
+        <layout>Opportunity Layout</layout>
+        <sections>
+            <label><!-- Links --></label>
+            <section>Links</section>
+        </sections>
+    </layouts>
+    <validationRules>
+        <errorMessage><!-- Opportunity can only be marked as Accepted via Application. --></errorMessage>
+        <name>End_User_could_not_Accepted_Opportunity</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Opportunity can only be marked as Rejected via Application. --></errorMessage>
+        <name>End_User_could_not_Rejected_Opportunity</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Application already exists on the selected Account! --></errorMessage>
+        <name>One_Application_Per_Account</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- ARDC --></label>
+        <name>ARDC</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Scanner --></label>
+        <name>Scanner</name>
+    </webLinks>
+</CustomObjectTranslation>

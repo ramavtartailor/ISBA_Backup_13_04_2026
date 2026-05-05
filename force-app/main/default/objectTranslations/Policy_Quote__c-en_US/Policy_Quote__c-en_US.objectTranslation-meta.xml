@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Quote</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Quotes</value>
+    </caseValues>
+    <layouts>
+        <layout>Policy Quote Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Quote Detail --></label>
+            <section>Quote Detail</section>
+        </sections>
+        <sections>
+            <label><!-- Temporary Section --></label>
+            <section>Temporary Section</section>
+        </sections>
+        <sections>
+            <label><!-- Terms &amp; Conditions --></label>
+            <section>Terms &amp; Conditions</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Premium must be calculated before marking a Quote as Final! --></errorMessage>
+        <name>Final_Quote_must_have_Premium</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Only one Quote can be marked as Final. --></errorMessage>
+        <name>Only_One_Final_Quote_Per_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- 10x10 can only be set when the per claim limit is greater than 10 million. --></errorMessage>
+        <name>x10X10_override_can_inputwhen_itis_10x10</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- 5x5 override can only be set when the per claim limit is greater than 5 million. --></errorMessage>
+        <name>x5X5_override_can_input_when_it_is_5x5</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Delete_Quotes --></label>
+        <name>Delete_Quotes</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Quote_Template_Preview --></label>
+        <name>Quote_Template_Preview</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Quotes --></label>
+        <name>Quotes</name>
+    </webLinks>
+</CustomObjectTranslation>

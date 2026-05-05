@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>Delete Request Assignment</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>omar.uddin@isbamutual.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <formula>ISPICKVAL(Type, &apos;Delete Request&apos;) = TRUE</formula>
+            <template>unfiled$public/Delete_Request_Email</template>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

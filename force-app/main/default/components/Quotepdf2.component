@@ -1,0 +1,44 @@
+<apex:component controller="Quotepdf_Ctrl">
+  <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+  <apex:attribute name="policyIdParam" description="" type="String" assignTo="{!policyId}" />
+  <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+   
+        <div  style="margin-top:50px;">
+            <c:PolicyHeader recordIdParam="{!policyId}"/>
+        </div>
+        <table class="normalParagraph" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="padding:10px;">
+               <span class="normalBoldParagraph"> Quote Number:  </span>  
+                
+            </td>
+            
+            <td style="padding:10px;">
+                <apex:outputField value="{!quote.NAME}"/>
+            </td>
+            
+             <td style="padding:10px;">
+               <span class="normalBoldParagraph"> Date of Quote: </span>    
+              
+            </td>
+            <td style="padding:10px;">
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.CREATEDDATE}" /> </apex:outputText>
+            </td>
+            <td style="padding:10px;">
+                 
+               <span class="normalBoldParagraph"> Valid until: </span> 
+ 
+            </td>
+            
+            <td style="padding:10px;">
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.Quote_Expire_Date__c}" /> </apex:outputText>    
+            </td>     
+        </tr>
+        </table>
+        <p>
+        <center><span class="normalBoldParagraph"> TERMS AND CONDITIONS </span></center>
+        </p>
+        <p style="padding:10px;">
+            <span class="normalBoldParagraph"> IT IS OUR PROGRAM REQUIREMENT THAT ALL ATTORNEYS INSURED BY ISBA MUTUAL INSURANCE COMPANY MUST BE CURRENT MEMBERS OF THE ILLINOIS STATE BAR ASSOCIATION (ISBA). </span>
+        </p>
+</apex:component>

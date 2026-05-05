@@ -1,0 +1,28 @@
+<!--
+/*
+ * 
+ * Created By     : Ali Zaidi
+ * Created Date   : 12/09/2016
+ * Purpose        : This visual force page clones the Master Factor record with its children.
+ * Name           : CloneMasterFactorWithChildsVFP
+ * Referenced     : Currently at the time of creation this page overrides the Clone button on master factor.
+ * 
+ *  
+ */
+-->
+<apex:page standardController="Master_Factor__c" extensions="CloneMasterFactorWithChilds">
+    <apex:form >
+        <apex:pageBlock mode="Edit" title="Clone Master Factor">
+            <apex:pageBlockButtons location="Both">
+                <apex:commandButton value="Save" action="{!Save}" />
+                <apex:commandButton value="Cancel" action="{!Cancel}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Factor Information" columns="2" collapsible="false">
+                <apex:inputField value="{!cloneFactor.Name}"/>
+                <apex:inputField value="{!cloneFactor.Factor_Type__c}"/>
+                <apex:inputField value="{!cloneFactor.From_Date__c}"/>
+                <apex:inputField value="{!cloneFactor.To_Date__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

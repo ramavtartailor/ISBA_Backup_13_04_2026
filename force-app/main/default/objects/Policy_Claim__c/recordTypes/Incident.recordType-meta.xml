@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Incident</fullName>
+    <active>true</active>
+    <label>Incident</label>
+    <picklistValues>
+        <picklist>Activity__c</picklist>
+        <values>
+            <fullName>ARDC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative Procedure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bond Work</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bonds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Child Support%2FCustody</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Civil Rights</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Class Action</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collection Practice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collections</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compliance Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Takeovers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution of Assets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Document Preparation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafting Will</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Benefits</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enforcement of Judgement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equitable Distribution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Establishing Trust</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Estate Planning%2FFinancial Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Filing Estate or Inheritance Tax Returns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Filing of Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Foreclosures</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Forming Partnership%2FJoint Venture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Advice to Employer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Giving Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorporation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investigation and Discovery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Issuing Stock</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lis Pendens</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Litigation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maintenance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mechanics Lien</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Merger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Motion Practice%2FPretrial</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Negotiation%2FSettlement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Offering Ltd%2E Partnership Shares</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Personal Injury</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plea Bargaining</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post Trial%2FAppeal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Preparation of Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Preparation of Taxes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Preparation%2FFiling Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Products Liability</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Damage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prospectus Preparation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Purchase%2FSale of Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory%2FCompliance Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory%2FStatutory Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Representing Creditor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Representing Debtor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Representing Governmental Entities %28othe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Representing Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Representing Union</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Securing Financing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Serving as BOD%2FGeneral Counsel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Serving as a Mediator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Serving as a Trustee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Serving as an Arbitrator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sexual Harassment%2FDiscrimination</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stock Offerings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Syndication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax Advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax Preparation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tender Offerings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Title Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transactional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workers Compensation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Written Opinion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrongful Death</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrongful Termination</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Allegation__c</picklist>
+        <values>
+            <fullName>Battery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conflict of Interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conspiracy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declining Employment Improperly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Error in Mathematical Calculation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Error in Public Record Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Error in Service of Process%2FGive Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Calendar Properly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Follow Instructions or Obtain Client%27s Consent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Know Where to File a Document%2FVenue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Know or Ascertain a Deadline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Know that a Document Should be Filed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Know%2C Ascertain or Properly Apply Law</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Name the Proper Defendant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to Provide Client with Sufficient Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failure to React to Calendar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fraud%2FMisrepresentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Improper Withdrawal from Representation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inadequate Discovery or Investigation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inadvertent Failure to File a Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inadvertent Failure to follow Client Instructions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inadvertent Filing of Document in Wrong Place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intentional Breach of Fiduciary Duty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Judgmental Error</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Libel%2C Slander%2C Defamation of Character</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lost file%2C Document or Evidence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Malicious Prosecution or Abuse of Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Procrastination%2FFailure to Follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proofreading or other Clerical Error</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RICO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refusing to Return File Until Fee Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sexual Assault or Harassment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Structured Settlements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax Related Error</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Threat of Withdrawal from Repr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Violation of Civil%2FConstitutional Rights</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Claim_Close_Payment_Resolutions__c</picklist>
+        <values>
+            <fullName>Close with ULAE payment %E2%80%93disciplinary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with both lae and indemnity payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with indemnity payment only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with lae payment only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with no payment%3A  coverage denied</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with no payment%3A  only potential%3B claim never advanced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with no payment%3A no tender</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Claim_Close_Reasons__c</picklist>
+        <values>
+            <fullName>ARDC%3A investigation closed or limits reached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim not advanced or unlikely to be</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Defense verdict at trial or arbitration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ISBAM - IMPORT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ISBAM - Remove</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No coverage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No tender</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plaintiff verdict at trial or arbitration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Successfully tendered to another carrier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suit dismissed on our motion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suit voluntarily dismissed by plaintiff</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Claim_Handler__c</picklist>
+        <values>
+            <fullName>Bernardini%2C Viviana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cap%2C Marcy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Craig%2C Tori</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fox%2C Amy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hendrickson%2C J%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jaskula%2C Anne</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kreide%2C Cyndi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kroeger%2C Karrieann</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Krulac%2C Sherm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kruse%2C Corinne</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neil%2EBergeron</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roble%2C Mike</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shores%2C Joe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Speulda%2C Sue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stevenson%2C Ian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thar%2C Anne</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tony Abellera</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walker%2C Carla</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Witten%2C Wendy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wyatt-Vit%2C K%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>candice%2Egoldstein</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>cinda%2Eberry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>jordan%2Ezelman</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>lisa%2Egarbaty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>melissa%2Ekaplan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>mosea%2Eharris</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Claim_Status__c</picklist>
+        <values>
+            <fullName>Awaiting Final Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Close</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Discipline_Action__c</picklist>
+        <values>
+            <fullName>Disbarred</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No action</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reprimanded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sanctioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suspended</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>File_Type__c</picklist>
+        <values>
+            <fullName>ARDC Complaint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incident</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Memo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supoena</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Is_Non_Client__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Law_Disposition__c</picklist>
+        <values>
+            <fullName>Abandoned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accepted%2FCovered by Another Insurance Carrier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed due to Claim Repair with LAE payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with LAE payment only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with Neither Indemnity nor LAE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with both Indemnity and LAE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with indemnity payment only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Coverage Denied</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No manner in which disposed indicated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolved through Arbitration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settled by Insured without ISBA Mutual Consent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settled by Mediation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tried to Final Judgement with Indemnity Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tried to Final Judgement without Indemnity Payment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Error__c</picklist>
+        <values>
+            <fullName>Admistrative Error</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intentional Wrong</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Substantive Error</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>WatchListCode__c</picklist>
+        <values>
+            <fullName>ARDC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ARDC%2FTo Be Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Appeal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Check Fraud</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Check Fraud%2FTBClosed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DJ</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DJ on Appeal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dep Asst</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dep Asst%2FTBC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate Setup</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FDCPA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FDCPA-Suesz</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Tender</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SCIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subrogation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>To Be Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wills%2FTrusts%2FEstates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wire Fraud</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wire Fraud%2FTBClosed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

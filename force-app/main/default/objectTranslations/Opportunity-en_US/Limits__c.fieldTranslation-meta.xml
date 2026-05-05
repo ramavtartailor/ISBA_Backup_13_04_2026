@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Limits --></label>
+    <name>Limits__c</name>
+    <picklistValues>
+        <masterLabel>$10M/$10M</masterLabel>
+        <translation><!-- $10M/$10M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$15M/$15M</masterLabel>
+        <translation><!-- $15M/$15M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$1M/$1M</masterLabel>
+        <translation><!-- $1M/$1M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$1M/$2M</masterLabel>
+        <translation><!-- $1M/$2M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$1M/$3M</masterLabel>
+        <translation><!-- $1M/$3M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$20M/$20M</masterLabel>
+        <translation><!-- $20M/$20M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$250/$500</masterLabel>
+        <translation><!-- $250/$500 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$2M/$2M</masterLabel>
+        <translation><!-- $2M/$2M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$2M/$4M</masterLabel>
+        <translation><!-- $2M/$4M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$3M/$3M</masterLabel>
+        <translation><!-- $3M/$3M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$4M/$4M</masterLabel>
+        <translation><!-- $4M/$4M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$500/$1M</masterLabel>
+        <translation><!-- $500/$1M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$500/$500</masterLabel>
+        <translation><!-- $500/$500 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$5M/$10M</masterLabel>
+        <translation><!-- $5M/$10M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$5M/$5M</masterLabel>
+        <translation><!-- $5M/$5M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$6M/$6M</masterLabel>
+        <translation><!-- $6M/$6M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$7M/$7M</masterLabel>
+        <translation><!-- $7M/$7M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$8M/$8M</masterLabel>
+        <translation><!-- $8M/$8M --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

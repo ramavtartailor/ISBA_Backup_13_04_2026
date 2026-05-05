@@ -1,0 +1,38 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Address Change Endorsement
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        It is agreed that Item 3 of the Declarations is amended to read as follows:
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:30%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    3.  Principal Address:
+                </p>
+            </td>
+            <td style="width:70%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <apex:outputField value="{!endorsement.Account_Billing_Street__c}"/><br/>
+                    <apex:outputField value="{!endorsement.Account_Billing_City__c}"/>,&nbsp;
+                    <apex:outputField value="{!endorsement.Account_Billing_State__c}"/>&nbsp;
+                    <apex:outputField value="{!endorsement.Account_Billing_PostalCode__c}"/><br/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:400px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

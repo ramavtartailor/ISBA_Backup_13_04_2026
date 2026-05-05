@@ -1,0 +1,109 @@
+<aura:component controller="New_SA_ERP_Ctrl"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader"
+    access="global">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="policyLawyers" type="List[]" />
+    <aura:attribute name="showSpinner" type="boolean" default="true" />
+    <aura:attribute name="showError" type="boolean" default="false" />
+    <aura:attribute name="ErrorMessage" type="String" />
+    <aura:attribute name="disable" type="boolean" default="true" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.showError}">
+        <div class="error">
+            Error! : {!v.ErrorMessage}
+        </div>
+    </aura:if>
+
+    <!--section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Policy Lawyers</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Lawyer</th>
+                            <th>Prior Act Date</th>
+                            <th class="alignRight">Step</th>
+                            <th class="alignRight">Rate At (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.policyLawyers}" indexVar="index" var="obj">
+                            <tr>
+                                <td><lightning:input type="checkbox" label="{!index}" variant="label-hidden" name="input1" onchange="{!c.handleChange}" checked="{!obj.isChecked}"/></td>
+                                <td><a href="{!'/'+obj.Lawyer__c}">{!obj.Lawyer__r.Name}</a></td>
+                                <td><lightning:formattedDateTime value="{!obj.Prior_Act_Date__c}"/></td>
+                                <td class="alignRight"><lightning:formattedNumber value="{!obj.Step__c}" maximumFractionDigits="0"/></td>                        
+                                <td class="alignRight"><lightning:formattedNumber value="{!obj.Rate_At__c}" maximumFractionDigits="2" style="percent-fixed"/></td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="close" title="Close action" onclick="{!c.handleClose }"/>
+                
+                <lightning:button variant="brand" label="Continue" title="Continue action" onclick="{!c.handleNext}" disabled="{!v.disable}"/>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div-->
+
+    <div class="wholepage">
+        <div class="header">
+            Policy Lawyers
+        </div>
+        <div class="cont">
+            <div class="warntext">
+                *Please select a record to Continue.
+            </div>
+            <div class="body tableDiv">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Lawyer</th>
+                            <th>Prior Act Date</th>
+                            <th class="alignRight">Step</th>
+                            <th class="alignRight">Rate At (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.policyLawyers}" indexVar="index" var="obj">
+                            <tr>
+                                <td>
+                                    <lightning:input type="checkbox" label="{!index}" variant="label-hidden"
+                                        name="input1" onchange="{!c.handleChange}" checked="{!obj.isChecked}" />
+                                </td>
+                                <td><a href="{!'/'+obj.Lawyer__c}">{!obj.Lawyer__r.Name}</a></td>
+                                <td>
+                                    <lightning:formattedDateTime value="{!obj.Prior_Act_Date__c}" />
+                                </td>
+                                <td class="alignRight">
+                                    <lightning:formattedNumber value="{!obj.Step__c}" maximumFractionDigits="0" />
+                                </td>
+                                <td class="alignRight">
+                                    <lightning:formattedNumber value="{!obj.Rate_At__c}" maximumFractionDigits="2"
+                                        style="percent-fixed" />
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <lightning:button label="Back" title="Back action" onclick="{!c.handleClose }" />
+                <lightning:button variant="brand" label="Proceed" title="Proceed action" onclick="{!c.handleNext}"
+                    disabled="{!v.disable}" />
+            </div>
+        </div>
+    </div>
+</aura:component>

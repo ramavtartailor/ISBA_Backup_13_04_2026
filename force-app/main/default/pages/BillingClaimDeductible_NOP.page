@@ -1,0 +1,262 @@
+<apex:page standardController="AcctSeed__Billing__c" extensions="BillingClaimDeductiblePDFCtrl" applyBodyTag="false" renderAs="pdf">
+    <head>
+        <style type="text/css" media="print">
+            @page:first {
+                @top-right {
+                    content: element(headerFirst);
+                }
+                @bottom-left {
+                    content: element(footer);
+                }
+                margin-top:200px;
+            }
+            @page {
+                @top-right {
+                    content: element(header);
+                }
+                @bottom-left {
+                    content: element(footer);
+                }
+                margin-top:200px;
+            }
+            div.headerFirst {
+                position: running(headerFirst);
+            }
+            div.header {
+                position: running(header);
+                margin-bottom: -55px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);
+            }
+            .pagenumber:before {
+                content: counter(page);
+            }
+            .pagecount:before {
+                content: counter(pages);
+            }
+            
+            
+            .columnHeader {
+                text-align: right;
+            }
+                      
+            .alignRight {
+                text-align: right
+            }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="headerFirst">
+            
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:55%;" class="tableDataLeft">
+                        <apex:image url="{!$Resource.ISBAM_info_logo}" width="293" height="75"/>
+                    </td>
+                </tr>
+            </table>
+            
+            <!--<table style="width:100%">
+                <tr>
+                    <td style="vertical-align:top">
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Image__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Image__c)}" />
+                        
+                    </td>
+                    <td style="width:350px;">&nbsp;
+                    </td>
+                    <td style="vertical-align:top;text-align:right">
+                        <table style="width:300px;border-collapse:collapse;">
+                            <tr>
+                                <td style="width:25%;vertical-align:bottom;" class="tableDataLeft">
+                                    <p class="normalParagraph tableDataLeft colorMaroon" >
+                                        {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_Street2__c}
+                                        <br/>
+                                        {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_City__c}, {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_State__c} {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_PostalCode__c}
+                                    </p>
+                                </td>
+                                <td style="width:20%;vertical-align:bottom;" class="tableDataRight">
+                                    <p class="normalParagraph tableDataLeft colorMaroon">
+                                        {!$Organization.Phone}
+                                        <br/>
+                                        <b class="colorRed">isba</b><b class="colorMaroon">mutual.com</b>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>-->
+        </div>
+        <div class="header">
+            <!--<table style="width:100%">
+                <tr>
+                    <td style="vertical-align:top">
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Image__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Image__c)}" />
+                        
+                    </td>
+                    <td style="width:350px;">&nbsp;
+                    </td>
+                    <td style="vertical-align:top;text-align:right">
+                        <table style="width:300px;border-collapse:collapse;">
+                            <tr>
+                                <td style="width:25%;vertical-align:bottom;" class="tableDataLeft">
+                                    <p class="normalParagraph tableDataLeft colorMaroon" >
+                                        {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_Street2__c}
+                                        <br/>
+                                        {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_City__c}, {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_State__c} {!AcctSeed__Billing__c.AcctSeed__Billing_Format__r.AcctSeed__Company_PostalCode__c}
+                                    </p>
+                                </td>
+                                <td style="width:20%;vertical-align:bottom;" class="tableDataRight">
+                                    <p class="normalParagraph tableDataLeft colorMaroon">
+                                        {!$Organization.Phone}
+                                        <br/>
+                                        <b class="colorRed">isba</b><b class="colorMaroon">mutual.com</b>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>-->
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:55%;" class="tableDataLeft">
+                        <apex:image url="{!$Resource.ISBAM_info_logo}" width="293" height="75"/>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <!--<div>Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+            </div>-->
+        </div>
+        <div class="content">
+            <apex:outputText value="{0,date,MMMM d, yyyy}"> 
+                <apex:param value="{!TODAY()}" />
+            </apex:outputText>
+            <br/>
+            <br/>
+            <apex:outputText value="{!AcctSeed__Billing__c.AcctSeed__Billing_Contact__r.Name}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Contact__c)}"/>
+            <apex:outputText value="{!AcctSeed__Billing__c.Claim__r.Policy__r.Firm_Contact__r.Name}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Contact__c)}"/>
+            <br/>
+            <apex:outputText value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.Name}" /><br/>
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_Street__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Street__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingStreet}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Street__c)}" />
+            <br/>
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_City__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_City__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingCity}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_City__c)}" />
+            <apex:outputText value=",&nbsp;" escape="false" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_City__c) || !ISBLANK(AcctSeed__Billing__c.AcctSeed__Customer__r.BillingCity)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_State__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_State__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingState}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_State__c)}" />&nbsp;
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_PostalCode__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_PostalCode__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingPostalCode}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_PostalCode__c)}" />
+            <br/>
+            <br/><br/>
+            <table cellspacing="0" cellpadding="0">
+                <tr>
+                    <td style="width: 5px;vertical-align: top;">
+                        Re:&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        Re: Claim Deductible<br/>
+                        Claim No.:&nbsp;<b>{!AcctSeed__Billing__c.Claim__r.Name}</b><br/>
+                        Claimant:&nbsp;{!AcctSeed__Billing__c.Claim__r.claimant__c}<br/>
+                        Policy No.:&nbsp;<b>{!AcctSeed__Billing__c.Claim__r.Policy__r.Name}</b><br/>
+                        Lawyer:&nbsp;{!AcctSeed__Billing__c.Claim__r.Lawyer_Name__c}<br/>
+                        Claim Report Date: <apex:outputText value="{0,date, MM/d/yyyy}"><apex:param value="{!AcctSeed__Billing__c.Claim__r.Report_Date__c}" /></apex:outputText>
+                        <br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br/><br/>
+                        Your policy reflects an outstanding deductible balance on the above captioned claim.  Per our records, <b><apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Received_Amount__c}"/></b> has been paid toward the amount of
+                        &nbsp;<b><apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Total__c}"/></b>.  The outstanding balance on your deductible obligation is&nbsp;
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Balance__c}"/>.  There is&nbsp;
+                        <apex:outputField value="{!AcctSeed__Billing__c.Claim__r.Per_Claim_Deductible_Balance__c}"/> remaining
+                        of the&nbsp;<apex:outputField value="{!AcctSeed__Billing__c.Claim__r.Per_Claim_Deductible_formula__c}"/> policy deductible.
+                        <br/><br/><br/><br/>
+                    </td>
+                </tr>
+                
+                <tr>
+                	<td colspan="2">
+                    	<table cellspacing="0" cellpadding="0" width="100%" style="padding-left: 50px; padding-right: 50px;">
+                            <tr>
+                            	<th width="50%" style="color: #3c3c3c; border-bottom: 1px solid #787878;">
+                                    Description
+                                </th>
+								<th width="15%" align="right" style="color: #3c3c3c; padding-bottom:2px; border-bottom: 1px solid #787878;">
+                                	Total
+                                </th>
+								<th width="15%" align="right" style="color: #3c3c3c; padding-bottom:2px; border-bottom: 1px solid #787878;">
+                                	Paid
+                                </th>
+                                <th width="20%" align="right" style="padding-bottom:2px; border-bottom: 1px solid #787878;">
+                                	Balance Due
+                                </th>
+                            </tr>
+                            <tr>
+                            	<td width="50%" style="padding-top: 10px;">
+                                    <apex:outputField value="{!AcctSeed__Billing__c.Billing_Description__c}"/>
+                                </td>
+								<td width="15%" align="right" style="padding-top: 10px;">
+                                	<apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Total__c}"/>
+                                </td>
+								<td width="15%" align="right" style="padding-top: 10px;">
+                                	<apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Received_Amount__c}"/>
+                                </td>
+                                <td width="20%" align="right" style="padding-top: 10px;">
+                                    <b><apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Balance__c}"/></b>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <tr>    
+                    <td colspan="2">
+                        <br/><br/><br/>
+                        <b>For credit pard payment, please call (312) 379-2005.</b>&nbsp;&nbsp;You may also mail a check payable
+                        to ISBA Mutual Insurance Company;
+                        <br/><br/>
+                        <div style="padding-left: 50px;">
+                            ISBA MUTUAL INSURANCE COMPANY<br/>
+							20 South Clark Street<br/>
+							Suite 800<br/>
+							Chicago, IL&nbsp;&nbsp;60603<br/>
+                        </div>
+                        <br/><br/>Refer to Section IV* of your policy for your responsibility of the deductible payment.
+						&nbsp;Please contact our accounting dept. at <b>(312)&nbsp;379-2005</b> with any questions or concerns.
+                        <br/><br/>
+						Thank you for choosing ISBA Mutual for your professional liability insurance.
+
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </body>
+</apex:page>

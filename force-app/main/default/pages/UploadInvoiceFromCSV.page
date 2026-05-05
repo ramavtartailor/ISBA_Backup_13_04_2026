@@ -1,0 +1,76 @@
+<apex:page controller="UploadInvoiceFromCSV_Ctrl">
+    <apex:sectionHeader title="Billing" subtitle="Upload Invoices"/>
+    <!--<apex:image url="{!$Resource.MultipleUploadInvoiceCSV}" width="56%" height="300px"/>-->
+    <br/>
+    <br/>
+    <apex:form >
+        <apex:pagemessages />
+        <apex:pageBlock title="Upload Data" rendered="{!previewData==false}">
+            <apex:pageBlockButtons id="pageBlockButtons" location="top">
+                <apex:commandButton value="Preview Data" action="{!previewData}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1">
+                <apex:outputPanel >
+                    <apex:outputText >Please choose valid csv file : </apex:outputText>
+                    <apex:inputFile value="{!csvFileBody}"  filename="{!csvAsString}"/>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection >
+                <apex:outputLabel escape="true">
+                    * Please make sure to replace all commas(,) in csv file with "<u><b>{!commaString}</b></u>"  .<br/>
+                    * Date format should be yyyy-mm-dd.
+                </apex:outputLabel>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    <apex:form >
+        <apex:pageBlock title="Preview Data" id="previewData" rendered="{!previewData}">
+            <apex:pageBlockButtons id="pageBlockButtons1" location="top">
+                <apex:commandButton value="Create Invoices" action="{!createInvoices}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" collapsible="false">
+                <apex:facet name="header">
+                    <apex:outputpanel >
+                        <apex:commandButton style="float:right;" value="NextPage" action="{!Nxtbtn}" disabled="{!nxt}"  reRender="previewData"/>
+                        <apex:commandButton style="float:right;" value="PreviousPage" action="{!prvbtn}" disabled="{!prv}" reRender="previewData" />
+                    </apex:outputpanel>
+                </apex:facet>
+                <apex:pageblocktable value="{!listUploadInvoiceWrapper}" var="list">
+                    <apex:column headerValue="Policy Id" >
+                        <apex:outputText value="{!list.policyID}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Invoice Id" >
+                        <apex:outputText value="{!list.invoiceID}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Invoice Type" >
+                        <apex:outputText value="{!list.invoiceType}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Invoice Amount" >
+                        <apex:outputText value="{!list.invoiceAmount}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Firm Name" >
+                        <apex:outputText value="{!list.firmName}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Zip Code" >
+                        <apex:outputText value="{!list.zipCode}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Issue Date" >
+                        <apex:outputText value="{!list.issueDate}" escape="false"></apex:outputText>
+                    </apex:column>
+                    <apex:column headerValue="Firm Id" >
+                        <apex:outputText value="{!list.firmId}" escape="false"></apex:outputText>
+                    </apex:column>
+                </apex:pageblocktable>
+                <apex:outputLabel ><b>Showing {!count+1} - {!numberOfRecordsToShow+count} of {!tot}</b></apex:outputLabel><br/> 
+            </apex:pageBlockSection>
+            
+            Display records per page <apex:selectList value="{!rec}" size="1" >
+            <apex:selectOption itemLabel="1" itemValue="1" ></apex:selectOption>
+            <apex:selectOption itemLabel="2" itemValue="2"></apex:selectOption>
+            <apex:selectOption itemLabel="5" itemValue="5"></apex:selectOption>
+            <apex:selectOption itemLabel="10" itemValue="10"></apex:selectOption>
+            <apex:actionSupport event="onchange" reRender="previewData" action="{!updatePage}"/>
+            </apex:selectList><br/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

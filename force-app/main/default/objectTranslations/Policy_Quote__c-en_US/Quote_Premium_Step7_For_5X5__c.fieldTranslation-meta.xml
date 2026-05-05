@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Quote Premium Step7 For 5X5 --></label>
+    <name>Quote_Premium_Step7_For_5X5__c</name>
+</CustomFieldTranslation>

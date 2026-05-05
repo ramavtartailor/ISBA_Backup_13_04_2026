@@ -1,0 +1,44 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="CreateApplicationEndorsementsEXT" recordSetVar="endorsements">
+    <apex:sectionHeader title="New Policy Endorsement" subtitle="Select Policy Endorsement Record Type"/>
+    <div class="bDescription">Select a record type for the new policy endorsement. To skip this page in the future, change your record type settings on your personal setup page.</div>
+
+    <apex:form >
+        <apex:pageBlock title="Select Policy Endorsement Record Type">
+            <apex:pageBlockSection columns="1">
+                <apex:selectList label="Record Type of new record" value="{!recordTypeId}" multiselect="false" size="1">
+                    <div class="requiredInput">
+                        <div class="requiredBlock requiredLine"></div>
+                    </div>
+                    <apex:selectOptions value="{!recordTypeNames}"/>  
+                </apex:selectList>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!CustomContinue}" value="Continue"/>
+                <apex:commandButton action="{!Cancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <h1 style="font-size:15px;">Available Policy Endorsement Record Types</h1>
+        <table class="infoTable recordTypeInfo" cellspacing="0" cellpadding="5" border="1" style="font-size:13px;">
+            <tbody>
+                <tr class="headerRow">
+                    <th class="recordTypeName" scope="col">Record Type Name</th>
+                    <th class="recordTypeDescription" scope="col">Description</th>
+                </tr>
+                <apex:repeat value="{!masterEndorsements}" var="rtn">
+                    <tr>
+                        <td class="recordTypeName" scope="row">{!rtn.Endorsement_Sub_Type__c + ' ' + rtn.Name}</td>
+                        <td class="recordTypeDescription">{!rtn.Type__c}</td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:form>
+    <style type="text/css">
+        .pbTitle {
+            white-space: nowrap
+        }
+        .requiredLine {
+            height: 20px;
+        }
+    </style>
+</apex:page>

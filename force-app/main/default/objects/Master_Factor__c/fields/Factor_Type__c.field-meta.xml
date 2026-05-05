@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Factor_Type__c</fullName>
+    <label>Factor Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Coverage</fullName>
+                <default>false</default>
+                <label>Coverage</label>
+            </value>
+            <value>
+                <fullName>Deductible</fullName>
+                <default>false</default>
+                <label>Deductible</label>
+            </value>
+            <value>
+                <fullName>AOP</fullName>
+                <default>false</default>
+                <label>AOP</label>
+            </value>
+            <value>
+                <fullName>Step Rate</fullName>
+                <default>false</default>
+                <label>Step Rate</label>
+            </value>
+            <value>
+                <fullName>Base Value</fullName>
+                <default>false</default>
+                <label>Base Value</label>
+            </value>
+            <value>
+                <fullName>GEO</fullName>
+                <default>false</default>
+                <label>GEO</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

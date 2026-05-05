@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- CNA Risk Control Credit --></label>
+    <name>CNA_Risk_Control_Credit__c</name>
+</CustomFieldTranslation>

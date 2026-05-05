@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application</fullName>
+    <active>true</active>
+    <description>Application</description>
+    <label>Application</label>
+    <picklistValues>
+        <picklist>Application_Status_Tracking__c</picklist>
+        <values>
+            <fullName>Additional Firm Info</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Firm Renewal Quotes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Firm info</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lawyer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quote Acceptance</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Application_Type__c</picklist>
+        <values>
+            <fullName>New Business</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Renewal</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ClonedBy__c</picklist>
+        <values>
+            <fullName>Clone Opportunity With Application</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clone Opportunity Without Application</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manual Renewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal 3 Months Before Policy Expiration</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DocumentType__c</picklist>
+        <values>
+            <fullName>Certification of Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declaration Page</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Merge All</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy Letter</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IBF_Contribtuion__c</picklist>
+        <values>
+            <fullName>No IBF Contribution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - IBF Contribution Requested</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IBF_Target__c</picklist>
+        <values>
+            <fullName>Appellate District</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RPI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Statewide</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_Reason_Sub1__c</picklist>
+        <values>
+            <fullName>Bare %28no income from business%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bare %28too expensive%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancel Flat - due to non-payment of premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deceased%2FDisability-ERP %28Free%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dissolved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate - set up incorrectly cancelled flat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employed with another Firm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Firm Optional ERP %28Bought%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Formed Partnership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government Position</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In- House</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual Retirement ERP %28Bought%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Merged</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Merged with Another Firm %28sold business%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Moved Out of State</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Cyber</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retirement ERP %28Free ERP%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_Reason_Sub2__c</picklist>
+        <values>
+            <fullName>Employment - not private practice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ISBA Membership cost</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ISBA Mutual Insured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New firm - Potential Prospect</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New firm - not a Prospect</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quitting the Practice of Law</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_Reason__c</picklist>
+        <values>
+            <fullName>Cancelation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Coverage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ISBA Membership Cost</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Licensed Suspension</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Renewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Inquiry Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Practice Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Propestive Practice</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Master_Factor_Default__c</picklist>
+        <values>
+            <fullName>All</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NBA_App_Source__c</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook post%2Fgroup</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Ads</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Instagram post%2Fstory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Journal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Search Engine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Twitter post</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unknown</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Word of mouth</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PaymentReceived__c</picklist>
+        <values>
+            <fullName>Check</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Payment Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>e-Payment Authorization Form</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Method__c</picklist>
+        <values>
+            <fullName>Financed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Total</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Policy_Document_Version__c</picklist>
+        <values>
+            <fullName>1%2F15</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1%2F18</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>1%2F23</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2F26</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Policy_Type__c</picklist>
+        <values>
+            <fullName>Annual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SA-ERP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Renewal_Type__c</picklist>
+        <values>
+            <fullName>EZ Renewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regular Renewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Super EZ</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application created</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quoted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested Additional Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Additional_Benefits__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Claims_Handling__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Coverage_Limits__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Customer_Service__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Experience_with_Representative__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Recommend_ISBA_Mutual__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Survey_Representative_Answer_Questions__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

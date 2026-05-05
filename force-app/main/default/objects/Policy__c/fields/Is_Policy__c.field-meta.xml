@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Policy__c</fullName>
+    <description>Record is a policy but excludes ERP policies.</description>
+    <formula>IF(RecordType.Name = &quot;Policy&quot;, true, false) &amp;&amp; Type__c &lt;&gt; &quot;ERP Policy&quot; &amp;&amp; (Is_Cancel_Flat__c == false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Record is a policy but excludes ERP policies.</inlineHelpText>
+    <label>Is Policy</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,46 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Unlimited Purchased Extended Reporting Period Endorsement
+    </p>
+    <p class="normalParagraph">
+        In consideration of the payment of the additional premium of &nbsp;<apex:outputField value="{!endorsement.Premium__c}"/> &nbsp;, it is agreed that the Unlimited Purchased Extended Reporting Period Endorsement is issued to the<span class="normalBoldParagraph"> NAMED INSURED. </span>
+    </p>
+    <ol>
+        <li>
+            <p class="normalParagraph">
+                The coverage of this Policy applies to a<span class="normalBoldParagraph"> CLAIM </span>first made against the<span class="normalBoldParagraph"> INSURED </span>following &nbsp;<apex:outputField value="{!endorsement.Policy_Firm__c}"/>&nbsp;, and reported in accordance with terms of the Policy.  This unlimited period is referred to as the<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>.
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                The<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>applies only to a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed prior to the expiration of the<span class="normalBoldParagraph"> POLICY TERM </span>or, if earlier, the effective date of the cancellation or non-renewal of this Policy, and which is otherwise covered by this Policy.
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                The coverage afforded by this<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>shall terminate immediately if the<span class="normalBoldParagraph"> NAMED INSURED </span>purchases a lawyer’s professional liability policy providing coverage in whole or in part for<span class="normalBoldParagraph"> WRONGFUL ACTS </span>committed prior to the end of the<span class="normalBoldParagraph"> POLICY TERM </span>. The premium for the<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>shall be fully earned.
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                Nothing contained in this endorsement will in any way increase, reinstate or is in addition to the Limit of Liability set forth in the Declarations.
+            </p>
+        </li>
+    </ol>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:230px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

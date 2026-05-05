@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Billing</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Billings</value>
+    </caseValues>
+    <quickActions>
+        <label><!-- Recalculate Schedules --></label>
+        <name>Recalculate_Schedules</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Trigger Payment --></label>
+        <name>Trigger_Payment</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Update Payment Method --></label>
+        <name>Update_Payment_Method</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Accounting_Payment --></label>
+        <name>Accounting_Payment</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Manage_Cardknox_Payment_Methods --></label>
+        <name>Manage_Cardknox_Payment_Methods</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Print_PDF --></label>
+        <name>Print_PDF</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Print_PDFs --></label>
+        <name>Print_PDFs</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_COLNP --></label>
+        <name>Send_COLNP</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_NOC --></label>
+        <name>Send_NOC</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Trigger_Payment --></label>
+        <name>Trigger_Payment</name>
+    </webLinks>
+</CustomObjectTranslation>

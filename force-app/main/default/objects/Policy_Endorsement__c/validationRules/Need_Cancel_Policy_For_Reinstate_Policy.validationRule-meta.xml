@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Need_Cancel_Policy_For_Reinstate_Policy</fullName>
+    <active>true</active>
+    <description>Cancel Policy Endorsement should be created on a policy in order to make a Reinstate Policy Endorsement.</description>
+    <errorConditionFormula>AND( RecordType.DeveloperName = &apos;RP_Reinstate_Policy_Transaction&apos;, ISNULL(Policy__r.Cancel_Date__c))</errorConditionFormula>
+    <errorMessage>Reinstate Endorsement can only be applied on a Cancelled policy!</errorMessage>
+</ValidationRule>

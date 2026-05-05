@@ -1,0 +1,108 @@
+<apex:page controller="RegularRenewalDoc_Ctrl" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    
+    <head>
+        <style>
+            body {
+            font-family: 'Arial', sans-serif !important;
+            font-size: 13.3333px;
+            }
+            @page {
+            margin-top: 30px;
+            margin-bottom: 100px;
+            font-family: 'Arial', sans-serif !important;
+            }
+            .arial {
+            font-family: 'Arial', sans-serif !important;
+            }
+            
+            .ibf_subtitle {
+            font-size:18px;
+            color:black;
+            font-weight : 600;
+            text-align: center;
+            }
+            
+            .isbam_primary_red {
+            <!--color: #89001B;-->
+            color:red;
+            }
+            .txtCen{
+            text-align: center;
+            }
+            .dataContainer{
+            font-size:15px;
+            text-align: justify;
+            }
+        </style>
+    </head>
+    
+    <!---HEADER------------------------------------------------------------>
+    <div style="" class="header">
+        <c:Application_Header />    
+    </div>
+    
+    <div style="height: 20px;">
+        &nbsp;
+    </div>
+    
+    <br/>
+    
+    <div class="dataContainer arial">
+        <div class="ibf_subtitle isbam_primary_red txtCen">
+            <p>Comprehensive Cyber Liability Insurance Program</p>
+        </div>
+        <div class="ibf_subtitle txtCen">
+            <P>EXCLUSIVELY FOR ISBA MUTUAL POLICYHOLDERS</P> 
+        </div>
+        <p>
+            Ransomware,  funds  transfer  fraud  and  business  email  compromise  crimes  are  on  the  rise  and 
+            targeting small businesses. These Cyber-attacks threaten to expose your firm and your clients to 
+            financial loss. Without adequate coverage, a negative result could be significant for your firm.  
+        </p>
+        <p>
+            To provide our policyholders with the security your firm needs, we are pleased to make available 
+            a  CYBER  LIABILITY  INSURANCE  PROGRAM  in  partnership  with  <b>SIDEBAR  INSURANCE 
+            SOLUTIONS, INC.</b> This  program  is  designed  to  provide  your  firm  with  a  comprehensive  Cyber 
+            Insurance Policy that also delivers a risk management suite empowering you to prevent, protect 
+            against, and respond to cyber risks.
+        </p>
+        <ul>
+            <li>
+                Best-in-class cyber insurance (provided by Coalition, Inc.)
+            </li>
+            <li>
+                One of the most comprehensive cyber insurance policies available
+            </li>
+            <li>
+                Optional Funds Transfer Fraud coverage for your firm’s accounts <b>(strongly recommended!)</b>
+            </li>
+            <li>
+                Constant monitoring to alert you of any vulnerabilities (before damage is done)
+            </li>
+            <li>
+                24 / 7 / 365 Helpline tended by a dedicated team of cybersecurity experts
+            </li>
+        </ul>
+        
+        <div class="txtCen">
+            <p>Visit our website at <span class="isbam_primary_red">ISBAMutual.com/cyber</span> to find more information</p> 
+            <p>OR</p>
+            <p>
+                <b>
+                    Contact Adam for a personal consultation and<br/> 
+                    a cyber risk assessment provided by Coalition:
+                </b>
+            </p>
+            <b>
+                <p class="isbam_primary_red">Adam Czerwinski</p> 
+                <p class="isbam_primary_red">
+                    Sidebar Insurance Solutions, Inc.<br/>
+                    708.942.5150 
+                </p> 
+            </b>            
+            <p>
+                Also ask Adam about other insurance solutions for your firm exclusively for ISBA Mutual Insureds.
+            </p>
+        </div>        
+    </div>
+</apex:page>

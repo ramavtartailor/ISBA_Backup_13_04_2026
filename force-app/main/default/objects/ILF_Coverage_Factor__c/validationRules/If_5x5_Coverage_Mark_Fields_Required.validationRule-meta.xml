@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>If_5x5_Coverage_Mark_Fields_Required</fullName>
+    <active>true</active>
+    <description>If the 5x5 Coverage checkbox is true then mark Percentage Step 0 - 3 and Premium Rate 5x5 as required.</description>
+    <errorConditionFormula>AND(Is_5X5_Coverage__c = true, OR(ISNULL(Percentage_5X5_Step_0__c), ISNULL(Percentage_5X5_Step_1__c), ISNULL(Percentage_5X5_Step_2__c), ISNULL(Percentage_5X5_Step_3__c), ISNULL(Premium_Rate_5X5__c)))</errorConditionFormula>
+    <errorMessage>If 5x5 Coverage is checked, then Percentage 5x5 Step 0 - 3 and Premium Rate 5x5 is required.</errorMessage>
+</ValidationRule>

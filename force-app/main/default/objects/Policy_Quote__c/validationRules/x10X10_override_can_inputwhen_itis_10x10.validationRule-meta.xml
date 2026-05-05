@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>x10X10_override_can_inputwhen_itis_10x10</fullName>
+    <active>true</active>
+    <description>10x10 can only be set when the per claim limit is greater than 10 million.</description>
+    <errorConditionFormula>X10X10__c &lt;&gt;0 &amp;&amp;
+ Not(Coverage__r.Is_10X10_Coverage__c)</errorConditionFormula>
+    <errorDisplayField>X10X10__c</errorDisplayField>
+    <errorMessage>10x10 can only be set when the per claim limit is greater than 10 million.</errorMessage>
+</ValidationRule>

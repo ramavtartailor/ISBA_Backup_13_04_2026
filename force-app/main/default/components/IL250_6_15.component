@@ -1,0 +1,56 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Disciplinary Limit Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> II. SUPPLEMENTARY PAYMENTS, B. </span> is deleted and replaced by the following:<br/><br/>
+       <span class="normalBoldParagraph"> B. </span>The<span class="normalBoldParagraph"> COMPANY </span>will pay legal fees, costs, and expenses (collectively “Disciplinary Fees”) up to $5,000 per<span class="normalBoldParagraph"> POLICY TERM </span>for a lawyer designated by US to investigate and defend<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>. The<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>must be reported during the<span class="normalBoldParagraph"> POLICY TERM </span>and brought against the<span class="normalBoldParagraph"> INSURED </span>by reason of an act, error, omission or<span class="normalBoldParagraph"> PERSONAL INJURY </span>occurring on or after the<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>and arising out of<span class="normalBoldParagraph"> PROFESSIONAL SERIVCES </span>provided that:
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    &nbsp;
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <ol>
+                    <li>
+                        <p class="normalParagraph">
+                            Notice of the<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>must be reported in writing to and received by the<span class="normalBoldParagraph"> COMPANY </span>during the<span class="normalBoldParagraph"> POLICY TERM </span>and prior to any response by the<span class="normalBoldParagraph"> INSURED </span>to the<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS; </span>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            By requesting that the<span class="normalBoldParagraph"> COMPANY </span>investigate and defend<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>, the<span class="normalBoldParagraph"> INSURED </span>is not reporting a<span class="normalBoldParagraph"> CLAIM </span>, unless the<span class="normalBoldParagraph"> INSURED </span>reports to the<span class="normalBoldParagraph"> COMPANY </span>in accordance with<span class="normalBoldParagraph"> V. CONDITIONS, O. </span>of this Policy;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            OUR determination as to the reasonableness of Disciplinary Fees will be conclusive.
+                        </p>
+                    </li>
+                </ol>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:220px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

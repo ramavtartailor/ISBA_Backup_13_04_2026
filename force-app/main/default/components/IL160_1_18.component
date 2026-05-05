@@ -1,0 +1,24 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Contractual Liability Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VI. EXCLUSIONS </span>is amended to include the following:
+    </p>
+    <p class="normalParagraph p_padding">
+        Contractual Liability
+    </p>
+    <p class="normalParagraph">
+        Liability assumed by an<span class="normalBoldParagraph"> Insured </span>under any contract or agreement whether oral or written, except to the extent that the<span class="normalBoldParagraph"> Insured </span>would have been liable in the absence of such contract or agreement.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:495px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

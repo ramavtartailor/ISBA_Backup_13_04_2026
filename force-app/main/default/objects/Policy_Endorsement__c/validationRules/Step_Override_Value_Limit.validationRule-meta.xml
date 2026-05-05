@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Step_Override_Value_Limit</fullName>
+    <active>true</active>
+    <description>Step Override Value should be between 0 and 7.</description>
+    <errorConditionFormula>OR(Step_Override_Value__c  &lt; 0, Step_Override_Value__c &gt; 7)</errorConditionFormula>
+    <errorDisplayField>Step_Override_Value__c</errorDisplayField>
+    <errorMessage>Step Override Value should be between 0 and 7!</errorMessage>
+</ValidationRule>

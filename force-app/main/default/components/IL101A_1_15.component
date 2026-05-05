@@ -1,0 +1,26 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Specific Lawyer(s) Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended to exclude any<span class="normalBoldParagraph"> CLAIM </span>arising out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed or alleged to have been
+        committed by the following lawyer(s) listed below, regardless of whether an<span class="normalBoldParagraph"> INSURED </span>personally participated in, or is alleged to have
+        personally participated in, such<span class="normalBoldParagraph"> WRONGFUL ACT, </span> and regardless of whether an<span class="normalBoldParagraph"> INSURED </span>is vicariously liable for such<span class="normalBoldParagraph"> WRONGFUL
+        ACT. </span><br/><br/><br/>
+        <apex:outputField value="{!endorsement.Attorney_Firm_Name__c}"/><br/><br/><br/>
+    </p>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:320px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

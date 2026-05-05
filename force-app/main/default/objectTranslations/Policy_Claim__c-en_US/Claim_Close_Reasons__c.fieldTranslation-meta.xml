@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Claim Close Reasons --></label>
+    <name>Claim_Close_Reasons__c</name>
+    <picklistValues>
+        <masterLabel>ARDC: investigation closed or limits reached</masterLabel>
+        <translation><!-- ARDC: investigation closed or limits reached --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claim not advanced or unlikely to be</masterLabel>
+        <translation><!-- Claim not advanced or unlikely to be --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense verdict at trial or arbitration</masterLabel>
+        <translation><!-- Defense verdict at trial or arbitration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - IMPORT</masterLabel>
+        <translation><!-- ISBAM - IMPORT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - Remove</masterLabel>
+        <translation><!-- ISBAM - Remove --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No coverage</masterLabel>
+        <translation><!-- No coverage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No tender</masterLabel>
+        <translation><!-- No tender --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Plaintiff verdict at trial or arbitration</masterLabel>
+        <translation><!-- Plaintiff verdict at trial or arbitration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Settlement</masterLabel>
+        <translation><!-- Settlement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Successfully tendered to another carrier</masterLabel>
+        <translation><!-- Successfully tendered to another carrier --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Suit dismissed on our motion</masterLabel>
+        <translation><!-- Suit dismissed on our motion --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Suit voluntarily dismissed by plaintiff</masterLabel>
+        <translation><!-- Suit voluntarily dismissed by plaintiff --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

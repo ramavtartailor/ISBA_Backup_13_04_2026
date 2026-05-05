@@ -1,0 +1,50 @@
+<aura:component controller="CloseApplicationCtrl" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:html tag="style">
+        .cuf-content { padding:0!important; }
+        .slds-p-around--medium { padding:0!important; }
+        .slds-modal__content{ overflow-y:hidden!important;height:unset!important;max-height:unset!important;}
+        
+        
+    </aura:html>
+
+    
+    <aura:attribute name="closeReason" type="String"/>
+    <aura:attribute name="closeReasonList" type="List"/>
+    <aura:attribute name="closeDescription" type="String"/>
+    <aura:attribute name="spinner" type="Boolean" default="true"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner variant="brand"/>
+    </aura:if>
+    
+    <div class="slds-modal__header">
+        <h1 class="slds-modal__title">Close Application</h1>
+    </div>
+    
+   <div class="slds-modal__content slds-p-around_medium">
+
+    <div class="content">
+        <div class="section">
+            <lightning:select aura:id="field" label="Close Reason" value="{!v.closeReason}" required="true">
+                <option value="">--None--</option>
+                <aura:iteration items="{!v.closeReasonList}" var="obj">
+                    <option text="{!obj}"/>
+                </aura:iteration>
+
+            </lightning:select>
+        </div>
+
+        <div class="section">
+            <lightning:textarea aura:id="field" label="Close Description" value="{!v.closeDescription}"/>
+        </div>
+    </div>
+</div>
+
+    <div class="slds-modal__footer">
+        <lightning:button label="Cancel" onclick="{!c.handleClose}"/>
+        <lightning:button variant="brand" label="Save" onclick="{!c.handleSave}"/>
+    </div>
+    
+</aura:component>

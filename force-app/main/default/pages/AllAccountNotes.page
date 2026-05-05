@@ -1,0 +1,39 @@
+<apex:page standardController="Account" >
+    <apex:includeLightning />
+    <style>
+        html, body {
+        margin: 0;
+        padding: 0;
+        }
+        #lightningComponent {width: 100%;}
+    </style>
+    <div id="content">
+        <div id="lightningComponent" />
+    </div>
+    <script>
+    var recordId = '{!Account.Id}';
+    var myUserContext = "{!$User.UITheme}";
+    $Lightning.use("c:NotesApp", function() {
+        $Lightning.createComponent("c:AccountNotesComponent",
+                                   {recordId: recordId},
+                                   "lightningComponent",
+                                   function(cmp) {
+                                       $A.eventService.addHandler({
+                                           event: 'force:navigateToSObject',
+                                           handler: function(event) {
+                                               if (myUserContext == 'Theme4t' || myUserContext == 'Theme4d') {
+                                                   // The Visualforce page is in S1 or Lightning Experience
+                                                   sforce.one.navigateToSObject(event.getParams().recordId);
+                                               } else if (myUserContext == 'Theme3') {
+                                                   // The Visualforce page is  running in Classic
+                                                   window.parent.location = '/' + event.getParams().recordId;
+                                               } else {
+                                                   console.log("Unsupported theme");   
+                                               }
+                                           }
+                                       });
+                                   }
+                                  );
+    });
+    </script>
+</apex:page>

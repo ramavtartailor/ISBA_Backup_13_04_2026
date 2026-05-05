@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allocated_not_exceed_by_DeductibleLAE</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISPICKVAL( Type__c , &apos;Deductible Expense&apos;) &amp;&amp;
+ IF( ISNEW() , 
+          LAE_Amount__c &gt;    Policy_Claim__r.Deductible_Remaining__c, 
+           (PRIORVALUE(LAE_Amount__c) + Policy_Claim__r.Deductible_Remaining__c - LAE_Amount__c) &lt;0
+    )</errorConditionFormula>
+    <errorDisplayField>LAE_Amount__c</errorDisplayField>
+    <errorMessage>LAE Amount cannot exceed &apos;Deductible Allocated&apos; Remaining!</errorMessage>
+</ValidationRule>

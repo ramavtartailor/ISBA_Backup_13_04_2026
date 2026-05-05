@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Policy_Document_Version__c</fullName>
+    <label>Policy Document Version</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1/15</fullName>
+                <default>false</default>
+                <label>1/15</label>
+            </value>
+            <value>
+                <fullName>1/18</fullName>
+                <default>false</default>
+                <label>1/18</label>
+            </value>
+            <value>
+                <fullName>1/23</fullName>
+                <default>false</default>
+                <label>1/23</label>
+            </value>
+            <value>
+                <fullName>4/26</fullName>
+                <default>false</default>
+                <label>4/26</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

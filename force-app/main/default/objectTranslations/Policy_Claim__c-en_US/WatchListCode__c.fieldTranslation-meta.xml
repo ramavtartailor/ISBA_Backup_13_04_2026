@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Watch List --></label>
+    <name>WatchListCode__c</name>
+    <picklistValues>
+        <masterLabel>ARDC</masterLabel>
+        <translation><!-- ARDC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ARDC/To Be Closed</masterLabel>
+        <translation><!-- ARDC/To Be Closed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Appeal</masterLabel>
+        <translation><!-- Appeal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Check Fraud</masterLabel>
+        <translation><!-- Check Fraud --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Check Fraud/TBClosed</masterLabel>
+        <translation><!-- Check Fraud/TBClosed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DJ</masterLabel>
+        <translation><!-- DJ --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DJ on Appeal</masterLabel>
+        <translation><!-- DJ on Appeal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dep Asst</masterLabel>
+        <translation><!-- Dep Asst --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dep Asst/TBC</masterLabel>
+        <translation><!-- Dep Asst/TBC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Duplicate Setup</masterLabel>
+        <translation><!-- Duplicate Setup --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FDCPA</masterLabel>
+        <translation><!-- FDCPA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FDCPA-Suesz</masterLabel>
+        <translation><!-- FDCPA-Suesz --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Tender</masterLabel>
+        <translation><!-- No Tender --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SCIL</masterLabel>
+        <translation><!-- SCIL --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Subrogation</masterLabel>
+        <translation><!-- Subrogation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>To Be Closed</masterLabel>
+        <translation><!-- To Be Closed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wills/Trusts/Estates</masterLabel>
+        <translation><!-- Wills/Trusts/Estates --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wire Fraud</masterLabel>
+        <translation><!-- Wire Fraud --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wire Fraud/TBClosed</masterLabel>
+        <translation><!-- Wire Fraud/TBClosed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>e/File</masterLabel>
+        <translation><!-- e/File --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>e/File To Be Closed</masterLabel>
+        <translation><!-- e/File To Be Closed --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

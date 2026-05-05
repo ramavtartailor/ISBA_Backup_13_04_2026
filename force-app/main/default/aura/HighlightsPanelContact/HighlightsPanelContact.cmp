@@ -1,0 +1,224 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="HighlightsPanelCtrl" access="global">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="record" type="Policy__c"
+                    description="The record object to be displayed"/>
+    <aura:attribute name="contactRecord" type="Contact"
+                    description="The record object to be displayed"/>
+    <aura:attribute name="hasAnyBlock" type="boolean" default="false"/>
+    <aura:attribute name="hasActivePolicy" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="has107" type="boolean" default="false"/>
+    <aura:attribute name="futurePolicy" type="boolean" default="false"/>
+    <!--aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name ="selectedContact" type="string" />
+    <aura:attribute name ="selectedBillingContact" type="string" />
+    <aura:attribute name ="selectedPolicyContact" type="string" />
+    <aura:attribute name="contacts" type="string" />
+     <aura:attribute name="isPolicyContactUpdate" type="boolean" default="false"/>
+    <aura:attribute name="isBillingContactUpdate" type="boolean" default="false"/-->
+    
+    <lightning:spinner alternativeText="Loading" size="medium" aura:id="spinner" class="slds-hide"/>
+    
+    <div class="{! 'mainDiv ' + if(v.hasAnyBlock,if(v.hasActivePolicy,'block activePolicy','block account'),if(v.hasActivePolicy,'activePolicy','account'))}"  >
+        <table>
+            <tr>
+                <th width="10%;">
+                    Firm ({!v.record.Account__r.AccountNumber})
+                </th>
+                <th width="10%;">
+                    Contact Info
+                </th>
+                <th width="10%;">
+                    ARDC Number
+                </th>
+                <th width="10%;">
+                    ISBA Number
+                </th>
+                <th width="10%;">
+                    Firm Phone Number
+                </th>
+                <th width="10%;">
+                    Underwriter User
+                </th>
+                <th width="10%;">
+                    Latest App/Policy
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{!'/one/one.app?#/sObject/'+ v.record.Account__c + '/view'}" target="">{!v.record.Account__r.Name}</a>
+                    &nbsp;&nbsp;
+                    <aura:if isTrue="{! v.record.Account__r.Website__c != null }">
+                        <a href="{!v.record.Account__r.Website__c}" target="_blank"><lightning:icon iconName="utility:new_window" alternativeText="Website" title="Website" size="x-small"/></a>
+                    </aura:if>
+                </td>
+                <td>
+                    B:&nbsp;<a href="{!'mailto:'+v.contactRecord.Email}">{!v.contactRecord.Email}</a><br/>
+                    P:&nbsp;<a href="{!'mailto:'+v.contactRecord.Personal_Email__c}">{!v.contactRecord.Personal_Email__c}</a><br/>
+                    C:&nbsp;<a href="{!'tel:'+v.contactRecord.MobilePhone}">{!v.contactRecord.MobilePhone}</a>
+                </td>
+                <td>
+                    {!v.contactRecord.ARDC_Number__c}
+                </td>
+                <td>
+                    {!v.contactRecord.ISBA__c}
+                </td>
+                <td>
+                    <lightning:clickToDial value="{!v.record.Account__r.Phone}"/>
+                    <a style="display:none;" href="{!'tel:'+v.record.Account__r.Phone}">{!v.record.Account__r.Phone}</a>
+                </td>
+                <td>
+                    {!v.record.Underwriter_User__r.Name}
+                </td>
+                <td>
+                    A:&nbsp;<a href="{!'/one/one.app?#/sObject/'+ v.contactRecord.Latest_Application__c + '/view'}" target="">{!v.contactRecord.Latest_Application__r.Name}</a><br/>
+                    P:&nbsp;<a href="{!'/one/one.app?#/sObject/'+ v.contactRecord.Latest_Policy__c + '/view'}" target="">{!v.contactRecord.Latest_Policy__r.Name}</a>
+                </td>
+            </tr>
+            <tr>
+                &nbsp;
+            </tr>
+            <tr>
+                <th width="10%;">
+                    Record/Renewal Type
+                </th>
+                <th width="10%;">
+                    Total Premium
+                </th>
+                <th width="10%;">
+                    Additional Premium
+                </th>
+                <th width="10%;">
+                    Limits
+                </th>
+                <th width="10%;">
+                    Latest Activity Date
+                </th>                
+                <th width="10%;">
+                    Effective / 
+                    <aura:if isTrue="{! !v.has107 }">
+                        <aura:if isTrue="{! v.record.Cancel_Date__c == null }">
+                            Expiration
+                            <aura:set attribute="else">
+                                Cancel
+                            </aura:set>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            Expiration(ERE)
+                        </aura:set>
+                    </aura:if>
+                </th>
+                <th width="10%;">
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <aura:if isTrue="{!! v.has107 }">
+                        <aura:if isTrue="{! v.record.Cancel_Date__c == null }">
+                            <aura:if isTrue="{! TODAY >  v.record.Expiration_Date__c}">
+                                {!v.record.RecordType.Name} - Expired
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{! and(v.record.Expiration_Date__c > TODAY, TODAY > v.record.Effective_Date__c ) }">
+                                        {!v.record.RecordType.Name} - In force
+                                        <aura:set attribute="else">
+                                            {!v.record.RecordType.Name} - {!v.record.Status__c}
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            <aura:set attribute="else">
+                                {!v.record.RecordType.Name} - Cancelled
+                            </aura:set>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            {!v.record.RecordType.Name} - ERP
+                        </aura:set>
+                    </aura:if>
+                    <br/>
+                    {!v.record.Renewal_Type__c}
+                </td>
+                <td>
+                    <lightning:formattedNumber value="{!v.record.Premium__c}" style="currency" currencyCode="USD"/>
+                </td>
+                <td>
+                    <lightning:formattedNumber value="{!v.record.Total_Additional_Premium__c}" style="currency" currencyCode="USD"/>
+                </td>
+                <td>
+                    {!v.record.Limits__c}&nbsp;&nbsp;({!v.record.Deductible_ID__r.Name})
+                </td>
+                <td>
+                    {! v.contactRecord.Latest_Activity_Date__c}
+                </td>
+                <td>
+                    <aura:if isTrue="{! v.futurePolicy }">
+                        <span style="background-color: green;color:  white; ">
+                            <ui:outputDate value="{!v.record.Effective_Date__c}"/>
+                        </span>
+                        <aura:set attribute="else">
+                            <ui:outputDate value="{!v.record.Effective_Date__c}"/>
+                        </aura:set>
+                    </aura:if>
+                    <br/>
+                    <aura:if isTrue="{!! v.has107 }">
+                        <aura:if isTrue="{! v.record.Cancel_Date__c == null }">
+                            <ui:outputDate value="{!v.record.Expiration_Date__c}"/>
+                            <aura:set attribute="else">
+                                <ui:outputDate value="{!v.record.Cancel_Date__c}"/>
+                            </aura:set>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            {!v.value107}
+                        </aura:set>
+                    </aura:if>
+                </td>
+                <td>                    
+                </td>
+            </tr>
+        </table>
+        <!--aura:if isTrue="{!v.isModalOpen}">
+             
+            <!- Modal/Popup Box starts here->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!- Modal/Popup Box Header Starts here->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Change Contact</h2>
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:select name="task" value="{!v.selectedContact}">                                
+                            <aura:iteration items="{!v.contacts}" var="cont">
+                                <option value="{!cont.value}"   selected="{!if(v.selectedContact==cont.value,true,false)}">{!cont.label}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <aura:if isTrue="{!v.isPolicyContactUpdate}">
+                            <lightning:button variant="brand"
+                                              label="Save"
+                                              title="Save"
+                                              onclick="{!c.saveContact}" aura:id = "policyContact"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isBillingContactUpdate}">
+                            <lightning:button variant="brand"
+                                              label="Save"
+                                              title="Save"
+                                              onclick="{!c.saveContact}" aura:id = "billingContact"/>
+                        </aura:if>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if-->
+    </div>
+</aura:component>

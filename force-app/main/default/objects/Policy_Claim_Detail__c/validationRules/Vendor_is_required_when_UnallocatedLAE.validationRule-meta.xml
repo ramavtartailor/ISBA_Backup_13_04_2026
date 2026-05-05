@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_is_required_when_UnallocatedLAE</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name =&apos;Unallocated LAE&apos; &amp;&amp;
+ ISBLANK(Vendor__c)</errorConditionFormula>
+    <errorDisplayField>Vendor__c</errorDisplayField>
+    <errorMessage>&apos;Vendor&apos; is required in case of &apos;Unallocated Payment&apos;!</errorMessage>
+</ValidationRule>

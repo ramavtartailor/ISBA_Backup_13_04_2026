@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Policy Lawyer</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Policy Lawyers</value>
+    </caseValues>
+    <layouts>
+        <layout>Policy Lawyer Layout</layout>
+        <sections>
+            <label><!-- ARDC Claim Limit --></label>
+            <section>ARDC Claim Limit</section>
+        </sections>
+        <sections>
+            <label><!-- Calculated Premium --></label>
+            <section>Calculated Premium</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Old Premium --></label>
+            <section>Old Premium</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+        <sections>
+            <label><!-- Temporary Section --></label>
+            <section>Temporary Section</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Edit --></label>
+        <name>Edit</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Add_Lawyer --></label>
+        <name>Add_Lawyer</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Delete_Lawyer --></label>
+        <name>Delete_Lawyer</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Policy_Lawyer --></label>
+        <name>Policy_Lawyer</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- SA_ERP --></label>
+        <name>SA_ERP</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -1,0 +1,4 @@
+<aura:component  controller="ReverseClaimDetailEntries" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global"  >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:spinner alternativeText="Loading" size="medium" aura:id="spinner" />
+</aura:component>

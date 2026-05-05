@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unallocated_ARDC_Fields_Control2</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name = &apos;Unallocated LAE&apos; 
+&amp;&amp;
+ ISPICKVAL(  Policy_Claim__r.File_Type__c , &apos;ARDC Complaint&apos;) &amp;&amp;
+ ISBLANK( ISBA_First_Payment__c )
+&amp;&amp;
+ ISBLANK(  ISBA_Contribution__c  )</errorConditionFormula>
+    <errorMessage>&quot;ISBA First Payment&quot; or &quot;ISBA Contribution&quot; should be in case of &quot;ARDC Complaint&quot;!</errorMessage>
+</ValidationRule>

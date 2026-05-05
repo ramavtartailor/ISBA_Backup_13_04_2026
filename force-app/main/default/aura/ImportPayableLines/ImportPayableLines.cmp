@@ -1,0 +1,102 @@
+<aura:component controller="ImportPayableLinesCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionwithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__container{
+        width: 90% !important;
+        max-width: 90rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-form-element__label{
+        display: none;
+        }
+    </aura:html>
+    <aura:attribute name="glList" type="Object[]"/>
+    <aura:attribute name="glVar3List" type="Object[]"/>
+    <aura:attribute name="loadingSpinner" type="Boolean"/> 
+    <aura:attribute name="csvString" type="String"/>
+    <aura:attribute name="wrapper" type="Object[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:if isTrue="{!v.loadingSpinner}">
+        <lightning:spinner alternativeText="Loading" size="large" variant="brand" />
+    </aura:if>
+    
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Import Payable Lines</h1>
+    </div>
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <aura:if isTrue="{!empty(v.csvString)}">
+            <lightning:input aura:id="file" style="text-align:center;" class="file" multiple="false" type="file" name="file" onchange="{!c.handleUploadFinished}"/>
+            
+            <aura:set attribute="else">
+                <div class="table-container">
+                    <table class="">
+                        <thead>
+                            <tr class="">
+                                <th width="15%" class="rowElement" scope="col">
+                                    <div>Date</div>
+                                </th>
+                                <th width="35%" class="rowElement" scope="col">
+                                    <div>Description</div>
+                                </th>
+                                <th width="10%" class="rowElement" scope="col">
+                                    <div>Amount</div>
+                                </th>
+                                <th width="20%" class="" scope="col">
+                                    <div>General Ledger</div>
+                                </th>
+                                <th width="20%" class="" scope="col">
+                                    <div>GL Variable 3</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.wrapper}" var="obj" indexVar="indx">
+                                <tr class="slds-hint-parent">
+                                    <td class="rowElement">
+                                        <lightning:input aura:id="field" required="true" type="date" value="{!obj.dt}" variant="label-hidden" name="" label="" />
+                                    </td>
+                                    <td class="rowElement">
+                                        <lightning:input aura:id="field" required="true" name="" label="" variant="label-hidden" value="{!obj.des}"/>                                        
+                                    </td>
+                                    <td class="rowElement">
+                                        <lightning:input aura:id="field" required="true" type="number" name="" variant="label-hidden" label="" value="{!obj.amount}" formatter="currency" step="0.01"/>
+                                    </td>
+                                    <td class="rowElement">
+                                        <lightning:select aura:id="field" required="true" label="GL" variant="label-hidden"  value="{!obj.gl}">
+                                            <option value="">choose one...</option>
+                                            <aura:iteration items="{!v.glList}" var="option">
+                                                <option text="{!option.Name}" value="{!option.Id}"/>
+                                            </aura:iteration>
+                                        </lightning:select>                                    
+                                    </td>
+                                    <td class="rowElement">
+                                        <lightning:select aura:id="field" label="GL Variable 3" variant="label-hidden"  value="{!obj.glVar1}">
+                                            <option value="">choose one...</option>
+                                            <aura:iteration items="{!v.glVar3List}" var="option">
+                                                <option text="{!option.Name}" value="{!option.Id}"/>
+                                            </aura:iteration>
+                                        </lightning:select>                                    
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button label="Cancel" title="Cancel" onclick="{!c.handleClose}"/>
+        <lightning:button variant="Brand" label="Save" title="Save" onclick="{!c.handleSave}" />
+    </div>   
+</aura:component>

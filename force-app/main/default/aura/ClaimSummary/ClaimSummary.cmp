@@ -1,0 +1,140 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="ClaimSummaryCtrl">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="record" type="object"/>
+    <aura:attribute name="num1" type="integer" />
+    <aura:attribute name="num2" type="integer" />
+    <aura:attribute name="total" type="integer" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div style="padding:20px">
+        <h1 style="color:#00008B;font-weight:bold">Payments/Reserves</h1>
+        <br/>
+        <br/>
+        <br/>
+        
+        
+        <table width="84%">
+            <tr>
+                <th ></th>
+                <th style="text-align:center;color:#00008B;padding:5px">Direct</th>
+                <th></th>
+                <th style="text-align:center;color:#00008B;padding:5px">Ceded</th>
+                <th></th>
+                <th style="text-align:center;color:#00008B;padding:5px">Retained</th>	
+            </tr>
+            
+            <tr>
+                <th width="15%"></th>
+                <th style="color:#00008B">Loss</th>
+                <th style="color:#00008B">LAE</th>
+                <th style="color:#00008B">Loss</th>
+                <th style="color:#00008B">LAE</th>
+                <th style="color:#00008B">Loss</th>
+                <th style="color:#00008B">LAE</th>
+            </tr>
+            
+            <tr>
+                <td class="borderStyle" style="color:#00008B;font-weight:600;padding:8px">Unpaid Reserves:</td>
+                <td class="borderStyle"><lightning:formattedNumber value="{!v.record.unpaidReserveDirectLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="borderStyle"><lightning:formattedNumber value="{!v.record.unpaidReserveDirectLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="borderStyle"><lightning:formattedNumber value="{!v.record.unpaidReserveCededLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="borderStyle"><lightning:formattedNumber value="{!v.record.unpaidReserveCededLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="borderStyle"><lightning:formattedNumber value="{!v.record.unpaidReserveRetainedLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="borderStyle"><lightning:formattedNumber value="{!v.record.unpaidReserveRetainedLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <td class="tdStyle" style="color:#00008B; font-weight: 600;padding:8px" >Payments:</td>
+                <td class="tdStyle"><lightning:formattedNumber value="{!v.record.paymentsDirectLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="tdStyle"><lightning:formattedNumber value="{!v.record.paymentsDirectLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="tdStyle"><lightning:formattedNumber value="{!v.record.paymentsCededLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="tdStyle"><lightning:formattedNumber value="{!v.record.paymentsCededLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="tdStyle"><lightning:formattedNumber value="{!v.record.paymentsRetainedLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="tdStyle"><lightning:formattedNumber value="{!v.record.paymentsRetainedLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <td class="textdecoration" style="text-align:center;font-weight:600;padding:4px;padding-left:50px">Incurred:</td>
+                <td class="textdecoration"><lightning:formattedNumber value="{!v.record.incurredDirectLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="textdecoration"><lightning:formattedNumber value="{!v.record.incurredDirectLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="textdecoration"><lightning:formattedNumber value="{!v.record.incurredCededLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="textdecoration"><lightning:formattedNumber value="{!v.record.incurredCededLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="textdecoration"><lightning:formattedNumber value="{!v.record.incurredRetainedLoss}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td class="textdecoration"><lightning:formattedNumber value="{!v.record.incurredRetainedLAE}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            
+        </table>
+        <br/>
+        <br/>
+        <span style="font-weight:540">*Note: above table does not include deductible in the final retained calculation.</span>
+        <br/>
+        <br/>
+        
+        <table width="50%">
+            <tr>
+                <th style="color:#00008B;font-weight:600;padding:8px;font-size: 18px;">ULAE</th>
+                <th></th>
+                <th style="color:#00008B;font-weight:600;padding:8px;font-size: 18px;">ARDC</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px">Total:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.GL_5050__c)}" maximumFractionDigits="2"  minimumFractionDigits="2"/></td>
+                <td>Total:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.GL_5051__c)}" maximumFractionDigits="2"  minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <th style="color:#00008B;font-weight:600;padding:8px;font-size: 18px;">Deductible</th>
+                <th></th>
+                <th style="color:#00008B;font-weight:600;font-size: 18px;">Remaining Limits</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th style="color:#00008B;font-weight:600;padding:8px;font-size: 15px;">Allocated</th>
+                <th></th>
+                <th style="color:#00008B;font-weight:600;font-size: 15px;">All Claims on Policy</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px">Deductible:</td>
+                <td><lightning:formattedNumber value="{!v.record.claimObj.Per_Claim_Deductible_formula__c}" maximumFractionDigits="2"  minimumFractionDigits="2"/></td>
+                <td style="color:#00008B;padding-left:9px">Aggregate Limit:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.Aggregate_Limit_For_All_Claims__c)}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px">Applied:</td>
+                <td><lightning:formattedNumber value="{!v.record.claimObj.Per_Claim_Deductible_Consumed__c}" maximumFractionDigits="2"  minimumFractionDigits="2"/></td>
+                <td style="color:#00008B;padding-left:9px">Policy Incurred:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.Policy_Incurred__c)}" maximumFractionDigits="2"  minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px">Remaining:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.Per_Claim_Deductible_Balance__c)}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+                <td style="color:#00008B;padding-left:9px">Policy Remaining:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.Aggregate_Limit_For_All_Claims__c) - abs(v.record.claimObj.Policy_Incurred__c)}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <th style="color:#00008B;font-weight:600;padding:8px;padding-top:10px;padding-bottom:10px;"></th>
+                <th></th>
+                <th style="color:#00008B;font-weight:600;font-size: 15px;">Claim {!v.record.claimObj.Claim_Id__c}</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px"></td>
+                <td></td>
+                <td style="color:#00008B;padding-left:9px;padding-top:10px;padding-bottom:10px;">Per Claim Limit:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.Per_Claim_Limit__c)}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px"></td>
+                <td></td>
+                <td style="color:#00008B;padding-left:9px;padding-top:10px;padding-bottom:10px;">Claim Incurred:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.incurredDirectLoss) + abs(v.record.incurredDirectLAE)}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+            <tr>
+                <td style="color:#00008B;padding:10px"></td>
+                <td></td>
+                <td style="color:#00008B;padding-left:9px;padding-top:10px;padding-bottom:10px;">Claim Remaining:</td>
+                <td><lightning:formattedNumber value="{!abs(v.record.claimObj.Per_Claim_Limit__c) - abs(v.record.incurredDirectLoss) - abs(v.record.incurredDirectLAE)}" maximumFractionDigits="2" minimumFractionDigits="2"/></td>
+            </tr>
+        </table>
+    </div>
+</aura:component>

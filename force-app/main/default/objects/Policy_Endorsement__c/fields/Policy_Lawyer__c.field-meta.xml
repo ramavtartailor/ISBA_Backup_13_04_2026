@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Policy_Lawyer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Lawyer</label>
+    <lookupFilter>
+        <active>false</active>
+        <filterItems>
+            <field>Policy_Lawyer__c.Deleted_Lawyer__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.Policy__c</field>
+            <operation>equals</operation>
+            <valueField>Policy_Lawyer__c.Policy__c</valueField>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Policy_Lawyer__c</referenceTo>
+    <relationshipLabel>Policy Endorsements</relationshipLabel>
+    <relationshipName>Policy_Endorsements</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

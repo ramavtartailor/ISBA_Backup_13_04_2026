@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Method_Validation</fullName>
+    <active>true</active>
+    <description>The payment method must be from the same account.</description>
+    <errorConditionFormula>Fiserv_Payment_Method__c != null &amp;&amp; Billing__r.AcctSeed__Customer__c !=  Fiserv_Payment_Method__r.Account__c</errorConditionFormula>
+    <errorDisplayField>Fiserv_Payment_Method__c</errorDisplayField>
+    <errorMessage>The payment method must be from the same account.</errorMessage>
+</ValidationRule>

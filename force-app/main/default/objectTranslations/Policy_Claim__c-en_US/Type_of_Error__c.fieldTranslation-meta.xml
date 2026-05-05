@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type of Error --></label>
+    <name>Type_of_Error__c</name>
+    <picklistValues>
+        <masterLabel>Admistrative Error</masterLabel>
+        <translation><!-- Admistrative Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Intentional Wrong</masterLabel>
+        <translation><!-- Intentional Wrong --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Substantive Error</masterLabel>
+        <translation><!-- Substantive Error --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

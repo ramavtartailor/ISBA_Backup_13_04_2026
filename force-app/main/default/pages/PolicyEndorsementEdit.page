@@ -1,0 +1,2 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="PolicyEndorsementEditExtension"  tabStyle="Policy_Endorsement__c" showHeader="true" action="{!returnToEditPage}">
+</apex:page>

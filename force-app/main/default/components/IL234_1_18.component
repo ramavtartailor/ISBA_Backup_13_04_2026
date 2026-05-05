@@ -1,0 +1,60 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Loss Only <span class="b">Deductible</span> Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> III. DEFINITIONS, F. Deductible </span>and<span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE, E. </span>of this Policy are hereby deleted in their entirety and are replaced with the following:<br/>
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph"> III. DEFINITIONS </span>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> F.&nbsp;</span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> DEDUCTIBLE </span><br/>
+                    The amount set forth in Item 8 of the Declarations and is the amount the<span class="normalBoldParagraph"> Insured </span>must pay for<span class="normalBoldParagraph"> Damages. </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br></br>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE </span>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> E.&nbsp;</span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Subject to the Limit of Liability:<br/>
+                    The<span class="normalBoldParagraph"> Company </span>is liable to pay<span class="normalBoldParagraph"> Damages </span>in excess of the<span class="normalBoldParagraph"> Deductible. </span>  The<span class="normalBoldParagraph"> Deductible </span>applies separately to each<span class="normalBoldParagraph"> Claims. </span>  The<span class="normalBoldParagraph"> Named Insured </span>is responsible for the payment of the<span class="normalBoldParagraph"> Deductible, </span>and each<span class="normalBoldParagraph"> Insured </span>is individually liable for the payment of the<span class="normalBoldParagraph"> Deductible. </span>In the event that the<span class="normalBoldParagraph"> Company </span>expends funds for<span class="normalBoldParagraph"> Damages </span>on an<span class="normalBoldParagraph"> Insured’s </span>behalf, the<span class="normalBoldParagraph"> Insured </span>will reimburse the<span class="normalBoldParagraph"> Company </span>for such expenditures up to the amount of the<span class="normalBoldParagraph"> Deductible. </span>Reimbursement of the<span class="normalBoldParagraph"> Deductible </span>will be due within thirty (30) days of the<span class="normalBoldParagraph"> Company’s </span>first demand or thirty (30) days from the date the<span class="normalBoldParagraph"> Company </span>or counsel appointed by the<span class="normalBoldParagraph"> Company </span>first bills the<span class="normalBoldParagraph"> Insured, </span>whichever is earlier. If the<span class="normalBoldParagraph"> Insured </span>does not reimburse the<span class="normalBoldParagraph"> Company </span>or counsel appointed by the<span class="normalBoldParagraph"> Company </span>within sixty (60) days, the<span class="normalBoldParagraph"> Company </span>will be entitled to recover from the<span class="normalBoldParagraph"> Insured </span>reasonable legal fees, costs, and expenses incurred by the<span class="normalBoldParagraph"> Company </span>in collecting the<span class="normalBoldParagraph"> Deductible. </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:140px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

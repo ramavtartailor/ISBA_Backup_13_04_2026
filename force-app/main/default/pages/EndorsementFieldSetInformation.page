@@ -1,0 +1,21 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="EndoresementFieldSetInformation_Ctrl" >
+    <apex:form id="frm">
+        <apex:pageBlock title="Please select the layout to get the fields in addition to the fields : Name,Policy__c,Account__c,Endorsement_Effective_Date__c">
+            <apex:selectList value="{!endorsementName}" multiselect="false" size="1" styleClass="slds-input application_required" style="width:50%"> 
+            <apex:actionsupport event="onchange" reRender="frm" />
+            <apex:selectOptions value="{!Layouts}" />
+        </apex:selectList>
+            <apex:pageBlockTable value="{!fields}" var="f" >
+                <apex:column value="{!f}">
+                    <apex:facet name="header">Name</apex:facet>
+                </apex:column> 
+                <apex:column value="{!f.Label}">
+                    <apex:facet name="header">Label</apex:facet>
+                </apex:column> 
+                <apex:column value="{!f.Type}" >
+                    <apex:facet name="header">Data Type</apex:facet>
+                </apex:column> 
+            </apex:pageBlockTable> 
+        </apex:pageBlock> 
+    </apex:form>
+</apex:page>

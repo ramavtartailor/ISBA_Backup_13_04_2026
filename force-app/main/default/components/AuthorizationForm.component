@@ -1,0 +1,351 @@
+<apex:component controller="RegularRenewalDoc_Ctrl">
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    
+    
+    <!---ACH------------------------------------------------------------>
+    <p class="heading"> 
+        ACH (eCheck) - Payment Authorization Form 
+    </p>
+    
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:60%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Provide the information requested below.
+                </p>
+                <p class="normalParagraph">
+                    Payment processed on date of receipt.
+                </p>
+                <p class="normalParagraph">
+                    Payment Frequency: ___ Full Premium ___Quarterly ___Monthly
+                </p>
+            </td>
+            
+            <td class="tableDataLeft" style="width:40%;border:1px solid #89001a;">
+                <p class="normalParagraph" style="color:#FF0000;">
+                    Return this page by Fax or Mail ONLY
+                    <br/>
+                    Fax: {!$Organization.Fax}
+                    <br/>
+                    Mail: ISBA Mutual
+                    <br/>
+                    {!$Organization.Street}
+                    {!$Organization.City}, {!$Organization.State} {!$Organization.PostalCode}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.Name}</span> authorizes ISBA Mutual to charge its account, as indicated below, to discharge the above debt using installment payments in the amount and schedule indicated.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Firm / Company Name <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.Name}</span>
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Policy Number# <span class="normalBoldParagraph" style="text-decoration: underline;"> {!policy.Name} </span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Billing Address <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.BillingStreet}</span>
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Phone# <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.Phone}</span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    City, State, Zip <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.BillingCity} , {!policy.Account__r.BillingState} {!policy.Account__r.BillingPostalCode}</span>
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Email <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Firm_Contact__r.Email}</span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+    <br/>
+    <br/>
+    
+    <table style="width:100%;border:1px solid #000;" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Firm Name on Account ________________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Bank Name _________________________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Bank Routing Number _________________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Bank Account Number _________________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Bank City/State ______________________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    This Business Bank Account is Enabled for ACH Transactions ______ Yes ______ No
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+    
+    <table width="100%">
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Signature ____________________________________________
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Date ________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Name _______________________________________________
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Title _________________________
+                </p>
+            </td>
+        </tr>
+    </table>
+    <p class="normalParagraph" style="font-size: 9pt;">
+        I certify that I am an authorized representative of the Law Firm indicated above and that I have the authority to authorize these payments on the Law
+        Firm's behalf. Law Firm understands that this authorization will remain in effect until the debt is fully discharged or it is canceled in writing whichever
+        comes first, and Law Firm agrees to notify ISBA Mutual In writing of any changes in Its account information or termination of this authorization at least 15
+        days prior to the next billing date. If the above noted payment date falls on a weekend or holiday, Law Firm understands that the payment may be
+        executed on the next business day. Law Firm understands that because this is an electronic transaction, these funds may be withdrawn from its account
+        as soon as the above noted periodic transaction dates and that it will have limited time to report and dispute errors. In the case the transaction is retuned
+        for Non-Sufficient Funds (NSF), Law Firm understands that ISBA Mutual may at its discretion attempt to process the charge again within 30 days, and
+        agrees to an additional $25.00 charge for each attempt returned NSF, which will be initiated as a separate transaction from the authorized payment. Law
+        Firm has certified that the above business bank account is enabled for ACH transactions, and agrees to reimburse ISBA Mutual for all penalties and fees
+        incurred as a result of Law Firm's bank rejecting ACH debits or credits as a result of the account not being property configured for ACH transactions.
+        Both parties agree to be bound by NACHA Operating Rules as they pertain to this transaction. Law Firm acknowledges that the origination of ACH
+        transactions to Its account must comply with the provisions of U.S. law. Law Firm agrees not to dispute these transactions with Its bank provided the
+        transactions correspond to the terms indicated in this authorization form.
+    </p>
+    
+    
+    
+    
+    
+    
+    <!---CREDIT CARD------------------------------------------------------------>
+    <div style="page-break-after: always;"></div>
+    
+    
+    <p class="heading"> 
+        Credit Card - Payment Authorization Form 
+    </p>
+    
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:60%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Provide the information requested below.
+                </p>
+                <p class="normalParagraph">
+                    Payment processed on date of receipt.
+                </p>
+                <p class="normalParagraph">
+                    Payment Frequency: ___ Full Premium ___Quarterly ___Monthly
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;border:1px solid #89001a;">
+                <p class="normalParagraph" style="color:#FF0000;">
+                    Return this page by Fax or Mail ONLY
+                    <br/>
+                    Fax: {!$Organization.Fax}
+                    <br/>
+                    Mail: ISBA Mutual
+                    <br/>
+                    {!$Organization.Street}
+                    {!$Organization.City}, {!$Organization.State} {!$Organization.PostalCode}
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+    <br/>
+    <br/>
+    
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Firm / Company Name <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.Name}</span>
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Policy Number# <span class="normalBoldParagraph" style="text-decoration: underline;"> {!policy.Name} </span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Billing Address <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.BillingStreet}</span>
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Phone# <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.Phone}</span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    City, State, Zip <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Account__r.BillingCity} , {!policy.Account__r.BillingState} {!policy.Account__r.BillingPostalCode}</span>
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Email <span class="normalBoldParagraph" style="text-decoration: underline;">{!policy.Firm_Contact__r.Email}</span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+    <br/>
+    <br/>
+    
+    <table style="width:100%;border:1px solid #000;" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Card Type:
+                    <input type="checkbox" class="cc_cb"></input>&nbsp;&nbsp;MasterCard
+                    <input type="checkbox" class="cc_cb"></input>&nbsp;&nbsp;VISA
+                    <input type="checkbox" class="cc_cb"></input>&nbsp;&nbsp;Discover
+                    <input type="checkbox" class="cc_cb"></input>&nbsp;&nbsp;AMEX
+                            
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Cardholder Name (as shown on card): ____________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Card Number: _______________________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Expiration Date (mm/yy): _______________________________________________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    CVV Number*: _______________________________________________________________________
+                    <div style="padding: 3px; padding-left: 100px; font-color: gray; font-size: 8pt;">
+                        *MC, Visa and Discover; 3-digit number found on back of card.  AMEX; 4-digit number found on front of card.
+                    </div>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Cardholder ZIP Code (from credit card billing address): _______________________________________
+                </p>
+            </td>
+        </tr>
+        
+    </table>
+    <br/>
+    
+    <p>
+            I authorize ISBA Mutual to charge my credit card above for payment of premium and/or deductible. I understand that my information will be saved to file for future transactions on my account.        
+    </p>
+
+    
+    <table width="100%">
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Signature ____________________________________________
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Date ________________________
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="width:60%;">
+                <p class="normalParagraph">
+                    Name _______________________________________________
+                </p>
+            </td>
+            <td class="tableDataLeft" style="width:40%;">
+                <p class="normalParagraph">
+                    Title _________________________
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+    
+    
+    
+    
+    
+</apex:component>

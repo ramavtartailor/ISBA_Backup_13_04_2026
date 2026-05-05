@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ARDCComplaint_Discipline_Action_Control1</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISPICKVAL(File_Type__c , &apos;ARDC Complaint&apos;) &amp;&amp;
+ Not(OR(ISPICKVAL( Discipline_Action__c  ,&apos;Yes&apos;) ,
+    ISPICKVAL(Discipline_Action__c , &apos;No&apos;) )
+    )</errorConditionFormula>
+    <errorDisplayField>Discipline_Action__c</errorDisplayField>
+    <errorMessage>&apos;Discipline Action&apos; should be [Yes/No] in case of &apos;ARDC Complaint&apos;!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,275 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="HighlightsPanelCtrl" access="global">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="nbaRecord" type="Customer_Application__c"
+                    description="The record object to be displayed"/>
+    <aura:attribute name="numberOfLawyers" type="Integer"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="searchTerm" type="String"/>
+    <aura:attribute name="accList" type="Object[]"/>
+    
+    <aura:attribute name="selectedSalesUser" type="String"/>
+    <aura:attribute name="selectedUnderwriterUser" type="String"/>
+
+    <aura:handler event="c:closeLinkAccountModalEvt" action="{!c.closeModalLinkAccount}"/>
+    
+    
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="showAccountModal" type="boolean" default="false"/>
+    <aura:attribute name="showAccountUnlinkModal" type="boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="boolean" default="false"/>
+    <aura:attribute name="assignableUsers" type="Object[]"/>  
+    <aura:attribute name="selectedUser" type="String"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <div class="account"  >
+        <table>
+            <tr>
+                <th width="10%;">
+                    Account:
+                </th>
+                <th width="10%;">
+                    Contact:
+                </th>
+                <th width="10%;">
+                    Effective Date:
+                </th>
+                <th width="10%">
+                    Assigned User: 
+                    [ <a href="javascript:void(0)" onclick="{!c.openUserModel}">Assign</a> ]
+                </th>
+                
+            </tr>
+            <tr>
+                <td>
+                    <aura:if isTrue="{!v.nbaRecord.Account__c}">
+                        <a href="{!'/one/one.app?#/sObject/'+ v.nbaRecord.Account__c + '/view'}" target="_blank">{!v.nbaRecord.Account__r.Name}</a><br/>
+                        <aura:if isTrue="{!!v.nbaRecord.PolicyId__c}">
+                            <a href="javascript:void(0)" onclick="{!c.openUnlinkModel}" >Unlink Account</a>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            {!v.nbaRecord.Full_Legal_Name_of_the_Firm__c}<br/>
+                            <aura:if isTrue="{!!v.nbaRecord.PolicyId__c}">
+                                <a href="javascript:void(0)" onclick="{!c.openModel}" >Link Account</a>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </td>
+                <td>
+                    {!v.nbaRecord.Contact_Name__c}&nbsp;{!v.nbaRecord.Contact_Last_Name__c}<br/>
+                    <a href="{!'mailto:'+v.nbaRecord.Contact_E_mail_Address__c}">{!v.nbaRecord.Contact_E_mail_Address__c}</a><br/>
+                    <a href="{!'tel:'+v.nbaRecord.Contact_Phone_Number__c}">{!v.nbaRecord.Contact_Phone_Number__c}</a>
+                </td>
+                <td>
+                    <ui:outputDate value="{!v.nbaRecord.Effective_Date_Requested__c}"/>                    
+                </td>
+                <td>
+                    <aura:if isTrue="{!not(empty(v.nbaRecord.Sales_User__c))}">
+                        {!v.nbaRecord.Sales_User__r.Name}
+                        <aura:set attribute="else">
+                            {!v.nbaRecord.Underwriter_User__r.Name}
+                        </aura:set>
+                    </aura:if>
+                </td>
+            </tr>
+            <tr>
+                &nbsp;
+            </tr>
+            <tr>
+                <th width="10%;">
+                    Status:
+                </th>
+                <th width="10%;">
+                    Number of Lawyers:
+                </th>
+                <th>
+                    <aura:if isTrue="{!v.nbaRecord.PolicyId__c}">
+                        Application:
+                    </aura:if>
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{!v.nbaRecord.Form_Link__c}" target="_blank">{!v.nbaRecord.Application_Status__c}</a><br/>
+                    {!v.nbaRecord.RecordType.Name}
+                </td>
+                <td>
+                    {!v.numberOfLawyers}
+                </td>
+                <td>
+                    <aura:if isTrue="{!v.nbaRecord.PolicyId__c}">
+                        <a href="{!'/'+v.nbaRecord.PolicyId__c}" target="_blank">{!v.nbaRecord.PolicyId__r.Name}</a>
+                    </aura:if>
+                </td>
+                <td></td>                
+            </tr>
+        </table>
+    </div>
+    
+    <aura:if isTrue="{!v.showAccountModal}">
+        <c:LinkAccount recordId="{!v.recordId}" searchTerm="{!v.searchTerm}"/>
+        <!--<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Search Account</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div style="display: flex ; flex-direction: column; gap: 1rem; width: 100%;">
+                        <lightning:input label="" value="{!v.searchTerm}"  variant="label-hidden" placeholder="Search Account ...." onchange="{!c.handleSearch}"/>
+                        
+                        <aura:if isTrue="{!v.accList.length}">
+                            <div style="max-height: 300px; overflow-y: auto; border: 1px solid #d8dde6;">
+                                <table class="slds-table slds-table_cell-buffer slds-table_striped custom-search-table table sticky-table">
+                                    <thead>
+                                        <tr class="slds-text-title_caps">
+                                            <th width="40%">
+                                                <div class="slds-truncate">Account Name</div>
+                                            </th>
+                                            <th width="40%">
+                                                <div class="slds-truncate">Address</div>
+                                            </th>
+                                            <th width="20%">
+                                                <div class="slds-truncate">Phone</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.accList}" var="item">
+                                            <tr>
+                                                <td data-row="{!item.Id}" onclick="{!c.saveApp}" style="cursor:pointer;">
+                                                    {!item.Name}
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <lightning:formattedAddress
+                                                                                    street="{!item.BillingAddress}"
+                                                                                    city="{!item.BillingCity}"
+                                                                                    country="{!item.BillingState}"
+                                                                                    postalCode="{!item.BillingPostalCode}"
+                                                                                    />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>{!item.Phone}</div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <aura:set attribute="else">
+                                <div style="text-align:center; padding: 1rem;">
+                                    Records not found.
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>-->
+    </aura:if>
+    <aura:if isTrue="{!v.showAccountUnlinkModal}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container" style="width: 50% !important;">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Unlink Account</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div style="width: 100%; text-align: center;">
+                        Are you sure you want to unlink the Account.
+                    </div>  
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="No"
+                                      title="No"
+                                      onclick="{! c.closeModel }"/>
+                    <lightning:button variant="brand"
+                                      label="Yes"
+                                      title="Yes"
+                                      onclick="{!c.unLinkAccount}" aura:id = "policyContact"/>
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <aura:if isTrue="{!v.isModalOpen}">
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container ">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Assign User</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-grid slds-gutters">
+                        
+                        <div class="slds-col">
+                            <lightning:select label="Sales User" value="{!v.selectedSalesUser}" onchange="{!c.handleSalesChange}">
+                                <option value="">Select Sales User</option>
+                                <aura:iteration items="{!v.assignableUsers}" var="usr">
+                                    <aura:if isTrue="{!usr.Profile.Name == 'Sales'}">
+                                        <option value="{!usr.Id}">{!usr.Name}</option>
+                                    </aura:if>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        
+                        <div class="slds-col">
+                            <lightning:select label="Underwriter User" value="{!v.selectedUnderwriterUser}" onchange="{!c.handleUnderwriterChange}">
+                                <option value="">Select Underwriter User</option>
+                                <aura:iteration items="{!v.assignableUsers}" var="usr">
+                                    <aura:if isTrue="{!usr.Profile.Name == 'Underwriting'}">
+                                        <option value="{!usr.Id}">{!usr.Name}</option>
+                                    </aura:if>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{! c.closeModel }"/>
+                    <lightning:button variant="brand"
+                                      label="Save"
+                                      title="Save"
+                                      onclick="{!c.saveUser}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

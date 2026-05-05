@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unallocated_ARDC_ISBA_Contribution_Cnt2</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name = &apos;Unallocated LAE&apos; 
+&amp;&amp;
+ ISPICKVAL(  Policy_Claim__r.File_Type__c , &apos;ARDC Complaint&apos;) 
+&amp;&amp;
+ Not(ISBLANK(  ISBA_Contribution__c  ))
+&amp;&amp;
+ Not(ISPICKVAL(Policy_Claim__r.Discipline_Action__c, &apos;No&apos;))</errorConditionFormula>
+    <errorDisplayField>ISBA_Contribution__c</errorDisplayField>
+    <errorMessage>&quot;ISBA Contribution&quot; should be empty in case of &quot;Discipline Action&quot;!</errorMessage>
+</ValidationRule>

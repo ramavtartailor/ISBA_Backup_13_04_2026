@@ -1,0 +1,57 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="FirmERECtrl">
+    <aura:attribute name="EndorsementList" type="Policy_Endorsement__c[]"/> 
+    <aura:attribute name="has107Endorsements" type="boolean"/> 
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="Id" />
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+    	<div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Firm ERE Information">
+                            <b>Firm ERE Information</b>
+                        </span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                            <tbody>
+                                                <aura:iteration items="{!v.EndorsementList}" var="item" indexVar="index">
+                                                    <tr>
+                                                        <th scope="row">
+                                                            {!item.Endorsement_Number__c}
+                                                        </th>
+                                                        <td scope="row" style="white-space: normal !important;">
+                                                            {!item.Name_Of_Insured__c}
+                                                            {!item.Coverage_Term__c}
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                                <aura:if isTrue="{!v.EndorsementList.length == 0}">
+                                                    <tr>
+                                                        <th scope="row">
+                                                            No extended reporting available
+                                                        </th>
+                                                    </tr>
+                                                </aura:if>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</aura:component>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AOP_Overrideby_NonManager</fullName>
+    <active>false</active>
+    <description>Non-Manager cannot perform Override functionality.</description>
+    <errorConditionFormula>AND( AOP_Override__c =True, 
+   $UserRole.Name &lt;&gt; &quot;Manager&quot;)</errorConditionFormula>
+    <errorDisplayField>AOP_Override__c</errorDisplayField>
+    <errorMessage>Only Managers can perform Override Operation !</errorMessage>
+</ValidationRule>

@@ -1,0 +1,165 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="PolicyEndorsementExtensions"  tabStyle="Policy_Endorsement__c" showHeader="true">
+   
+    <apex:form id="frm">
+    
+    <apex:actionFunction name="callLawyer" action="{!lawyercall}" reRender="lawyer,lawyer2" >
+        
+    </apex:actionFunction>
+    
+    <apex:pageMessages id="err" ></apex:pageMessages>
+    
+    <apex:pageBlock title="Policy Endorsement Edit" >
+        
+        <apeX:pageBlockButtons >
+            <apex:commandButton value="Save" action="{!save}" reRender="err"/>
+            <apex:commandButton value="Save & New" action="{!save}" reRender="err"/>
+            <apex:commandButton value="Cancel" action="{!cancel}" reRender="err"/>
+        </apeX:pageBlockButtons>
+        
+        
+        <apex:pageBlockSection rendered="{!If(recordTypeName =='IL 153 Deleting an Attorney Endorsement',true,false)}" collapsible="false" >
+            <apex:pageblockSectionItem >
+            <apex:outputLabel >Record Type</apex:outputLabel>
+            <apex:outputText value="{!recordTypeName}"></apex:outputText>
+            </apex:pageblockSectionItem>
+            <apex:inputField value="{!Policy_Endorsement__c.Account__c}" onchange="callLawyer();"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Name}" Required="true"/>
+            
+            <apex:pageblockSectionItem >
+            
+            <apex:outputLabel >Lawyer</apex:outputLabel>
+            <apex:selectList id="lawyer2" value="{!Policy_Endorsement__c.Policy_Lawyer__c}" required="true" size="1" multiselect="false">
+                <apex:selectOptions value="{!PolicyLawyer}" />
+            </apex:selectList>
+            </apex:pageblockSectionItem>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Policy__c}" onchange="callLawyer();"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Premium__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Endorsement_Effective_Date__c}"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Primary__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Prior_Act_Date__c}" required="true"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Premium_5_5__c}"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Rate_At__c}" />
+            <apex:inputField value="{!Policy_Endorsement__c.Premium_10_10__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Term__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_Rating__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_5_5__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_10_10__c}"/>
+                 
+        </apex:pageBlockSection> 
+        
+        <apex:pageBlockSection rendered="{!If(recordTypeName =='IL 102 PRIOR ACTS EXCLUSION ENDORSEMENT',true,false)}" collapsible="false" >
+            <apex:pageblockSectionItem >
+            <apex:outputLabel >Record Type</apex:outputLabel>
+            <apex:outputText value="{!recordTypeName}"></apex:outputText>
+            </apex:pageblockSectionItem>
+            <apex:inputField value="{!Policy_Endorsement__c.Account__c}" onchange="callLawyer();"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Name}" Required="true"/>
+            
+            <apex:pageblockSectionItem >
+            
+            <apex:outputLabel >Lawyer</apex:outputLabel>
+            <apex:selectList id="lawyer2" value="{!Policy_Endorsement__c.Policy_Lawyer__c}"  size="1" multiselect="false">
+                <apex:selectOptions value="{!PolicyLawyer}" />
+            </apex:selectList>
+            </apex:pageblockSectionItem>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Policy__c}" onchange="callLawyer();"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Endorsement_Effective_Date__c}"/>
+                 
+        </apex:pageBlockSection>
+        <apex:pageBlockSection rendered="{!If(recordTypeName =='IL 152 Adding an Attorney Endorsement',true,false)}" collapsible="false" >
+            <apex:pageblockSectionItem >
+            <apex:outputLabel >Record Type</apex:outputLabel>
+            <apex:outputText value="{!recordTypeName}"></apex:outputText>
+            </apex:pageblockSectionItem>
+            <apex:inputField value="{!Policy_Endorsement__c.Endorsement_Effective_Date__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Name}" Required="true"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Account__c}" onchange="callLawyer();"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Policy__c}" onchange="callLawyer();"/>
+            <apex:pageblockSectionItem >
+             <apex:outputLabel >Lawyer</apex:outputLabel>
+            <apex:selectList id="lawyer" value="{!Policy_Endorsement__c.Lawyer__c}" size="1" required="true" multiselect="false">
+                <apex:selectOptions value="{!FirmContacts}" />
+            </apex:selectList>
+            </apex:pageblockSectionItem>
+            
+           
+                        
+        </apex:pageBlockSection>
+        
+        <apex:pageBlockSection rendered="{!If(recordTypeName =='CL Change Lawyer Endorsement',true,false)}" collapsible="false" >
+            <apex:pageblockSectionItem >
+            <apex:outputLabel >Record Type</apex:outputLabel>
+            <apex:outputText value="{!recordTypeName}"></apex:outputText>
+            </apex:pageblockSectionItem>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Endorsement_Effective_Date__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Name}" Required="true"/>
+            <apex:pageblockSectionItem >
+            
+            <apex:outputLabel >Lawyer</apex:outputLabel>
+            <apex:selectList id="lawyer2" value="{!Policy_Endorsement__c.Policy_Lawyer__c}" required="true" size="1" multiselect="false">
+                <apex:selectOptions value="{!PolicyLawyer}" />
+            </apex:selectList>
+            </apex:pageblockSectionItem>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Policy__c}" onchange="callLawyer();"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Rate_At__c}" required="true" />
+            <apex:inputField value="{!Policy_Endorsement__c.Account__c}" onchange="callLawyer();"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Prior_Act_Date__c}" required="true" />
+            <apex:inputField value="{!Policy_Endorsement__c.Term__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_Rating__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_5_5__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step_Override__c}"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Override_10_10__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step_Override_Value__c}"/>
+            
+            
+                 
+        </apex:pageBlockSection> 
+        
+        <apex:pageBlockSection title="Additional Details" rendered="{!If(recordTypeName =='CL Change Lawyer Endorsement',true,false)}" collapsible="false" >
+            
+           <apex:inputField value="{!Policy_Endorsement__c.Premium__c}"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Primary__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Premium_5_5__c}"/>
+            
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Premium_10_10__c}"/>
+            
+            
+            
+                        
+        </apex:pageBlockSection> 
+        
+        <apex:pageBlockSection title="Additional Information" rendered="{!If(recordTypeName =='IL 152 Adding an Attorney Endorsement',true,false)}" collapsible="false" >
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Prior_Act_Date__c}" required="true"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Premium__c}"/> 
+            <apex:inputField value="{!Policy_Endorsement__c.Rate_At__c}" required="true"/>
+            
+            <apex:inputField value="{!Policy_Endorsement__c.Primary__c}"/> 
+            <apex:inputField value="{!Policy_Endorsement__c.Term__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Premium_5_5__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Premium_10_10__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step_Override__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_Rating__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Step_Override_Value__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_5_5__c}"/>
+            <apex:inputField value="{!Policy_Endorsement__c.Override_10_10__c}"/>
+            
+                        
+        </apex:pageBlockSection>    
+    </apex:pageBlock> 
+    </apex:form> 
+</apex:page>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_Reason__c</fullName>
+    <label>Lost Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Coverage</fullName>
+                <default>false</default>
+                <label>Coverage</label>
+            </value>
+            <value>
+                <fullName>Practice Closed</fullName>
+                <default>false</default>
+                <label>Practice Closed</label>
+            </value>
+            <value>
+                <fullName>Premium</fullName>
+                <default>false</default>
+                <label>Premium</label>
+            </value>
+            <value>
+                <fullName>Licensed Suspension</fullName>
+                <default>false</default>
+                <label>Licensed Suspension</label>
+            </value>
+            <value>
+                <fullName>Non-Renewal</fullName>
+                <default>false</default>
+                <label>Non-Renewal</label>
+            </value>
+            <value>
+                <fullName>Employment</fullName>
+                <default>false</default>
+                <label>Employment</label>
+            </value>
+            <value>
+                <fullName>ISBA Membership Cost</fullName>
+                <default>false</default>
+                <label>ISBA Membership Cost</label>
+            </value>
+            <value>
+                <fullName>Cancelation</fullName>
+                <default>false</default>
+                <label>Cancelation</label>
+            </value>
+            <value>
+                <fullName>Propestive Practice</fullName>
+                <default>false</default>
+                <label>Propestive Practice</label>
+            </value>
+            <value>
+                <fullName>Online Inquiry Only</fullName>
+                <default>false</default>
+                <label>Online Inquiry Only</label>
+            </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <label>No Response</label>
+            </value>
+            <value>
+                <fullName>-</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>--------------------------------------------</label>
+            </value>
+            <value>
+                <fullName>Bar Membership</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bar Membership</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Bar Membership</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - Bar Membership</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Complaint</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - Complaint</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Coverage</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - Coverage</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - ERE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - ERE</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - Other</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Practice Closed</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - Practice Closed</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Price</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CUSTOMER - Price</label>
+            </value>
+            <value>
+                <fullName>Cancel renewal policy FLAT due to no payment of premium</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancel renewal policy FLAT due to no payment of premium</label>
+            </value>
+            <value>
+                <fullName>Claims Experience</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Claims Experience</label>
+            </value>
+            <value>
+                <fullName>Disciplinary Issues</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Disciplinary Issues</label>
+            </value>
+            <value>
+                <fullName>Dissolved</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dissolved</label>
+            </value>
+            <value>
+                <fullName>ERE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ERE</label>
+            </value>
+            <value>
+                <fullName>IMPORT</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IMPORT</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Claims</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ISBAM - Claims</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Disciplinary Issues</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ISBAM - Disciplinary Issues</label>
+            </value>
+            <value>
+                <fullName>ISBAM - IMPORT</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ISBAM - IMPORT</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Internal Procedures</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ISBAM - Internal Procedures</label>
+            </value>
+            <value>
+                <fullName>ISBAM - No Response</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ISBAM - No Response</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ISBAM - Other</label>
+            </value>
+            <value>
+                <fullName>Internal Procedures</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Internal Procedures</label>
+            </value>
+            <value>
+                <fullName>Mid-term Cancellation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mid-term Cancellation</label>
+            </value>
+            <value>
+                <fullName>Moved Out of State</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Moved Out of State</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Price</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Price</label>
+            </value>
+            <value>
+                <fullName>Prospective Practice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Prospective Practice</label>
+            </value>
+            <value>
+                <fullName>Retirement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Retirement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

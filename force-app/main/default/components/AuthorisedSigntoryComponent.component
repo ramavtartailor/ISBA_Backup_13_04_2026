@@ -1,0 +1,13 @@
+<apex:component >
+    <table style = "float:right;">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                <p class="normalParagraph">
+                    Authorized Representative
+                </p>
+            </td>
+        </tr>
+    </table>
+</apex:component>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Dietary Needs --></label>
+    <name>Dietary_Needs__c</name>
+    <picklistValues>
+        <masterLabel>Diabetic</masterLabel>
+        <translation><!-- Diabetic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gluten-Free</masterLabel>
+        <translation><!-- Gluten-Free --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Low Cholesterol / Low Fat</masterLabel>
+        <translation><!-- Low Cholesterol / Low Fat --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Low Sodium</masterLabel>
+        <translation><!-- Low Sodium --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non-Lactose</masterLabel>
+        <translation><!-- Non-Lactose --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nut or Peanut Allergies</masterLabel>
+        <translation><!-- Nut or Peanut Allergies --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Vegetarian</masterLabel>
+        <translation><!-- Vegetarian --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

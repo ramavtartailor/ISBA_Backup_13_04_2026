@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_is_required_when_payment</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name =&apos;Claim Payment&apos; &amp;&amp;
+ ISBLANK(Vendor__c)</errorConditionFormula>
+    <errorDisplayField>Vendor__c</errorDisplayField>
+    <errorMessage>&apos;Vendor&apos; is required in case of &apos;Payment&apos;!</errorMessage>
+</ValidationRule>

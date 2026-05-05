@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Carrier --></label>
+    <name>Carrier__c</name>
+    <picklistValues>
+        <masterLabel>ACE USA</masterLabel>
+        <translation><!-- ACE USA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AIG</masterLabel>
+        <translation><!-- AIG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AIXS Specialty - AON</masterLabel>
+        <translation><!-- AIXS Specialty - AON --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ALAS</masterLabel>
+        <translation><!-- ALAS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AON / Liberty</masterLabel>
+        <translation><!-- AON / Liberty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AXIS</masterLabel>
+        <translation><!-- AXIS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Admiral</masterLabel>
+        <translation><!-- Admiral --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Allied World</masterLabel>
+        <translation><!-- Allied World --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Alterra</masterLabel>
+        <translation><!-- Alterra --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Aspen</masterLabel>
+        <translation><!-- Aspen --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Attonrey Shield</masterLabel>
+        <translation><!-- Attonrey Shield --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Attorney Protective</masterLabel>
+        <translation><!-- Attorney Protective --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bare</masterLabel>
+        <translation><!-- Bare --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Berkley Assurance Company</masterLabel>
+        <translation><!-- Berkley Assurance Company --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CBA/Liberty Mutual</masterLabel>
+        <translation><!-- CBA/Liberty Mutual --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CNA</masterLabel>
+        <translation><!-- CNA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Carolina Casualty</masterLabel>
+        <translation><!-- Carolina Casualty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Catlin</masterLabel>
+        <translation><!-- Catlin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Chartis</masterLabel>
+        <translation><!-- Chartis --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Chubb</masterLabel>
+        <translation><!-- Chubb --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cincinati</masterLabel>
+        <translation><!-- Cincinati --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claredon National</masterLabel>
+        <translation><!-- Claredon National --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Colony</masterLabel>
+        <translation><!-- Colony --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Crum &amp; Forster</masterLabel>
+        <translation><!-- Crum &amp; Forster --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Darwin</masterLabel>
+        <translation><!-- Darwin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Essex</masterLabel>
+        <translation><!-- Essex --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Firemans Fund</masterLabel>
+        <translation><!-- Firemans Fund --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>First Indemnity</masterLabel>
+        <translation><!-- First Indemnity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>First Mercury</masterLabel>
+        <translation><!-- First Mercury --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>First Re of Hartford</masterLabel>
+        <translation><!-- First Re of Hartford --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gen Star</masterLabel>
+        <translation><!-- Gen Star --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Great American</masterLabel>
+        <translation><!-- Great American --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gulf</masterLabel>
+        <translation><!-- Gulf --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hanover</masterLabel>
+        <translation><!-- Hanover --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hartford</masterLabel>
+        <translation><!-- Hartford --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hartford/Spectrum</masterLabel>
+        <translation><!-- Hartford/Spectrum --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBA Mutual</masterLabel>
+        <translation><!-- ISBA Mutual --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Imperium Insurance Company</masterLabel>
+        <translation><!-- Imperium Insurance Company --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Interstate</masterLabel>
+        <translation><!-- Interstate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ironshore</masterLabel>
+        <translation><!-- Ironshore --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>James River Ins.</masterLabel>
+        <translation><!-- James River Ins. --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liberty International</masterLabel>
+        <translation><!-- Liberty International --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liberty Mutual</masterLabel>
+        <translation><!-- Liberty Mutual --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Llyods of London</masterLabel>
+        <translation><!-- Llyods of London --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MainStreet</masterLabel>
+        <translation><!-- MainStreet --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Markel</masterLabel>
+        <translation><!-- Markel --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Maxum Indemnity</masterLabel>
+        <translation><!-- Maxum Indemnity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MedMarc</masterLabel>
+        <translation><!-- MedMarc --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Minnesota Lawyers Mutual</masterLabel>
+        <translation><!-- Minnesota Lawyers Mutual --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Myers-Briggs</masterLabel>
+        <translation><!-- Myers-Briggs --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NCMIC</masterLabel>
+        <translation><!-- NCMIC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Navigators Pro</masterLabel>
+        <translation><!-- Navigators Pro --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Old Republic</masterLabel>
+        <translation><!-- Old Republic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>One Beacon</masterLabel>
+        <translation><!-- One Beacon --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PSIC</masterLabel>
+        <translation><!-- PSIC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Philadelphia</masterLabel>
+        <translation><!-- Philadelphia --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ProSight</masterLabel>
+        <translation><!-- ProSight --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Professional&apos;s Direct</masterLabel>
+        <translation><!-- Professional&apos;s Direct --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Promarc</masterLabel>
+        <translation><!-- Promarc --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RSUI - Landmark American</masterLabel>
+        <translation><!-- RSUI - Landmark American --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Shand</masterLabel>
+        <translation><!-- Shand --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>St. Paul</masterLabel>
+        <translation><!-- St. Paul --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>St. Paul - DRI</masterLabel>
+        <translation><!-- St. Paul - DRI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>State National</masterLabel>
+        <translation><!-- State National --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Torus National</masterLabel>
+        <translation><!-- Torus National --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Travelers</masterLabel>
+        <translation><!-- Travelers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Twin City Insurance</masterLabel>
+        <translation><!-- Twin City Insurance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>United National</masterLabel>
+        <translation><!-- United National --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Valiant</masterLabel>
+        <translation><!-- Valiant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wesco Insurance Co.</masterLabel>
+        <translation><!-- Wesco Insurance Co. --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Westchester</masterLabel>
+        <translation><!-- Westchester --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Westport</masterLabel>
+        <translation><!-- Westport --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>XL Specialty</masterLabel>
+        <translation><!-- XL Specialty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Zurich</masterLabel>
+        <translation><!-- Zurich --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

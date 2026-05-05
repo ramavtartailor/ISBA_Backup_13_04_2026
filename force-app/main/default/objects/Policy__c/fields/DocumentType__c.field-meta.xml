@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DocumentType__c</fullName>
+    <inlineHelpText>Select which type of document you would like to generate.</inlineHelpText>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Declaration Page</fullName>
+                <default>false</default>
+                <label>Declaration Page</label>
+            </value>
+            <value>
+                <fullName>Certification of Insurance</fullName>
+                <default>false</default>
+                <label>Certification of Insurance</label>
+            </value>
+            <value>
+                <fullName>Policy Letter</fullName>
+                <default>false</default>
+                <label>Policy Letter</label>
+            </value>
+            <value>
+                <fullName>Merge All</fullName>
+                <default>false</default>
+                <label>Merge All</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

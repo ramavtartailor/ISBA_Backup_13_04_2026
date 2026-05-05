@@ -1,0 +1,401 @@
+<apex:page showHeader="false" controller="PrintPhysicalDocumentsController" docType="html-5.0">
+    <!--<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" />-->
+    
+    <apex:slds />
+    <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+        <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+    <apex:outputPanel id="mainBody">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>  
+            <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+                <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script> 
+            
+            <style>
+                .slds-scope .slds-grid--pull-padded {
+                margin-right:0px !important;
+                margin-left:0px !important;
+                }
+                .slds-scope .slds-form--horizontal {
+                margin-top: 1%;
+                }
+                .slds-scope .slds-page-header {
+                background-color: #337AB7 !important;
+                color: white !important;
+                }
+                .slds-scope .slds-text-heading--label {
+                text-transform: capitalize !important; 
+                }
+                .slds-scope .slds-table td, .slds-scope .slds-table th {
+                white-space: normal !important;
+                }
+                .dateFormat{
+                display:none;
+                }
+                .modal {
+                display: none;
+                }
+                .dataTables_wrapper{
+                position: unset !important;
+                }
+                .tooltip {
+                position: relative;
+                display: inline-block;
+                }
+                
+                .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 60px;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px;
+                position: absolute;
+                z-index: 1;
+                bottom: 46px;
+                left: 63px;
+                margin-left: -75px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                }
+                
+                .tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+                }
+                
+                .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+                }
+
+            </style>
+            <script>
+            $(document).ready(function() {
+                datatableReinit();
+                // svg icon click event
+                $("svg").on("click", function() {
+                    if (typeof $(this).attr('data') != 'undefined') {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        } 
+                    }
+                });
+                $("body").keypress(function(e) {
+                    if(e.which == 13) {
+                        searchValidate();
+                        return false;
+                    }
+                    return true;
+                });
+                $(".txtDate").keyup(function(){
+                    if ($(this).val().length == 2){
+                        $(this).val($(this).val() + "/");
+                    }else if ($(this).val().length == 5){
+                        $(this).val($(this).val() + "/");
+                    }
+                });
+            } );
+            
+            function datatableReinit(){
+                // Setup - add a text input to each footer cell
+                $('#example tfoot th').each( function (i) {
+                    var title = $('#example thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input type="text" placeholder="Search '+title+'" data-index="'+i+'" />' );
+                } );
+                
+                // DataTable
+                var table = $('#example').DataTable( {
+                    //scrollY:        "300px",
+                    //scrollX:        true,
+                    //scrollCollapse: true,
+                    //paging:         true,
+                    //fixedColumns:   false,
+                    pageLength: 25
+                } );
+                
+                // Filter event handler
+                $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+                    table
+                    .column( $(this).data('index') )
+                    .search( this.value )
+                    .draw();
+                } );
+                $('tfoot').css('display','none');
+                $('.dataTables_length select,input').addClass('slds-input');
+            }
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+            
+            function searchValidate(){
+                $('[id$=spinner]').css('display','block');
+                searchPolicy();
+            }
+            function refreshPage(){
+                setTimeout(function () {
+                    searchPolicy();
+                }, 10000);
+            }
+            
+            function sendSelectedRecords() {
+                $('[id$=spinner]').css('display','block');
+                var selectedRecords = [];
+                var checkboxes = document.querySelectorAll('[id$="myForm"] input[type="checkbox"]');
+                if(checkboxes.length > 0){
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                            var recordId = checkboxes[i].getAttribute('data-record-id');
+                            selectedRecords.push(recordId);
+                        }
+                    } 
+                }
+                if(selectedRecords.length > 0){
+                    console.log('method called ---'+selectedRecords.toString());
+                    var selectedIdsString = selectedRecords.toString();
+                    printFiles(selectedIdsString);
+                }else {
+                    $('[id$=spinner]').css('display','none');
+                    showError('Please select at least one record.');
+                }
+            }
+    
+            function showPrinted(event) {
+                $('[id$=spinner]').css('display','block');
+                
+                console.log("{!isPrinted}");
+                var x = event.currentTarget.checked;
+                console.log('The box is checked',x);
+                searchDocuments(x);
+            }
+            
+            function copyText(event) {
+                var copyText = event.currentTarget.dataset.text.replace('\n',' ');
+                var aux = document.createElement("input");
+                // Get the text from the element passed into the input
+                aux.setAttribute("value", copyText);
+                // Append the aux input to the body
+                document.body.appendChild(aux);
+                // Highlight the content
+                aux.select();
+                // Execute the copy command
+                document.execCommand("copy");
+                // Remove the input from the body
+                document.body.removeChild(aux);  
+                var tooltip = document.getElementById("myTooltip");
+                tooltip.innerHTML = "Copied!";
+            }
+            function outFunc() {
+                var tooltip = document.getElementById("myTooltip");
+                tooltip.innerHTML = "Copy";
+            }
+            function print(event){
+                $('[id$=spinner]').css('display','block');
+                var selectedRecords = [];
+            	let selectedId = event.currentTarget.dataset.id;
+                selectedRecords.push(selectedId);
+                printFiles(selectedRecords.toString());
+            }
+            </script>
+        </head>
+        <body>
+            <apex:form id="myForm">
+                <apex:actionFunction name="searchDocuments" action="{!fetchFiles}" reRender="table" oncomplete="datatableReinit();$('[id$=spinner]').css('display','none'); return false;">
+                    <apex:param assignTo="{!isPrinted}" name="showPrinted" value=""/>
+                </apex:actionFunction>
+                <!--<apex:actionFunction name="printFiles" action="{!printSelectedFiles}" reRender="myModal" oncomplete="$('[id$=spinner]').css('display','none');$('[id$=myModal]').css('display','block');"/>-->
+                <apex:actionFunction name="printFiles" action="{!printSelectedFiles}" reRender="table" oncomplete="window.location.reload();$('[id$=spinner]').css('display','none'); return false;">
+                    <apex:param assignTo="{!selectedFileIds}" name="recordId" value=""/>
+                </apex:actionFunction>
+                <!--<apex:actionFunction name="renderPage" action="{!reloadPage}" reRender="table" oncomplete="datatableReinit();"/>-->
+                <div class="slds-page-header" role="banner">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-page-header__title slds-truncate" title="SearchPolicy">Search Files</p>
+                            <p class="slds-text-body--small"></p>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                <div class="slds-notify_container slds-hide">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                            <!--<svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>-->
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- Row Start-->
+                <!--div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Document Type:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList styleClass="slds-input search" value="{!searchDocumentType}"  multiselect="false" size="1">
+                                        <apex:selectOptions value="{!DocumentTypes}"></apex:selectOptions>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--8-of-12 slds-large-size--8-of-12">
+                        
+                    </div>
+                    <br/>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--4-of-12" style="display: inherit;float: none;margin: auto;">
+                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="searchValidate(); return false;">
+                            <span class="slds-text-not-selected"></span>Search
+                        </button>
+                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="window.location.href='/home/home.jsp';return false;">
+                            <span class="slds-text-not-selected"></span>Cancel
+                        </button>
+                    </div> 
+                    
+                </div-->  
+                <!-- Row End Start--> 
+                
+                <!-- 2 Row -->
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12" style="position: relative;">
+                        <div style="display: flex; width: 8rem; position: absolute; top: 1.25rem; right: 16rem;">
+                            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">Show Printed</div>
+                            <apex:inputCheckbox style="width: 2rem;" id="isCheckbox" value="{!isPrinted }" onchange="showPrinted(event);"/>
+                        </div>
+                        <apex:outputPanel id="table">
+                            <table id="example" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="slds-text-heading--label">
+                                        <th></th>
+                                        <th style="min-width: 50px;">Title</th>
+                                        <th>Account Name</th>
+                                        <th>Billing Address</th>
+                                        <th>Mailing Address</th>
+                                        <th>Document Type</th>
+                                        <th style="min-width: 30px;">Policy</th>
+                                        <th>Print</th>
+                                        <th>Created Date</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <apex:repeat value="{!searchedResults}" var="wrapper">
+                                        <tr>
+                                            <td width="5%" class="">
+                                                <apex:inputCheckbox value="{!wrapper.isSelected}" html-data-record-id="{!wrapper.document.Id}" styleClass="slds-input"/>
+                                                <!--<input type="checkbox" value="{!wrapper.isSelected}" data-record-id="{!wrapper.document.Id}" class="slds-input"/>-->
+                                            </td>
+                                            <td  width="26%">
+                                                <a href="/{!wrapper.document.Id}" target="_blank">{!wrapper.document.Title}</a>
+                                            </td>
+                                            <td width="14%">
+                                                {!wrapper.document.Account__r.Name}
+                                            </td>
+                                            <td width="14%">
+                                                <apex:outputpanel rendered="{!wrapper.billingAddress != ''}">
+                                                    <div style="display: flex; gap: .2rem;">
+                                                        <div style="flex: 1;">
+                                                            
+                                                        
+                                                        <pre style="margin: 0 !important;font-family: inherit;font-size: inherit;">
+{!wrapper.billingAddress}
+</pre> 							</div>						
+                                                        
+                                                        <div  class="tooltip" style="width: 35px; cursor: pointer;" data-text="{!wrapper.billingAddress}" onclick="copyText(event);" onmouseout="outFunc();">
+                                                            <span class="tooltiptext" id="myTooltip">Copy</span>
+                                                            <apex:image value="{!$Resource.copyIcon}" width="35"/>
+                                                        </div>
+                                                    </div>
+                                                </apex:outputpanel>
+                                            </td>
+                                            <td width="14%">
+                                                <apex:outputpanel rendered="{!wrapper.mailingAddress != ''}">
+                                                    <div style="display: flex; gap: .2rem;">
+                                                        <div style="flex: 1;">
+                                                            
+                                                        
+                                                        <pre style="margin: 0 !important;font-family: inherit;font-size: inherit;">
+{!wrapper.mailingAddress}
+</pre> 							</div>						
+                                                        
+                                                        <div class="tooltip" style="width: 35px; cursor: pointer;" data-text="{!wrapper.mailingAddress}" onclick="copyText(event);" onmouseout="outFunc();">
+                                                            <span class="tooltiptext" id="myTooltip">Copy</span>
+                                                            <apex:image value="{!$Resource.copyIcon}" width="35"/>
+                                                        </div>
+                                                    </div>
+                                                </apex:outputpanel>
+                                            </td>
+                                            <td width="9%">
+                                                {!wrapper.document.Document_Type__c}
+                                            </td>
+                                            <td width="8%">
+                                                {!wrapper.document.Policy_Number__c}
+                                            </td>
+                                            <td>
+                                                <div style="width: 35px; cursor: pointer;" title="Print" data-id="{!wrapper.document.Id}" onclick="print(event);">
+                                                    <apex:image value="{!$Resource.printIcon}" width="35"/>
+                                                </div>
+                                                <!--div style="cursor: pointer;" data-id="{!wrapper.document.Id}" onclick="print(event);">
+                                                <svg aria-hidden="true" class="slds-icon"> 
+                                                    <use style="fill: #767676 !important" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#print')}"></use>
+                                                </svg>  
+                                                </div-->
+                                            </td>
+                                            <td width="6%">
+                                                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!wrapper.document.CreatedDate}" /> </apex:outputText>
+                                            </td>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--4-of-12" style="display: inherit;float: none;margin: auto;">
+                    <button class="slds-button slds-button--brand slds-not-selected" aria-live="assertive" onclick="sendSelectedRecords(); return false;">
+                        <span class="slds-text-not-selected"></span>Print
+                    </button>
+                    <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="window.location.href='/home/home.jsp';return false;">
+                        <span class="slds-text-not-selected"></span>Cancel
+                    </button>
+                </div>
+                
+            </apex:form> 
+        </body>
+        </html>
+    </apex:outputPanel>
+    
+    
+</apex:page>

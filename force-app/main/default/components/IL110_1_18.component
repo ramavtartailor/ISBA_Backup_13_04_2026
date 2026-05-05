@@ -1,0 +1,155 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Securities, Bond and Limited Partnership Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VI. EXCLUSIONS </span>is amended to include the following:<br/><br/>Securities, Bond and Limited Partnerships
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    1.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Arising out of an actual or alleged violation of:
+                </p>
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                a.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                The Securities Act of 1933;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                b.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                The Securities Exchange Act of 1934;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                c.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                The Public Utilities Holding Act of 1935;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                d.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                The Trust Indenture Act of 1939;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                e.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                The Investment Company Act of 1940;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                f.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                The Investment Advisors Act of 1940;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                g.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p style="height: 9px;" class="normalParagraph">
+                                Any state Blue-Sky laws, or any rules, regulations or amendments issued in relation to such acts or laws.
+                            </p>
+                            <br />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    2.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Based upon common law principles of liability in connection with an actual or alleged violation of any law listed in Paragraph A.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    3.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Arising out of<span class="normalBoldParagraph"> Professional Services </span>involving, directly or indirectly, any state or municipal financing or bonds.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    4.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Based upon or arising out of the formation, syndication, operation or administration of any limited partnership and/or joint venture.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:150px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

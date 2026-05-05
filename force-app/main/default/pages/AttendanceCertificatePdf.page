@@ -1,0 +1,160 @@
+<apex:page showHeader="false" controller="AttendanceCertificatePdfController" sidebar="false" standardStylesheets="false" renderAs="pdf" applyHtmlTag="false" applyBodyTag="false" >
+    <head>
+        <style>
+            body {
+            font-family: 'Arial Unicode MS', sans-serif !important;
+            font-size: 10px;
+            }
+            @page {
+            margin-top: 20px !important;
+            margin-right: 55px !important;
+            margin-bottom: 100px !important;
+            font-family: 'Arial Unicode MS', sans-serif !important;
+            }
+        </style>
+    </head>
+    <body>       
+        <div style="text-align: center; font-family: Arial, sans-serif;">
+            <div style="text-align: center; font-family: Arial, sans-serif; font-size:32px;">ILLINOIS ACCREDITED MCLE</div>
+            <div style="font-family: Arial, sans-serif; font-size:25px;">ATTENDANCE CERTIFICATE</div>
+        </div>
+        <br/>
+        <table style="font-size: 13.75px; width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+            <tr>
+                <td width="29%" style="padding: 4px; text-align: right;">Provider Name:</td>
+                <td style="padding: 4px;" colspan="3">ISBA Mutual Insurance Company</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Provider Phone Number:</td>
+                <td style="padding: 4px;" colspan="3">312-379-2000</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">PCAM Course ID:</td>
+                <td style="padding: 4px;" colspan="3">620842</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Credit Type:</td>
+                <td style="padding: 4px;" colspan="3">Course</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Title:</td>
+                <td style="padding: 4px;" colspan="3">{!attendance.CLE_Event__r.Event_Title__c}</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Date:</td>
+                <td width="20%" style="padding: 4px;"><apex:outputText value="{0, date, MM'/'dd'/'YY}">
+                    <apex:param value="{!attendance.CLE_Event__r.Date__c}" /> 
+                    </apex:outputText></td>
+                <td style="padding: 4px; text-align: right;">Location:</td>
+                <td width="30%" style="padding: 4px;">{!attendance.CLE_Event__r.Event_Location__c}</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Attorney Name:</td>
+                <td style="padding: 4px;">{!attendance.Contact__r.Name}</td>
+                <td style="padding: 4px; text-align: right;">ARDC #:</td>
+                <td style="padding: 4px;">{!attendance.Contact__r.ARDC_Number__c}</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Attorney's Participation Method:</td>
+                <td style="padding: 4px;" colspan="3">{!attendance.Lawyer_Participation_Method__c}</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px; text-align: right;">Attorney Attended:</td>
+                <td style="padding: 4px;" colspan="3">{!attendance.Attorney_Attended__c}</td>
+            </tr>
+        </table>
+        <div>
+            <ul>
+                <li style="font-size: 11.75px; font-family: Arial, sans-serif;">Illinois uses a 60-minute hour.</li>
+                <li style="font-size: 11.75px; font-family: Arial, sans-serif;">Total CLE credit earned is rounded down to the nearest quarter hour.</li>
+                <li style="font-size: 11.75px; font-family: Arial, sans-serif;">Only actual attendance or participation earns credit.</li>
+            </ul>
+        </div>
+        <table style="font-size: 14px; width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+            <tr>
+                <td width="40%" style="font-weight: bold;">TOTAL General Credit:</td>
+                <td width="15%"></td>
+                <td width="10%"></td>
+                <td width="20%"></td>
+                <td style="text-align: right;" width="15%"><apex:outputText value="{0, number,###,###,##0.00}">
+                    <apex:param value="{!General_Credit}" />
+                    </apex:outputText></td>
+            </tr>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="" style="font-size: 13px; padding: 8px; font-weight: bold; background-color: rgb(245 245 245)">Professional Responsibility Credit Breakdown:</td>
+                <td width="10%" style="background-color: rgb(245 245 245)"></td>
+                <td colspan="" style="font-size: 13px; padding: 8px; font-weight: bold; background-color: rgb(245 245 245)"></td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="font-size: 13px; padding: 8px; background-color: rgb(245 245 245)">Mental Health / Substance Abuse:</td>
+                <td width="10%" style="background-color: rgb(245 245 245)"></td>
+                <td style="font-size: 13px; background-color: rgb(245 245 245); text-align: right; padding-right:8px;" colspan="1">
+                    <apex:outputText value="{0, number,###,###,##0.00}">
+                    <apex:param value="{!PR_MHSA}" />
+                    </apex:outputText></td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="font-size: 13px; padding: 8px; background-color: rgb(245 245 245)">Diversity / Inclusion:</td>
+                <td width="10%" style="background-color: rgb(245 245 245)"></td>
+                <td style="font-size: 13px; background-color: rgb(245 245 245); text-align: right; padding-right:8px;" colspan="1">
+                    <apex:outputText value="{0, number,###,###,##0.00}">
+                    <apex:param value="{!PR_DIV}" />
+                    </apex:outputText></td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="font-size: 13px; padding: 8px; background-color: rgb(245 245 245)">Ethics, Civility, Professionalism:</td>
+                <td width="10%" style="background-color: rgb(245 245 245)"></td>
+                <td style="font-size: 13px; background-color: rgb(245 245 245); border-bottom: 1px solid black; text-align: right; padding-right:8px;" colspan="1">
+                    <apex:outputText value="{0, number,###,###,##0.00}">
+                    <apex:param value="{!PR_OTHER}" />
+                    </apex:outputText></td>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="font-size: 13px; text-align: left; font-weight: bold;" colspan="4">Total Professional Responsibility Credit:</td>
+                <td style="font-size: 13px; padding: 8px; text-align: right;">
+                    <apex:outputText value="{0, number,###,###,##0.00}">
+                    <apex:param value="{!PR_Total}" />
+                    </apex:outputText>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="font-weight: bold;">TOTAL MCLE CREDIT EARNED, <i><span style="color: red;">INCLUDING</span></i> PROFESSIONAL RESPONSIBILITY CREDIT:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="text-align: left; font-weight: bold;" colspan="4">(This number cannot be more than the Total General Credits above)</td>
+                <td style="padding: 8px; text-align: right;"><apex:outputText value="{0, number,###,###,##0.00}">
+                    <apex:param value="{!General_Credit}" />
+                    </apex:outputText></td>
+            </tr>
+        </table>
+        <div style="font-size: 14px; font-family: Arial, sans-serif;">
+            <p>
+                Provider is issuing this certificate in compliance with MCLE Rule 795(a)(9), 795(c)(4) or 795(d)(3), which requires the provider to maintain an attendance list for three years and issue attendance certificates to attorneys who attended.
+            </p>
+            <u>ATTORNEY INFORMATION</u>
+            <ul>
+                <li style="font-size: 11.75px;">Do not submit this form to the Illinois MCLE Board.</li>
+                <li style="font-size: 11.75px;">You should keep this certificate at least until these credits appear on your online transcript on the MCLE website.</li>
+                <li style="font-size: 11.75px;">Providers can report your attendance as soon as the activity ends. The provider’s deadline for reporting your attendance is the
+                    5th day of the month following the month in which the activity ends. Providers are assessed a late fee for attendance entered after
+                    the 15th of that month.
+                </li>
+            </ul>
+            <p style="font-size: 11.75px;">
+                To avoid late fees, your transcript must reflect your MCLE compliance before the deadlines in MCLE Rule 796. View your transcript online
+                at www.mcleboard.org.
+            </p>
+        </div>
+    </body>
+</apex:page>

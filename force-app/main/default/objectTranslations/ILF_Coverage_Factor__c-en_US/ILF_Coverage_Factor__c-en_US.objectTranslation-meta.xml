@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>ILF / Limits Factor</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>ILF / Limits Factors</value>
+    </caseValues>
+    <layouts>
+        <layout>ILF / Coverage Factor Layout</layout>
+        <sections>
+            <label><!-- 5X5 Information --></label>
+            <section>5X5 Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- ILF / Coverage Factor --></label>
+            <section>ILF / Coverage Factor</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Value must be greater than Zero. --></errorMessage>
+        <name>Factor_value_greater_than_Zero</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If 5x5 Coverage is checked, then Percentage 5x5 Step 0 - 3 and Premium Rate 5x5 is required. --></errorMessage>
+        <name>If_5x5_Coverage_Mark_Fields_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- One Coverage has already selected for Lowest coverage. --></errorMessage>
+        <name>Lowest_Coverage_not_exceed_1</name>
+    </validationRules>
+</CustomObjectTranslation>

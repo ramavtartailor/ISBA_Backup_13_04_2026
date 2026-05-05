@@ -1,0 +1,96 @@
+<aura:component implements="force:appHostable" controller="SendPolicyDoumentsCtrl">
+    
+    <aura:attribute name="showSpinner" type ="Boolean" default="false"/>
+    <aura:attribute name="allSelected" type ="Boolean" default="false"/>
+    <aura:attribute name="dataList" type="List[]" default=""/>
+    <aura:attribute name="pageNumber" type="Integer" default="1"/>
+    <aura:attribute name="wrapper" type="Object" default=""/>
+    <aura:attribute name="totalPages" type="List[]" default=""/>
+    <aura:attribute name="data" type="List[]" default=""/>
+    <aura:attribute name="totalNumOfRecords" type="Integer" default="0"/>
+    <aura:attribute name="limit" type="Integer" default="20"/>
+    <aura:attribute name="LastPage" type="boolean" default="false"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" size="large" />
+    </aura:if>
+    
+    
+    <div class="container">
+        <div class="header">
+            Send Policy Documents
+        </div>
+        <div Class="body">
+            
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr>
+                        <th width="5%"><lightning:input type="checkbox" label="" variant="label-hidden"
+                                             name="input1" onchange="{!c.handleSelect}" checked="{!v.allSelected}"/> </th>
+                        <th>Policy</th>
+                        <th>Firm</th>
+                        <th>Effective Date</th>
+                        <th>Payment Type</th>
+                        <th>Payment Frequency</th>
+                        <th class="">Latest Cash Receipt</th>
+                    </tr>                
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.data}" var="obj">
+                        <tr>
+                            <td width="5%"><lightning:input type="checkbox" label="" variant="label-hidden"
+                                             name="input1" checked="{!obj.isSelected}"/></td>
+                            <td> <a href="{!'/'+obj.Id}">{!obj.Name}</a></td>
+                            <td><a href="{!'/'+obj.Account__c}">{!obj.Account__r.Name}</a></td>
+                            <td><lightning:formattedDateTime value="{!obj.Effective_Date__c}" /></td>
+                            <td>{!obj.Billing__r.Computed_Payment_Type__c}</td>
+                            <td>{!obj.Billing__r.Computed_Payment_Frequency__c}</td>
+                            <td class=""><lightning:formattedDateTime value="{!obj.Billing__r.Latest_Cash_Receipt__c}" /></td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+                
+            </table>
+            
+        </div>
+        <div class="footer">
+            <lightning:button variant="brand"                           
+                              label="Previous"
+                              class="button"
+                              title="Previous"
+                              disabled="{!v.pageNumber == 1}"
+                              iconName="utility:chevronleft"
+                              onclick="{!c.Previous}"/>
+            
+            <lightning:select name="" class="option" label="Page No." variant="label-hidden" value="{!v.pageNumber}" onchange="{!c.onSelect}" >
+                <aura:iteration items="{!v.totalPages}" var="page">
+                    <option class="option" text="{!page}"></option>
+                </aura:iteration>
+            </lightning:select>
+            
+            <lightning:button variant="brand" 
+                              class="button"
+                              label="Next"
+                              title="Next"
+                              disabled="{!v.LastPage}"
+                              iconName="utility:chevronright" iconPosition="right" 
+                              onclick="{!c.Next}"/>
+            <!--div class="bccSection">
+                <div class="align">Add Bcc :</div>
+                <lightning:input class="align" type="checkbox" label="Add Bcc" variant="label-hidden"
+                                 name="input1" checked="{!v.wrapper.AddBcc}"/>
+                <lightning:input type="email" class="align" name="email5" disabled="true" value="{!v.wrapper.userEmail}" label="" variant="label-hidden" />
+            </div-->
+            <lightning:button variant="brand" 
+                              class="button"
+                              label="Send Documents"
+                              title="Send"
+                              iconName="utility:email"
+                              onclick="{!c.sendDocs}"/>
+        </div>
+        
+        
+    </div>
+</aura:component>

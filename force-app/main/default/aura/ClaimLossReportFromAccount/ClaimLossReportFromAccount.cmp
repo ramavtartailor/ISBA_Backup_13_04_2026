@@ -1,0 +1,48 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:hasSObjectName"  access="global">
+	<aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="numberOfYears" type="String"/>
+    <aura:attribute name="sobjecttype" type="String" default="{!v.sObjectName}"/>
+    
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="recordObj" type="Object" />
+    <aura:attribute name="recordError" type="String" />
+    
+    <force:recordData aura:id="recordEditor"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.recordObj}"
+                      mode="VIEW" />
+    
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        Number of years
+        <lightning:select name="numberOfYears" value="{!v.numberOfYears}">                                
+            <option value="1">1 year</option>
+            <option value="2">2 years</option>
+            <option value="3">3 years</option>
+            <option value="4">4 years</option>
+            <option value="5">5 years</option>
+            <option value="6">6 years</option>
+            <option value="7">7 years</option>
+            <option value="8">8 years</option>
+            <option value="9">9 years</option>
+            <option value="10">10 years</option>
+            <option value="15">15 years</option>
+            <option value="20">20 years</option>
+            <option value="100">Full Historical Data</option>
+        </lightning:select>
+    </div>
+    
+    <footer style="text-align: right;">
+        <lightning:button variant="neutral"
+                          label="Cancel"
+                          title="Cancel"
+                          onclick="{! c.closeModel }"/>
+        <lightning:button variant="brand"
+                          label="Run"
+                          title="Run"
+                          onclick="{!c.runReport}"/>
+    </footer>
+    
+</aura:component>

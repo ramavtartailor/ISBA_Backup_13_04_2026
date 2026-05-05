@@ -1,0 +1,49 @@
+<aura:component controller="NBA_ConvertValidationCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="valuesList" type="List" />
+    <aura:attribute name="recordId" type="Id"/>
+    
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+    	<div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                            <b>VALIDATION ERRORS</b>
+                        </span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                            <tbody>
+                                                <aura:iteration var="val" items="{!v.valuesList}" indexVar="index">
+                                                    <tr class="">
+                                                        <th scope="row" width="10%" style="color: RED;">
+                                                            {!index+1}
+                                                        </th>
+                                                        <th scope="row" data-selected-Index="{!index}" data-id="{!index}" style="white-space: normal !important;color: RED;font-weight: bolder;">
+                                                            <div style="color: RED;">{!val}</div>
+                                                        </th>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</aura:component>

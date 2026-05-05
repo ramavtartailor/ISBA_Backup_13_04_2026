@@ -1,0 +1,45 @@
+<aura:component >
+	<aura:attribute name="ClaimInstance" type="Policy_Claim__c"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <aura:registerEvent name="NavigateToPolicyRecord" type="c:NavigateToPolicyRecord"/> 
+    <aura:registerEvent name="NavigateToRowClaimRecord" type="c:NavigateToClaimRecord"/> 
+    
+    <tr class="">
+        <th scope="row">
+            <a onclick="{!c.goToClaimRecord}">{!v.ClaimInstance.Name}</a>
+        </th>
+        <th scope="row">
+            <a onclick="{!c.goToPolicyRecord}">{!v.ClaimInstance.Policy_Number__c}</a>
+        </th>
+        <th scope="row">
+            <ui:outputText value="{!v.ClaimInstance.Lawyer_Name__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputText  value="{!v.ClaimInstance.File_Type__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputDate  value="{!v.ClaimInstance.Report_Date__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputDate  value="{!v.ClaimInstance.Claim_Status__c}"/>
+        </th>
+         
+        <th scope="row" style="text-align:right;">
+            <lightning:formattedNumber value="{!v.ClaimInstance.GL_5000__c}" maximumFractionDigits="2" minimumFractionDigits="2"/>
+        </th>
+        <th scope="row" style="text-align:right;">
+            <lightning:formattedNumber value="{!v.ClaimInstance.LAEPay__c}" maximumFractionDigits="2" minimumFractionDigits="2"/>
+        </th>
+        <th scope="row" style="text-align:right;">
+            <lightning:formattedNumber value="{!v.ClaimInstance.Loss_Res__c}" maximumFractionDigits="2" minimumFractionDigits="2"/>
+        </th>
+        <th scope="row" style="text-align:right;">
+            <lightning:formattedNumber value="{!v.ClaimInstance.GL_5035__c }" maximumFractionDigits="2" minimumFractionDigits="2"/>
+        </th>
+        <th scope="row" style="text-align:right;">
+            <lightning:formattedNumber value="{!v.ClaimInstance.Incurred_Total__c}" maximumFractionDigits="2" minimumFractionDigits="2"/>
+        </th>
+    </tr>
+</aura:component>

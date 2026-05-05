@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reserve_LAE_could_not_changed</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISCHANGED(Reserve_LAE__c)</errorConditionFormula>
+    <errorDisplayField>Reserve_LAE__c</errorDisplayField>
+    <errorMessage>&apos;Open Reserve LAE&apos; amount cannot be changed!</errorMessage>
+</ValidationRule>

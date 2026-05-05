@@ -1,0 +1,472 @@
+<apex:page Controller="AOPDetailPageEdit_LtngController" sidebar="false" showHeader="false" id="pg">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <title>
+                Area of Practice
+            </title>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <style>
+                    .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                    }
+                    .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .dateFormat {
+                        padding: 0 2px;
+                        display: none;
+                    }
+                    .slds-scope .slds-page-header {
+                        padding: 1rem .75rem;
+                        border-bottom: 1px solid #d8dde6 !important;
+                        background-color: #337AB7 !important;
+                        color: white;
+                    }
+                    .slds-box{
+                    }
+                    .slds-scope .slds-medium-size--12-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .slds-scope .slds-medium-size--6-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .accountRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .ContactRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope a:focus, .slds-scope a:hover{
+                        display: initial !important;
+                    }
+                    .lookupInput .slds-input{
+                        //border:none !important;
+                    }
+                    .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                        background-color: #fff; 
+                    }
+                    .lookupInput input[readonly] {
+                        cursor: default;
+                        color: #333;
+                        background-color: #fff !important;
+                        border: 1px solid #d8dde6 !important;
+                    }
+                    .datePicker{
+                        z-index: 99999 ;
+                    }
+            </style>
+            <script>
+            
+                $( document ).ready(function() {
+                totalOfPer();
+                isReadOnly();
+                if({! $User.UIThemeDisplayed == 'Theme3' }){
+                    parent.adjustHeight(numberOfRows);
+                }
+                });
+                function isReadOnly(){
+                   $( ".isReadOnly" ).each(function( index ) {
+                        if($(this).val().trim()!=''){
+                            $(this).closest('.slds-form-element__control').find('.AOPMode').attr('readonly', true);
+                        
+                        }
+                    });
+                }
+                function search( lookName ,ObjectName,label){
+                    try{ 
+                        $('input[id$='+lookName+']').css('background', 'url("http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif") no-repeat right center');
+                        var key=$('input[id$='+lookName+']').val();
+                        Visualforce.remoting.Manager.invokeAction(
+                            '{!$RemoteAction.AOPDetailPageEdit_LtngController.getLookupRecord}',
+                            key, 
+                            ObjectName,
+                            function(result, event){
+                                if(result != null){
+                                    if (event.status) {
+                                        var  tables ="<ul class='slds-lookup__list' role='listbox'>  ";
+                                        for(var i=0;i<result.length;i++){ 
+                                            tables += "<li role='presentation' onclick=\"fillRecord( '" +lookName+"','" +result[i].Id+"','"+result[i].Name+"' )\"><span class='slds-lookup__item-action slds-media' id='lookup-option-483' role='option'><div class='slds-media__body'><div class='slds-lookup__result-text'>"+result[i].Name+"</div></div></span></li>"; 
+                                        } 
+                                        tables +="</ul>";
+                                        if(result.length > 0){
+                                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>"+label+"</div>"+tables; 
+                                        }else{
+                                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>No record found .</div>"; 
+                                        }
+                                        document.getElementById(lookName+"SrchDrpDwn").innerHTML =tables;
+                                        $('[id$='+lookName+'SrchDrpDwn]').show(); 
+                                    } else if (event.type === 'exception') {
+                                        
+                                    } else {
+                                        
+                                    }
+                                    $('input[id$='+lookName+']').css('background', 'none'); 
+                                }else{
+                                    $('input[id$='+lookName+']').css('background', 'none');
+                                }
+                            }, 
+                            {escape: true}
+                        );
+                    }catch(e){ 
+                        alert('An Error has Occured. Error:' +e); 
+                    }
+                    
+                }
+            /*      function addRow(){
+                    $('[id$=spinner]').css('display','block');
+                    addAOPRow();
+                }  */
+                function removeAddRowCompletion(){
+                    if({! $User.UIThemeDisplayed == 'Theme3' }){
+                        parent.adjustHeight(numberOfRows);
+                    }
+                }
+            	function handleBack(){
+                    console.log('isSAErp => '+{!isSaErp});
+                    if({!isSaErp}){
+                        console.log('isSAErp => '+{!isSaErp});
+                        history.back();
+                    }
+                    else{
+                        window.location.href='/apex/PolicyLawyers?id={!appPolicy.Id}&showNext=true';
+                    }
+                }
+                function cancel(){
+                    location.href = '/{!$CurrentPage.parameters.id}';
+                }
+                function fillRecord(lookup,id,name){
+                    $('[id$='+lookup+'SrchDrpDwn]').hide();
+                    $('.' + lookup + 'Value' ).val(id);
+                    $('.' + lookup + 'Name' ).val(name);
+                    
+                    $('[id$='+lookup+'Label]').text(name);
+                    $('[id$='+lookup+'Search]').addClass('slds-hide');
+                    $('[id$='+lookup+'LabelDiv]').removeClass('slds-hide');
+                } 
+                function renderSVG(){
+                    $('.aopSvg').each(function(){
+                        var imageURL = '{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#reward')}';
+                        var SVG = $('<svg/>', {
+                            class: 'slds-icon slds-icon-standard-reward slds-icon--small slds-m-around--xx-small',
+                        });
+                        var SVGUse = $('<use/>');
+                        SVGUse.attr('xlink:href',imageURL);
+                        $( '#' + $(this).attr("id") ).prepend(SVG.append(SVGUse));
+                        $( '#' + $(this).attr("id") ).html($('#' + $(this).attr("id")).html());
+                    });
+                    $('.closeSvg').each(function(){
+                        var imageURL = '{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}';
+                        var SVG = $('<svg/>', {
+                            class: 'slds-icon slds-icon--x-small slds-icon-text-default slds-m-right--small',
+                        });
+                        var SVGUse = $('<use/>');
+                        SVGUse.attr('xlink:href',imageURL);
+                        $( '#' + $(this).attr("id") ).append(SVG.append(SVGUse));
+                        $( '#' + $(this).attr("id") ).html($('#' + $(this).attr("id")).html());
+                    });
+                    
+                }
+                function showError(error){
+                    $("#errorMsg h2").each(function() {
+                        $(this).text(error);
+                    });
+                    $("#errorMsg").removeClass('slds-hide');
+                    setTimeout(function() {
+                        $("#errorMsg").addClass('slds-hide');
+                    }, 5000);
+                }
+                function showSuccessMsg(Msg){
+                    $("#successMsg h2").each(function() {
+                        $(this).text(Msg);
+                    });
+                    $("#successMsg").removeClass('slds-hide');
+                    setTimeout(function() {
+                        $("#successMsg ").addClass('slds-hide');
+                    }, 5000);
+                }
+                function totalOfPer(){
+               
+                   var total=0;
+                     $( ".aopPre" ).each(function( index ) {
+                        if($( this ).val().trim()!='' && $( this ).val()!=undefined){   
+                            total+=parseInt($( this ).val());
+                        }
+                    });
+                    if(total<100){
+                        $("#TotalOfPerLess").html(total);
+                        $("#TotalOfPerEqual").html('');
+                        $("#TotalOfPerGreater").html('');
+                    }else if(total==100){
+                        $("#TotalOfPerLess").html('');
+                        $("#TotalOfPerEqual").html(total);
+                        $("#TotalOfPerGreater").html('');
+                    }
+                    else if(total>100){
+                        $("#TotalOfPerLess").html('');
+                        $("#TotalOfPerEqual").html('');
+                        $("#TotalOfPerGreater").html(total);
+                    } 
+                }
+                function checkNumber(e,value){
+                    var unicode=e.charCode? e.charCode : e.keyCode;
+                    if((unicode >=48 && unicode <= 57 ) || unicode ==8 ||  unicode==9 || unicode==97 ){
+                        return true;
+                    }
+                    return false;
+                }
+                
+               
+            </script>
+        </head>
+        <body>
+            <apex:form id="frm">
+                <apex:outputPanel id="renderError">
+                    <script>
+                        var numberOfRows = '{!aops.size}';
+                        if('{!error}' != '' && '{!error}' != null && '{!error}' != 'undefined'){
+                            showError('{!error}');
+                        }
+                        else if('{!success}' != '' && '{!success}' != null && '{!success}' != 'undefined'){
+                            showSuccessMsg('Record saved sucessfully . ');
+                        }
+                    function redirect(nextOrSave){
+                        if('{!success}' != '' && '{!success}' != null && '{!success}' != 'undefined'){
+                            if(nextOrSave == "save"){
+                                location.href = '/{!$CurrentPage.parameters.id}';
+                            }else if(nextOrSave == "next"){
+                                location.href = '/apex/FirmModDetailVF?id={!$CurrentPage.parameters.id}&showNext=true';
+                            }
+                        }
+                    }
+                    </script>
+                </apex:outputPanel>
+                <apex:actionFunction name="saveAOPRecord" action="{!saveAOP}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');renderSVG();totalOfPer();isReadOnly();redirect('save');"/>
+                <apex:actionFunction name="saveAndNextAOPRecord" action="{!saveAOP}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');renderSVG();totalOfPer();isReadOnly();redirect('next');"/>
+         <!--       <apex:actionFunction name="addAOPRow" action="{!addRow}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');renderSVG();totalOfPer();isReadOnly();removeAddRowCompletion();"/>
+                <apex:actionFunction name="removeAOPRow" action="{!removeRow}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');renderSVG();totalOfPer();isReadOnly();removeAddRowCompletion();"> 
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+
+                <apex:actionFunction name="updateAOPMod" action="{!updateAOPModValue}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');renderSVG();totalOfPer();isReadOnly();removeAddRowCompletion();">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>--->
+                <div class="slds-page-header" role="banner">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-page-header__title slds-truncate" title="AOP">
+                                Area Of Practice - {!appPolicy.Account__r.Name} - {!appPolicy.Name}
+                            </p>
+                            <p class="slds-text-body--small"></p>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                            <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                                <!--<a href="javascript:void(0);" class="slds-has-blur-focus">Home</a>-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;z-index: 100;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                 </div>
+                 <div class="slds-notify_container slds-hide" id="errorMsg">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-notify_container slds-hide" id="successMsg">
+                    <div class="slds-notify slds-notify--toast slds-theme--success" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid">
+               <!-- <div class="slds-size--1-of-4">
+                </div>-->
+                <div class="slds-size--1-of-1">
+                <!-- ========================= Record List ========================== -->
+                <fieldset class="slds-box slds-theme--default  slds-m-around--small" >
+                 <!-- Row Start-->
+                 <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <!--<div class="slds-size--12-of-12  slds-theme--shade">
+                                <h3 style="display:inline-block" class="slds-section-title slds-theme--shade slds-p-left--small slds-m-top--small">Area of Practice</h3>
+                            </div>-->
+                            <!-- ====================================== Table ===============================-->
+                            <div class="slds-size--12-of-12" >
+                                <apex:variable value="{!0}" var="i"/>
+                                <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                                    <thead>
+                                        <tr class="slds-text-title--caps">
+                                          <!--  <th scope="col" style="width:20%">
+                                                <div class="slds-truncate" title="Action">Action</div>
+                                            </th> -->
+                                            <th scope="col" style="width:50%">
+                                                <div class="slds-truncate" title="Percentage">AOP</div>
+                                            </th>
+                                            <th scope="col" style="width:25%">
+                                                <div class="slds-truncate" title="Percentage">Percentage</div>
+                                            </th>
+                                            <th scope="col" style="width:25%">
+                                                <div class="slds-truncate" title="AOP Mod">AOP Mod</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <apex:repeat value="{!wrapperObjlist}" var="aop">
+                                            <tr>
+                                              <!--  <td >
+                                                    <apex:commandLink onclick="$('[id$=spinner]').css('display','block');removeAOPRow({!i});return false;" value="Remove"/>
+                                                </td>
+                                               -->
+                                                <td>
+                                                     <!-- <apex:selectList style="border-left: 4px solid red !important;" onchange="$('[id$=spinner]').css('display','block');updateAOPMod({!i});return false;"  value="{!aop.AOP__c}" multiselect="false" styleClass="slds-select" size="1">
+                                                          <apex:selectOptions value="{!items}"/>
+                                                      </apex:selectList>
+                                                     -->
+                                                    <apex:outputText styleClass="slds-input"  value="{!aop.name}"/>
+                                                </td>
+                                                
+                                                
+                                                 <td scope="row" data-label="Percentage">
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__control">
+                                                     
+                                                            <apex:inputText onkeyup="totalOfPer()" onKeypress="return checkNumber(event,value)" html-placeholder="Enter Percentage" styleClass="slds-input aopPre" value="{!aop.percentage}" /> 
+                                                        </div>
+                                                    </div>
+                                                    <apex:variable value="{!i+1}" var="i"/>
+                                                </td>
+                                                <td scope="row" data-label="AOP Mod">
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__control">
+                                                           <!-- <input type="hidden" class="isReadOnly" value="{!aop.id}" /> -->
+                                                            <apex:inputText html-placeholder="AOP Mod"  onKeypress="return checkNumber(event,value)" styleClass="slds-input AOPMode" value="{!aop.mod}" style="pointer-events: none"/>
+                                                            
+                                                        </div> 
+                                                    </div>
+                                                   
+                                                </td>
+                                            </tr>
+                                            
+                                        </apex:repeat>
+                                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="slds-size--1-of-5">
+                                
+                            </div>
+                             <!-- <div class="slds-size--1-of-5">
+                                
+                                  <input type="button" value="Add New Row" class="slds-button slds-m-around--x-small"  onclick="addRow();return false;"/>
+                                
+                            </div>-->
+                            <div class="slds-size--1-of-5">
+                                
+                            </div>
+                     <!--       <div class="slds-size--1-of-5">
+                                
+                                    Total Percentage 
+                                    <div class="slds-badge" id="TotalOfPerLess" style="width: 30%;text-align: center;background-color: blue;color: white;"></div>
+                                    <div class="slds-badge" id="TotalOfPerEqual" style="width: 70%;text-align: center;background-color: green;color: white;"></div>
+                                    <div class="slds-badge" id="TotalOfPerGreater" style="width: 100%;text-align: center;background-color: red;color: white;"></div>
+                                
+                            </div>
+-->
+                            <div class="slds-size--1-of-5">
+                                
+                            </div>
+                            
+                            <!-- ====================================== Table ===============================-->
+                            
+                        </div>
+                        <!--
+                        <div class="slds-grid slds-wrap slds-theme--shade">
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--1-of-12"></div>
+                          <div class="slds-p-horizontal--small slds-size--5-of-12 slds-medium-size--3-of-12 slds-large-size--3-of-12">
+                                
+                           </div>  
+                         
+                            <div class="slds-p-horizontal--small slds-size--7-of-12 slds-medium-size--8-of-12 slds-large-size--8-of-12">
+                                <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">   
+                                    <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');saveAndNextAOPRecord(); return false;">Save &amp; Next</button>
+                                </apex:outputPanel>
+                                <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');saveAOPRecord(); return false;">Save</button>
+                                <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="cancel();" style="margin-right: 10px;" >Cancel</button>
+                                <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                                 <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="location.href='/apex/PolicyRelatedPopup?id={!appPolicy.Id}&page=PL&showNext=true'" style="margin-right: 10px;" >Back</button>
+                             </apex:outputPanel>
+                            </div>
+                        
+                       </div>--> 
+                     </div>
+                 </div>
+                    <br/>
+                    <apex:outputPanel rendered="{!appPolicy.Legacy_AOP_List__c!=null}">
+                        <b>Legacy AOP List</b><br/>
+						<apex:outputField value="{!appPolicy.Legacy_AOP_List__c}"></apex:outputField>                        
+                    </apex:outputPanel>             
+                </fieldset>
+                    <div class="slds-docked-form-footer">
+                        <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                            <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');handleBack(); return false;" style="margin-right: 10px;" >Back</button>
+                        </apex:outputPanel>
+                        <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="cancel();" style="margin-right: 10px;" >Cancel</button>
+                        <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');unsaved=false;saveAOPRecord(); return false;">Save</button>
+                        <div class="slds-size--1-of-5">
+                                
+                                    Total Percentage 
+                                    <div class="slds-badge" id="TotalOfPerLess" style="width: 30%;text-align: center;background-color: blue;color: white;"></div>
+                                    <div class="slds-badge" id="TotalOfPerEqual" style="width: 70%;text-align: center;background-color: green;color: white;"></div>
+                                    <div class="slds-badge" id="TotalOfPerGreater" style="width: 100%;text-align: center;background-color: red;color: white;"></div>
+                                
+                            </div>
+                        <!--<apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">   
+                            <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');unsaved=false;saveAndNextAOPRecord(); return false;">Save &amp; Next</button>
+                        </apex:outputPanel>-->
+                    </div>
+                </div>
+                
+                <!--<div class="slds-size--1-of-4">
+                </div>-->
+                </div>
+                
+                <!-- ========================= Record List ========================== -->
+            </apex:form>
+         
+        </body>
+     </html>
+    <script>
+    var unsaved = false;
+            
+            $(":input").change(function(){ 
+                unsaved = true;
+            });
+            
+            function unloadPage(){ 
+                if(unsaved){
+                    return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+                }
+            }
+          window.onbeforeunload = unloadPage; 
+    </script>
+</apex:page>

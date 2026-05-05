@@ -1,0 +1,17 @@
+<apex:page extensions="DeleteQuotesCtrl" standardController="Policy_Quote__c" recordSetVar="quotes" lightningStylesheets="true">
+    <apex:includeLightning />
+    <div id="lightning" />
+    <script type="text/javascript">
+    $Lightning.use("c:PaymentGateway_App", function () {
+        $Lightning.createComponent("c:DeleteQuotesCmp", {
+            quoteIds :  "{!selectedQuotes}",  
+        },
+                                   "lightning",
+                                   function (cmp) {
+                                       console.log("Aura component rendered!!!...");
+                                   }
+                                  );
+        
+    });
+    </script>
+</apex:page>

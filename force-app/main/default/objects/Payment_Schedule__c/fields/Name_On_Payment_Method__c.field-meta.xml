@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_On_Payment_Method__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL(  Fiserv_Payment_Method__r.Type__c  , &apos;Credit_Card&apos;) ,   Fiserv_Payment_Method__r.Name_On_Card__c  ,   Fiserv_Payment_Method__r.Card_Holder_Name__c  )</formula>
+    <label>Name On Payment Method</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,38 @@
+<aura:component Controller="RequestDeleteCtrl" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader">
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+
+    <aura:attribute name="reason" type="String" default="Duplicate"/>
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
+
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand"/>
+    </aura:if>
+
+    <div class="slds-modal__header">
+        <h1 class="slds-text-heading_medium">
+            Request Delete
+        </h1>
+    </div>
+    <div class="slds-modal__content" style="padding: 1rem;">
+        <lightning:select name="Delete Reason" label="Delete Reason" value="{!v.reason}" required="true">
+            <option value="Duplicate">Duplicate</option>
+            <option value="Mistake">Mistake</option>
+        </lightning:select>
+    </div>
+    <div class="slds-modal__footer ">
+        <lightning:button label="Cancel" onclick="{!c.handleClose}"/>
+        <lightning:button variant="brand" label="Save" onclick="{!c.handleSave}" />
+    </div>
+</aura:component>

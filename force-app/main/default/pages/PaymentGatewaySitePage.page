@@ -1,0 +1,39 @@
+<apex:page lightningStylesheets="true" showHeader="false" controller="PaymentGatewayClass">
+    
+    <apex:includeLightning />
+    <div id="lightning" />
+    <!-- lastTime : "{!lasttime}",  //full/month/quater -->
+    <script type="text/javascript">
+    console.log("isPolicy =>",{!isPolicy});
+    $Lightning.use("c:PaymentGateway_App", function () {
+        console.log("isPolicy =>",{!isPolicy});
+        if({!isPolicy}){
+            $Lightning.createComponent("c:PolicyBind", {
+                recordId :  "{!validationString}",  //validation String
+                ipAddress : "{!IPAddress}", 
+                isInternalUser : "{!isInternalUser}",
+                userSession : "{!userSession}"
+            },
+                                       "lightning",
+                                       function (cmp) {
+                                           console.log("Aura component rendered!!!...");
+                                       }
+                                      );
+        }
+        else{
+            $Lightning.createComponent("c:PaymentGateway", {
+                recordId :  "{!validationString}",  //validation String
+                sfInternalId : "{!sfInternalId}", // sfinternalId
+                ipAddress : "{!IPAddress}", 
+                userSession : "{!userSession}"
+            },
+                                       "lightning",
+                                       function (cmp) {
+                                           console.log("Aura component rendered!!!...");
+                                       }
+                                      );
+        }            
+    });
+    </script>
+    
+</apex:page>

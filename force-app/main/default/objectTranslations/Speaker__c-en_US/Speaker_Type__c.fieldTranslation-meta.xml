@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Speaker Type --></label>
+    <name>Speaker_Type__c</name>
+    <picklistValues>
+        <masterLabel>Academic Speaker</masterLabel>
+        <translation><!-- Academic Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Analyst Speaker</masterLabel>
+        <translation><!-- Analyst Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Celebrity Speaker</masterLabel>
+        <translation><!-- Celebrity Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Customer Speaker</masterLabel>
+        <translation><!-- Customer Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Industry Speaker</masterLabel>
+        <translation><!-- Industry Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Internal</masterLabel>
+        <translation><!-- Internal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Keynote Speaker</masterLabel>
+        <translation><!-- Keynote Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner Speaker</masterLabel>
+        <translation><!-- Partner Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Session Speaker</masterLabel>
+        <translation><!-- Session Speaker --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

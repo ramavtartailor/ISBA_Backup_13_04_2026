@@ -1,0 +1,54 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Purchased Extended Reporting Endorsement
+    </p>
+    <p class="normalParagraph">
+        In consideration of the payment of the additional premium of &nbsp;<apex:outputField value="{!endorsement.Premium__c}"/>&nbsp;, it is agreed that the Purchased Extended Reporting Endorsement is issued to the<span class="normalBoldParagraph"> NAMED INSURED. </span>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:100%;" class="tableDataLeft">
+                <ol>
+                    <li>
+                        <p class="normalParagraph">
+                            The coverage of this Policy applies to<span class="normalBoldParagraph"> CLAIMS </span>first made against an<span class="normalBoldParagraph"> INSURED </span>during the <span class="normalBoldParagraph"> <apex:outputField value="{!endorsement.ERE_Months__c}"/> </span> months immediately following &nbsp;<apex:outputField value="{!endorsement.Endorsement_Effective_Date__c}"/> &nbsp;, and reported in accordance with <span class="normalBoldParagraph"> CLAIMs </span> procedures of this policy.  This&nbsp;<apex:outputField value="{!endorsement.ERE_Months__c}"/> &nbsp;month period is referred to as the <span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>applies only to a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed prior to the date of expiration, cancellation or non-renewal of this Policy and which is otherwise covered by this Policy.
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The premium for the<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is fully earned.
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            Nothing contained in this endorsement will in any way increase, reinstate or is in addition to the Limit of Liability set forth in the Declarations.
+                        </p>
+                    </li>
+                </ol>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:280px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

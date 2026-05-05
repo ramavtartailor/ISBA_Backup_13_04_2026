@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lowest_Coverage_not_exceed_1</fullName>
+    <active>true</active>
+    <description>1. One master record has only one Lowest coverage 
+2. Current coverage could be unchecked.</description>
+    <errorConditionFormula>Master_Factor__r.Lowest_Coverage_Count__c &gt; 0 &amp;&amp; 
+ISCHANGED(Lowest_Coverage__c) &amp;&amp; 
+PRIORVALUE(Lowest_Coverage__c) &lt;&gt; true</errorConditionFormula>
+    <errorDisplayField>Lowest_Coverage__c</errorDisplayField>
+    <errorMessage>One Coverage has already selected for Lowest coverage.</errorMessage>
+</ValidationRule>

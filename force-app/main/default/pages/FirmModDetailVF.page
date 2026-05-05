@@ -1,0 +1,876 @@
+<apex:page standardController="Policy__c"  extensions="FirmModDetailVFController" sidebar="false" showHeader="false" id="pg">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <title>
+                Firm Mod
+            </title>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <style>
+                    .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                    }
+                    .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .dateFormat {
+                        padding: 0 2px;
+                        display: none;
+                    }
+                    .slds-scope .slds-page-header {
+                        padding: 1rem .75rem;
+                        border-bottom: 1px solid #d8dde6 !important;
+                        background-color: #337AB7 !important;
+                        color: white;
+                    }
+                    .slds-box{
+                    }
+                    .slds-scope .slds-medium-size--12-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .slds-scope .slds-medium-size--6-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .accountRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .ContactRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope a:focus, .slds-scope a:hover{
+                        display: initial !important;
+                    }
+                    .lookupInput .slds-input{
+                        //border:none !important;
+                    }
+                    .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                        background-color: #fff; 
+                    }
+                    .lookupInput input[readonly] {
+                        cursor: default;
+                        color: #333;
+                        background-color: #fff !important;
+                        border: 1px solid #d8dde6 !important;
+                    }
+                    .datePicker{
+                        z-index: 99999 ;
+                    }
+            </style>
+            <script>
+                function setCommentVal(thisVal, comment){
+                    $('#'+comment+'> .comment').val(thisVal.value);
+                }
+                
+                function clearModal(){
+                    var usr = '{!$User.Id}'; 
+                   
+                    $('#templateModal').find('input:text').val('0');
+                    
+                    if(usr.includes('005G00000083Xpu')  ||  usr.includes('005A0000000QvuP')){
+                        $('#templateModal :checkbox').each(function () { 
+                   
+                            if ($(this).is(':checked'))
+                            {
+                            $(this).click();   
+                            }
+                        }); 
+                    }
+                    else{
+                        var checks = document.getElementById("templateModal").querySelectorAll(' input[type="checkbox"]');
+                        for(var i =0; i< checks.length;i++){
+                            var check = checks[i];
+                            if(check.checked){
+                                console.log(check.checked);
+                                check.removeAttribute("disabled");
+                                check.click();
+                                check.disabled = true;
+                                
+                            }
+                        }
+                        
+                    }
+                    $('#templateModal').find('textarea').val('');
+                    document.getElementById('pg:frm:SCHModApp').value = 1; 
+                    toggleModal();
+                }
+                
+                function displayComment(thisVal, elementMod, elementComment, elementCheck, label){
+                   
+                   var usr = '{!$User.Id}'; 
+                   
+                   if(thisVal != 'NaN'  && thisVal != '' && thisVal != null && thisVal.value != 0 && thisVal != undefined && !isNaN(thisVal.value)){
+                       if(usr.includes('005G00000083Xpu')  ||  usr.includes('005A0000000QvuP')){
+                           //document.getElementById(elementComment).style.display='inline-block';
+                           //$('#'+elementCheck).children().attr('checked',true);
+                           
+                           if($('#'+elementCheck).children().prop('checked') == true){
+                               document.getElementById(elementComment).style.display='inline-block';
+                           }
+                           else{
+                               validateMods(thisVal, elementMod, elementComment, elementCheck, label);
+                           }
+                       }
+                       else{
+                           validateMods(thisVal, elementMod, elementComment, elementCheck, label);   
+                       }
+                   }
+                   else{
+                       document.getElementById(elementComment).style.display='none';
+                       thisVal.value = 0;
+                       if(thisVal.value == 0){
+                           $("#"+elementComment+" > .comment").val('');
+                       }
+                       
+                       if($("#"+elementMod+" > .actualMod").hasClass('errorMod')){
+                           $("#"+elementMod+" > .actualMod").removeClass('errorMod');
+                       }
+                   }
+                   
+                }
+                
+                function validateMods(thisVal, elementMod, elementComment, elementCheck, label){
+                    console.log('thisVal----'+thisVal);
+                    console.log('$("#"+elementMod+" > .actualMod").val()----'+$("#"+elementMod+" > .actualMod").val());
+                    console.log('label----'+label);
+                    var isWrong = false;
+                   if(label == 'Size of Firm (1% credit/attorney after 1st attorney – up to 10% credit allowed)'){
+                       if(($("#"+elementMod+" > .actualMod").val() < -10) || ($("#"+elementMod+" > .actualMod").val() > 10)){
+                           isWrong = true;
+                       }
+                       else if(($("#"+elementMod+" > .actualMod").val() >= -10) && ($("#"+elementMod+" > .actualMod").val() <= 10)){
+                           isWrong = false;
+                       }
+                   }
+                   else if(label == 'AOP Adjustment (Debit only allowed)'){
+                       if(($("#"+elementMod+" > .actualMod").val() < 1) || ($("#"+elementMod+" > .actualMod").val() > 10)){
+                           isWrong = true;
+                       }
+                       else if(($("#"+elementMod+" > .actualMod").val() >= 1) && ($("#"+elementMod+" > .actualMod").val() <= 10)){
+                           isWrong = false;
+                       }
+                   }
+                   else{
+                       if(($("#"+elementMod+" > .actualMod").val() < -5) || ($("#"+elementMod+" > .actualMod").val() > 10)){
+                           isWrong = true;
+                       }
+                       else if(($("#"+elementMod+" > .actualMod").val() >= -5) && ($("#"+elementMod+" > .actualMod").val() <= 10)){
+                           isWrong = false;
+                       }
+                   
+                   }
+                   
+                   console.log('isWrong----'+isWrong);
+                   if(isWrong && label != 'General Override'){
+                       console.log($('#'+elementCheck).children().prop('checked'));
+                       if($('#'+elementCheck).children().prop('checked') == false){
+                           $("#"+elementMod+" > .actualMod").addClass('errorMod');
+                           document.getElementById(elementComment).style.display='none';
+                           $("#"+elementComment+" > .comment").val('');
+                       }
+                   }
+                   
+                   if(!isWrong){
+                       $("#"+elementMod+" > .actualMod").removeClass('errorMod');
+                       document.getElementById(elementComment).style.display='inline-block';                       
+                   }
+                }
+                
+                function overrideMods(thisVal, elementMod, elementComment, elementCheck,label){
+                    console.log('elementCheck---'+elementCheck);
+                   if(thisVal.checked){   
+                       $("#"+elementCheck+" > .overrider").click();
+                                       
+                       if($("#"+elementMod+" > .actualMod").hasClass('errorMod')){
+                           $("#"+elementMod+" > .actualMod").removeClass('errorMod');
+                           document.getElementById(elementComment).style.display='inline-block';               
+                       }
+                       
+                   }
+                   else{
+                       $("#"+elementCheck+" > .overrider").checked = false;
+                       validateMods( $("#"+elementMod+" > .actualMod"), elementMod, elementComment, elementCheck, label);
+                   }
+               }
+                   
+                function toggleModal(){
+                        
+                    var modalElementClasses = document.getElementById('templateModal').classList;
+                    var backdropElementClasses = document.getElementById('backdrop').classList;
+                    
+                    if(modalElementClasses.contains('slds-fade-in-open')){
+                        modalElementClasses.remove('slds-fade-in-open');
+                        modalElementClasses.add('slds-fade-in-close');
+                        
+                        backdropElementClasses.remove('slds-backdrop_open');
+                        backdropElementClasses.add('slds-backdrop_close');
+                    }
+                    else{
+                        modalElementClasses.remove('slds-fade-in-close');
+                        modalElementClasses.add('slds-fade-in-open');
+                        
+                        backdropElementClasses.remove('slds-backdrop_close');
+                        backdropElementClasses.add('slds-backdrop_open');
+                        
+                    }
+                }
+                
+                function toggleModalOk(){
+                    if($('#templateModal').find('input:text').hasClass('errorMod')){
+                        console.log('error');
+                        $('.slds-m-top_x-small').show();
+                    }
+                    else{
+                        $('.slds-m-top_x-small').hide();
+                        var sum = 0;
+                        $(".actualMod").each(function(){
+                            if($(this).val() != 'NaN' && $(this).val() != '' && $(this).val()  != null && $(this).val() != undefined){
+                                console.log('$(this).val()-----:'+$(this).val());
+                                sum += parseInt($(this).val(), 10);
+                            }
+                        });
+                        
+                        console.log('sum-----:'+sum);
+                        if(sum == -100){
+                             sum = 0;
+                         } 
+                         else{
+                             if(sum < 0){
+                                 sum = sum / 100 + 1;
+                             }
+                             else if(sum == 0){
+                                 sum = 0
+                             }
+                             else{
+                                 sum = sum / 100 + 1;
+                             }
+                        } 
+                         
+                        if(sum > 1.25 || sum < 0.75){
+                           showError('** SCH Mod value should be between 0.75 and 1.25');
+                        }else{
+                            document.getElementById('pg:frm:SCHModApp').value = sum;
+                            toggleModal();
+                        }    
+                        
+                    }
+                }
+            
+                $('body').click(function(evt) {
+                    $(".closeDiv :visible").each(function() {
+                        $('.closeDiv').hide();
+                    });
+                });
+                function cancel(){
+                    location.href = '/{!$CurrentPage.parameters.id}';
+                }
+                function showError(error){
+                    $("#errorMsg h2").each(function() {
+                        $(this).text(error);
+                    });
+                    $("#errorMsg").removeClass('slds-hide');
+                    setTimeout(function() {
+                        $("#errorMsg").addClass('slds-hide');
+                    }, 5000);
+                }
+                function showSuccessMsg(Msg){
+                    $("#successMsg h2").each(function() {
+                        $(this).text(Msg);
+                    });
+                    $("#successMsg").removeClass('slds-hide');
+                    setTimeout(function() {
+                        $("#successMsg ").addClass('slds-hide');
+                    }, 5000);
+                }
+                
+               $(document).ready(function() {
+                    $("svg").on("click", function() {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        }
+                    });
+                    $('svg').click(function (){
+                        var lookup = $(this).attr('data');
+                        if($(this).attr('data')=='toggle'){
+                            $(this).parent().parent().parent().find('.slds-p-horizontal--small').each(function (){
+                                if($(this).css('display') == 'none'){
+                                    $(this).removeClass('slds-hide');
+                                    //$(this).slideDown("slow");
+                                }else{
+                                    $(this).addClass('slds-hide');
+                                    //$(this).slideUp("slow");
+                                }
+                            });
+                        }
+                    });
+                    
+                });
+                
+            function validateAndSave_Application_Policy(nextOrSave){
+                if($('.schMod').val() > 1.25 || $('.schMod').val() < 0.75){
+                    showError('** SCH Mod value should be between 0.75 and 1.25');
+                    $('[id$=spinner]').css('display','none');
+                }else{
+                    if(nextOrSave == "save"){
+                        savePolicyRecord();
+                    }else if(nextOrSave == "next"){
+                        saveAndNextPolicyRecord();
+                    }
+                } 
+            }
+            </script>
+        </head>
+        <body>
+            <apex:form id="frm">
+                <apex:outputPanel id="renderError">
+                    <script>
+                        if('{!error}' != '' && '{!error}' != null && '{!error}' != 'undefined'){
+                            showError('{!error}');
+                        }
+                        else if('{!success}' != '' && '{!success}' != null && '{!success}' != 'undefined'){
+                            showSuccessMsg('Record saved sucessfully . ');
+                        }
+                    function redirect(nextOrSave){
+                        if('{!success}' != '' && '{!success}' != null && '{!success}' != 'undefined'){
+                            if(nextOrSave == "save"){
+                                location.href = '/{!$CurrentPage.parameters.id}';
+                            }else if(nextOrSave == "next"){
+                                location.href = '/apex/QuotesDetailPage?id={!$CurrentPage.parameters.id}&showNext=true';
+                            }
+                        }
+                    }
+                    </script>
+                </apex:outputPanel>
+                <apex:actionFunction name="savePolicyRecord" action="{!savePolicy}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');redirect('save');"/>
+                <apex:actionFunction name="saveAndNextPolicyRecord" action="{!savePolicy}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');redirect('next');"/>
+                <div class="slds-page-header" role="banner">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-page-header__title slds-truncate" title="AOP">
+                                Firm Mod - {!application_policy.Account__r.Name} - {!application_policy.Name}
+                            </p>
+                            <p class="slds-text-body--small"></p>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                            <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                                <!--<a href="javascript:void(0);" class="slds-has-blur-focus">Home</a>-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;z-index: 100;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                 </div>
+                 <div class="slds-notify_container slds-hide" id="errorMsg">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-notify_container slds-hide" id="successMsg">
+                    <div class="slds-notify slds-notify--toast slds-theme--success" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+               <!-- <div class="slds-size--1-of-4">
+                </div>-->
+                    <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;">
+                    
+                <div class="slds-size--1-of-1">
+                <!-- ========================= Record List ========================== -->
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <div class="slds-size--12-of-12  slds-theme--shade">
+                                <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                    <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up" ></use>
+                                    </svg>
+                                    <span class="slds-assistive-text"></span>
+                                </button>
+                                <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Firm Mod Information</h2>
+                            </div>
+                            <!-- 1 row -->
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="SCHMod">SCH Mod</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField html-disabled="true"  html-placeholder="Enter SCH Mod" styleClass="slds-input application_required schMod" id="SCHModApp" value="{!application_policy.SCH_Mod__c}" style="width:78%;" />
+                                            <button type="button" class="slds-button slds-button--brand" onClick="toggleModal();" style="width:20%;" >Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="ClaimsFactor">Claims Factor</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField html-placeholder="Enter Claims Factor" styleClass="slds-input application_required" id="ClaimsFactorApp" value="{!application_policy.Claims_Factor__c}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 2 row -->
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="GEOMod">GEO Mod </label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField html-disabled="true" styleClass="slds-input" id="GEOModApp" value="{!application_policy.GEO_Mod__c}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="AOPFactor">AOP Mod</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField html-disabled="true" styleClass="slds-input" id="AOPFactorApp" value="{!application_policy.AOP_Factor__c}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="FirmMod">Firm Mod</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField html-disabled="true" styleClass="slds-input" id="FirmModApp" value="{!application_policy.Firm_Mod__c}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-docked-form-footer">
+                        <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                            <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="location.href='/apex/AreaofPracticeDetailPageEdit_Ltng?id={!application_policy.Id}&showNext=true'" style="margin-right: 10px;" >Back</button>
+                        </apex:outputPanel>
+                        <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="cancel();" style="margin-right: 10px;" >Cancel</button>
+                        <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');unsaved=false;validateAndSave_Application_Policy('save'); return false;">Save</button>
+                        <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">   
+                            <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');unsaved=false;validateAndSave_Application_Policy('next'); return false;">Save &amp; Next</button>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+                </fieldset>
+                </div>
+                <div class="demo-only" style="height: 640px;overflow: scroll;" >
+                  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" id="templateModal" class="slds-modal slds-fade-in-close slds-modal_large">
+                    <div class="slds-modal__container">
+                      <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                          <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                          </svg>
+                          <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">SCH Mods</h2>
+                        <p class="slds-m-top_x-small" style="color:red;font-weight:bold;font-size:18px;display:none;">Please add correct modifiers.</p>
+                      </header>
+                      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>
+                            
+                            <!-- Start Internal Procedure Mods -->
+                            <div class="slds-section">
+                                <h3 class="slds-section__title">
+                                <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                </svg>
+                                <span class="slds-truncate" title="Section Title">Schedule Modifiers - Internal Procedures (-5% to +10%):</span>
+                                </p>
+                                </h3>
+                            </div>
+                            
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <apex:variable value="{!0}" var="index"/>
+                                    
+                                    <apex:repeat value="{!allModFields}" var="modVar">
+                                    
+                                        <label class="slds-form-element__label">
+                                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <div id="{!index}-actualMod" >
+                                                <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                    <apex:inputField html-disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false,true)}" rendered="{!IF(AND(!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP'))), true,false)}">
+                                                    <apex:inputField required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField required="false" rendered="{!!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                            </div>
+                                            <div id="{!index}-check" >
+                                                <apex:inputCheckbox disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), false,true)}"  label="override" value="{!application_policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                <apex:inputField styleClass="overrider" value="{!application_policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                            </div>
+                                            <div id="{!index}-comment" style="{!IF(application_policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                <apex:panelGroup rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-comment')"  value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}">
+                                                    <apex:inputField required="false" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}" onchange="setCommentVal(this,'{!index}-comment')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                </apex:panelGroup>
+                                                <apex:inputField styleClass="comment" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                            </div>                   
+                                        </div>
+                                        <apex:variable value="{!index + 1}" var="index"/>
+                                        <br/>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!-- End Internal Procedure Mods -->
+                         
+                            <!-- Start Firm Management Mods -->
+                            <div class="slds-section">
+                                <h3 class="slds-section__title">
+                                <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                </svg>
+                                <span class="slds-truncate" title="Section Title">Schedule Modifiers - Firm Management (-5% to +10%):</span>
+                                </p>
+                                </h3>
+                            </div>
+                            
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <apex:variable value="{!0}" var="index"/>
+                                    
+                                    <apex:repeat value="{!allModFieldsFM}" var="modVar">
+                                    
+                                        <label class="slds-form-element__label">
+                                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <div id="{!index}-actualModFM" >
+                                                <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                    <apex:inputField html-disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false,true)}" rendered="{!IF(AND(!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod"  html-min="-5" html-max="10" />
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP'))), true,false)}">
+                                                    <apex:inputField required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField required="false" rendered="{!!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                            </div>
+                                            <div id="{!index}-checkFM" >
+                                                <apex:inputCheckbox disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), false,true)}"  label="override" value="{!application_policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                <apex:inputField styleClass="overrider" value="{!application_policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                            </div>
+                                            <div id="{!index}-commentFM" style="{!IF(application_policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                <apex:panelGroup rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" onchange="setCommentVal(this,'{!index}-commentFM')" required="false" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false, true)}" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}">
+                                                    <apex:inputField required="false" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}" onchange="setCommentVal(this,'{!index}-commentFM')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                </apex:panelGroup>
+                                                <apex:inputField styleClass="comment" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                            </div>                   
+                                        </div>
+                                        <apex:variable value="{!index + 1}" var="index"/>
+                                        <br/>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!-- End Firm Management Mods -->
+                            
+                            <!-- Start Branch Offices Mods -->
+                            <div class="slds-section">
+                                <h3 class="slds-section__title">
+                                <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                </svg>
+                                <span class="slds-truncate" title="Section Title">Schedule Modifiers - Branch Offices (-5% to +10%):</span>
+                                </p>
+                                </h3>
+                            </div>
+                            
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <apex:variable value="{!0}" var="index"/>
+                                    
+                                    <apex:repeat value="{!allModFieldsBO}" var="modVar">
+                                    
+                                        <label class="slds-form-element__label">
+                                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <div id="{!index}-actualModBO" >
+                                                <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                    <apex:inputField html-disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false,true)}" rendered="{!IF(AND(!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP'))), true,false)}">
+                                                    <apex:inputField required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField required="false" rendered="{!!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                            </div>
+                                            <div id="{!index}-checkBO" >
+                                                <apex:inputCheckbox disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), false,true)}"  label="override" value="{!application_policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                <apex:inputField styleClass="overrider" value="{!application_policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                            </div>
+                                            <div id="{!index}-commentBO" style="{!IF(application_policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                <apex:panelGroup rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-commentBO')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false, true)}" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}">
+                                                    <apex:inputField required="false" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}" onchange="setCommentVal(this,'{!index}-commentBO')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                </apex:panelGroup>
+                                                <apex:inputField styleClass="comment" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                            </div>                   
+                                        </div>
+                                        <apex:variable value="{!index + 1}" var="index"/>
+                                        <br/>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!-- End Branch Offices Mods -->
+                            
+                            <!-- Start Training Mods -->
+                            <div class="slds-section">
+                                <h3 class="slds-section__title">
+                                <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                </svg>
+                                <span class="slds-truncate" title="Section Title">Schedule Modifiers - Training (-5% to +10%):</span>
+                                </p>
+                                </h3>
+                            </div>
+                            
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <apex:variable value="{!0}" var="index"/>
+                                    
+                                    <apex:repeat value="{!allModFieldsTraining}" var="modVar">
+                                    
+                                        <label class="slds-form-element__label">
+                                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <div id="{!index}-actualModTraining" >
+                                                <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                    <apex:inputField html-disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false,true)}" rendered="{!IF(AND(!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP'))), true,false)}">
+                                                    <apex:inputField required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField required="false" rendered="{!!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                            </div>
+                                            <div id="{!index}-checkTraining" >
+                                                <apex:inputCheckbox disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), false,true)}"  label="override" value="{!application_policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                <apex:inputField styleClass="overrider" value="{!application_policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                            </div>
+                                            <div id="{!index}-commentTraining" style="{!IF(application_policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                <apex:panelGroup rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" onchange="setCommentVal(this,'{!index}-commentTraining')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false, true)}" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}">
+                                                    <apex:inputField required="false" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}" onchange="setCommentVal(this,'{!index}-commentTraining')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                </apex:panelGroup>
+                                                <apex:inputField styleClass="comment" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                            </div>                   
+                                        </div>
+                                        <apex:variable value="{!index + 1}" var="index"/>
+                                        <br/>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!-- End Training Mods -->
+                            
+                            
+                            <!-- Start General Modifications Mods -->
+                            <div class="slds-section">
+                                <h3 class="slds-section__title">
+                                <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                </svg>
+                                <span class="slds-truncate" title="Section Title">Schedule Modifiers - General Modifications (-5% to +10%):</span>
+                                </p>
+                                </h3>
+                            </div>
+                            
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <apex:variable value="{!0}" var="index"/>
+                                    
+                                    <apex:repeat value="{!allModFieldsGM}" var="modVar">
+                                    
+                                        <label class="slds-form-element__label">
+                                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <div id="{!index}-actualModGM" >
+                                                <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                    <apex:inputField html-disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false,true)}" rendered="{!IF(AND(!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP'))), true,false)}">
+                                                    <apex:inputField required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField required="false" rendered="{!!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                            </div>
+                                            <div id="{!index}-checkGM" >
+                                                <apex:inputCheckbox disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), false,true)}"  label="override" value="{!application_policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                <apex:inputField styleClass="overrider" value="{!application_policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                            </div>
+                                            <div id="{!index}-commentGM" style="{!IF(application_policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                <apex:panelGroup rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-commentGM')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false, true)}" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}">
+                                                    <apex:inputField required="false" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}" onchange="setCommentVal(this,'{!index}-commentGM')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                </apex:panelGroup>
+                                                <apex:inputField styleClass="comment" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                            </div>                   
+                                        </div>
+                                        <apex:variable value="{!index + 1}" var="index"/>
+                                        <br/>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!-- End General Modifications Mods -->
+                            
+                            <!-- Start Override Mods -->
+                            <div class="slds-section">
+                                <h3 class="slds-section__title">
+                                <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                </svg>
+                                <span class="slds-truncate" title="Section Title">Schedule Modifiers - Override (needs Approval):</span>
+                                </p>
+                                </h3>
+                            </div>
+                            
+                            <div class="slds-form slds-form_horizontal">
+                                <div class="slds-form-element">
+                                    <apex:variable value="{!0}" var="index"/>
+                                    
+                                    <apex:repeat value="{!allModFieldsOver}" var="modVar">
+                                    
+                                        <label class="slds-form-element__label">
+                                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <div id="{!index}-actualModOver" >
+                                                <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                    <apex:inputField html-disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),false,true)}" rendered="{!IF(AND(!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP'))), true,false)}">
+                                                    <apex:inputField required="false" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" rendered="{!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                    <apex:inputField required="false" rendered="{!!application_policy[modVar.fsmOverride.fieldPath]}" value="{!application_policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                </apex:panelGroup>
+                                            </div>
+                                            <div id="{!index}-checkOver" >
+                                                <apex:inputCheckbox disabled="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')), false,true)}"  label="override" value="{!application_policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                <apex:inputField styleClass="overrider" value="{!application_policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                            </div>
+                                            <div id="{!index}-commentOver" style="{!IF(application_policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                <apex:panelGroup rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField rendered="{!IF(AND(!application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-commentOver')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(AND(application_policy[modVar.fsmOverride.fieldPath],!CONTAINS($User.Id,'005G00000083Xpu'),!CONTAINS($User.Id,'005A0000000QvuP')), true,false)}">
+                                                    <apex:inputField html-disabled="true" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}">
+                                                    <apex:inputField required="false" rendered="{!IF(OR(CONTAINS($User.Id,'005G00000083Xpu'),CONTAINS($User.Id,'005A0000000QvuP')),true,false)}" onchange="setCommentVal(this,'{!index}-commentOver')" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                </apex:panelGroup>
+                                                <apex:inputField styleClass="comment" value="{!application_policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                            </div>                   
+                                        </div>
+                                        <apex:variable value="{!index + 1}" var="index"/>
+                                        <br/>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!-- End Override Mods -->
+                            
+                        </p>
+                      </div>
+                      <footer class="slds-modal__footer">
+                          
+                          <button type="button" class="slds-button slds-button--neutral" onclick="toggleModal()">Cancel</button>
+                          <button id="saveSCH" type="button" class="slds-button slds-button_brand" onclick="toggleModalOk()">Save</button>
+                          <button type="button" class="slds-button slds-button--neutral" onclick="clearModal()">Clear</button>
+                          <!--<apex:commandButton styleClass="slds-button slds-button_brand" value="Save" onclick="toggleModalOk()" reRender="null"/>-->
+                      </footer>
+                    </div>
+                  </section>
+                  <div id="backdrop" class="slds-backdrop slds-backdrop_close"></div>
+                </div>
+                <!--- End Modal ---->
+            </apex:form>
+         
+        </body>
+     </html>
+    <script>
+    var unsaved = false;
+            
+            $(":input").change(function(){ 
+                unsaved = true;
+            });
+            
+            function unloadPage(){ 
+                if(unsaved){
+                    return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+                }
+            }
+          window.onbeforeunload = unloadPage; 
+    </script>
+</apex:page>

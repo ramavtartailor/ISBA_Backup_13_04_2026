@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lowest_On_Limits</fullName>
+    <active>false</active>
+    <description>There should at least be one Lowest checked on Limit.</description>
+    <errorConditionFormula>RecordType.DeveloperName = &apos;Limit_Coverage&apos; &amp;&amp;
+Lowest_Coverage_Count__c = 0 &amp;&amp;
+Total_Limit_count__c &gt;0</errorConditionFormula>
+    <errorDisplayField>Cloned_From__c</errorDisplayField>
+    <errorMessage>There should at least be one Lowest coverage factor set.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,168 @@
+<aura:component controller="Contact_PolicyHistoryCtrl" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <!--Init handler which is call doInit js function on component Load--> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+        
+    <aura:attribute name="PoliciesList" type="Object[]"/> 
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="allRecords" type="boolean" default="false"/>
+    <aura:attribute name="totalPolicies" type="Integer" default="0"/>
+    <aura:attribute name="policyLawyer" type="String" default=""/>
+    
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <!--Header Part-->       
+        <div class="slds-card__header slds-grid" style="{!v.allRecords ?'display:none;':'' }">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="extraSmall forceEntityIcon" style="background-color: #bf7b66" data-aura-class="forceEntityIcon">
+                        <span class="uiImage" data-aura-class="uiImage">
+                            
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <a class="slds-card__header-link baseCard__header-title-container"  onclick="{!c.goToAllPolicies}">
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy History">
+                                <aura:if isTrue="{! 7 > v.totalPolicies }">
+                                    Policy History ({!v.totalPolicies})
+                                    <aura:set attribute="else">
+                                        Policy History (6+)
+                                    </aura:set>
+                                </aura:if>
+                            </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <div class="actionsContainer">
+                    <ul class="branding-actions slds-button-group slds-m-left--xx-small small oneActionsRibbon forceActionsContainer" data-aura-class="oneActionsRibbon forceActionsContainer">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="{!v.allRecords ?'':'display:none;' }" class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader" role="banner"  data-aura-class="forceListViewManagerHeader">
+            <div class="slds-grid" >
+                <div class="slds-col slds-has-flexi-truncate" >
+                    <div class="slds-media slds-no-space slds-grow" >
+                        <!--render facet: 4973:0-->
+                        <div class="slds-media__body slds-align-middle" >
+                            <nav role="navigation" aria-label="Breadcrumbs" >
+                                <ol class="slds-breadcrumb slds-list--horizontal" >
+                                    <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                        <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem"  onclick="{!c.navigateToPolicies}">
+                                            <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                Policies
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                        <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem" onclick="{!c.navigateToContact}">
+                                            <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                {!v.policyLawyer}
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <h1 class="slds-page-header__title slds-truncate" title="Policy History" >Policy History</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <!--Table Part-->      
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid" style="{!v.PoliciesList.length==0 ? 'display:none;' :''}"> 
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Policy Number">Policy Number</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Effective Date">Effective Date</div>
+                                                    </th>
+                                                    <th scope="col"  width="5%"  style="text-align:right;">
+                                                        <div class="slds-truncate" title="Premium">Step#</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%"  style="text-align:right;">
+                                                        <div class="slds-truncate" title="Premium">Premium</div>
+                                                    </th>
+                                                    <th scope="col"  width="20%"  style="text-align:right;">
+                                                        <div class="slds-truncate" title="Limits">Limits</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%"  style="text-align:right;">
+                                                        <div class="slds-truncate" title="Deductible">Deductible</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Status">Status</div>
+                                                    </th>
+                                                    <th scope="col"  width="15%"  style="text-align:right;">
+                                                        <div class="slds-truncate" title="Premium">Policy Premium</div>
+                                                    </th>
+                                                    <th scope="col"  width="15%"  style="text-align:right;">
+                                                        <div class="slds-truncate" title="Premium">Total Policy Credit</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>   
+                                            <tbody>       
+                                                <aura:iteration items="{!v.PoliciesList}" var="item" indexVar="index">
+                                                    <tr>
+                                                        <th scope="row">
+                                                            <a href="{!'/'+item.Id}">{!item.Name}</a>
+                                                        </th>
+                                                        <th scope="row">
+                                                            <ui:outputDate  value="{!item.Effective_Date__c}"/>
+                                                        </th>
+                                                        <th scope="row" style="text-align:right;">
+                                                            {!item.Step__c}
+                                                        </th>
+                                                        <th scope="row"  style="text-align:right;">
+                                                            <ui:outputCurrency value="{!item.Premium__c}"/>
+                                                        </th>
+                                                        <th scope="row"  style="text-align:right;">
+                                                            <ui:outputText value="{!item.Limits__c}"/>
+                                                        </th>
+                                                        <th scope="row"  style="text-align:right;">
+                                                            <ui:outputText value="{!item.Deductible__c}"/>
+                                                        </th>
+                                                        <th scope="row">
+                                                            <ui:outputText value="{!item.Status__c}"/>
+                                                        </th>
+                                                        <th scope="row"  style="text-align:right;">
+                                                            <ui:outputCurrency value="{!item.Premium_Amount__c}"/>
+                                                        </th>
+                                                        <th scope="row"  style="text-align:right;">
+                                                            <ui:outputCurrency value="{!item.Total_Credit__c}"/>
+                                                        </th>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a style="{!v.PoliciesList.length==0 ? 'display:none;' :v.allRecords ?'display:none;':'' }" onclick="{!c.goToAllPolicies}">
+            <div class="slds-card__footer">
+                <span class="view-all-label">
+                    View All
+                </span>
+            </div>
+        </a>
+    </article>
+</aura:component>

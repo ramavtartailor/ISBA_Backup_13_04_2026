@@ -1,0 +1,21 @@
+<apex:page controller="DocumentBundleVF_Ctrl" action="{!autoGenerate}">
+    <apex:form >
+        <apex:pageBlock title="Merge Documents - {!policy.Account__r.Name} - {!policy.Name}">
+            <apex:outputPanel rendered="{!errorMessage == null}">
+                <c:MultiselectPicklist leftLabel="Available Documents"
+                                       leftOption="{!allDocuments}"
+                                       rightLabel="Selected Documents"
+                                       rightOption="{!selectedDocuments}"
+                                       size="14"
+                                       width="400px"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!NOT(errorMessage == null)}">
+                <apex:pageMessage severity="Error" summary="{!errorMessage}" strength="1"></apex:pageMessage>
+            </apex:outputPanel>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandLink value="Generate Bundle" action="{!generateBundle}" target="_blank" styleClass="btn" style="padding: 4px 3px;text-decoration: none;" rendered="{!errorMessage == null}"/>
+                <apex:commandLink value="Close" action="{!close}" styleClass="btn" style="padding: 4px 3px;text-decoration: none;"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

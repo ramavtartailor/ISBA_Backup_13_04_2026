@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_file_type_switch_to_or_from_ARDC</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(AND(ISPICKVAL(PRIORVALUE(File_Type__c),&apos;ARDC Complaint&apos;),NOT(ISPICKVAL(File_Type__c,&apos;ARDC Complaint&apos;))),
+
+AND(NOT(ISPICKVAL(PRIORVALUE(File_Type__c),&apos;ARDC Complaint&apos;)),ISPICKVAL(File_Type__c,&apos;ARDC Complaint&apos;)))</errorConditionFormula>
+    <errorMessage>You can&apos;t switch the file type from ARDC or to ARDC.</errorMessage>
+</ValidationRule>

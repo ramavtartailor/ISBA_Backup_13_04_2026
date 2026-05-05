@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grouping_Active_Lawyers_BR__c</fullName>
+    <description>Original Lawyer Grouping for Board Reports (1, 2-5, 6-10, 11-25, 26+</description>
+    <externalId>false</externalId>
+    <formula>IF ((Bound_Lawyer_Count__c == 1), &apos;A: 1&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 2 &amp;&amp; Bound_Lawyer_Count__c &lt;= 5), &apos;B: 2 to 5&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 6 &amp;&amp; Bound_Lawyer_Count__c &lt;= 10), &apos;C: 6 to 10&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 11 &amp;&amp; Bound_Lawyer_Count__c &lt;= 25), &apos;D: 11 to 25&apos;,
+IF ((Bound_Lawyer_Count__c &gt; 26), &apos;E: 26+&apos;,
+&apos;Unknown&apos;
+)))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Grouping - Original Lawyers (BR)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

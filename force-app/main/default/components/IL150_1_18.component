@@ -1,0 +1,22 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <div>
+    <p class="normalParagraph">
+        <apex:outputField value="{!endorsement.Enter_Manuscript_Language__c}"/><br /><br/>
+        <div style="font-size: 13.333px !important;margin:6px;font-family: Arial;text-align:justify;color:#000000;text-align:left;"><apex:outputField value="{!endorsement.Manuscript__c}"/></div>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+</div>
+<!--  <div  style="bottom:0px;postition:fixed;width:100%">
+    
+
+    <div style="width:30%;margin-top:380px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div>
+    </div> -->
+</apex:component>

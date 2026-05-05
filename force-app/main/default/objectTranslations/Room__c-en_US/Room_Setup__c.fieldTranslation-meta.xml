@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Room Setup Options --></label>
+    <name>Room_Setup__c</name>
+    <picklistValues>
+        <masterLabel>Classroom</masterLabel>
+        <translation><!-- Classroom --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Crescents</masterLabel>
+        <translation><!-- Crescents --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hands-on training</masterLabel>
+        <translation><!-- Hands-on training --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reception</masterLabel>
+        <translation><!-- Reception --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rounds</masterLabel>
+        <translation><!-- Rounds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Theater</masterLabel>
+        <translation><!-- Theater --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

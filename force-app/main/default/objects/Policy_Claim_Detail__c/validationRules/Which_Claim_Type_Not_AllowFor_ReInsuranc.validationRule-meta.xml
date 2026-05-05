@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Which_Claim_Type_Not_AllowFor_ReInsuranc</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name = &apos;Reinsurance&apos; &amp;&amp;
+OR( 
+    ISPICKVAL(Policy_Claim__r.File_Type__c, &apos;ARDC Complaint&apos;), 
+    ISPICKVAL(Policy_Claim__r.File_Type__c, &apos;Memo&apos;)
+  )</errorConditionFormula>
+    <errorMessage>&apos;Reinsurance&apos; cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; claim types!</errorMessage>
+</ValidationRule>

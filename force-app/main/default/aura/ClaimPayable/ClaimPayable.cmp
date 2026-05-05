@@ -1,0 +1,5 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="QuickClaimController">
+	<aura:attribute name="recordId" type="String" />
+    <aura:attribute name="claim" type="Policy_Claim__c" />
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+</aura:component>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Action__c</fullName>
+    <label>Action</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bound</fullName>
+                <default>false</default>
+                <label>Bound</label>
+            </value>
+            <value>
+                <fullName>Add Lawyer</fullName>
+                <default>false</default>
+                <label>Add Lawyer</label>
+            </value>
+            <value>
+                <fullName>Delete Lawyer</fullName>
+                <default>false</default>
+                <label>Delete Lawyer</label>
+            </value>
+            <value>
+                <fullName>IL107</fullName>
+                <default>false</default>
+                <label>IL107</label>
+            </value>
+            <value>
+                <fullName>IL130</fullName>
+                <default>false</default>
+                <label>IL130</label>
+            </value>
+            <value>
+                <fullName>IL210</fullName>
+                <default>false</default>
+                <label>IL210</label>
+            </value>
+            <value>
+                <fullName>IL261</fullName>
+                <default>false</default>
+                <label>IL261</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

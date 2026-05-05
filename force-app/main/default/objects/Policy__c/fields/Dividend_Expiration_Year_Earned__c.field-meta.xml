@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dividend_Expiration_Year_Earned__c</fullName>
+    <description>Dividend_Net_Written__c *  Expiration_Year_Percentage__c * 0.1</description>
+    <externalId>false</externalId>
+    <formula>if (Expiration_Year_Percentage__c &gt; 1,
+  1,
+  Dividend_Net_Written__c *  Expiration_Year_Percentage__c * 0.1
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Expiration Year Dividend</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

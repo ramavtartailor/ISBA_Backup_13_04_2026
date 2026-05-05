@@ -1,0 +1,29 @@
+<aura:component >
+    <aura:attribute name="LawyerInstance" type="Policy_Lawyer__c"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <aura:registerEvent name="NavigateToPolicyRecord" type="c:NavigateToPolicyRecord"/> 
+    <aura:registerEvent name="NavigateToPolicyLawyerRecord" type="c:NavigateToPolicyLawyerRecord"/> 
+    <!-- Table Row -->  
+    <tr class="">
+        <th scope="row">
+            <a onclick="{!c.goToPolicyLawyerRecord}">{!v.LawyerInstance.Lawyer_Name__c}</a>
+        </th>
+        <th scope="row">
+            <ui:outputDate  value="{!v.LawyerInstance.Prior_Act_Date__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputText  value="{!v.LawyerInstance.ARDC_Number__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputText value="{!v.LawyerInstance.ISBA_Number__c}"/>
+        </th>
+        <th scope="row">
+            <a onclick="{!c.goToPolicyRecord}">{!v.LawyerInstance.Policy_Number__c}</a>
+        </th>
+        <th scope="row">
+            <ui:outputText value="{!v.LawyerInstance.Rate_At__c}"/>
+        </th>
+    </tr>
+</aura:component>

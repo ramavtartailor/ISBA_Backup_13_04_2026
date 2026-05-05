@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Has A/V form been received? --></help>
+    <label><!-- A/V Form --></label>
+    <name>A_V_Form__c</name>
+</CustomFieldTranslation>

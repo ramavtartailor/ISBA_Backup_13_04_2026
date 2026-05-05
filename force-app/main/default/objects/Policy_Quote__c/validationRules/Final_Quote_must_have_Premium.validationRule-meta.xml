@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Final_Quote_must_have_Premium</fullName>
+    <active>false</active>
+    <description>Premium must be calculated before marking Quote as Final.</description>
+    <errorConditionFormula>Final_Quote__c  = True &amp;&amp;
+ Quote_Final_Premium__c &lt;=0 &amp;&amp;
+OR(ISCHANGED(Final_Quote__c), ISNEW())</errorConditionFormula>
+    <errorDisplayField>Final_Quote__c</errorDisplayField>
+    <errorMessage>Premium must be calculated before marking a Quote as Final!</errorMessage>
+</ValidationRule>

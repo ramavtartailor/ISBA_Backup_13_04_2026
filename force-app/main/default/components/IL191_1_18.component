@@ -1,0 +1,26 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Policy Reinstatement
+    </p>
+    <p class="normalParagraph">
+        This Policy is reinstated effective &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!endorsement.Endorsement_Effective_Date__c}" /> </apex:outputText>&nbsp;, 12:01 a.m. Central Standard Time.
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:90%;" align="center">
+        <tr>
+            <td class="tableDataLeft normalParagraph">
+                Additional Premium:  &nbsp;<apex:outputField value="{!endorsement.Premium__c}"/>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:520px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

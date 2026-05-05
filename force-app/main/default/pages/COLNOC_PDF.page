@@ -1,0 +1,80 @@
+<apex:page controller="Billing_Policy_Ctrl" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    
+    
+    <head>
+    <style>
+        body {
+            font-family: 'Arial Unicode MS', sans-serif !important;
+            font-size: 15px;
+        }
+        @page {
+            margin-top: 30px;
+            margin-bottom: 100px;
+            font-family: 'Arial Unicode MS', sans-serif !important;
+        }
+        .arial {
+        	font-family: arial, sans-serif !important;
+        }
+        
+        .ibf_subtitle {
+        	font-size:18px;
+	        color:black;
+        	text-align: center;
+        }z
+        
+        .isbam_primary_red {
+        	color: #89001B;
+        }
+        
+        #conditions tr td {
+          padding-top: 2px;
+          padding-bottom: 2px;
+        }
+        
+        .conditions {
+          padding-top: 13px;
+          display: inline-block
+        }
+        
+    </style>
+    </head>
+	
+    
+    <!---HEADER------------------------------------------------------------>
+      <div style="" class="header">
+          <c:Application_Header />    
+      </div>
+    <br/> 
+    <div><apex:outputText value="{0,date,MMM dd, yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText></div>
+    <br/> 
+        <apex:outputField value="{!policyRec.Firm_Contact__r.Name}"/><br/>
+        <apex:outputField value="{!policyRec.Account__r.Name}"/><br/>
+        <!--<apex:outputpanel rendered="{!policyRec.Account__r.ShippingStreet != null}">
+            {!policyRec.Account__r.ShippingStreet}<br/>
+            {!policyRec.Account__r.ShippingCity}, {!policyRec.Account__r.ShippingState}&nbsp;&nbsp;{!policyRec.Account__r.ShippingPostalCode}
+        </apex:outputpanel>
+        <apex:outputpanel rendered="{!policyRec.Account__r.ShippingStreet == null}">-->
+            {!policyRec.Account__r.BillingStreet}<br/>
+            {!policyRec.Account__r.BillingCity}, {!policyRec.Account__r.BillingState}&nbsp;&nbsp;{!policyRec.Account__r.BillingPostalCode}
+        <!--</apex:outputpanel>-->
+    <br/><br/>
+        <table style="width:100%;">
+            <tr>
+                <td style="width: 30px;" valign="top">
+                    Re:
+                </td>
+                <td>
+                    ISBA Mutual Policy: {!policyRec.Name}<br/>
+                    Policy Period:&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!policyRec.Effective_Date__c}"/></apex:outputText>
+                    -&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!policyRec.Expiration_Date__c}" /></apex:outputText>
+                </td>
+            </tr>
+        </table>
+<br/>
+    <apex:outputpanel rendered="{!policyRec.Application_Type__c == 'New Business'}">
+        <c:BillingCloseOutLetterNOC recId="{!$CurrentPage.parameters.id}" />
+    </apex:outputpanel>
+    <apex:outputpanel rendered="{!policyRec.Application_Type__c == 'Renewal'}">
+        <c:BillingCloseOutLetterNP_Renewal recId="{!$CurrentPage.parameters.id}" />
+    </apex:outputpanel>
+</apex:page>

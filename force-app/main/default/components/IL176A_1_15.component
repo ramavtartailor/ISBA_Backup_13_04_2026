@@ -1,0 +1,52 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Entities Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the Policy is amended to include the following entities as an<span class="normalBoldParagraph"> INSURED. </span>These entities are only insured for<span class="normalBoldParagraph"> CLAIMs </span>arising out of<span class="normalBoldParagraph"> WRONGFUL ACTs </span>committed within the scope of their employment for the<span class="normalBoldParagraph"> NAMED INSURED. </span>
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Name of Entity</u>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Prior Acts Date</u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputField value="{!endorsement.Entity__c}"/>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputField value="{!endorsement.Prior_Act_Date_Text__c}"/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:410px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

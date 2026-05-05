@@ -1,0 +1,147 @@
+<apex:page standardStylesheets="false" renderAs="pdf" applyHtmlTag="false" showHeader="false" standardController="AcctSeed__Cash_Disbursement__c" extensions="PrintCheckPageContoller" >
+    <head>
+        <style type="text/css">
+            body {
+            font-family: Arial, sans-serif;
+            }
+            
+            @page  { 
+            size: auto;   /* auto is the initial value */ 
+            margin: 10px 40px 5px 48px;
+            } 
+            
+            .bf {
+            font-size: 14px;
+            font-weight: 200;
+            }
+            
+            .sf {
+            font-size: 12px;
+            font-weight: 200;
+            }
+            
+            .cf {
+            font-size: 16px;
+            font-weight: 200;
+            }
+            
+        </style>
+    </head>
+    
+    <body>
+        <table style="position:absolute; width: 100%" class="bf">
+            <tr>
+                <td colspan="99" align="right">
+                    <apex:outputpanel rendered="{!casObj.AcctSeed__Check_Number__c != null }">
+                        <p class = "fontfamily" style = "text-align: right;"> Check: {!casObj.AcctSeed__Check_Number__c}</p>
+                    </apex:outputpanel>
+                </td>
+            </tr>
+        </table>
+        <table style="position:absolute; top:40px; width: 100%" class="bf">
+            <tr>
+                <td style="width: 390px;">Payee: {!casObj.AcctSeed__Payee__c}</td>
+                <td style="width: 150px;">Date: <apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!casObj.AcctSeed__Disbursement_Date__c}"/></apex:outputText></td>
+                <td align="right">Amount:&nbsp;<apex:outputText value="${0,number,###,###,###,##0.00}"><apex:param value="{!casObj.AcctSeed__Amount__c}" /></apex:outputText></td>
+            </tr>
+        </table>
+        
+        <table style="position:absolute; top:58px; width: 100%" class="sf">
+            <tr>
+                <td style="width: 138px;">Our Reference</td>
+                <td style="width: 81px;">Date</td>
+                <td style="width: 68px;">Type</td>
+                <td style="width: 142px;">Your Reference</td>
+                <td align="right" style="width: 77px;">Amount</td>
+                <td align="right" style="width: 82px;">Discount</td>
+                <td align="right">New Amount</td>
+            </tr>
+        </table>
+        <table style="position:absolute; top:82px; width: 100%" class="sf">
+            <apex:repeat value="{!apList}" var="item">
+                <tr>
+                    <td style="width: 138px;">{!item.AcctSeed__Account_Payable__r.Name}</td>
+                    <td style="width: 81px;"><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!item.AcctSeed__Applied_Date__c}"/></apex:outputText></td>
+                    <td style="width: 68px;">{!item.AcctSeed__Account_Payable__r.AcctSeed__Type__c}</td>
+                    <td style="width: 142px;">{!item.AcctSeed__Payee_Reference__c}</td>
+                    <td align="right" style="width: 77px;"><apex:outputText value="{0,number,###,###,###,##0.00}"><apex:param value="{!item.AcctSeed__Paid_Amount__c }" /></apex:outputText></td>
+                    <td align="right" style="width: 82px;"><apex:outputText value="{0, number, ###,###,###,##0.00}"><apex:param value="{!item.AcctSeed__Discount_Amount__c}" /></apex:outputText></td>
+                    <td align="right"><apex:outputText value="{0, number, ###,###,###,##0.00}"><apex:param value="{!item.AcctSeed__Paid_Amount__c }"/></apex:outputText></td>
+                </tr>
+            </apex:repeat>
+        </table>
+                
+        <table style="position:absolute; top:456px; padding-left: 5px; width: 100%" class="cf">
+            <tr>
+                <td style="width: 407px;">{!Words} Dollars</td>
+                <td align="right" style="width: 150px;"><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!casObj.AcctSeed__Disbursement_Date__c}"/></apex:outputText></td>
+                <td align="right"><apex:outputText value="${0,number,###,###,###,##0.00}"><apex:param value="{!casObj.AcctSeed__Amount__c}" /></apex:outputText></td>
+            </tr>
+        </table>
+        <table style="position:absolute; top:484px; padding-left: 27px; width: 100%" class="cf">
+            <tr>
+                <td>
+                    <pre style="font-family: Arial, sans-serif; font-size: 12px;">
+{!casObj.AcctSeed__Payee__c}
+{!casObj.AcctSeed__Payee_Street__c}
+{!casObj.AcctSeed__Payee_City_State_Zip__c}
+</pre>
+                </td>
+            </tr>
+        </table>
+        <div style="border: 0px solid red;
+                    position: absolute; 
+                    top: 500px; 
+                    left: 470px;
+                    width: 300px;
+                    height: 100px;" 
+             ><apex:image url="{!$Resource.signature_jbs}" />
+        </div>    
+        
+        
+        <table style="position:absolute; top: 716px; width: 100%" class="bf">
+            <tr>
+                <td style="width: 500px;">
+                    Please detach and retain this portion of the check for your records
+                </td>
+                <td colspan="99" align="right">
+                    Check: {!casObj.AcctSeed__Check_Number__c}
+                </td>
+            </tr>
+        </table>
+        <table style="position:absolute; top:740px; width: 100%" class="bf">
+            <tr>
+                <td style="width: 460px;">Payee: {!casObj.AcctSeed__Payee__c}</td>
+                <td style="width: 110px;">Date: <apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!casObj.AcctSeed__Disbursement_Date__c}"/></apex:outputText></td>
+                <td align="right">Amount:&nbsp;<apex:outputText value="${0,number,###,###,###,##0.00}"><apex:param value="{!casObj.AcctSeed__Amount__c}" /></apex:outputText></td>
+            </tr>
+        </table>
+        <table style="position:absolute; top:765px; width: 100%" class="sf">
+            <tr>
+                <td style="width: 138px;">Our Reference</td>
+                <td style="width: 81px;">Date</td>
+                <td style="width: 68px;">Type</td>
+                <td style="width: 142px;">Your Reference</td>
+                <td align="right" style="width: 77px;">Amount</td>
+                <td align="right" style="width: 82px;">Discount</td>
+                <td align="right">New Amount</td>
+            </tr>
+        </table>
+        <table style="position:absolute; top:789px; width: 100%" class="sf">
+            <apex:repeat value="{!apList}" var="item" >
+                <tr>
+                    <td style="width: 138px;">{!item.AcctSeed__Account_Payable__r.Name}</td>
+                    <td style="width: 81px;"><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!item.AcctSeed__Applied_Date__c}"/></apex:outputText></td>
+                    <td style="width: 68px;">{!item.AcctSeed__Account_Payable__r.AcctSeed__Type__c}</td>
+                    <td style="width: 142px;">{!item.AcctSeed__Payee_Reference__c}</td>
+                    <td align="right" style="width: 77px;"><apex:outputText value="{0,number,###,###,###,##0.00}"><apex:param value="{!item.AcctSeed__Paid_Amount__c }" /></apex:outputText></td>
+                    <td align="right" style="width: 82px;"><apex:outputText value="{0, number, ###,###,###,##0.00}"><apex:param value="{!item.AcctSeed__Discount_Amount__c}" /></apex:outputText></td>
+                    <td align="right"><apex:outputText value="{0, number, ###,###,###,##0.00}"><apex:param value="{!item.AcctSeed__Paid_Amount__c }"/></apex:outputText></td>
+                </tr>
+            </apex:repeat>
+        </table>
+        
+        
+    </body>
+    
+</apex:page>

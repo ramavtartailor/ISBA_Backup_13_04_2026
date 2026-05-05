@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_could_not_change_Once_Policy_Done</fullName>
+    <active>false</active>
+    <description>Policy status should not be Changed!</description>
+    <errorConditionFormula>RecordType.DeveloperName  = &apos;Policy&apos; &amp;&amp;  
+ISCHANGED(Status__c)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>Policy status should not be Changed!</errorMessage>
+</ValidationRule>

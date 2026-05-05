@@ -1,0 +1,712 @@
+<apex:page showHeader="false" sidebar="false" controller="Fiserv_Utils">
+    <html>
+        <head>
+            <style>
+                * {
+                --primary-color: #404040;
+                --secondary-color: #999;
+                --boxShadow: 1px 2px 10px rgb(169 164 164 / 12%);
+                --popupShadow: 0px 2px 16px rgba(0, 0, 0, 0.5);
+                --popup-header-footer-ShadowColor: rgb(99 99 99 / 20%);
+                --card-box-shadow: rgb(0 0 0 / 25%) 0px 1px 3px 0px;
+                --headerFooter-bgColor: #f9f9f9;
+                --s-gap: 0.5rem;
+                --m-gap: 1rem;
+                --l-gap: 2rem;
+                --s-pad: 0.5rem;
+                --m-pad: 1rem;
+                --l-pad: 2rem;
+                --s-mar: 0.5rem;
+                --m-mar: 1rem;
+                --l-mar: 2rem;
+                --border-radius: .4rem;
+                --border: 1.4px solid #e5e5e5;
+                --border-color: #e5e5e5;
+                --sec-bgcolor: #eff2f6;
+                --tableRow-bgcolor: #f5f5f5;
+                --transition: all 0.3s ease-in-out;
+                --mHeading_size: 1.4rem;
+                --mHeading_weight: 800;
+                --mHeading_family: 'TitilliumWeb-SemiBold';
+                --nHeading_size: 1rem;
+                --nHeading_weight: 700;
+                --nHeading_family: 'TitilliumWeb-SemiBold';
+                --nText_size: .8rem;
+                --nText_weight: 400;
+                --nText_family: 'TitilliumWeb-Regular';
+                --sText_size: .6rem;
+                --sText_weight: 200;
+                --sText_family: 'TitilliumWeb-Light';
+                --normalText_family: Arial, sans-serif;
+                --normalText_size: 1rem;
+                --gap-small: 0.5rem;
+                --labelText_family: Arial, sans-serif;
+                --labelText_size: .8rem;
+                }
+                
+                body {
+                margin: 0;
+                height:100%;
+                }
+                html{
+                height:100%;
+                }
+                
+                #ss-banner {
+                background: transparent url(https://github.com/hps/heartland-php/blob/master/examples/end-to-end/assets/images/ss-shield@2x.png?raw=true) no-repeat left center;
+                height: 40px;
+                background-size: 280px 34px;
+                margin-bottom: 7px;
+                }
+                
+                form {
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                }
+                
+                .trunc {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                }
+                
+                .t_right {
+                text-align: right;
+                }
+                
+                .t_left {
+                text-align: left;
+                }
+                
+                .t_center {
+                text-align: center;
+                }
+                
+                .dflex {
+                display: flex;
+                }
+                
+                .dflexcol {
+                display: flex;
+                flex-direction: column;
+                }
+                
+                .dflexc {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                }
+                
+                .dflexcolc {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                }
+                
+                .dflexjsb {
+                display: flex;
+                justify-content: space-between;
+                }
+                
+                .dflexjc {
+                justify-content: center;
+                }
+                
+                .dflexje {
+                display: flex;
+                justify-content: flex-end;
+                }
+                
+                .dflexac {
+                align-items: center;
+                }
+                
+                .dflexae {
+                align-items: flex-end;
+                }
+                
+                .dflexas {
+                align-items: flex-start;
+                }
+                
+                .dflexwrap {
+                flex-wrap: wrap;
+                }
+                
+                .dflexfo {
+                flex: 1;
+                }
+                
+                .dflexft {
+                flex: 2;
+                }
+                
+                .sgap {
+                gap: var(--s-gap);
+                }
+                
+                .gap {
+                gap: var(--m-gap);
+                }
+                
+                .lgap {
+                gap: var(--l-gap);
+                }
+                
+                .spad {
+                padding: var(--s-pad);
+                }
+                
+                .pad {
+                padding: var(--m-pad);
+                }
+                
+                .lpad {
+                padding: var(--l-pad);
+                }
+                
+                .rtext {
+                text-align: right;
+                }
+                
+                .ltext {
+                text-align: left;
+                }
+                
+                .ctext {
+                text-align: center;
+                }
+                
+                .large_heading {
+                color: var(--primary-color);
+                font-size: var(--large_Heading_size) !important;
+                font-family: var(--large_Heading_family) !important;
+                }
+                
+                .mheading {
+                color: var(--primary-color);
+                font-size: var(--mHeading_size) !important;
+                font-family: var(--mHeading_family) !important;
+                }
+                
+                .nheading {
+                color: var(--primary-color);
+                font-size: var(--nHeading_size) !important;
+                font-family: var(--nHeading_family) !important;
+                }
+                
+                .modalButton {
+                cursor: pointer;
+                border-radius: .4rem;
+                padding: .5rem 1rem;
+                color: white;
+                font-size: 1rem;
+                font-family: Arial, sans-serif;
+                }
+                
+                .modalButton {
+                padding: .3rem 2rem;
+                text-align: center;
+                }
+                
+                .negativeBut {
+                background-color: #EAEAEC;
+                color: Black;
+                border: 1.4px solid #e5e5e5;
+                border-color: #EAEAEC;
+                text-align: center
+                }
+                
+                a#submit:hover{
+                text-decoration: none;
+                color: black;
+                }
+                
+                .ntextNheading {
+                color: var(--primary-color);
+                font-size: var(--nText_size) !important;
+                font-family: var(--nHeading_family) !important;
+                }
+                
+                .ntext {
+                color: var(--primary-color);
+                font-size: var(--nText_size) !important;
+                font-family: var(--nText_family) !important;
+                }
+                
+                .stext {
+                color: var(--primary-color);
+                font-size: var(--sText_size) !important;
+                font-family: var(--sText_family) !important;
+                }
+                
+                .overflow_hide {
+                overflow: hidden;
+                }
+                
+                .scrollDiv {
+                overflow: auto;
+                height: 100%;
+                scroll-behavior: smooth;
+                }
+                
+                .scrollDiv::-webkit-scrollbar {
+                width: .5rem;
+                background-color: #999;
+                display: none;
+                }
+                
+                .scrollDiv::-webkit-scrollbar-thumb {
+                display: none;
+                background-color: var(--primary-color);
+                }
+                
+                .scrollDiv::-webkit-scrollbar-track {
+                display: none;
+                background-color: #999;
+                }
+                
+                table.table_showDetails {
+                table-layout: fixed;
+                font-size: var(--nText_size);
+                font-family: var(--nText_family);
+                }
+                
+                table.table_showDetails .td {
+                padding: .5rem .2rem;
+                }
+                
+                table.table_showDetails .tableLeft, table.table_showDetails .tableRight {
+                vertical-align: top;
+                padding: 0.5rem 0.2rem;
+                color: var(--primary-color);
+                }
+                
+                table.table_showDetails .tableLeft {
+                font-family: var(--nHeading_family);
+                text-align: left;
+                }
+                
+                table.table_showDetails .tableRight {
+                font-family: var(--nText_family);
+                text-align: right;
+                }
+                
+                .table_showDetails {
+                width: 100%;
+                background: var(--sec-bgcolor);
+                padding: var(--s-pad);
+                border-radius: var(--border-radius);
+                }
+                
+                .externalFooter {
+                
+                box-shadow: var(--popup-header-footer-ShadowColor) 0 -2px 8px 0;
+                border-bottom-right-radius: var(--border-radius);
+                border-bottom-left-radius: var(--border-radius);
+                padding: var(--m-pad);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: var(--m-gap);
+                background-color: #f4f4f6;
+                }
+                
+                .heightWidth {
+                height: 100%;
+                width: 100%;
+                }
+                
+                .popupFooter iframe {
+                height: 30px;
+                width: 80px;
+                }
+                
+                .inputLabel {
+                font-size: 0.7rem;
+                font-family: var(--nText_family);
+                opacity: 0.5;
+                padding-left: 0.45rem;
+                color: var(--primary-color);
+                }
+                
+                .customInput input {
+                padding: .4rem;
+                border-radius: .5rem;
+                border: var(--border);
+                font-size: var(--normalText_size);
+                font-family: var(--normalText_family);
+                }
+                
+                .confirmInput {
+                display: none;
+                }
+                
+                .container {
+                display: block;
+                position: relative;
+                padding-left: 35px;
+                cursor: pointer;
+                font-size: 22px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                }
+                
+                .container input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+                }
+                
+                .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 19px;
+                width: 19px;
+                background-color: var(--sec-bgcolor);
+                border: var(--border);
+                }
+                
+                .container:hover input ~ .checkmark {
+                background-color: var(--secondary-color);
+                }
+                
+                .container input:checked ~ .checkmark {
+                background-color: var(--primary-color);
+                }
+                
+                .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+                }
+                
+                .container input:checked ~ .checkmark:after {
+                display: block;
+                }
+                
+                .container .checkmark:after {
+                left: 6px;
+                top: 3px;
+                width: 4px;
+                height: 8px;
+                border: solid white;
+                border-width: 0 2.5px 2.5px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+                }
+                
+                .pad-t-0 {
+                padding-top: 0;
+                }
+                form#payment-form iframe {
+                width: 100%;
+                }
+                
+                .ButtonSpan {
+                position: relative;
+                display: inline-flex;
+                height: 30px;
+                /* margin: 0 10px; */
+                perspective: 1000px;
+                }
+                
+                .ButtonSpan a {
+                text-decoration: none;
+                font-size: 10px;
+                letter-spacing: 1px;
+                transform-style: preserve-3d;
+                transform: translateZ(-25px);
+                transition: transform .25s;
+                font-weight: 600;
+                font-family: var(--nHeading_family);
+                }
+                
+                .ButtonSpan .submitBut:before,
+                .ButtonSpan .submitBut:after {
+                width: 80px;
+                content: 'Pay';
+                }
+                .ButtonSpan .savePayMethBut:before,
+                .ButtonSpan .savePayMethBut:after {
+                width: 80px;
+                content: 'Add Card';
+                }
+                
+                .ButtonSpan a:before,
+                .ButtonSpan a:after {
+                border: 1px solid var(--primary-color);
+                position: absolute;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                border-radius: 3px;
+                }
+                
+                .ButtonSpan a:hover {
+                transform: translateZ(-13px) rotateX(-90deg) !important;
+                cursor : pointer;
+                }
+                .submit
+                {
+                width: 80px;
+                }   
+                
+                .afterBorder:before {
+                color: #fff;
+                background: var(--primary-color);
+                transform: rotateY(0deg) translateZ(14px);
+                }
+                .afterBorder:after {
+                color: var(--primary-color);
+                transform: rotateX(90deg) translateZ(13px);
+                background: #f9f9f9;
+                } 
+                
+                .inputField {
+                display: flex;
+                flex-direction: column;
+                gap: var(--gap-small);
+                }
+                .inputField .label {
+                color: black !important;
+                font-size: var(--labelText_size);
+                font-family: var(--labelText_family);
+                }
+                .inputField input
+                {
+                padding: .4rem;
+                border-radius: .5rem;
+                border: var(--border);
+                font-size: var(--normalText_size);
+                font-family: var(--normalText_family);
+                }
+                .inputField input:focus-visible,
+                .inputField select:focus-visible {
+                outline: var(--border);
+                outline-width: 2px;
+                }
+            </style>
+            
+            <script type="text/javascript">
+            var fiservToken = '';
+            var expiryDate = '';
+            var validationError = '';
+            window.addEventListener("message", function (event) {
+                try {
+                    let data = event.data;
+                    if (typeof data === "string") {
+                        data = JSON.parse(data);
+                    }
+                    
+                    if (data && data.validationError) {
+                        console.error("Tokenization error:", data.validationError);
+                        const errorList = data.validationError.split('.').map(e => e.trim()).filter(e => e);
+                        if (errorList.length > 0) {
+                            validationError = errorList[0] + '.';
+                        }
+                        
+                    } else {
+                        validationError = '';
+                    }
+                    
+                    if (data && data.message) {
+                        fiservToken = data.message;
+                        expiryDate = data.expiry;
+                        const tokenInput = document.getElementById('mytoken');
+                        if (tokenInput) {
+                            tokenInput.value = fiservToken;
+                        }
+                        console.log("data", data);
+                        console.log("Received token:", fiservToken);
+                    }
+                } catch (e) {
+                    console.error("Error parsing token message:", e);
+                }
+            }, false);
+            //parent.postMessage({ name: "OpenSpinner", payload: "OpenSpinner" });
+            window.onload = function () {
+                const messageReady = { name: "CloseSpinner", payload: "CloseSpinner" };
+                console.log("Registration of all credit card fields occurred");
+                parent.postMessage(messageReady);
+               
+                const submitBtn = document.getElementById('submit');
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        
+                        if(event.currentTarget.ariaDisabled){
+                            return;
+                        }
+                        event.currentTarget.ariaDisabled = true;
+                        
+                        parent.postMessage({ name: "OpenSpinner", payload: "OpenSpinner" });
+                        
+                        setTimeout(() => {
+                            console.log("Submit button clicked");
+                            const cardHolderName = document.getElementById('cardHolderName').value;
+                            console.log("validationError =>", validationError);
+                            
+                            
+                            if (validationError != '') {
+                            event.currentTarget.ariaDisabled = false;
+                            parent.postMessage({ name: "CloseSpinner", payload: "CloseSpinner" }, "*");
+                        parent.postMessage({
+                            name: "TokenizeError",
+                            payload: validationError
+                        }, "*");
+                        return;
+                    }
+                                               else {
+                                               
+                                               const payload = {
+                                               details: {
+                                               cardNumber: fiservToken ? '************' + fiservToken.slice(-4) : '',
+                        expiryYear: expiryDate.substring(0, 4),
+                            expiryMonth: expiryDate.substring(4),
+                                cardholderName: document.getElementById('cardHolderName')?.value
+                                
+                },
+                                    paymentReference: fiservToken
+                };
+                
+                console.log("Sending token payload:", payload);
+                parent.postMessage({
+                    name: "FiservToken",
+                    payload: payload
+                }, "*");
+            }
+            }, 2000);
+            });
+            }
+            
+            };
+            
+            </script>
+			<script type="text/javascript">
+            	function handleBack(){
+                    console.log("<== handleBack ==>");
+                    parent.postMessage({ name: 'back', payload: 'ButtonWasClicked' }, '*');
+                }
+            </script>            
+        </head>
+        
+        <body>
+            <div class="dflexcol gap heightWidth" style="height: 100%;"> 
+                <apex:outputPanel rendered="{!showCard}"> 
+                    <div style = "display:flex;">
+                        <div class="scrollDiv pad pad-t-0" style = "width:100%" id="scroller">
+                            <form name="tokenform" id="tokenform">
+                                <div class="inputField dflexfo" style = "margin-bottom:0.5rem;" >
+                                    <div class="label">Card Holder Name</div>
+                                    <input id="cardHolderName" style="margin: 0 0.5%;"/>
+                                </div>
+                                <!--<div class = "dflex gap customInput" style = "margin-bottom:10px;">
+<div class="inputField">
+<div class="label" style = "padding-left:0px !important;">Card Holder Name</div>
+<input id="cardHolderName"/>
+</div>
+</div>-->
+                                <iframe id="tokenFrame"
+                                        name="tokenFrame"
+                                        src = "{!TokenizeUrl}"
+                                        frameborder="0"
+                                        scrolling="no"
+                                        height = "250px">
+                                </iframe>
+                                
+                                <input type="hidden" name="mytoken" id="mytoken" />
+                            </form>
+                        </div>
+                        
+                        <div style = "width:100%">
+                        </div>
+                    </div>
+                    <footer class="popupFooter dflexjsb externalFooter" style = "position: absolute;bottom: 0;width: 95.6%;">
+                    <div class="modalButton negativeBut "  onclick="handleBack()">
+                        Back
+                    </div>
+                    <a class="modalButton negativeBut"  data-type="save" id="submit">
+                        Save
+                    </a>
+                </footer>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!UpdatePaymentMethod}"> 
+                    <div style = "display:flex;">
+                        <div class="scrollDiv pad pad-t-0" style = "width:100%" id="scroller">
+                            <form name="tokenform" id="tokenform">
+                                <div class="inputField dflexfo" style = "margin-bottom:0.5rem;" >
+                                    <div class="label" style = "font-size:0.8rem !important;margin-top: 0.3rem;">Card Holder Name</div>
+                                    <input id="cardHolderName" style="margin: 0 0.5%;font-size:1rem !important"/>
+                                </div>
+                                <iframe id="tokenFrame"
+                                        name="tokenFrame"
+                                        src = "{!TokenizeUrl}"
+                                        frameborder="0"
+                                        scrolling="no"
+                                        height = "200px">
+                                </iframe>
+                                
+                                <input type="hidden" name="mytoken" id="mytoken" />
+                            </form>
+                        </div>
+                    </div>
+                    <footer class="popupFooter dflexjsb externalFooter">
+                    <div class="modalButton negativeBut " style= "font-size:1rem !important" onclick="handleBack()">
+                        Back
+                    </div>
+                    <a class="modalButton negativeBut" style= "font-size:1rem !important" data-type="save" id="submit">
+                        Save
+                    </a>
+                </footer>
+                </apex:outputPanel>
+   <apex:outputPanel rendered="{!NOT(showCard) && NOT(UpdatePaymentMethod)}">
+                    <div style = "display:flex;">
+                        <div class="scrollDiv pad pad-t-0" style = "width:100%" id="scroller">
+                            <form name="tokenform" id="tokenform">
+                                <div class="inputField dflexfo" style = "margin-bottom:0.5rem;" >
+                                    <div class="label" style = "font-size:30px !important;margin-top: 0.3rem;">Card Holder Name</div>
+                                    <input id="cardHolderName" style="margin: 0 0.5%;font-size:30px !important"/>
+                                </div>
+                                <!--<div class = "dflex gap customInput" style = "margin-bottom:10px;">
+<div class="inputField">
+<div class="label" style = "padding-left:0px !important;">Card Holder Name</div>
+<input id="cardHolderName"/>
+</div>
+</div>-->
+                                <iframe id="tokenFrame"
+                                        name="tokenFrame"
+                                        src = "{!TokenizeUrl}"
+                                        frameborder="0"
+                                        scrolling="no"
+                                        height = "320px">
+                                </iframe>
+                                
+                                <input type="hidden" name="mytoken" id="mytoken" />
+                            </form>
+                        </div>
+                    </div>
+                    <footer class="popupFooter dflexjsb externalFooter">
+                    <div class="modalButton negativeBut " style= "font-size:30px !important" onclick="handleBack()">
+                        Back
+                    </div>
+                    <a class="modalButton negativeBut" style= "font-size:30px !important" data-type="save" id="submit">
+                        Save
+                    </a>
+                </footer>
+                </apex:outputPanel>                
+                
+            </div>
+        </body>
+    </html>
+</apex:page>

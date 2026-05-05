@@ -1,0 +1,8 @@
+.THIS .content{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.THIS .section{
+    flex: 1;
+}

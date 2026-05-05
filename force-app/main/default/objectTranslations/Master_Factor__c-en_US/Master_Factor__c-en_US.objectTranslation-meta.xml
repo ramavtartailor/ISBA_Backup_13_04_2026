@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Master Factor</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Master Factors</value>
+    </caseValues>
+    <layouts>
+        <layout>Area of Practice</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Base Value</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Deductible</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>GEO Mod</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Limits Factor</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Master Factor Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Step Rate</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Area of Practice --></label>
+        <name>Area_of_Practice</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Base Value --></label>
+        <name>Base_Value</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Deductible --></label>
+        <name>Deductible</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Geo Mod --></label>
+        <name>GEO_Mode</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Limits --></label>
+        <name>Limit_Coverage</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Step Rate --></label>
+        <name>Step_Rate</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- There should at least be one Lowest coverage factor set. --></errorMessage>
+        <name>Lowest_On_Limits</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Clone_With_Lines --></label>
+        <name>Clone_With_Lines</name>
+    </webLinks>
+</CustomObjectTranslation>

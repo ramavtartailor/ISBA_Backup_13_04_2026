@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Close Reason --></label>
+    <name>Close_Reason__c</name>
+    <picklistValues>
+        <masterLabel>Coverage</masterLabel>
+        <translation><!-- Coverage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Employment</masterLabel>
+        <translation><!-- Employment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBA Membership Cost</masterLabel>
+        <translation><!-- ISBA Membership Cost --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Response</masterLabel>
+        <translation><!-- No Response --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Premium</masterLabel>
+        <translation><!-- Premium --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Propestive Practice</masterLabel>
+        <translation><!-- Propestive Practice --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

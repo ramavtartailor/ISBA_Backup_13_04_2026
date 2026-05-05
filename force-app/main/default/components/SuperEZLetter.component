@@ -1,0 +1,6 @@
+<apex:component >
+    <apex:attribute name="recordIdParam" description="" type="String"/>
+    <apex:attribute name="versionParam" description="" type="String"/>
+    <c:SuperEZLetter_1_18 recordIdParam="{!recordIdParam}" rendered="{!IF(versionParam== '1/18',true,false)}" />
+    <c:SuperEZLetter_1_23 recordIdParam="{!recordIdParam}" rendered="{!IF(versionParam== '1/23',true,false)}" />
+</apex:component>

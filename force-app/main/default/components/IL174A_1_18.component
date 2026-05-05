@@ -1,0 +1,22 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <div style="min-height: 680px !important;">
+    <p class="heading"> 
+        <span style="font-weight: bolder;">Claim</span> and <span style="font-weight: bolder;">Disciplinary Proceeding</span><br/>
+        Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended to exclude any<span class="normalBoldParagraph"> Claim </span>or<span class="normalBoldParagraph"> Disciplinary Proceeding </span>based upon, arising out of, directly or indirectly resulting from, or in any way connected with:<br/>
+        <br/><br/><apex:outputField value="{!endorsement.Matter__c}"/>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    </div>
+    <!-- <div style="width:30%;margin-top:0px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

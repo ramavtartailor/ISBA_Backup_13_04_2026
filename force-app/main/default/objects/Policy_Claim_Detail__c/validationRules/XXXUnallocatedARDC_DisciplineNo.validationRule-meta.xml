@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>XXXUnallocatedARDC_DisciplineNo</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name = &apos;Unallocated LAE&apos; &amp;&amp;
+ ISPICKVAL(  Policy_Claim__r.File_Type__c , &apos;ARDC Complaint&apos;) &amp;&amp;
+ ISPICKVAL(  Type__c , &apos;Claim Coverage - ARDC&apos;) &amp;&amp;
+ ISPICKVAL(Policy_Claim__r.Discipline_Action__c, &apos;No&apos;) &amp;&amp;
+ (
+  (Policy_Claim__r.Lawyer__r.ARDC_ISBA_First_Payment_Balance__c +
+   Policy_Claim__r.Lawyer__r.ARDC_ISBA_Contribution_Balance__c) - 
+   (ISBA_Contribution__c +  ISBA_First_Payment__c) 
+  ) &gt; 0</errorConditionFormula>
+    <errorMessage>ISBA Contribution should be First in case of &apos;Discipline Action&apos; than Lawyer Contribution!</errorMessage>
+</ValidationRule>

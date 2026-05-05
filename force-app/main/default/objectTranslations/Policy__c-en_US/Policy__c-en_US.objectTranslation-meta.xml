@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Application/Policy</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Application/Policy</value>
+    </caseValues>
+    <fieldSets>
+        <label><!-- ApplicationDates --></label>
+        <name>ApplicationDates</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- Firm Mod Information --></label>
+        <name>Firm_Mod_Information</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- Information --></label>
+        <name>Information</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- Payment Details --></label>
+        <name>Payment_Details</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- PolicyFieldSet --></label>
+        <name>PolicyFieldSet</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod --></label>
+        <name>SCH_Mod</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod BO --></label>
+        <name>SCH_Mod_BO</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod FM --></label>
+        <name>SCH_Mod_FM</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod GM --></label>
+        <name>SCH_Mod_GM</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Over --></label>
+        <name>SCH_Mod_Over</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Override --></label>
+        <name>SCH_Mod_Override</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Override BO --></label>
+        <name>SCH_Mod_Override_BO</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Override FM --></label>
+        <name>SCH_Mod_Override_FM</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Override GM --></label>
+        <name>SCH_Mod_Override_GM</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Override Over --></label>
+        <name>SCH_Mod_Override_Over</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Override Training --></label>
+        <name>SCH_Mod_Override_Training</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Mod Training --></label>
+        <name>SCH_Mod_Training</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Override Comment --></label>
+        <name>SCH_Override_Comment</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Override Comment	BO --></label>
+        <name>SCH_Override_Comment_BO</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Override Comment	FM --></label>
+        <name>SCH_Override_Comment_FM</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Override Comment	GM --></label>
+        <name>SCH_Override_Comment_GM</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Override Comment Over --></label>
+        <name>SCH_Override_Comment_Over</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- SCH Override Comment Training --></label>
+        <name>SCH_Override_Comment_Training</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- System Fields (Please do not change the values) --></label>
+        <name>System_Fields</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- Temporary Section --></label>
+        <name>Temporary_Section</name>
+    </fieldSets>
+    <layouts>
+        <layout>Application Layout</layout>
+        <sections>
+            <label><!-- Application --></label>
+            <section>Application</section>
+        </sections>
+        <sections>
+            <label><!-- Application Dates --></label>
+            <section>Application Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Firm Mod Information --></label>
+            <section>Firm Mod Information</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Branch Offices (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Branch Offices (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Firm Management (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Firm Management (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - General Modifications (-5% to +10%): --></label>
+            <section>Schedule Modifiers - General Modifications (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Internal Procedures (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Internal Procedures (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Override (needs Approval): --></label>
+            <section>Schedule Modifiers - Override (needs Approval):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Training (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Training (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Step Factors --></label>
+            <section>Step Factors</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Application Layout for Underwriter</layout>
+        <sections>
+            <label><!-- Application --></label>
+            <section>Application</section>
+        </sections>
+        <sections>
+            <label><!-- Application Dates --></label>
+            <section>Application Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Firm Mod Information --></label>
+            <section>Firm Mod Information</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Application Rejected</layout>
+        <sections>
+            <label><!-- Application --></label>
+            <section>Application</section>
+        </sections>
+        <sections>
+            <label><!-- Application Dates --></label>
+            <section>Application Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Factors --></label>
+            <section>Factors</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Application layout for Sales/Marketing</layout>
+        <sections>
+            <label><!-- Application --></label>
+            <section>Application</section>
+        </sections>
+        <sections>
+            <label><!-- Application Dates --></label>
+            <section>Application Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Firm Mod Information --></label>
+            <section>Firm Mod Information</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>EZ Policy Layout</layout>
+        <sections>
+            <label><!-- ARDC Claim Information --></label>
+            <section>ARDC Claim Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Limits &amp; Deductible --></label>
+            <section>Limits &amp; Deductible</section>
+        </sections>
+        <sections>
+            <label><!-- Loss Ratio : Premium --></label>
+            <section>Loss Ratio : Premium</section>
+        </sections>
+        <sections>
+            <label><!-- Loss Ratio: Incurred --></label>
+            <section>Loss Ratio: Incurred</section>
+        </sections>
+        <sections>
+            <label><!-- Loss Ratio: Payment --></label>
+            <section>Loss Ratio: Payment</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+        <sections>
+            <label><!-- Policy --></label>
+            <section>Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Remaining Limits: All Claims On Policy --></label>
+            <section>Remaining Limits: All Claims On Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Renewal Options --></label>
+            <section>Renewal Options</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+        <sections>
+            <label><!-- Temporary Section --></label>
+            <section>Temporary Section</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Policy Layout</layout>
+        <sections>
+            <label><!-- ARDC Claim Information --></label>
+            <section>ARDC Claim Information</section>
+        </sections>
+        <sections>
+            <label><!-- Current Premium --></label>
+            <section>Current Premium</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- IBF Contribution --></label>
+            <section>IBF Contribution</section>
+        </sections>
+        <sections>
+            <label><!-- Layers --></label>
+            <section>Layers</section>
+        </sections>
+        <sections>
+            <label><!-- Limits &amp; Deductible --></label>
+            <section>Limits &amp; Deductible</section>
+        </sections>
+        <sections>
+            <label><!-- MODs --></label>
+            <section>MODs</section>
+        </sections>
+        <sections>
+            <label><!-- Original Premium --></label>
+            <section>Original Premium</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+        <sections>
+            <label><!-- Policy --></label>
+            <section>Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dividend --></label>
+            <section>Policy Dividend</section>
+        </sections>
+        <sections>
+            <label><!-- Previous Dividend Information --></label>
+            <section>Previous Dividend Information</section>
+        </sections>
+        <sections>
+            <label><!-- Remaining Limits: All Claims On Policy --></label>
+            <section>Remaining Limits: All Claims On Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Renewal Options --></label>
+            <section>Renewal Options</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Branch Offices (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Branch Offices (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Firm Management (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Firm Management (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - General Modifications (-5% to +10%): --></label>
+            <section>Schedule Modifiers - General Modifications (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Internal Procedures (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Internal Procedures (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Override (needs Approval): --></label>
+            <section>Schedule Modifiers - Override (needs Approval):</section>
+        </sections>
+        <sections>
+            <label><!-- Schedule Modifiers - Training (-5% to +10%): --></label>
+            <section>Schedule Modifiers - Training (-5% to +10%):</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+        <sections>
+            <label><!-- Temporary Section --></label>
+            <section>Temporary Section</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Regular Policy Layout</layout>
+        <sections>
+            <label><!-- ARDC Claim Information --></label>
+            <section>ARDC Claim Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Limits &amp; Deductible --></label>
+            <section>Limits &amp; Deductible</section>
+        </sections>
+        <sections>
+            <label><!-- Loss Ratio : Premium --></label>
+            <section>Loss Ratio : Premium</section>
+        </sections>
+        <sections>
+            <label><!-- Loss Ratio: Incurred --></label>
+            <section>Loss Ratio: Incurred</section>
+        </sections>
+        <sections>
+            <label><!-- Loss Ratio: Payment --></label>
+            <section>Loss Ratio: Payment</section>
+        </sections>
+        <sections>
+            <label><!-- MODs --></label>
+            <section>MODs</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+        <sections>
+            <label><!-- Policy --></label>
+            <section>Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Remaining Limits: All Claims On Policy --></label>
+            <section>Remaining Limits: All Claims On Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Renewal Options --></label>
+            <section>Renewal Options</section>
+        </sections>
+        <sections>
+            <label><!-- System Fields (Please do not change the values) --></label>
+            <section>System Fields (Please do not change the values)</section>
+        </sections>
+        <sections>
+            <label><!-- Temporary Section --></label>
+            <section>Temporary Section</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add Renewal App --></label>
+        <name>Add_Renewal_App_Ltng</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Clone --></label>
+        <name>Clone</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Convert To Application --></label>
+        <name>Convert_To_Application_New</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Bind Policy --></label>
+        <name>Convert_to_Policy</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Lost Application --></label>
+        <name>Lost_Application</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Lost Application Old --></label>
+        <name>Lost_Application_Old</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Block --></label>
+        <name>New_Block</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Note --></label>
+        <name>New_Note</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Process Accounting --></label>
+        <name>Process_Accounting</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Regenerate Online App --></label>
+        <name>Regenerate_APP</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Regenerate Documents --></label>
+        <name>Regenerate_Documents</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Request Delete --></label>
+        <name>Request_Delete</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reverse Accounting --></label>
+        <name>Reverse_Accounting</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reverse Lost Status --></label>
+        <name>Reverse_Lost_Status</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Run Claim Loss Report --></label>
+        <name>Run_Claim_Loss_Report</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- Application --></description>
+        <label><!-- Application --></label>
+        <name>Application</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Layout for Rejected Applications --></description>
+        <label><!-- Application Rejected --></label>
+        <name>Application_Rejected</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- ERP Policy --></label>
+        <name>ERP_Policy</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Policy --></description>
+        <label><!-- Policy --></label>
+        <name>Policy</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Policy was canceled-flat and replaced with a corrected policy --></description>
+        <label><!-- Replaced --></label>
+        <name>Replaced</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- SA-ERP --></label>
+        <name>SA_ERP</name>
+    </recordTypes>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please check mark AOP Override first ! --></errorMessage>
+        <name>AOP_Override_False</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please input positive AOP Override value ! --></errorMessage>
+        <name>AOP_Override_True</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Only Managers can perform Override Operation ! --></errorMessage>
+        <name>AOP_Overrideby_NonManager</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Application should be Accepted after Application Received date is provided. --></errorMessage>
+        <name>App_Not_Accepted_without_ReceiveDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Application should be Accepted after Application Signed date is provided. --></errorMessage>
+        <name>App_not_Accepted_without_Date_Signed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- In the presence of Errors, Application should not be Accepted. --></errorMessage>
+        <name>Application_Can_not_be_Accepted_if_Error</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Cancel date must not be less than Policy Effective Date And/Or must not exceed Policy Expiration date! --></errorMessage>
+        <name>Cancel_Date_between_Effective_and_Expiry</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Cancel date can be entered when Policy is Active. --></errorMessage>
+        <name>Cancel_date_Enter_when_Policy_is_Active</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please input positive Claim Factor value! --></errorMessage>
+        <name>ClaimFactor_Should_be_Positive</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Effective Date can not be 29th February. --></errorMessage>
+        <name>Effective_Date_Can_Not_Be_29_Feb</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Expiration date must not be less than Policy Effective Date. --></errorMessage>
+        <name>Expiration_greater_than_Effective_Date</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- There should at least be one lawyer associated with the Policy! --></errorMessage>
+        <name>Number_Of_Lawyer_Per_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Application already exists on the selected Account! --></errorMessage>
+        <name>One_Application_Per_Account</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Policy Number can only be generated once Application converts into Policy. --></errorMessage>
+        <name>Policy_Number_Generation_Validation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Lost Reason is required when status is set to Lost. --></errorMessage>
+        <name>Reason_Is_Required_for_Lost_App</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please provide the reason for Blocking/Unblocking &apos;Renewal Application&apos;! --></errorMessage>
+        <name>Renewal_Block_Reason</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please input positive SCH Mode value! --></errorMessage>
+        <name>SCH_Mod_Should_be_Positive</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Policy status should not be Changed! --></errorMessage>
+        <name>Status_could_not_change_Once_Policy_Done</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- EZRenewal --></label>
+        <name>EZRenewal</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Firm_Mod --></label>
+        <name>Firm_Mod</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GL_Report --></label>
+        <name>GL_Report</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Generate_LSA --></label>
+        <name>Generate_LSA</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- New_Application --></label>
+        <name>New_Application</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- New_Application_Endorsement --></label>
+        <name>New_Application_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- New_Policy_Endorsement --></label>
+        <name>New_Policy_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Print_Documents_VF --></label>
+        <name>Print_Documents_VF</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Quote_Bundle_VF --></label>
+        <name>Quote_Bundle_VF</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Regular_Renewal --></label>
+        <name>Regular_Renewal</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Renewal_Bundle --></label>
+        <name>Renewal_Bundle</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Closeout_Letter --></label>
+        <name>Send_Closeout_Letter</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Email --></label>
+        <name>Send_Email</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Online_Application --></label>
+        <name>Send_Online_Application</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Policy_Documents --></label>
+        <name>Send_Policy_Documents</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Quote --></label>
+        <name>Send_Quote</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Quote_New --></label>
+        <name>Send_Quote_New</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Renewal_Application --></label>
+        <name>Send_Renewal_Application</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_All_Blocks --></label>
+        <name>View_All_Blocks</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_FWP_Application --></label>
+        <name>View_FWP_Application</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_FWP_Policy --></label>
+        <name>View_FWP_Policy</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_Notes --></label>
+        <name>View_Notes</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_Policy --></label>
+        <name>View_Policy</name>
+    </webLinks>
+</CustomObjectTranslation>

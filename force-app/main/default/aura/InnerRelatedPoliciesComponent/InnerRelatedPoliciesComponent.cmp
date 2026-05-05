@@ -1,0 +1,32 @@
+<aura:component >
+	<aura:attribute name="PolicyInstance" type="Policy__c"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <aura:registerEvent name="NavigateToPolicyRecord" type="c:NavigateToPolicyRecord"/>
+    
+    <tr class="">
+        <th scope="row">
+            <a onclick="{!c.goToPolicyRecord}">{!v.PolicyInstance.Name}</a>
+        </th>
+        <th scope="row">
+            <ui:outputDate  value="{!v.PolicyInstance.Effective_Date__c}"/>
+        </th>
+        <th scope="row"  style="text-align:right;">
+            <ui:outputText value="{!v.PolicyInstance.Limits__c}"/>
+        </th>
+        <th scope="row"  style="text-align:right;">
+            <ui:outputText value="{!v.PolicyInstance.Deductible__c}"/>
+        </th>
+        <th scope="row"  style="text-align:right;">
+            <ui:outputCurrency value="{!v.PolicyInstance.Premium_Amount__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputDate  value="{!v.PolicyInstance.Expiration_Date__c}"/>
+        </th>
+        <th scope="row">
+            <ui:outputText value="{!v.PolicyInstance.Status__c}"/>
+        </th>
+    </tr>
+    
+</aura:component>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Handler --></label>
+    <name>Handler__c</name>
+    <picklistValues>
+        <masterLabel>Alan Sue</masterLabel>
+        <translation><!-- Alan Sue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Audit ISBA</masterLabel>
+        <translation><!-- Audit ISBA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cai Huang</masterLabel>
+        <translation><!-- Cai Huang --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Candice Goldstein</masterLabel>
+        <translation><!-- Candice Goldstein --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cinda Berry</masterLabel>
+        <translation><!-- Cinda Berry --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>David Sameshima</masterLabel>
+        <translation><!-- David Sameshima --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Demi Clay</masterLabel>
+        <translation><!-- Demi Clay --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Elizabeth Shaykin</masterLabel>
+        <translation><!-- Elizabeth Shaykin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jeff Strand</masterLabel>
+        <translation><!-- Jeff Strand --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jessica Chu</masterLabel>
+        <translation><!-- Jessica Chu --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Joan Comfort</masterLabel>
+        <translation><!-- Joan Comfort --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Joann Woo</masterLabel>
+        <translation><!-- Joann Woo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kyle Hoker</masterLabel>
+        <translation><!-- Kyle Hoker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lisa Garbaty</masterLabel>
+        <translation><!-- Lisa Garbaty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Melissa Kaplan</masterLabel>
+        <translation><!-- Melissa Kaplan --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Neil Bergeron</masterLabel>
+        <translation><!-- Neil Bergeron --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tectnoic</masterLabel>
+        <translation><!-- Tectnoic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Veronique Rufus</masterLabel>
+        <translation><!-- Veronique Rufus --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Xu Jun Liu</masterLabel>
+        <translation><!-- Xu Jun Liu --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

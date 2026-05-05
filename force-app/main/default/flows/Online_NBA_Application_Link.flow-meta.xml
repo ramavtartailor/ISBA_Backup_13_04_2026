@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Online_NBA_Application_Link_Email</name>
+        <label>Online NBA Application Link Email</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <actionName>Customer_Application__c.Online_NBA_Application_Link_Email</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>Create_Task</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Customer_Application__c.Online_NBA_Application_Link_Email</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>55.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Record_Type_Condition</name>
+        <label>Record Type Condition</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_New_Business</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Business</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Online_NBA_Application_Link_Email</targetReference>
+            </connector>
+            <label>Is New Business</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>fromEmailAddress</name>
+        <dataType>String</dataType>
+        <expression>&quot;insure@isbamutual.com&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>FROMName</name>
+        <dataType>String</dataType>
+        <expression>&quot;ISBA Mutual Insurance&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>RecordTypeName</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.RecordType.Name}</expression>
+    </formulas>
+    <interviewLabel>Online NBA Application Link {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Online NBA Application Link</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Task</name>
+        <label>Create Task</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Body</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Record_Type_Condition</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Would_you_like_to_receive_a_link_to_this__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Customer_Application__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>Body</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{!$Record.Contact_Name__c},
+
+Thank you for your interest in ISBA Mutual. We noticed you started an application for your insurance quote.
+
+Your progress has been saved and you can complete the remainder at:
+{!$Record.Form_Link__c}
+
+Quotes are typically issued within 24 hours of application completion.
+
+If you have any questions, I can be reached directly at (312) 379-2012 or andrew.murray@isbamutual.com. 
+
+Regards,
+Andrew Murray
+Vice President of Business Development
+
+ISBA Mutual Insurance
+20 S Clark Street, Suite 800
+Chicago, IL 60603
+312 379-2012 Direct
+312 379-2000 Office
+312 379-2049 Fax</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Subject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>ISBA Mutual Quote Process Initiated</text>
+    </textTemplates>
+</Flow>

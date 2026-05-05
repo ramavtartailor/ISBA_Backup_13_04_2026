@@ -1,0 +1,48 @@
+<apex:component controller="Policy_Letter_Template_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="normalParagraph">
+        <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        <apex:outputText value="{!policy.Primary_Contact_Name_History__c}"/><br/>
+        <apex:outputText value="{!policy.Related_Firm_Id_History__c}"/><br/>
+        <apex:outputText value="{!policy.Firm_Name_History__c}"/><br/>
+        <apex:outputText value="{!policy.Firm_Billing_Address_History__c}" escape="false"/><br/>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%;page-break-inside:avoid;page-break-after:auto" >
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    Re:     
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    ISBA Mutual Lawyers’ Malpractice Insurance<br/>
+                    Policy #:  &nbsp;&nbsp;<apex:outputText value="{!policy.Policy_Number_History__c}"/><br/>
+                    Policy Term:  &nbsp;&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Effective_Date_History__c}" /> </apex:outputText>&nbsp;
+                    To &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Expiration_Date_History__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <p class="normalParagraph">
+        Dear &nbsp;<apex:outputText value="{!policy.Primary_Contact_Name_History__c}"/>&nbsp; :<br/><br/>
+        We are pleased to enclose your &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Effective_Date_History__c}" /> </apex:outputText>&nbsp; policy.
+        Included with your policy documents is a certificate of insurance for your convenience.<br/><br/>
+        It is our pleasure to provide you with this valuable service. If you have any questions, please do not hesitate to contact us at (312) 379-2000 or by email at underwriting@isbamutual.com.<br/><br/>
+    </p>  
+        <p class="" style="{!if(policy.Underwriter_User__r.FirstName!=null,'','display:none;')}">
+            Sincerely,
+            <br/><br/><br/>
+            {!policy.Underwriter_User__r.FirstName}&nbsp;{!policy.Underwriter_User__r.LastName}
+            <br/>
+            Underwriting
+            <br/>
+                    Enc.
+        </p>
+
+
+</apex:component>

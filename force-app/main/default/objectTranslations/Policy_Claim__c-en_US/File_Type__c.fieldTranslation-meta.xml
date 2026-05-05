@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- File Type --></label>
+    <name>File_Type__c</name>
+    <picklistValues>
+        <masterLabel>ARDC Complaint</masterLabel>
+        <translation><!-- ARDC Complaint --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claim</masterLabel>
+        <translation><!-- Claim --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Incident</masterLabel>
+        <translation><!-- Incident --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Memo</masterLabel>
+        <translation><!-- Memo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Subpoena</masterLabel>
+        <translation><!-- Subpoena --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Suit</masterLabel>
+        <translation><!-- Suit --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

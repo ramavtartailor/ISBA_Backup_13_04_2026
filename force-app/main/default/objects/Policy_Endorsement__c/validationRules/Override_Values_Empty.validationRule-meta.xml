@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Override_Values_Empty</fullName>
+    <active>true</active>
+    <description>If the override rating check is false than the override values should be empty.</description>
+    <errorConditionFormula>AND(Override_Rating__c = false, OR(NOT(ISNULL(Override_5_5__c)), NOT(ISNULL(Override_10_10__c))))</errorConditionFormula>
+    <errorDisplayField>Override_Rating__c</errorDisplayField>
+    <errorMessage>Override Rating Values should be empty if Override Rating is not checked!</errorMessage>
+</ValidationRule>

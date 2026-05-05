@@ -1,0 +1,1070 @@
+<apex:component controller="RegularRenewalDoc_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+    <table style="width:100%;">
+        <tr>
+            <td style="font-family:'Times New Roman', Times, serif;text-align:center;">
+                <center>
+                    <b style="font-size:15px;"> 
+                    LAWYERS PROFESSIONAL LIABILITY INSURANCE
+                    <br/>
+                    RENEWAL APPLICATION
+                    <br/>
+                    </b>
+                </center>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b style="font-size:12px;">
+                    PLEASE TYPE OR PRINT IN INK. If space is insufficient to answer any questions, please use Applicant letterhead. Any omissions will be
+                    considered an incomplete submission and will not be processed.
+                    <br/><br/>
+                    Only claims which are first made against you and reported to us during the policy term are covered, subject to policy provisions.
+                    <br/>
+                </b>
+            </td>
+        </tr>
+    </table>
+    <div id="divActivites" style="width:100%;border:1px solid black;text-align:center;font-size:12px;">
+        If the preprinted information is incorrect or incomplete, please strike it and provide correct or updated information.
+    </div>
+    <br/>
+    <table style="width:100%;">
+        <tr class="fontCss">
+            <td style="width:50%;vertical-align:top">
+                {!policy.Account__r.Name} <br/>
+                {!policy.Account__r.BillingStreet}<br/>
+                
+                {!policy.Account__r.BillingCity} {!policy.Account__r.BillingState} {!policy.Account__r.BillingPostalCode}<br/>
+            </td>
+            <td style="width:50%;vertical-align:top">
+                Name and/or Address Changes:
+                <br/>
+                (Include date of change.)
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <table style="width:100%;">
+        <tr class="fontCss">
+            <td style="width:50%;vertical-align:top">
+                County: <apex:outputText value="{!policy.County__r.Name}" />
+            </td>
+            <td style="width:50%;" >
+                County Change: 
+            </td>
+        </tr>
+        <tr class="fontCss">
+            <td style="width:50%;vertical-align:top">
+                Phone Number: <apex:outputText value="{!policy.Account__r.Phone}" />
+            </td>
+            <td style="width:50%;" >
+                Policy Number: {!policy.Name}
+            </td>
+        </tr>
+        <tr class="fontCss">
+            <td style="width:50%;" >
+                Fax Number: <apex:outputText value="{!policy.Account__r.Fax}" />
+            </td>
+            <td style="width:50%;" >
+                Expiration Date: 
+                <apex:outputText value="{0,date, MM/dd/yyyy}"> 
+                    <apex:param value="{!policy.Expiration_Date__c}" /> 
+                </apex:outputText>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr class="fontCss">
+            <td style="width:15%;vertical-align:bottom;" >
+                Contact Person:
+            </td>
+            <td style="width:15%;vertical-align:bottom;" >
+                Name:
+            </td>
+            <td style="width:30%;border-bottom:solid" >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!policy.Firm_Contact__r.Name}
+            </td>
+            <td style="width:10%;vertical-align:bottom;" >
+                Position:
+            </td>
+            <td style="width:30%;vertical-align:bottom;border-bottom:solid" >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!policy.Firm_Contact__r.Contact_Role__c}
+            </td>
+        </tr>
+        <tr class="fontCss">
+            <td style="width:15%;vertical-align:bottom;" >
+            </td>
+            <td style="width:15%;vertical-align:bottom;" >
+                Email Address:
+            </td>
+            <td style="width:70%;border-bottom:solid"  colspan="3">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!policy.Firm_Contact__r.Email}
+            </td>
+        </tr>
+        <tr class="fontCss">
+            <td style="width:15%;vertical-align:bottom;" >
+            </td>
+            <td style="width:15%;vertical-align:bottom;" >
+                Web Address:
+            </td>
+            <td style="width:70%;border-bottom:solid" colspan="3">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!policy.Account__r.Website__c}
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <table width="100%">
+        <thead>
+            <tr class="fontCss">
+                <th colspan="2" style="width:52%;">
+                    <center>
+                    LIMITS OF LIABILITY (“Limits”)
+                    <br/>EACH CLAIM / ANNUAL AGGREGATE 
+                    </center>
+                </th>
+                <th style="width:8%;"></th>
+                <th colspan="2" style="width:40%;padding-left:50px;position:relative;">
+                    DEDUCTIBLE
+                    <br/>EACH CLAIM
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="fontCss">   
+                <td style="width:26%;vertical-align:top;">
+                    <table>
+                        <apex:repeat value="{!policyLimit}" var="pLimit" first="0" rows="8">
+                            <tr>
+                            <td style="width:15%;vertical-align:top;" >
+                                <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/>
+                            </td>
+                            <td style="width:84%;" >
+                                {!pLimit}
+                            </td>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                </td>
+                <td style="width:26%;vertical-align:top;">
+                    <table>
+                        <apex:repeat value="{!policyLimit}" var="pLimit" first="8" rows="16">
+                            <tr>
+                            <td style="width:15%;vertical-align:top;" >
+                                <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/>
+                            </td>
+                            <td style="width:84%;" >
+                                {!pLimit}
+                            </td>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                </td> 
+                <td style="width:8%;"></td>           
+                <td style="width:20%;vertical-align:top;">
+                    <table>
+                        <apex:repeat value="{!policyDeductible}" var="pDeduct" first="0" rows="8">
+                            <tr>
+                            <td style="width:15%;vertical-align:top;" >
+                                <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/>
+                            </td>
+                            <td style="width:84%;" >
+                                {!pDeduct}
+                            </td>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                </td>
+                <td style="width:20%;vertical-align:top;">
+                    <table>
+                        <apex:repeat value="{!policyDeductible}" var="pDeduct" first="8" rows="7">
+                            <tr>
+                            <td style="width:15%;vertical-align:top;" >
+                                <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/>
+                            </td>
+                            <td style="width:84%;" >
+                                {!pDeduct}
+                            </td>
+                            </tr>
+                        </apex:repeat>
+                        <tr>
+                            <td style="width:15%;vertical-align:top;" >
+                                <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/>
+                            </td>
+                            <td style="width:84%;" >
+                                Higher $______
+                            </td>
+                        </tr>
+                    </table>
+                </td>    
+            </tr>
+            
+        </tbody>
+    </table>
+    <br/>
+    <table class="fontCssSmall" width="100%">
+        <thead style="font-size:10px;">
+            <tr style="border-bottom: 1px solid black;">
+                <th style="width:2%"></th>
+                <th style="border-bottom: 1px solid black;">
+                    COMPLETE THE SUPPLEMENT INDICATED ONLY IF A “YES” RESPONSE IS INDICATED BELOW:
+                </th>
+                <th style="border-bottom: 1px solid black;">
+                    No Supplement
+                    Needed
+                </th>
+                <th style="border-bottom: 1px solid black;">
+                    Complete
+                    Supplement
+                </th>
+                <th style="border-bottom: 1px solid black;">
+                    Supplement
+                    to Complete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td><b>1.</b></td>
+                <td>
+                    Is Applicant seeking to increase the Limits of Liability from Applicant’s expiring Limits?
+                    <br/>
+                    <b>If yes, </b>explain basis for the increase. ___________________________________________
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b>2.</b></td>
+                <td>
+                    Does Applicant or any Applicant member practice from another location? <b>If yes,</b>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (a) Identify the other location.
+                    (b) Identify the percent of revenue from each location.
+                    _______________________________________________________
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b>3.</b></td>
+                <td>
+                    (a) During the past 12 months has there been any change in the percentages attributable
+                        to Applicant’s areas of practice?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    AOP
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (b) During the past 12 months has Applicant engaged in a new area of practice?
+                        <br/>
+                        <b>If yes, </b>identify the new area of practice.______________________________________
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    AOP
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (c) Do you foresee any changes greater than 25% in Applicant’s areas of practice over the
+                        <br/>
+                        next 12 months? <b>If yes, explain.</b>___________________________________________
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    AOP
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="fontCssSmall" width="100%">
+        <thead style="font-size:10px;">
+            <tr style="border-bottom: 1px solid black;">
+                <th style="width:2%"></th>
+                <th  style="border-bottom: 1px solid black;">
+                    COMPLETE THE SUPPLEMENT INDICATED ONLY IF A “YES” RESPONSE IS INDICATED BELOW:
+                </th>
+                <th  style="border-bottom: 1px solid black;">
+                    No Supplement
+                    Needed
+                </th>
+                <th  style="border-bottom: 1px solid black;">
+                    Complete
+                    Supplement
+                </th>
+                <th  style="border-bottom: 1px solid black;">
+                    Supplement
+                    to Complete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td><b>4.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member provided legal services in
+                    connection with:
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (a) the issuance, offering, or sale of securities?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Securities
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (b) a financial institution in which he/she either (1) serves/served as a director, officer or
+                        committee member and/or (2) holds/held an equity interest?
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Financial
+                    Institution
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (c) the formation, syndication, promotion, or management of any limited partnership
+                    or private placement?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Limited
+                    Partnership
+                </td>
+            </tr>
+            <tr >
+                <td><b>5.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member:
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (a) acted in the capacity or with the title of “trustee” for a client? 
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Fiduciary
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (b) had discretionary investment authority over client funds?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Estate/Trust
+                </td>
+            </tr>
+            <tr >
+                <td><b>6.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member:
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (a) served as a director, officer, partner or employee of a past or present client?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Outside Interest
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (b) had an equity interest in a past or present client? 
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Outside Interest
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    (c) engaged in business ventures with a past or present client?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Outside Interest
+                </td>
+            </tr>
+            <tr >
+                <td><b>7.</b></td>
+                <td>
+                    Do any of Applicant’s clients generate 25% or more of Applicant’s gross revenue?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Practice
+                </td>
+            </tr>
+            <tr >
+                <td><b>8.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member provided legal services
+                    <br/>
+                    outside of the State of Illinois either with or without other counsel (including contingency fee
+                    <br/>
+                    referrals)?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Out of State
+                </td>
+            </tr>
+            <tr >
+                <td><b>9.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member rendered professional
+                    <br/>
+                    services involving residential loan or mortgage modification, workout, refinance, origination or
+                    <br/>
+                    sales/leaseback on behalf of debtors? 
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Residential
+                </td>
+            </tr>
+            <tr >
+                <td><b>10.</b></td>
+                <td>
+                    Does Applicant or any Applicant member own 100% of a title agency for which coverage is
+                    sought?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Title
+                </td>
+            </tr>
+            <tr >
+                <td><b>11.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member sued any client for fees?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b></b></td>
+                <td>
+                    <b>If yes, </b>(a) identify the number of fee suits filed: _____
+                    <br/>
+                    &#09;(b) identify number of fee suits that do not involve family law: ____
+                    <br/>
+                    &#09;(c) if any suit in 11(b) is for more than $5,000 in fees, then complete CLIENT SUIT
+                     Supplement 
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td style="vertical-align:top;"><b>12.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member been disbarred,
+                    suspended, refused admittance to practice, reprimanded, sanctioned, or held in contempt by
+                    a court, administrative agency, regulatory body, or the ARDC, had a disciplinary complaint
+                    issued or been the subject of a disciplinary trial?
+                    <br/>
+                    <b>If yes, identify the number of matters. _____</b>
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td style="vertical-align:top;"><b>13.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member received a request for
+                    <br/>
+                    investigation of a lawyer, correspondence reflecting an investigation will not proceed, or an
+                    <br/>
+                    inquiry from or to a disciplinary body; given a sworn statement; or gone before the Inquiry
+                    <br/>
+                    Panel with regard to the ARDC or a disciplinary body?
+                    <br/>
+                    <b>
+                    If yes, (a) identify the number of matters: ____ Number currently open: ____
+                    </b>
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td style="vertical-align:top;"><b></b></td>
+                <td>
+                    <br/>
+                    <b>
+                    (b) is Applicant reporting this as an incident or circumstance that may result in
+                     <br/>
+                    a claim or suit? 
+                    </b>
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Claim
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">14.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member been charged with or
+                    <br/>
+                    convicted of a criminal offense?
+                    <br/>
+                    <b>If yes, please explain.</b>____________________________________________
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">15.</b></td>
+                <td>
+                    During the past 12 months has any claim been made against: Applicant or a predecessor
+                    <br/>
+                    firm, any current member of Applicant or a predecessor firm, or, to your knowledge, any
+                    <br/>
+                    former member of Applicant or a predecessor firm <b>which has not been previously reported
+                    <br/>
+                    in writing to ISBA Mutual as a claim?
+                    <br/>
+                    If yes, identify the number of claims. _____</b>
+                    (“Predecessor Firm” in this application means any law firm or professional legal corporation of
+                    which the majority of lawyers are now affiliated with the Applicant.)
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Claim
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">16.</b></td>
+                <td>
+                    During the past 12 months has Applicant or any Applicant member become aware of any
+                    <br/>
+                    circumstance or incident that may result in a claim or suit?
+                    <br/>
+                    <b>If yes, identify the number of circumstances or incidents. _____</b>
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Claim
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">17.</b></td>
+                <td>
+                    Does Applicant or any Applicant member handle plaintiff personal injury cases?
+                    <br/>
+                    <b>If yes, </b>(a) Average case size: $___________ (b) Number of personal injury cases: _____
+
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                    Claim
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">18.</b></td>
+                <td colspan="4">
+                    Identify the number of non-lawyer employees of Applicant: Paralegal ___ Secretary/Clerk ___ Other/Job Title______________
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">19.</b></td>
+                <td >
+                    During the past 12 months has Applicant or any Applicant member: 
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;">17.</b></td>
+                <td>
+                    (a) owned a business or entity other than Applicant? 
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;"></b></td>
+                <td>
+                    (b) worked as an employee, independent contractor or public official of a business or entity other than
+                        applicant? 
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;"></b></td>
+                <td>
+                    (c) rendered professional services to a business or entity owned by a relative?
+                        (“Relative” is defined in this application to mean a parent, sibling, spouse, child, or grandparent.)                
+                </td>
+                <td >
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;"></b></td>
+                <td colspan="3">
+                    <b>If yes to 19 (a), (b), or (c) then complete below.</b>
+                    <br/>
+                    (1) Identify the name of the business: ___________________________________________________________________
+                    <br/>
+                    (2) Identify the nature of the business: ___________________________________________________________________
+                    <br/>
+                    (3) Dates of affiliation: ________________________________________________________________________________
+                    <br/>
+                    (4) Describe nature of the work that Applicant or any Applicant member performed for the business:
+                    _________________________________________________________________________________________________
+                    _________________________________________________________________________________________________
+                    <br/>
+                    (5) Number of hours per week Applicant or all Applicant members devoted to the business: __________________________
+                    <br/>
+                    (6) Total combined percent ownership interest of Applicant and Applicant’s relatives: ______ %              
+                </td>
+            </tr>
+            <tr >
+                <td><b style="vertical-align:top;"></b></td>
+                <td>
+                    (7) Has Applicant or any Applicant member performed, or is Applicant or any Applicant
+                    member performing legal services for the business or entity?
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr >
+                <td style="vertical-align:top;"><b >20.</b></td>
+                <td>
+                    During the past 12 months did Applicant or any Applicant member case-share (CS); use
+                    <br/>
+                    independent contractors (IC), co-counsel (CC), of counsel (OC); refer or delegate cases (RD); or
+                    <br/>
+                    office share (OS)? <b>If yes, then complete below.</b>
+
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> No
+                </td>
+                <td>
+                    <apex:image url="{!$Resource.Unchecked}" width="15" height="15"/> Yes
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table>
+        <thead style="font-size:10px;">
+            <tr>
+                <th style="width:31%;border-bottom:1px solid black;">
+                    Attorney/Professional’s Name 
+                </th>
+                <th style="width:31%;border-bottom:1px solid black;">
+                    Firm Name
+                </th>
+                <th style="width:31%;border-bottom:1px solid black;">
+                    City, State
+                </th>
+                <th style="width:3%;border-bottom:1px solid black;">
+                    Identify
+                    CS, IC,
+                    CC, OC,
+                    RD, OS
+                </th>
+                <th style="width:4%;border-bottom:1px solid black;">
+                    Carries
+                    Malpractice
+                    Insurance?
+                    (Yes/No)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:3%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:4%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:3%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:4%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:3%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:4%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:31%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:3%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+                <td style="width:4%;border-bottom:1px solid black;">
+                    <br/>
+                </td>
+            </tr>
+        </tbody>        
+    </table>
+    <p class="normalParagraph tableDataLeft">
+        I affirm that the information contained herein is true and complete to the best of my knowledge and that it shall be the basis of the
+        policy of insurance and deemed incorporated therein should the Company evidence its acceptance of this application by issuance
+        of a policy.
+    </p>
+    <table class="fontCssSmall">
+        <tr>
+            <td>
+                <b>Owner, Partner, or Officer Signature</b> _______________________________________________ 
+            </td>
+            <td>
+                <b>Date</b> _____________________ 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Print Signatory’s Name</b> _____________________________________________________________ 
+            </td>
+            <td>
+                <b>Title</b> ____________________ 
+            </td>
+        </tr>
+    </table>
+    <b class="fontCssSmall">
+        Unless the application is fully completed, coverage cannot be bound. Signing this form and tendering premium does not bind the
+        Company to provide the insurance. Only claims which are first made against you and reported to us during the policy term are
+        covered, subject to policy provisions.
+
+    </b>
+    <br/>
+    <br/>
+    <b><u>ATTACH TO THIS APPLICATION:</u></b>
+    <table style="font-size:13px;">
+        <tr>
+            <td style="width:2%;vertical-align:top;">
+                1.
+            </td>
+            <td style="width:23%;vertical-align:top;"> 
+                LAWYERS SUPPLEMENT-
+            </td>
+            <td style="width:75%;vertical-align:top;">
+                ALL APPLICANTS MUST SIGN THE ATTACHED LAWYERS SUPPLEMENTAL
+                APPLICATION, AND INDICATE ANY CHANGES.
+            </td>
+        </tr>
+        <tr>
+            <td style="width:2%;vertical-align:top;">
+                2.
+            </td>
+            <td style="width:23%;vertical-align:top;"> 
+                ADDING ATTORNEY-
+            </td>
+            <td style="width:75%;vertical-align:top;">
+                IF ADDING AN ATTORNEY THEN YOU MUST ADDITIONALLY COMPLETE AN ADDING
+                AN ATTORNEY FORM FOR EACH ATTORNEY ADDED.            
+            </td>
+        </tr>
+        <tr>
+            <td style="width:2%;vertical-align:top;">
+                3.
+            </td>
+            <td style="width:23%;vertical-align:top;"> 
+                Letterhead-
+            </td>
+            <td style="width:75%;vertical-align:top;">
+                All letterhead on which Applicant or any Applicant member’s name appears. 
+            </td>
+        </tr>
+        <tr>
+            <td style="width:2%;vertical-align:top;">
+                4.
+            </td>
+            <td style="width:23%;vertical-align:top;"> 
+                Disciplinary or Sanction -
+            </td>
+            <td style="width:75%;vertical-align:top;">
+                If not previously reported to ISBA Mutual in writing and the matter is currently OPEN, then
+                provide all correspondence with disciplinary body or pleadings with the court for each
+                disciplinary or court sanction matter brought or pending within the past 12 months. If the
+                matter is CLOSED, then provide the resolution letter or court order.
+            </td>
+        </tr>
+        <tr>
+            <td style="width:2%;vertical-align:top;">
+                5.
+            </td>
+            <td style="width:23%;vertical-align:top;"> 
+                Supplements-
+            </td>
+            <td style="width:75%;vertical-align:top;">
+                All supplements corresponding with your responses. (Visit <a style="color:blue;" >isbamutual.com</a> for supplements.)
+            </td>
+        </tr>
+    </table>
+
+</apex:component>

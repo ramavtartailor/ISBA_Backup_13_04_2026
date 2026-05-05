@@ -1,0 +1,438 @@
+<apex:page standardController="Policy_Claim__c" extensions="LossMemoPDFController"  renderAs="PDF" docType="html-5.0" applyBodyTag="false"  >
+    
+    <head>
+        <style>
+            @page{
+                margin-top: 10px !important;
+                margin-bottom: 10px !important;
+            }
+            .b {
+                font-weight: bold;
+            }
+            .td_u {
+                border-bottom: 1px solid black;
+            }
+        </style>
+        <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    </head>
+    
+    <body style="border: 0px solid red;">
+        <div class="normalBoldParagraph" style="text-align:center;line-height:15px">
+            ISBA Mutual Insurance Company<br/>
+            Reinsurance Recovery<br/>
+            Casualty Claim Report (UNL LAE)
+        </div>
+        
+        <br/>   
+        <table align="center" border="0" cellspacing="0" cellpadding="0" style="border: 0px solid white; width:75%;">
+            <tr >
+                <td width="25%">
+                    <input type="checkbox"  style="height:7px;width:6px;border:1px solid black"/> Initial
+                </td>
+                
+                <td width="25%">
+                   <input type="checkbox"  style="height:7px;width:6px;border:1px solid black"/>   Interim
+                </td>
+                
+                <td width="25%">
+                  <input type="checkbox"  style="height:7px;width:6px;border:1px solid black"/>    Payment Request
+                </td>
+                
+                <td width="25%" align="right">
+                  <input type="checkbox"  style="height:7px;width:6px;border:1px solid black"/>    Final
+                </td> 
+            </tr>
+            
+        </table>
+        
+        <hr style="color: #ededed;" />
+        
+        <br/>
+        <table>
+            <tr>
+                <td style="width:50px" class="tableDataLeft">
+                    TO:
+                </td>
+                
+                <td style="width:540px">
+                    <apex:outputText value="{!$Label.LossMemoPDF_ToAddress}" escape="false" styleClass="normalParagraph;line-height:-10px" />
+                </td>
+            </tr>
+        </table>
+
+        <br/>
+
+        <table cellspacing="0" cellpadding="0" style="width:100%">
+            <tr>
+                <td style="width:20%;" >
+                    <p class="b normalParagraph tableDataRight">
+                        Insured:
+                    </p>
+                </td>
+                <td style="width:40%;" >
+                    <p class="normalParagraph ">
+                        <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Policy__r.Firm_Name_History__c}" />
+                    </p>
+                </td>
+                <td style="width:20%;">
+                    <p class="b normalParagraph tableDataRight">
+                        Claim Number:
+                    </p>
+                </td>
+                <td style="width:20%;" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Name}" />
+                </td>
+            </tr>
+
+            <tr>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Claimant:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Claimant__c}" />
+                </td>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Date of Loss:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{0,date,MM/dd/yyyy}" >
+                        <apex:param value="{!objPolicy.Occur_Date__c}" />
+                    </apex:outputText>    
+                </td>
+            </tr>
+            <tr>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Location:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Policy__r.County__r.Name}" />
+                </td>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Claims Made Date:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{0,date,MM/dd/yyyy}" >
+                        <apex:param value="{!objPolicy.Claim_Made_Date__c}" />
+                    </apex:outputText>      
+                </td>
+            </tr>
+            <tr>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Policy period:<br/>
+                        Policy no,
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{0,date,MM/dd/yyyy}" >
+                        <apex:param value="{!objPolicy.Policy__r.Effective_Date__c}" />
+                    </apex:outputText>      
+                    to
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{0,date,MM/dd/yyyy}" >
+                        <apex:param value="{!objPolicy.Policy__r.Expiration_Date__c}" />
+                    </apex:outputText>      
+                    <br/>
+                    
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Policy__r.Name}" />
+                </td>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Type of Coverage:
+                    </p>
+                </td>
+                <td style="" class="tableDataLeft">
+                    <p class="normalParagraph tableDataLeft">
+                        Claims Made
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Policy Limits:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Policy__r.Limits__c}" />
+                </td>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Reported Date:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{0,date,MM/dd/yyyy}" >
+                        <apex:param value="{!objPolicy.Report_Date__c}" />
+                    </apex:outputText>      
+                </td>
+            </tr>
+            <tr>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Policy Deductible:
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{!objPolicy.Policy__r.Deductible__c}" />
+                </td>
+                <td style="" class="tableDataRight">
+                    <p class="b normalParagraph tableDataRight">
+                        Retro Date:
+                    </p>
+                </td>
+                <td style="" class="tableDataLeft">
+                    
+                </td>
+            </tr>
+        </table>  
+        
+        <br />
+        
+        <p class="" style="border-top: 1px solid #ededed; border-bottom: 1px solid #ededed; padding-bottom: 9px !important; padding-top: 9px;">
+            <span class="b">Description of Loss, Injuries and Comments-</span><br/>
+            Please see the attached report.
+        </p>
+        
+        <br />
+        
+        <p class="normalBoldParagraph ">
+            Company's Total Incurred at Time of this report:
+        </p>
+        <table  cellspacing="0" cellpadding="0" style="width:100%">
+            <tr>
+                <td style="width:15%;" >
+                    <p class="b normalParagraph tableDataRight">
+                        Paid Loss:
+                    </p>
+                </td>
+                <td style="width:30%;" >
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.paymentsDirectLoss}" />
+                    </apex:outputText>  
+                    
+                </td>
+                <td style="width:30%;" >
+                    <p class="b normalParagraph tableDataRight">
+                        Outstanding Loss Reserve:
+                    </p>
+                </td>
+                <td style="width:25%;" >
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.unpaidReserveDirectLoss}" />
+                    </apex:outputText>
+                </td>
+            </tr> 
+            
+            <tr>
+                <td>
+                    <p class="b normalParagraph tableDataRight">
+                        Paid Expense:
+                    </p>
+                </td>
+                <td>
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.paymentsDirectLAE}" />
+                    </apex:outputText>
+                </td>
+                <td>
+                    <p class="b normalParagraph tableDataRight">
+                        Outstanding Expense Reserve:
+                    </p>
+                </td>
+                <td>
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number, currency}" >
+                        <apex:param value="{! wrapperObj.unpaidReserveDirectLAE}" />
+                    </apex:outputText>
+                </td>
+            </tr> 
+            
+            <tr>
+                <td>
+                    <p class="b normalParagraph tableDataRight">
+                        Total Paid:
+                    </p>
+                </td>
+                <td>
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.totalPaid}" />
+                    </apex:outputText>
+                </td>
+                <td>
+                    <p class="b normalParagraph tableDataRight">
+                        Total Outstanding Reserves:
+                    </p>
+                </td>
+                <td>
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.totalReserves}" />
+                    </apex:outputText>
+                </td>
+            </tr> 
+        </table>
+        
+        <p class="normalBoldParagraph ">
+            Reinsurance Claim Payment Breakdown:
+        </p>
+        <table  cellspacing="0" cellpadding="0" style="width:90%;margin-left:20%">
+            <tr>
+                <td style="width:3%;" >
+                    <p class="normalParagraph tableDataLeft">
+                        A.
+                    </p>
+                </td>
+                <td style="width:40%;" >
+                    <p class="normalParagraph tableDataLeft">
+                        Company Paid Loss
+                    </p>
+                </td>
+                <td style="width:16%;" >
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number, currency}">
+                        <apex:param value="{!wrapperObj.paymentsDirectLoss}" />
+                    </apex:outputText>  
+                </td>
+                <td style="width: 41%;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        B.
+                    </p>
+                </td>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        Company Paid Expense
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.paymentsDirectLAE}" />
+                    </apex:outputText>
+                </td>  
+            </tr>
+            <tr>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        C.
+                    </p>
+                </td>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        Retention
+                    </p>
+                </td>
+                <td class="td_u" >
+                    &nbsp;(<apex:outputText styleclass="" value="{0, number,currency}"><apex:param value="{! wrapperObj.retension}" /></apex:outputText>)
+                </td>  
+            </tr>
+            <tr>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        D.
+                    </p>
+                </td>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        Ceded Paid(A+B)
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.cededPaid}" />
+                    </apex:outputText>
+                </td>  
+            </tr>
+            <tr>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        E.
+                    </p>
+                </td>
+                <td style="" >
+                    <p class="normalParagraph tableDataLeft">
+                        Amount Previously Requested
+                    </p>
+                </td>
+                <td class="td_u">
+                    &nbsp;(<apex:outputText styleclass="" value="{0, number,currency}"><apex:param value="{! wrapperObj.amountPreviouslyRequested}" /></apex:outputText>)
+                    
+                </td>  
+            </tr>
+            <tr>
+                <td style="" >
+                    <p class="b normalParagraph tableDataLeft">
+                        F.
+                    </p>
+                </td>
+                <td style="" >
+                    <p class="b normalParagraph tableDataLeft">
+                        Amount Now Due (D-E)
+                    </p>
+                </td>
+                <td style="" >
+                    <apex:outputText styleclass="b normalParagraph tableDataRight" value="{0, number,currency}">
+                        <apex:param value="{! wrapperObj.amountDueNow}" />
+                    </apex:outputText>
+                </td>  
+            </tr>
+        </table>
+        
+        <br/><br/>
+        
+        <hr style="color: #ededed;" />
+                   
+        <table cellspacing="0" cellpadding="4" style="width:100%">
+            <tr>
+                <td style="width:60%;" >
+                    <p class="b normalParagraph tableDataLeft">
+                        Does above payment close the entire file?
+                    </p>
+                </td>
+                <td style="width:20%;" >
+                    <p class="normalParagraph ">
+                    <input type="checkbox"  style="height:7px;width:6px;border:1px solid black"/>     Yes
+                    </p>
+                </td>
+                <td style="width:20%;" >
+                    <p class="normalParagraph ">
+                    <input type="checkbox"  style="height:7px;width:6px;border:1px solid black"/>     No
+                    </p>
+                </td>
+            </tr>
+        </table>
+        
+        <br/><br/>
+        
+        <table cellspacing="0" cellpadding="0" style="width:100%">
+            <tr>
+                <td style="width:20%;" >
+                    <p class="b normalParagraph tableDataRight">
+                        Prepared by:<br/>&nbsp;
+                    </p>
+                </td>
+                <td style="width:40%;" >
+                    ___________________________________________________<br/>
+                    ISBA Mutual Insurance Company
+                </td>
+                <td style="width:20%;">
+                    <p class="b normalParagraph tableDataRight">
+                        Date:<br/>&nbsp;
+                    </p>
+                </td>
+                <td style="width:20%;" >
+                    <apex:outputText styleclass="normalParagraph tableDataLeft" value="{0,date,MM/dd/yyyy}" >
+                <apex:param value="{!TODAY()}" />
+            </apex:outputText>   
+                <br/>&nbsp;
+                </td>
+            </tr>
+        </table>
+    </body>
+</apex:page>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>WatchListCode__c</fullName>
+    <label>Watch List</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Appeal</fullName>
+                <default>false</default>
+                <label>Appeal</label>
+            </value>
+            <value>
+                <fullName>ARDC</fullName>
+                <default>false</default>
+                <label>ARDC</label>
+            </value>
+            <value>
+                <fullName>ARDC/To Be Closed</fullName>
+                <default>false</default>
+                <label>ARDC/To Be Closed</label>
+            </value>
+            <value>
+                <fullName>Check Fraud</fullName>
+                <default>false</default>
+                <label>Check Fraud</label>
+            </value>
+            <value>
+                <fullName>Check Fraud/TBClosed</fullName>
+                <default>false</default>
+                <label>Check Fraud/TBClosed</label>
+            </value>
+            <value>
+                <fullName>Dep Asst</fullName>
+                <default>false</default>
+                <label>Dep Asst</label>
+            </value>
+            <value>
+                <fullName>Dep Asst/TBC</fullName>
+                <default>false</default>
+                <label>Dep Asst/TBC</label>
+            </value>
+            <value>
+                <fullName>DJ</fullName>
+                <default>false</default>
+                <label>DJ</label>
+            </value>
+            <value>
+                <fullName>DJ on Appeal</fullName>
+                <default>false</default>
+                <label>DJ on Appeal</label>
+            </value>
+            <value>
+                <fullName>Duplicate Setup</fullName>
+                <default>false</default>
+                <label>Duplicate Setup</label>
+            </value>
+            <value>
+                <fullName>FDCPA</fullName>
+                <default>false</default>
+                <label>FDCPA</label>
+            </value>
+            <value>
+                <fullName>FDCPA-Suesz</fullName>
+                <default>false</default>
+                <label>FDCPA-Suesz</label>
+            </value>
+            <value>
+                <fullName>No Tender</fullName>
+                <default>false</default>
+                <label>No Tender</label>
+            </value>
+            <value>
+                <fullName>SCIL</fullName>
+                <default>false</default>
+                <label>SCIL</label>
+            </value>
+            <value>
+                <fullName>Subrogation</fullName>
+                <default>false</default>
+                <label>Subrogation</label>
+            </value>
+            <value>
+                <fullName>To Be Closed</fullName>
+                <default>false</default>
+                <label>To Be Closed</label>
+            </value>
+            <value>
+                <fullName>Wills/Trusts/Estates</fullName>
+                <default>false</default>
+                <label>Wills/Trusts/Estates</label>
+            </value>
+            <value>
+                <fullName>Wire Fraud</fullName>
+                <default>false</default>
+                <label>Wire Fraud</label>
+            </value>
+            <value>
+                <fullName>Wire Fraud/TBClosed</fullName>
+                <default>false</default>
+                <label>Wire Fraud/TBClosed</label>
+            </value>
+            <value>
+                <fullName>e/File</fullName>
+                <default>false</default>
+                <label>e/File</label>
+            </value>
+            <value>
+                <fullName>e/File To Be Closed</fullName>
+                <default>false</default>
+                <label>e/File To Be Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

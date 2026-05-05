@@ -1,0 +1,211 @@
+<apex:page controller="Billing_Policy_Ctrl" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    
+    <head>
+        <style>
+            body {
+                font-family: 'Arial Unicode MS', sans-serif !important;
+                font-size: 15px;
+            }
+            @page {
+                margin-top: 30px;
+                margin-bottom: 100px;
+                font-family: 'Arial Unicode MS', sans-serif !important;
+            }
+            .arial {
+                font-family: arial, sans-serif !important;
+            }
+            
+            .ibf_subtitle {
+            font-size:18px;
+            color:black;
+            text-align: center;
+            }
+            
+            .isbam_primary_red {
+            color: #89001B;
+            }
+            
+            #conditions tr td {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            }
+            
+            .conditions {
+            padding-top: 13px;
+            display: inline-block
+            }
+            
+        </style>
+    </head>
+    
+    <!---HEADER------------------------------------------------------------>
+    <div class="header" >
+        <c:Application_Header />    
+    </div>
+    <table>
+        <tr>
+            <td>
+                <table style="width:100%; padding-top: 0px;">
+                    <tr>
+                        <td style="width: 50%">
+                            <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText><br/>
+                            <br/>
+                            {!billingRec.AcctSeed__Billing_Contact__r.FirstName} {!billingRec.AcctSeed__Billing_Contact__r.LastName}<br/>
+                            <apex:outputField value="{!policyRec.Account__r.Name}"/><br/>
+                            <!--<apex:outputpanel rendered="{!policyRec.Account__r.ShippingStreet != null}">
+                                {!policyRec.Account__r.ShippingStreet}<br/>
+                                {!policyRec.Account__r.ShippingCity}, {!policyRec.Account__r.ShippingState}&nbsp;&nbsp;{!policyRec.Account__r.ShippingPostalCode}
+                            </apex:outputpanel>
+                            <apex:outputpanel rendered="{!policyRec.Account__r.ShippingStreet == null}">-->
+                                {!policyRec.Account__r.BillingStreet}<br/>
+                                {!policyRec.Account__r.BillingCity}, {!policyRec.Account__r.BillingState}&nbsp;&nbsp;{!policyRec.Account__r.BillingPostalCode}
+                            <!--</apex:outputpanel> -->       
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br/>
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width: 30px;" valign="top">
+                            Re:
+                        </td>
+                        <td>
+                            ISBA Mutual Lawyers Professional Liability Policy: {!policyRec.Name}<br/>
+                            <b>Date of Cancellation:&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!TODAY()+10}" /></apex:outputText></b>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+            </td>
+        </tr>        
+    </table>
+    
+    <c:BillingNOC recId="{!$CurrentPage.parameters.id}"/>
+    
+    <!--
+    <div class="arial" style="font-size: 15px;">
+        
+      <center class="arial ibf_subtitle" style="padding-top: 15px;">
+        <b>Notice of Cancellation Due to Non-Payment</b>
+      </center>
+      
+      <br/>
+        
+      <table style="width:100%; padding-top: 0px;">
+        <tr>
+          <td style="width: 50%">
+            <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText><br/>
+            <br/>
+            <apex:outputField value="{!policy.Account__r.Name}"/><br/>
+              {!policy.Account__r.BillingStreet}<br/>
+              {!policy.Account__r.BillingCity}, {!policy.Account__r.BillingState}&nbsp;&nbsp;{!policy.Account__r.BillingPostalCode}
+          </td>
+        </tr>
+      </table>
+  
+      <br/>
+    
+      <table style="width:100%;">
+        <tr>
+          <td style="width: 30px;" valign="top">
+            Re:
+          </td>
+          <td>
+              ISBA Mutual Insurance Company<br/>
+              Lawyers Professional Liability Policy: {!policy.Name}<br/>
+              <b>Date of Cancellation:&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!TODAY()+10}" /></apex:outputText></b>
+          </td>
+        </tr>
+      </table>
+      
+      <br/>
+      Dear {!billing.AcctSeed__Billing_Contact__r.FirstName},
+
+        <br/>
+        <table id="conditions" style="width: 100%;" valign="top" border="0">
+          <tr>
+              <td style="width: 50px;"></td>
+              <td style="width: 26px;"></td>
+              <td style="width: 20px;"></td>
+              <td style="width: 10px;"></td>
+              <td></td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;" valign="top" colspan="5">
+              V. CONDITIONS
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" colspan="1">
+              E.&nbsp;&nbsp;&nbsp;
+            </td>
+            <td colspan="4">
+              Cancellation
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" colspan="2">
+              2.&nbsp;&nbsp;&nbsp;
+            </td>
+            <td colspan="3">
+              The <b>Company</b> may cancel this Policy by giving written notice to the <b>Named Insured</b> at least:
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" colspan="4">
+              a.&nbsp;&nbsp;&nbsp;
+            </td>
+            <td colspan="1" style="text-align: justify;">
+              ten (10) days prior to the effective date of cancellation, if cancellation is for non-payment of premium.  However, the <b>Named Insured</b> may continue the coverage by payment in full at any time prior to the effective date of cancellation. 
+            </td>
+          </tr>
+        </table>
+        
+      
+        
+        <p class="arial" style="text-align: justify;">
+            In accordance with the cancellation provisions of the policy referenced above, your policy will be cancelled due to non-payment of premium effective&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()+10}" /></apex:outputText>.
+        </p>
+    
+        <p class="arial" style="text-align: justify;">
+            In order to avoid your ISBA Mutual Policy from being cancelled for non-payment of premium, we will need a payment in the amount of <b>$123.45</b>. 
+        </p>
+            
+        <p class="arial">
+            <b>Should you wish to reinstate this policy, call 312-379-2005 to make a payment and provide updated payment instructions.</b>
+        </p>
+        
+        <p class="arial" style="text-align: justify;">
+            Under the terms of the policy, you may purchase or be entitled to a free <b>Extended Reporting Period</b> Endorsement.   
+            This is explained in Section <b>VII. EXTENDED REPORTING PERIODS</b> of your Policy. This Endorsement extends the period
+            of time in which you may report a claim under the captioned Policy.   A notice of intent to exercise an <b>Extended
+            Reporting Period</b> and premium due for the <b>Extended Reporting Period</b> Endorsement is due within sixty (60) days of
+            the cancellation date of your policy. 
+        </p>
+        
+        <p class="arial">
+            If you have any questions or I can be of further assistance, please do not hesitate to contact me. 
+        </p>
+        
+        Sincerely,
+        <br/><br/>
+        <table style="width: 100%;">
+            <tr>
+              <td style="width: 70%;">
+                 Joan Comfort, CFO<br/>
+                 ISBA Mutual Insurance Company<br/>
+                 312-379-2005
+              </td>
+              <td style="width: 50%; display:none;">
+                 {!policy.Underwriter_User__r.FirstName}&nbsp;{!policy.Underwriter_User__r.LastName}<br/>
+                 {!policy.Underwriter_User__r.Phone}<br/>
+                 Underwriting
+              </td>
+            </tr>
+        </table>
+    </div-->
+</apex:page>

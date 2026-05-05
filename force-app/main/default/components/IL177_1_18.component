@@ -1,0 +1,84 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        <span style="font-weight: bolder;">Disciplinary Proceeding</span> Coverage Amendment Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that <span class="boldSpan">II. SUPPLEMENTARY PAYMENTS, B.</span> is deleted and replaced with the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="boldSpan">B.</span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    The <span class="boldSpan">Company</span> will pay legal fees, costs, and expenses up to&nbsp;<apex:outputField value="{!endorsement.PER_LAWER__c}"/> per <span class="boldSpan">Insured</span> Lawyer per <span class="boldSpan">Policy Period</span> and&nbsp;<apex:outputField value="{!endorsement.PER_POLICY__c}"/> as the total available for all <span class="boldSpan">Insureds</span> per <span class="boldSpan">Policy Period</span> for a lawyer designated by <span class="boldSpan">Us</span> to investigate and defend <span class="boldSpan">Disciplinary Proceeding</span><span>s.</span> A <span class="boldSpan">Disciplinary Proceeding</span> must be reported during the <span class="boldSpan">Policy Period</span> and brought against the <span class="boldSpan">Insured</span> by reason of any <span class="boldSpan">Wrongful Act</span> occurring on or after the <span class="boldSpan">Prior Acts Date</span> and arising out of <span class="boldSpan">Professional Services</span> provided that:<br/><br/>
+                </p>
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                1.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                notice of the <span class="boldSpan">Disciplinary Proceeding</span> must be first received by the <span class="boldSpan">Insured</span> and reported in writing to the <span class="boldSpan">Company</span> during the <span class="boldSpan">Policy Period</span> and prior to any response by the  <span class="boldSpan">Insured</span> to the <span class="boldSpan">Disciplinary Proceeding;</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                2.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                by requesting that the <span class="boldSpan">Company</span> investigate and defend <span class="boldSpan">Disciplinary Proceeding,</span> the <span class="boldSpan">Insured</span> is not reporting a <span class="boldSpan">Claim,</span> unless the <span class="boldSpan">Insured</span> reports such as a <span class="boldSpan">Claim</span> to the <span class="boldSpan">Company</span> in accordance with <span class="boldSpan"> V. CONDITIONS, Q.  </span> Notice of <span class="boldSpan">Claim</span><span>;</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                3.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                legal fees, costs or expenses to investigate and defend the <span class="boldSpan">Disciplinary Proceeding</span> above&nbsp;<apex:outputField value="{!endorsement.PER_LAWER__c}"/> are on a reimbursement basis and reimbursement to the <span class="boldSpan">Named Insured</span> is conditioned upon a determination of Not to Proceed against the <span class="boldSpan">Insured</span> against whom the <span class="boldSpan">Disciplinary Proceeding</span> has been brought.  Not to Proceed means a final determination by the regulatory or disciplinary agency or official to cease their investigation and no action has or will be taken against the <span class="boldSpan">Insured</span> including but not limited to suspension, probation, censure, license revocation, reprimand, disbarment, or settlement; and
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                4.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                <span class="boldSpan">Our</span> determination as to the reasonableness of legal fees, costs and expenses to investigate and defend a <span class="boldSpan">Disciplinary Proceeding</span> will be conclusive.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:30px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

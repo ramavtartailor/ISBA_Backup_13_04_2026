@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Included expenses for decor, such as centerpieces, florals, tent rentals, etc. --></help>
+    <label><!-- Decor Budget --></label>
+    <name>Budget_Decor__c</name>
+</CustomFieldTranslation>

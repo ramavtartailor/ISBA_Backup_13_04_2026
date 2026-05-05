@@ -1,0 +1,62 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        <b>Claim Expenses</b> Outside the Policy Limits Endorsement
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        Notwithstanding anything to the contrary, in consideration of the payment of the additional premium of &nbsp;<apex:outputField value="{!endorsement.Additional_Premium__c}"/>, it is agreed that Section<span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE </span>of this Policy is amended to include the following:
+    </p>
+    <p class="normalParagraph">
+        Supplemental<span class="normalBoldParagraph"> Claim </span>Expense Limit:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    1.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    If the “Per <span class="normalBoldParagraph">Claim</span>” Limit of Liability stated in Item 7 of the Declarations is $250,000, the first $100,000 of <span class="normalBoldParagraph">Claim Expenses</span> in the aggregate shall not reduce the Limits of Liability.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    2.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    If the “Per <span class="normalBoldParagraph">Claim</span>” Limit of Liability stated in Item 7 of the Declarations is $500,000, the first $250,000 of <span class="normalBoldParagraph">Claim Expenses</span> in the aggregate shall not reduce the Limits of Liability.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    3.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    If the “Per <span class="normalBoldParagraph">Claim</span>” Limit of Liability stated in Item 7 of the Declarations is $1,000,000 or more, the first $500,000 of <span class="normalBoldParagraph">Claim Expenses</span> in the aggregate shall not reduce the Limits of Liability.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:230px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

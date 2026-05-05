@@ -1,0 +1,1071 @@
+<apex:page standardController="Policy_Claim__c"  extensions="ClaimNewandEditVFController" sidebar="false" showHeader="false" id="pg">
+     <apex:slds />
+     
+     <apex:pageMessages id="pMesg"  />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <!--<apex:styleSheet value="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.css')}" />
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.js')}"></script> -->
+             <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+             <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+            <!--<script src="{!URLFOR($Resource.ALJS, '/appiphony-lightning-js-master/dist/jquery.aljs-all-with-moment.min.js')}"></script>-->
+            <style>
+                .nonLawyerAdd{
+                    display:none;
+                }
+                    .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                    }
+                    .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .dateFormat {
+                        padding: 0 2px;
+                        display: none;
+                    }
+                    .slds-scope .slds-page-header {
+                        padding: 1rem .75rem;
+                        border-bottom: 1px solid #d8dde6 !important;
+                        background-color: #337AB7 !important;
+                        color: white;
+                    }
+                    .slds-box{
+                    }
+                    .slds-scope .slds-medium-size--12-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .slds-scope .slds-medium-size--6-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .accountRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    
+                    .accountRequired1{
+                        border-left: 4px solid red !important;
+                    }
+                    
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .ContactRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope a:focus, .slds-scope a:hover{
+                        display: initial !important;
+                    }
+                    .lookupInput .slds-input{
+                        //border:none !important;
+                    }
+                    .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                        background-color: #fff; 
+                    }
+                    .lookupInput input[readonly] {
+                        cursor: default;
+                        color: #333;
+                        background-color: #fff !important;
+                        border: 1px solid #d8dde6 !important;
+                    }
+                    .datePicker{
+                        z-index: 99999 ;
+                    }
+            </style>
+            <script>
+                $('body').click(function(evt) {
+                    $(".closeDiv :visible").each(function() {
+                        $('.closeDiv').hide();
+                    });
+                });
+                function search( lookName ,ObjectName,label){
+                    try{ 
+                        $('input[id$='+lookName+']').css('background', 'url("http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif") no-repeat right center');
+                        var key=$('input[id$='+lookName+']').val();
+                        var compareId = $('[id$=PolicyLookupValue]').val();
+                        Visualforce.remoting.Manager.invokeAction(
+                            '{!$RemoteAction.ClaimNewandEditVFController.getLookupRecord}',
+                            key, 
+                            ObjectName,
+                            compareId,
+                            function(result, event){
+                                if(result != null){
+                                    if (event.status) {
+                                        var  tables ="<ul class='slds-lookup__list' role='listbox'>  ";
+                                        for(var i=0;i<result.length;i++){ 
+                                            tables += "<li role='presentation' onclick=\"fillRecord( '" +lookName+"','" +result[i].Id+"','"+result[i].Name+"' )\"><span class='slds-lookup__item-action slds-media' id='lookup-option-483' role='option'><div class='slds-media__body'><div class='slds-lookup__result-text'>"+result[i].Name + '-' + result[i].Account__r.Name + '   ('+getDate(result[i].Effective_Date__c)+' - '+getDate(result[i].Expiration_Date__c)+')' +"</div></div></span></li>"; 
+                                        } 
+                                        tables +="</ul>";
+                                        if(result.length > 0){
+                                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>"+label+"</div>"+tables; 
+                                        }else{
+                                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>No record found .</div>"; 
+                                        }
+                                        document.getElementById(lookName+"SrchDrpDwn").innerHTML =tables;
+                                        $('[id$='+lookName+'SrchDrpDwn]').show(); 
+                                    } else if (event.type === 'exception') {
+                                        
+                                    } else {
+                                        
+                                    }
+                                    $('input[id$='+lookName+']').css('background', 'none'); 
+                                }else{
+                                    $('input[id$='+lookName+']').css('background', 'none');
+                                }
+                            }, 
+                            {escape: true}
+                        );
+                    }catch(e){ 
+                        alert('An Error has Occured. Error:' +e); 
+                    }
+                    
+                }
+                
+                function getDate(dt){
+                    let newDt = new Date(dt);                    
+                    let newDtStr = JSON.stringify(newDt.getMonth()+1).padStart(2, '0')+'/'+JSON.stringify(newDt.getDate()).padStart(2, '0')+'/'+newDt.getFullYear();
+                    return newDtStr;
+                }
+            
+                function fillRecord(lookup,id,name){
+                    $('[id$='+lookup+'SrchDrpDwn]').hide();
+                    $('input[id$='+lookup+'Value]').val(id);
+                    
+                    $('[id$='+lookup+'Label]').text(name);
+                    $('[id$='+lookup+'Search]').addClass('slds-hide');
+                    $('[id$='+lookup+'LabelDiv]').removeClass('slds-hide');
+                    
+                    if(lookup == 'PolicyLookup'){
+                        console.log('check');
+                        callLawyer(id);
+                    }
+                } 
+                
+                function showError(error){
+                
+                    $(".slds-notify_container h2").each(function() {
+                        $(this).text(error);
+                    });
+                    
+                    $(".slds-notify_container").removeClass('slds-hide');
+                    
+                    setTimeout(function() {
+                        $(".slds-notify_container").addClass('slds-hide');
+                    }, 5000);
+                }
+                                       
+                $(document).ready(function() {
+                     var startYear=1940; 
+                    var endYear=2034; 
+                    var optionsString='';
+                    if(startYear<endYear){
+                        for(i=startYear;i<endYear+1;i++){
+                            optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                        }
+                        $('#calYearPicker').html(optionsString);
+                    }
+                    //$('#date').datepicker();
+                    $('#radio-25').prop('checked','checked');
+                    $('table ,td,img').removeClass('slds-input');
+                    $('a').each(function(){
+                        $(this).removeClass('slds-input');
+                        $(this).removeClass('ContactRequired');
+                    });
+                    
+                    $('.lookupInput input').each(function(){
+                        //$(this).attr('readonly', true);
+                    });
+                    $('#radio-26').change(function (){
+                        var type = $(this).attr('data');
+                        if(type != null && type != '' && type != 'undefined'){
+                            $('[id$=spinner]').css('display','block');
+                            fltrContact(type);
+                        }
+                    });
+                    $('#radio-25').change(function (){
+                        var type = $(this).attr('data');
+                        if(type != null && type != '' && type != 'undefined'){
+                            $('[id$=spinner]').css('display','block');
+                            fltrContact(type);
+                        }
+                    });
+                    
+                    $('[id$=spinner]').css('height',$(document).height());
+                    $("svg").on("click", function() {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        }
+                    });
+                    
+                    $("svg").on("click", function() {
+                        var lookup = $(this).attr('data');
+                        if (lookup  != '' && lookup  != null && lookup  != 'undefined' && lookup.indexOf('Lookup') != -1) {
+                            $('input[id$=' + lookup + ']').val('');
+                            $('input[id$=' + lookup + 'Value]').val('');
+                            
+                            $('[id$=' + lookup + 'Label]').text('');
+                            $('[id$=' + lookup + 'Search]').removeClass('slds-hide');
+                            $('[id$=' + lookup + 'LabelDiv]').addClass('slds-hide');
+                        }
+                    });
+                    
+                    $('svg').click(function (){
+                        if($(this).attr('data')=='toggle'){
+                            $(this).parent().parent().parent().find('.slds-p-horizontal--small').each(function (){
+                                if($(this).css('display') == 'none'){
+                                    //$(this).removeClass('slds-hide');
+                                    $(this).slideDown("slow");
+                                }
+                            });
+                        }
+                    });
+                    
+                });
+                
+                
+                function validateAndSaveClaim(){
+                    
+                    
+                    var flagSave = true;
+                    $('.accountRequired').each(function (){
+                        if($(this).val() == '' || $(this).val() == null || $(this).val() == 'undefined'){
+                            $(this).css('border','1px solid red ');
+                            showError('** Required fields missing . ');
+                            $('[id$=spinner]').css('display','none');
+                            flagSave = false;
+                        }
+                    });
+                    
+                    if($('[id$=PolicyLookupValue]').val() == '' || $('[id$=PolicyLookupValue]').val() == null || $('[id$=PolicyLookupValue]').val() == 'undefined'){
+                      $('input[id$=PolicyLookup]').css('border','1px solid red');
+                      showError('** Required fields missing . ');
+                      $('[id$=spinner]').css('display','none');
+                      flagSave = false;
+                    }
+                    
+                    if(flagSave){
+                        saveclaimRecord();
+                    }
+                }
+                
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+            </script>
+        </head>
+        <body>
+        <apex:form id="frm">
+            <apex:outputPanel id="renderError">
+                <apex:inputHidden value="{!error}" id="hiddenElement"/>
+            </apex:outputPanel>
+            <apex:actionFunction name="callLawyer" action="{!lawyercall}" reRender="lawyersid,mySection" immediate="true" >
+                <apex:param name="policyId"  value="" assignTo="{!policyId}"/>
+            </apex:actionFunction>
+            
+            <apex:actionFunction id="ch2" name="saveclaimRecord" action="{!saveClaim}" reRender="pMesg,renderError" oncomplete="$('[id$=spinner]').css('display','none');" />
+            
+            
+            <!--apex:outputPanel id="renderError"> 
+                <!--script>
+                    console.log('Test');
+                    console.log('{!error}');
+                    if('{!error}' != '' && '{!error}' != null && '{!error}' != 'undefined'){
+                        console.log('{!error}');
+                        showError('{!error}');
+                    }
+                </script>
+            </apex:outputPanel-->
+                        
+            
+            
+            <div class="slds-page-header" role="banner" style="position: fixed;width: 100%;top: 0;z-index: 1;">
+            <div class="slds-media">
+                <div class="slds-media__body">
+                  <p class="slds-page-header__title slds-truncate" title="Claim">Claim - {!accountName} - {!policyNumber} - 
+                  <apex:outputText value="{0,date, MM/dd/yyyy}"> <apex:param value="{!effectivedt}" /> </apex:outputText> &nbsp; - {!deductibleAndLimit}
+                  <apex:outputPanel rendered="{!if(Policy_Claim__c.Policy__c!= null,true,false)}">
+                  &nbsp;-&nbsp; 
+                  <apex:outputLink STyle="text-align:right;text-decoration:none;color:#ffffff;" styleClass="slds-page-header__title slds-truncate" onclick="window.open('/002?parent_id={!Policy_Claim__c.Policy__c}&id={!Policy_Claim__c.Policy__c}','','width=1000,height=700');return false;">(Policy Documents)</apex:outputLink>
+                  </apex:outputPanel>
+                 </p>
+                  <p class="slds-text-body--small"></p>
+                </div>
+                <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                  <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                    <!--<a href="javascript:void(0);" class="slds-has-blur-focus">Home</a>-->
+                  </li>
+                </ul>
+              </div>
+                
+            </div>
+            
+            <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="    position: fixed;">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+             </div>
+             <div class="slds-notify_container slds-hide">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                      <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading--small"></h2>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- record details page start -->
+            
+            <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;margin-top: 55px;">
+                
+            <legend id="" class="slds-text-heading--small slds-p-vertical--medium legend">
+                
+            </legend> 
+            
+            <!-- Row Start-->
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                  <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                      <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                          <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Claim Information</h2>
+                        </div>
+                        <!-- 1 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            
+                            
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="FileType">File Type</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input accountRequired" value="{!Policy_Claim__c.File_Type__c}">
+                                            <apex:actionSupport event="onchange" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');" onsubmit="$('[id$=spinner]').css('display','block');"/>
+                                        </apex:inputField>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--<div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="LegacyClaimID">Legacy Claim ID</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Legacy_Claim_ID__c}" />
+                                    </div>
+                                </div>
+                            </div>-->
+                            
+                            <div class="slds-form--horizontal" style="{!if(Policy_Claim__c.Policy__c != null,'display:none;','')}">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="Policy">Policy</label>
+                                        <div class=" slds-lookup" data-select="single" id="PolicyLookupSearch">
+                                            <div class="slds-form-element__control slds-grid slds-box--border">
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true">
+                                                      <!--<use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#search')}"></use>-->
+                                                    </svg>
+                                                    <input type="text" id="PolicyLookup" class="slds-input accountRequired1" onkeyup="search('PolicyLookup','Policy__c','Search Policy')" placeholder="Search Policy" style="border:none;" />
+                                                    <div class="slds-lookup__menu closeDiv" id="PolicyLookupSrchDrpDwn" style="display:none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <apex:inputHidden id="PolicyLookupValue"  value="{!Policy_Claim__c.Policy__c}"  />
+                                        <!-- Display window -->
+                                        <div class="slds-form-element slds-lookup slds-hide" data-select="single" id="PolicyLookupLabelDiv">
+                                            <div class="slds-form-element__control slds-grid slds-box--border" style="display: inline-flex;">
+                                                <div class="slds-dropdown--trigger slds-dropdown-trigger--click slds-align-middle slds-m-left--xx-small slds-shrink-none">
+                                                    <svg class="slds-icon slds-icon-standard-account slds-icon--small" aria-hidden="true">
+                                                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true" data="PolicyLookup">
+                                                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                                    </svg>
+                                                    <label class="slds-align-middle slds-lookup__search-input slds-input--bare" for="form-help" id="PolicyLookupLabel">{!Policy_Claim__c.Policy__r.Name}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            if($('[id$=PolicyLookupValue]').val() != ''){
+                                                $('[id$=PolicyLookupSearch]').addClass('slds-hide');
+                                                $('[id$=PolicyLookupLabelDiv]').removeClass('slds-hide');
+                                            }
+                                        </script>
+                                    </div>
+                                </div>  
+                                <apex:outputPanel id="lawyersid" styleClass="lawyersid" style="{!IF(Policy_Claim__c.Is_Non_Lawyer__c,'display:none','display:block')}"  >
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="Lawyer">Lawyer</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:selectList id="lawyers" styleClass="{!IF(Policy_Claim__c.Is_Non_Lawyer__c,'lawyers slds-input','lawyers slds-input  accountRequired')}" size="1" value="{!Policy_Claim__c.LawyerNew__c}" multiselect="false">
+                                                <apex:selectOptions value="{!lawyerOptions}"/>
+                                            </apex:selectList>                  
+                                        </div>
+                                    </div>
+                                </div>
+                                </apex:outputPanel>
+
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="FileType">Claimant is Non-Client of Insured</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField styleClass="slds-input accountRequired" value="{!Policy_Claim__c.Is_Non_Client__c }">
+                                                <apex:actionSupport event="onchange" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');" onsubmit="$('[id$=spinner]').css('display','block');"/>
+                                            </apex:inputField>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <apex:outputPanel id="addNonLawyer" >
+                                    
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" style="vertical-align:top;" for="NonLawyer">Non-Policy Lawyer</label>
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-checkbox">
+                                                    
+                                                    <apex:inputField value="{!Policy_Claim__c.Is_Non_Lawyer__c}" styleClass="slds-input" id="NonLawyer" >
+                                                        <apex:actionSupport event="onchange"  reRender="frm,lawyersid"  onsubmit="$('[id$=spinner]').css('display','block');" oncomplete="$('[id$=spinner]').css('display','none');" immediate="false" />
+                                                    </apex:inputField>
+                                                    
+                                                    <label class="slds-checkbox__label" for="pg:frm:NonLawyer">
+                                                        <span class="slds-checkbox--faux"></span>
+                                                        <span class="slds-form-element__label"></span>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                                                         
+                                    <apex:outputPanel rendered="{!IF(Policy_Claim__c.Is_Non_Lawyer__c == true, true, false)}">
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="AddNonPolicyLawyer1">Add Non-Policy Lawyer</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="{!IF(Policy_Claim__c.Is_Non_Lawyer__c, 'slds-input accountRequired','slds-input')}" value="{!Policy_Claim__c.Non_Lawyer__c}" id="AddNonPolicyLawyer1" />               
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                    
+                                </apex:outputPanel>
+                                
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="ClaimHandlerStatus">Claim Status</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Claim_Status__c}" />                   
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="Policy_Limit_Demand">Policy Limit Demand</label>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-checkbox">
+                                                <apex:inputCheckbox id="Policy_Limit_Demand" value="{!Policy_Claim__c.Policy_Limit_Demand__c}"/>
+                                                <label class="slds-checkbox__label" for="pg:frm:Policy_Limit_Demand">
+                                                    <span class="slds-checkbox--faux"></span>
+                                                    <span class="slds-form-element__label"></span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="Demand_in_Excess_of_the_Limit">Demand in Excess of the Limit</label>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-checkbox">
+                                                <apex:inputCheckbox id="Demand_in_Excess_of_the_Limit" value="{!Policy_Claim__c.Demand_in_Excess_of_the_Limit__c}"/>
+                                                <label class="slds-checkbox__label" for="pg:frm:Demand_in_Excess_of_the_Limit">
+                                                    <span class="slds-checkbox--faux"></span>
+                                                    <span class="slds-form-element__label"></span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <!--
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="ClaimCloseStatus">Accounting Close</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Claim_Close_Status__c}" />                   
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" style="vertical-align:top;" for="toBeClosed">To be Closed</label>
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-checkbox">
+                                                    
+                                                    <apex:inputField value="{!Policy_Claim__c.To_be_Closed__c}" styleClass="slds-input" id="toBeClosed" />
+                                                    
+                                                    <label class="slds-checkbox__label" for="pg:frm:toBeClosed">
+                                                        <span class="slds-checkbox--faux"></span>
+                                                        <span class="slds-form-element__label"></span>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>  -->
+                            
+                            
+                        </div>
+                        <!-- 2 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            
+                        <!--<div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="ParentClaim">Parent Claim</label>
+                                        <div class=" slds-lookup" data-select="single" id="ParentClaimLookupSearch">
+                                            <div class="slds-form-element__control slds-grid slds-box--border">
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true">
+                                                    </svg>
+                                                    <input type="text" id="ParentClaimLookup" class="slds-input" onkeypress="search('ParentClaimLookup','Policy_Claim__c','Search Claims')" placeholder="Search Claims" style="border:none;" />
+                                                    <div class="slds-lookup__menu closeDiv" id="ParentClaimLookupSrchDrpDwn" style="display:none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <apex:inputHidden id="ParentClaimLookupValue" value="{!Policy_Claim__c.Parent_Claim__c}" />
+                                        <div class="slds-form-element slds-lookup slds-hide" data-select="single" id="ParentClaimLookupLabelDiv">
+                                            <div class="slds-form-element__control slds-grid slds-box--border" style="display: inline-flex;">
+                                                <div class="slds-dropdown--trigger slds-dropdown-trigger--click slds-align-middle slds-m-left--xx-small slds-shrink-none">
+                                                    <svg class="slds-icon slds-icon-standard-account slds-icon--small" aria-hidden="true">
+                                                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true" data="ParentClaimLookup">
+                                                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                                    </svg>
+                                                    <label class="slds-align-middle slds-lookup__search-input slds-input--bare" for="form-help" id="ParentClaimLookupLabel">
+                                                     <apex:outputText rendered="{!$CurrentPage.parameters.CF00NR0000001k5Pb_lkid != null}" value="{!parentClaimRecord.Name}"></apex:outputText>
+                                                     <apex:outputText rendered="{!$CurrentPage.parameters.CF00NR0000001k5Pb_lkid == null}" value="{!Policy_Claim__c.Parent_Claim__r.Name}"></apex:outputText>
+                                                     </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            /*if($('[id$=ParentClaimLookupValue]').val() != ''){
+                                                $('[id$=ParentClaimLookupSearch]').addClass('slds-hide');
+                                                $('[id$=ParentClaimLookupLabelDiv]').removeClass('slds-hide');
+                                            }*/
+                                        </script>
+                                    </div>
+                                </div>    -->
+                            <div class="slds-form--horizontal">
+                                <label class="slds-form-element__label" for="claimHandler">Claim Handler</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList value="{!Policy_Claim__c.Claim_Handler_Lookup__c}" multiselect="false" size="1" styleClass="slds-input">
+                                        <apex:selectOptions value="{!claimHandler}" />
+                                    </apex:selectList>
+                                </div>
+                            </div>    
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Claimant">Claimant</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Claimant__c}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="WatchListCode">WatchListCode</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.WatchListCode__c}" />                   
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="LawDisposition">Law Disposition</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Law_Disposition__c}" />                   
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="OpenReserveLoss">Open Reserve Loss</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Reserve_Loss__c}" rendered="{!ISNULL(Policy_Claim__c.Id)}"/>
+                                        <apex:outputField styleClass="slds-input" value="{!Policy_Claim__c.Reserve_Loss__c}" rendered="{!NOT(ISNULL(Policy_Claim__c.Id))}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="OpenReserveLAE">Open Reserve LAE</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Reserve_LAE__c}" rendered="{!ISNULL(Policy_Claim__c.Id)}"/>
+                                        <apex:outputField styleClass="slds-input" value="{!Policy_Claim__c.Reserve_LAE__c}" rendered="{!NOT(ISNULL(Policy_Claim__c.Id))}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                      </div>
+                  </div>
+             </div>
+             
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                  <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                      <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                          <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Claim Dates</h2>
+                          </div>
+                          
+                          <!-- 1 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="OccurDate">Occurence Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input accountRequired" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Occur_Date__c}" rendered="{!Policy_Claim__c.Id == null}"/>                   
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Occur_Date__c}" html-disabled="true" rendered="{!Policy_Claim__c.Id != null}"/>                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ClaimMadeDate">Claim Made Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input accountRequired" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Claim_Made_Date__c}"  rendered="{!Policy_Claim__c.Id == null}"/>                   
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Claim_Made_Date__c}"  html-disabled="true" rendered="{!Policy_Claim__c.Id != null}"/>                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ReportDate">Report Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input accountRequired" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Report_Date__c}"  rendered="{!Policy_Claim__c.Id == null}"/>  
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Report_Date__c}"  html-disabled="true" rendered="{!Policy_Claim__c.Id != null}"/>  
+                                        
+                                    </div>
+                                </div>
+                              </div>
+                                                                                           
+                          </div>
+                          
+                          <!-- 2 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ReopenDate">Reopen Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.ReopenDate__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="TrialDate">Trial Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Trial_Date__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="MediationDate">Mediation Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Mediation_Date__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="slds-form--horizontal" rendered="{!isNew}">
+                                <apex:outputPanel styleclass="slds-form-element"  rendered="{!isNew}">
+                                    <label class="slds-form-element__label" for="followUpDate">Follow-up Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.Follow_up_Date__c}" />                   
+                                    </div>
+                                </apex:outputPanel>
+                              </div>
+                          </div>      
+                      </div>
+                   </div>
+             </div>
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                  <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                      <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                          <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Closing Information</h2>
+                          </div>
+                          
+                          <!-- 1 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ClaimCloseDate">Claim Close Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" onkeydown="autoFormat(this)" value="{!Policy_Claim__c.ClaimCloseDAte__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                                                                                           
+                          </div>
+                          
+                          <!-- 2 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                            
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ClaimCloseReason">Claim Close Reason</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input"  value="{!Policy_Claim__c.Claim_Close_Reasons__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ClaimCloseResolution">Claim Close Payment Resolution</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Claim_Close_Payment_Resolutions__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              
+                          </div>      
+                      </div>
+                   </div>
+             </div>        
+             <!--          
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                  <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                      <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                          <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Deductible Allocated</h2>
+                          </div>
+                          
+                          <!-- 1 row 
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="PerClaimDeductible">Per Claim Deductible</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Per_Claim_Deductible__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                                
+                          </div>
+                          
+                          <!-- 2 row 
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              
+                              
+                              
+                          </div>      
+                      </div>
+                   </div>
+             </div>
+             -->
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                  <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                      <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                          <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Information</h2>
+                          </div>
+                          
+                          <!-- 1 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              <div class="slds-form--horizontal">
+                                  <div class="slds-form-element">
+                                      <label class="slds-form-element__label" for="TypeofError">Type of Error</label>
+                                      <div class="slds-form-element__control">
+                                          <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Type_of_Error__c}" />                   
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Allegation">Allegation</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Allegation__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Activity">Activity</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Activity__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              <apex:outputPanel id="mySection">
+                                  <div class="slds-form--horizontal">
+                                      <div class="slds-form-element">
+                                          <label class="slds-form-element__label" for="AreaofLaw">Area of Law</label>
+                                          <div class="slds-form-element__control">
+                                              <apex:selectList styleClass="slds-input" value="{!Policy_Claim__c.AOP_Factor__c}" size="1" multiselect="false">
+                                                  <apex:selectOptions value="{!AreaOfLaw}"/>
+                                              </apex:selectList>                   
+                                          </div>
+                                      </div>
+                                  </div>
+                              </apex:outputPanel>
+                           <!--   
+                           <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BypassDefaultFactor">Bypass County Default Factor</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="BypassDefaultFactor" value="{!Policy_Claim__c.Bypass_County_Default_Factor__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:BypassDefaultFactor">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="County">Venue</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:selectList styleClass="slds-input" value="{!Policy_Claim__c.GEO_Factor__c}" size="1" multiselect="false">
+                                            <apex:selectOptions value="{!County}"/>
+                                        </apex:selectList>                   
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="State">State</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.State__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                          </div>
+                          
+                          <!-- 2 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Lien">Lien</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="Lien" value="{!Policy_Claim__c.Lien__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:Lien">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Medicare">Medicare</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="Medicare" value="{!Policy_Claim__c.Medicare__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:Medicare">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="DecJudgment">Dec. Judgment</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="DecJudgment" value="{!Policy_Claim__c.Dec_Judgment__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:DecJudgment">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ClaimsRepair">Claims Repair</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="ClaimsRepair" value="{!Policy_Claim__c.Claims_Repair__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:ClaimsRepair">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ROR">ROR</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="ROR" value="{!Policy_Claim__c.ROR__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:ROR">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <apex:outputPanel rendered="{!If(Policy_Claim__c.File_Type__c=='ARDC Complaint',true,false)}">
+                                  <div class="slds-form--horizontal">
+                                      <div class="slds-form-element">
+                                          <label class="slds-form-element__label" for="DisciplineAction">Discipline Action</label>
+                                          <div class="slds-form-element__control">
+                                              <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Discipline_Action__c}" />                   
+                                          </div>
+                                      </div>
+                                  </div>
+                              </apex:outputPanel>
+                          </div>      
+                      </div>
+                   </div>
+             </div>
+             
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                  <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                      <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                          <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Reference</h2>
+                          </div>
+                          
+                          <!-- 1 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="PlusBox">Plus Box</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Plus_Box__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="StorageCarton">Storage Carton</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Storage_Carton__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              <!--
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Allocated">Allocated</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Allocated__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="WriteOff">Write Off</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Write_Off__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="WriteOff">Reimburse</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Reimburse__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              -->
+                                
+                          </div>
+                          
+                          <!-- 2 row -->
+                          <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                              <!--
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="LAEPay">LAE Pay</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.LAE_Pay__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              
+                              <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="LossPay">Loss Pay</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField styleClass="slds-input" value="{!Policy_Claim__c.Loss_Pay__c}" />                   
+                                    </div>
+                                </div>
+                              </div>
+                              -->
+                          </div>      
+                      </div>
+                   </div>
+             </div>
+             
+            </fieldset >
+            
+            <div class="slds-docked-form-footer">   
+                <div style="width:1000px;">  
+                    <div style="text-align:center;">
+                        <button type="button" class="slds-button slds-button--neutral" onclick="window.location.href='{!returnURL}'">Cancel</button>
+                        <button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndSaveClaim(); return false;">Save</button>
+                    </div>
+               </div>
+            </div>
+            
+         </apex:form>   
+        </body>
+   </html>    
+</apex:page>

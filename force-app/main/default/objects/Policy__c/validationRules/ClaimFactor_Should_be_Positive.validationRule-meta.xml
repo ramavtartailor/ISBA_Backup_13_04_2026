@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClaimFactor_Should_be_Positive</fullName>
+    <active>true</active>
+    <description>Claims Factor value should be Positive.</description>
+    <errorConditionFormula>Claims_Factor__c &lt;0</errorConditionFormula>
+    <errorDisplayField>Claims_Factor__c</errorDisplayField>
+    <errorMessage>Please input positive Claim Factor value!</errorMessage>
+</ValidationRule>

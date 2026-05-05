@@ -1,0 +1,59 @@
+<aura:component controller="NBA_LawyerCompareCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="wrapper" type="Object[]"/>
+    <aura:attribute name="spinner" type="boolean" default="true"/>
+    <aura:attribute name="hasAop" type="boolean" default="false"/>
+    
+    <aura:attribute name="isHundredPercent" type="Boolean" default="false"/>
+    <aura:attribute name="hasPolicyAop" type="Boolean" default="false"/>
+    <aura:attribute name="showSyncBtn" type="Boolean" default="false"/>
+
+
+
+
+
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" variant="Brand" />
+    </aura:if>
+    <aura:if isTrue="{!v.wrapper}" >
+        <div class="body">
+            <div class="Section">
+                <div class="{!'sectionHeader ' + (v.isHundredPercent ? 'greenHeader' : '')}">
+                    <div>AOP</div>
+                    <aura:if isTrue="{!v.showSyncBtn}">
+                    <div>
+                        <lightning:button iconName="utility:sync" disabled="{!!v.hasAop}" label="Sync AOP" onclick="{! c.handleClick }" />
+                    </div>
+                        </aura:if>
+                </div>
+                <div class="sectionBody">
+                    <table class="slds-table_cell-buffer">
+                        <tr>
+                            <th class="leftTop">Customer Application AOP</th>
+                            <th class="">Percentage</th>
+                            <th class="">Policy AOP</th>
+                            <th class="rightTop">Percentage</th>
+                        </tr>
+                        <aura:iteration items="{!v.wrapper}" var="item">
+                            <tr>
+                                <th>{!item.aop.AOP_Factor__r.Name}</th>
+                                <td>
+                                    <lightning:formattedNumber value="{!item.aop.Percentage__c}" style="percent-fixed" maximumFractionDigits="2" minimumFractionDigits="2"/>
+                                </td>
+                                <th>{!item.policyAop.AOP__r.Name}</th>
+                                <td>
+                                    <lightning:formattedNumber value="{!item.policyAop.Percentage__c}" style="percent-fixed" maximumFractionDigits="2" minimumFractionDigits="2"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <aura:set attribute="else">
+            <div>
+                No records found.
+            </div>
+        </aura:set>
+    </aura:if>
+</aura:component>

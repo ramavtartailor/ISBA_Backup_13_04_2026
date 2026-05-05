@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Excess_Final__c</fullName>
+    <formula>Excess_Step_0__c + Excess_Step_1__c + Excess_Step_2__c + Excess_Step_3__c + Excess_Step_4__c + Excess_Step_5__c + Excess_Step_6__c + Excess_Step_7__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Excess Final</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

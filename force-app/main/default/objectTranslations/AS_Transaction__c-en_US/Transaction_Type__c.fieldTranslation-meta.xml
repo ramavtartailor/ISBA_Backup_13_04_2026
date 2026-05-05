@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Transaction Type --></label>
+    <name>Transaction_Type__c</name>
+    <picklistValues>
+        <masterLabel>Add Lawyer</masterLabel>
+        <translation><!-- Add Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Adjust Premium</masterLabel>
+        <translation><!-- Adjust Premium --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cancel Policy</masterLabel>
+        <translation><!-- Cancel Policy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change Coverage</masterLabel>
+        <translation><!-- Change Coverage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change Lawyer</masterLabel>
+        <translation><!-- Change Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change Reserve</masterLabel>
+        <translation><!-- Change Reserve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change in Ceded LAE Reserve</masterLabel>
+        <translation><!-- Change in Ceded LAE Reserve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change in Ceded Loss Reserve</masterLabel>
+        <translation><!-- Change in Ceded Loss Reserve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claim Coverage - ARDC</masterLabel>
+        <translation><!-- Claim Coverage - ARDC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Close Reserve</masterLabel>
+        <translation><!-- Close Reserve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deductible Expense</masterLabel>
+        <translation><!-- Deductible Expense --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deductible Expense New</masterLabel>
+        <translation><!-- Deductible Expense New --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deductible Loss</masterLabel>
+        <translation><!-- Deductible Loss --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delete Lawyer</masterLabel>
+        <translation><!-- Delete Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Due from Reins. - LAE</masterLabel>
+        <translation><!-- Due from Reins. - LAE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Due from Reins. - Loss</masterLabel>
+        <translation><!-- Due from Reins. - Loss --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ERE</masterLabel>
+        <translation><!-- ERE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Issue Policy</masterLabel>
+        <translation><!-- Issue Policy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LAE Payment</masterLabel>
+        <translation><!-- LAE Payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Loss Payment</masterLabel>
+        <translation><!-- Loss Payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Open Reserve</masterLabel>
+        <translation><!-- Open Reserve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reinstate Policy</masterLabel>
+        <translation><!-- Reinstate Policy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reopen Reserve</masterLabel>
+        <translation><!-- Reopen Reserve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unallocated LAE Payment</masterLabel>
+        <translation><!-- Unallocated LAE Payment --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

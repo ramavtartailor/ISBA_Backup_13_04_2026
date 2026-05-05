@@ -1,0 +1,174 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable" controller="ConvertToPolicyLtng">
+    <aura:attribute name="msg" type="String" />
+    <aura:attribute name="objPolicy" type="Policy__c" />
+    <aura:attribute name="StatusMap" type="Map"/>
+    <aura:attribute name="paymentReceivedMap" type="Map"/>
+    <aura:attribute name="IBFContributionMap" type="Map"/>
+    <aura:attribute name="IBFTargetMap" type="Map"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="bindButtonEnable"  type="boolean" default="true" ></aura:attribute>
+    <!--<aura:handler event="aura:waiting" action="{!c.showSpinner}"/> 
+ <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/> -->
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+    
+    <aura:attribute name="contributionAmountList" type="List" default=""/>
+    <aura:attribute name="contributionAmount" type="String" default=""/>
+    
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-modal__footer{
+        width: 100%;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        max-height:unset !important;
+        }
+        .container{
+        height: 20.7rem;
+        }
+        
+    </aura:html>
+    
+    <div aura:id="confirmBox" class="container slds-p-around--large slds-scrollable_y">
+        <div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                    <label>Recevied Date<span class="slds-m-left--x-small" style="color:red">*</span>:</label> 
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                    <lightning:input required="true" onchange="{!c.checkRequiredField}" aura:id="receivedDate" value="{!v.objPolicy.Application_Received_Date__c}" name="receivedDate" type="date" class="slds-size--10-of-12 minimumElementHeight"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                <span>Signed Date<span class="slds-m-left--x-small" style="color:red">*</span>:</span> 
+            </div>
+            <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                <lightning:input required="true" onchange="{!c.checkRequiredField}" aura:id="applicationSignedDate"  value="{!v.objPolicy.Date_Signed__c}" name="applicationSignedDate" type="date" class="slds-size--10-of-12 minimumElementHeight"/>
+            </div>
+        </div>
+        
+        <div class="slds-grid slds-wrap ">
+            <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                <span>Status<span class="slds-m-left--x-small" style="color:red">*</span>:</span> 
+            </div>
+            <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                
+                <lightning:select required="true" aura:id="statusPicklist" onchange="{!c.checkRequiredField}"  class="slds-size--10-of-12" value="{!v.objPolicy.Status__c}"  name="statusPicklist" >
+                    <option value="">--None--</option>
+                    <aura:iteration items="{!v.StatusMap}" var="ind" indexVar="key">
+                        <option text="{!ind.key}" value="{!ind.value}" selected="{!ind.value==v.objPolicy.Status__c}" />
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+        </div>
+        
+        
+        
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                <span>Payment Recevied<span  style="color:red">*</span>:</span> 
+            </div>
+            <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium ">
+                <lightning:select required="true" onchange="{!c.checkRequiredField}"  aura:id="paymentReceivedPicklist" class="slds-size--10-of-12" value="{!v.objPolicy.PaymentReceived__c}"  name="paymentReceivedPicklist" >
+                    <option value="">--None--</option>
+                    <aura:iteration items="{!v.paymentReceivedMap}" var="ind" indexVar="key">
+                        <option text="{!ind.key}" value="{!ind.value}" selected="{!ind.key==v.objPolicy.PaymentReceived__c}" />
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+        </div>
+        
+        <div class="slds-grid slds-wrap" style="{!if(v.objPolicy.ISBAM_policy_dividend__c > 0 , '' , 'display:none;')}">
+            <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                <span>IBF Contribution<span  style="color:red">*</span>:</span> 
+            </div>
+            
+            <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                <lightning:select required="true" onchange="{!c.checkRequiredField}"  aura:id="IBFContributionPicklist" class="slds-size--10-of-12" value="{!v.objPolicy.IBF_Contribtuion__c }"  name="IBFContributionPicklist" >
+                    <option value="">--None--</option>
+                    <aura:iteration items="{!v.IBFContributionMap}" var="ind" indexVar="key">
+                        <option text="{!ind.key}" value="{!ind.value}" selected="{!ind.key==v.objPolicy.IBF_Contribtuion__c}" />
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <!--div class="slds-col slds-size_1-of-3 slds-p-top-large slds-text-heading-medium"></div-->
+            
+            <aura:if isTrue = "{!v.objPolicy.IBF_Contribtuion__c == 'Yes - IBF Contribution Requested'}">
+                
+                <div class="slds-grid slds-wrap" style="align-items: baseline; width: 100%;">
+                    <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                        &nbsp;
+                    </div>
+                    
+                    <div class="slds-size_1-of-3 slds-p-top--medium slds-p-left--medium" style="">
+                        100%<br/>
+                        <lightning:input type = "currency" name="input2" class="slds-col slds-size--8-of-12 minimumElementHeight"  value="{!v.objPolicy.ISBAM_policy_dividend__c}" disabled ="true"/>
+                    </div>
+                    <div class="slds-size_1-of-3 slds-p-top--medium slds-p-left--medium" style="">
+                        Custom Amount<br/>
+                        <lightning:input name="input2" class="slds-col slds-size--8-of-12 minimumElementHeight"  value="{!v.objPolicy.IBF_Custom_Amount__c}"/>
+                    </div>   
+                </div>
+                
+                <div class="slds-grid slds-wrap" style="align-items: baseline; width: 100%;">
+                    <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                        <span>IBF Target<span  style="color:red">*</span>:</span> 
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                        <lightning:select onchange="{!c.checkRequiredField}" required="true" aura:id="IBFTargetPicklist" class="slds-size--10-of-12" value="{!v.objPolicy.IBF_Target__c }"  name="IBFTargetPicklist" label="IBF Target">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.IBFTargetMap}" var="ind" indexVar="key">
+                            <option text="{!ind.key}" value="{!ind.value}" selected="{!ind.key==v.objPolicy.IBF_Target__c}" />
+                        </aura:iteration>
+                    </lightning:select>
+                    </div>                    
+                </div>
+            </aura:if>
+            <aura:if isTrue = "{!v.objPolicy.IBF_Target__c == 'Appellate District'}">
+                <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                    <label>Specify District<span class="slds-m-left--x-small" style="color:red">*</span>:</label> 
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                    <lightning:input  onchange="{!c.checkRequiredField}" aura:id="IBFAppellateDistrict" name="input2" class="slds-col slds-size--10-of-12 minimumElementHeight" value="{!v.objPolicy.IBF_Appellate_District__c}"/>
+                </div>                
+            </aura:if>
+            <!--div class="slds-col slds-size_3-of-3 slds-p-top-medium slds-p-left-medium ">
+                <lightning:radioGroup name="radioButtonGroupRequired"
+                                      options="{! v.contributionAmountList }"
+                                      value="{! v.contributionAmount }"
+                                      type="button"
+                                      required="true"/>
+            </div-->
+        </div>
+        
+        
+        
+        <!--
+        Are you sure you want to continue?<br/>
+        <ui:button press="{!c.convertToPolicy}" label="Yes"/>
+        <ui:button press="{!c.hideConfirmBox}" label="No"/> -->
+        <aura:if isTrue="{!v.spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container slds-is-relative ">
+                <lightning:spinner  style="height: 245px;margin-top: -39%;" alternativeText="Loading"  size="large" variant="brand"/>
+            </div>
+        </aura:if>
+    </div>
+    <!--  
+    <div aura:id="errorMsg" class="hide">
+     <p><br/><br/><b></b></p>
+        <ui:outputText value="{!v.msg}" />
+        <ui:button press="{!c.hideConfirmBox}" label="Back"/>
+    </div>
+    <ui:spinner aura:id="spinner" isVisible="False" />  -->
+    <div slot="footer " class="slds-modal__footer">
+        <lightning:button variant="neutral" onclick="{!c.closeModal}" label="Cancel" />
+        <lightning:button variant="brand" disabled="{!v.bindButtonEnable}" onclick="{!c.updateToPolicy}" class="slds-m-right--medium" label="Bind Policy" />       
+    </div>
+</aura:component>

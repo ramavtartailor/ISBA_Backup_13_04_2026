@@ -1,0 +1,291 @@
+<apex:page showHeader="false" controller="FirmSearchController" id="pg">
+     <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>  
+         <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script> 
+          
+            <style>
+                .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                   }
+                   .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .slds-scope .slds-page-header {
+                        background-color: #337AB7 !important;
+                        color: white !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+            </style>
+            <script>
+            $(document).ready(function() {
+                datatableReinit();
+                // svg icon click event
+                $("svg").on("click", function() {
+                    if (typeof $(this).attr('data') != 'undefined') {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        } 
+                    }
+                });
+                $("body").keypress(function(e) {
+                    if(e.which == 13) {
+                        searchValidate();
+                        return false;
+                    }
+                    return true;
+                });
+            } );
+            
+            function datatableReinit(){
+                // Setup - add a text input to each footer cell
+                $('#example tfoot th').each( function (i) {
+                    var title = $('#example thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input type="text" placeholder="Search '+title+'" data-index="'+i+'" />' );
+                } );
+              
+                // DataTable
+                var table = $('#example').DataTable( {
+                    //scrollY:        "450px",
+                    //scrollX:        true,
+                    //scrollCollapse: true,
+                    //paging:         true,
+                    //fixedColumns:   false,
+                    pageLength: 50
+                } );
+             
+                // Filter event handler
+                $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+                    table
+                        .column( $(this).data('index') )
+                        .search( this.value )
+                        .draw();
+                } );
+                $('tfoot').css('display','none');
+                $('.dataTables_length select,input').addClass('slds-input');
+            }
+            
+            function redirectToEdit(mode){
+                if(mode == 'New'){
+                    unsaved = false;
+                    var accountName = document.getElementById("{!$Component.frm1.accountName}").value;
+                    window.location = '/apex/ApplicationAndPolicy?returnURL=/apex/firmSearch&accountName=' + accountName;
+                }else if(mode == 'Edit'){
+                    var recordId = $('[name$=options]:checked').attr('data-id');
+                    if(recordId != null && recordId != '' && recordId != 'undefined'){
+                        window.location = '/apex/ApplicationAndPolicy?id='+recordId +'&returnURL=/apex/firmSearch';
+                    }else{
+                        showError('**No selected record found.');
+                    }
+                }
+                $('[id$=spinner]').css('display','none');
+                return false;
+            }
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+            
+            function searchValidate(){
+                $('[id$=spinner]').css('display','block');
+                var flag = false;
+                $('.search').each(function (){
+                    if($(this).val() != '' && $(this).val() != null && $(this).val() != 'undefined'){
+                        flag = true;
+                    }
+                });
+                if(flag){
+                    searchAccount();
+                }else{
+                    showError('Search text empty . ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            } 
+        </script>
+        </head>
+        <body>
+            <apex:form id="frm1">
+            <apex:actionFunction name="searchAccount" action="{!fatchPolicy}" reRender="table" oncomplete="datatableReinit();$('[id$=spinner]').css('display','none');"/>
+             <div class="slds-page-header" role="banner">
+              <div class="slds-media">
+                <div class="slds-media__body">
+                  <p class="slds-page-header__title slds-truncate" title="SearchFirm">Search Firm</p>
+                  <p class="slds-text-body--small"></p>
+                </div>
+                <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                </ul>
+              </div>
+            </div>
+             <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+             </div>
+             
+             <div class="slds-notify_container slds-hide">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                      <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading--small"></h2>
+                    </div>
+                </div>
+            </div>
+            
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%; ">
+                 
+                 <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                     <h1 style="background-color: #337AB7;color:white;/* margin-left: 10px; */padding: 5px;border-radius: 3px;"><b style="margin-left:10px" >Search</b></h1>
+                 </div>
+                 
+             </div>   
+             <!-- Row Start-->
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                 
+                 <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                       <div class="slds-form--horizontal">
+                          <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="inputSample2">Name:</label>
+                            <div class="slds-form-element__control">
+                              <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                              <apex:inputText value="{!searchName }" styleClass="slds-input search" id="accountName"/>
+                            </div>
+                        </div>
+                       </div> 
+                        <!--Row 2-->
+                        <div class="slds-form--horizontal">
+                          <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="inputSample2">Policy:</label>
+                            <div class="slds-form-element__control">
+                              <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                              <apex:inputText value="{!searchPolicy }" styleClass="slds-input search"/>
+                            </div>
+                        </div>
+                        </div>
+                        <!--Row 3 -->
+                        <div class="slds-form--horizontal">
+                          <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="inputSample2">City:</label>
+                            <div class="slds-form-element__control">
+                              <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                              <apex:inputText value="{!searchCity}" styleClass="slds-input search"/>
+                            </div>
+                        </div>
+                        </div>   
+                 </div>
+               <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--8-of-12">
+                   <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="searchValidate(); return false;">
+                      <span class="slds-text-not-selected"></span>Search
+                    </button>
+                    
+                    <!--
+                    <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="$('[id$=spinner]').css('display','block');redirectToEdit('Edit'); return false;">
+                      <span class="slds-text-not-selected"></span>Select
+                    </button>-->
+               
+                    <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="$('[id$=spinner]').css('display','block');redirectToEdit('New'); return false;">
+                      <span class="slds-text-not-selected"></span>New
+                    </button>
+                   <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="window.location.href='/home/home.jsp';return false;">
+                      <span class="slds-text-not-selected"></span>Cancel
+                    </button>
+               </div> 
+               
+             </div>  
+             <!-- Row End Start--> 
+             
+             <!-- 2 Row -->
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                 
+                 <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                 <apex:outputPanel id="table">
+                    <table id="example" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <th>&nbsp;</th>
+                                <th width="15%">Name</th>
+                                <th> Policy#</th>
+                                <th>Policy Eff</th>
+                                <th width="15%">Application Name</th>
+                                <th>Application Eff</th>
+                                <th>City</th>
+                                <th>Zip</th>
+                                <th>Telephone</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            <apex:repeat value="{!searchAccounts}" var="account">
+                                <tr>
+                                    <td>
+                                        <apex:outputLink value="/apex/ApplicationAndPolicy?id={!account.accountObject.Id}&returnURL=/apex/firmSearch" id="er" onclick="unsaved=false;">Select</apex:outputLink>
+                                        <!--<span class="slds-radio">
+                                          <input type="radio" id="{!account.accountObject.Id}" name="options" checked="" data-id="{!account.accountObject.Id}"/>
+                                          <label class="slds-radio__label" for="{!account.accountObject.Id}">
+                                            <span class="slds-radio--faux"></span>
+                                            <span class="slds-form-element__label"></span>
+                                          </label>
+                                        </span>-->
+                                    </td>
+                                    <td width="15%">{!account.accountObject.Name}</td>
+                                    <td>
+                                        {!account.ltstPolicyObject.Name}
+                                    </td>
+                                    <td>
+                                        <apex:outputText style="" styleclass="slds-align-middle" value="{0,date,MM/dd/yy}">
+                                              <apex:param value="{!account.ltstPolicyObject.Effective_Date__c}" /> 
+                                        </apex:outputText>
+                                    </td>
+                                    <td width="15%">{!account.ltstApplicationObject.Name}</td>
+                                    <td>
+                                        <apex:outputText style="" styleclass="slds-align-middle" value="{0,date,MM/dd/yy}">
+                                              <apex:param value="{!account.ltstApplicationObject.Effective_Date__c}" /> 
+                                        </apex:outputText>
+                                    </td>
+                                    <td>{!account.accountObject.BillingCity}</td>
+                                    <td>{!account.accountObject.BillingPostalCode }</td>
+                                    <td>{!account.accountObject.Phone}</td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                    </apex:outputPanel>
+                  </div>
+              </div>   
+              </apex:form> 
+        </body>
+    </html>
+    <script>
+    var unsaved = false;
+            
+            $(":input").change(function(){ 
+                unsaved = true;
+            });
+            
+            function unloadPage(){ 
+                if(unsaved){
+                    return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+                }
+            }
+          window.onbeforeunload = unloadPage; 
+    </script>
+</apex:page>

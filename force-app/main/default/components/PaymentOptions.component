@@ -1,0 +1,239 @@
+<apex:component controller="RegularRenewalDoc_Ctrl">
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+    <!--<c:PaymentAuthorizeHeader />
+    <br/>-->
+    <center style="font-size:18px; color:red;">
+        <b>PREMIUM PAYMENT INSTRUCTIONS</b>
+    </center>
+    <br/>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    Policy Number: <span class="normalBoldParagraph"> #: {!policy.Name}  </span>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    Payment Due Date: <apex:outputText value="{0,date, MM/dd/yyyy}"> 
+                    <apex:param value="{!policy.Effective_Date__c}" /> 
+                </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    
+    
+    <table border="0" cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse;">
+        <tr>
+            <td width="58%" colspan="{!if(policy.Total_Credit__c>0,'5','4')}" style="font-size: 16px; width:58%; text-align:center; color:#89001a;" class="tableDataLeft;">
+                Coverage Options
+            </td>
+            <td width="42%" colspan="3" valign="top" style="background:red; border:1px solid #89001a;">
+                <p class="normalParagraph" align="center" style="margin-top:6.0pt; text-align:center">
+                    <span style="color:white; font-weight:bold;">
+                        <span class="b" style="color:white; font-weight:bold;"> Payment Options </span>
+                    </span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="1" style="width:14%; font-size:12px; font-weight:normal; border-bottom:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Per Claim Limit
+                </p>
+            </td>
+            <td nowrap="1" style="width:14%; font-size:12px; font-weight:normal; border-bottom:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Aggregate Limit
+                </p>
+            </td>
+            <td nowrap="1" style="width:12%; font-size:12px; font-weight:normal; border-bottom:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Deductible
+                </p>
+            </td>
+            <td nowrap="1" style="width:12%; font-size:12px; font-weight:normal; border-bottom:1px solid #000000; border-left:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt;">
+                    Premium
+                </p>
+            </td>
+            <td nowrap="1" style="width:10%; font-size:12px; font-weight:normal; border-bottom:1px solid #000000; {!if(policy.Total_Credit__c>0,'','display:none;')}">
+                <p class="normalParagraph" style="margin-top:6.0pt;">
+                    Credit *
+                </p>
+            </td>
+            <td nowrap="1" style="width:12%; font-size:12px; font-weight:bold; border-bottom:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Full
+                </p>
+            </td>
+            <td nowrap="1" style="width:12%; font-size:12px; font-weight:bold; border-bottom:1px solid #000000; border-right:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Quarterly
+                </p>
+            </td>
+            <td nowrap="1" style="width:12%; font-size:12px; font-weight:bold; border-bottom:1px solid #000000; border-right:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Monthly
+                </p>
+            </td>
+        </tr>
+        <apex:repeat value="{!quoteList}" var="quoteVar">
+            <tr>
+                <td nowrap="1" valign="top" style="border: none;">
+                    <p class="normalParagraph" style="margin-top:6.0pt">
+                        <apex:outputText value="${0, number,###,###,###,##0}">
+                            <apex:param value="{!quoteVar.Coverage_Max_Per_Claim__c}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none;">
+                    <p class="normalParagraph" style="margin-top:6.0pt">
+                        <apex:outputText value="${0, number,###,###,###,##0}">
+                            <apex:param value="{!quoteVar.Full_Coverage__c}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none;">
+                    <p class="normalParagraph" style="margin-top:6.0pt">
+                        <apex:outputField value="{!quoteVar.Deductible_Amount__c}"/>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none; border-left: 1px solid #000000;">
+                    <p class="normalParagraph" style="margin-top:6.0pt;">
+                        <apex:outputText value="${0, number,###,###,###,###}">
+                            <apex:param value="{!quoteVar.Quote_Final_Premium__c}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none; {!if(policy.Total_Credit__c>0,'','display:none;')}">
+                    <p class="normalParagraph" style="margin-top:6.0pt; color: blue; font-weight: bold;">
+                        <apex:outputText value="-${0, number,###,###,###,###}">
+                            <apex:param value="{!policy.Total_Credit__c}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none; border-left: 1px solid #000000;">
+                    <p class="normalParagraph" style="margin-top:6.0pt; font-weight: bold;">
+                        <apex:outputText value="${0, number,###,###,###,###}" rendered="{!if(policy.Total_Credit__c>0,'','display:none;')}">
+                            <apex:param value="{!(quoteVar.Quote_Final_Premium__c - policy.Total_Credit__c )}" />
+                        </apex:outputText>
+                        <apex:outputText value="${0, number,###,###,###,###}" rendered="{!if(policy.Total_Credit__c>0,'display:none;','')}">
+                            <apex:param value="{!(quoteVar.Quote_Final_Premium__c)}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none; border-left: 1px solid #000000;">
+                    <p class="normalParagraph" style="margin-top:6.0pt; font-weight: bold;">
+                        <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(policy.Total_Credit__c>0,'','display:none;')}">
+                            <apex:param value="{!(quoteVar.Quote_Final_Premium_Qrtly__c - (policy.Total_Credit__c/4) )}" />
+                        </apex:outputText>
+                        <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(policy.Total_Credit__c>0,'display:none;','')}">
+                            <apex:param value="{!(quoteVar.Quote_Final_Premium_Qrtly__c)}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                <td nowrap="1" valign="top" style="border: none; border-left:1px solid #000000; border-right:1px solid #000000;">
+                    <p class="normalParagraph" style="margin-top:6.0pt; font-weight: bold;">
+                        <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(policy.Total_Credit__c>0,'','display:none;')}">
+                            <apex:param value="{!(quoteVar.Quote_Final_Premium_Monthly__c - (policy.Total_Credit__c/12) )}" />
+                        </apex:outputText>
+                        <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(policy.Total_Credit__c>0,'display:none;','')}">
+                            <apex:param value="{!(quoteVar.Quote_Final_Premium_Monthly__c)}" />
+                        </apex:outputText>
+                    </p>
+                </td>
+                
+            </tr>
+        </apex:repeat>
+    </table>
+    
+    <table style="width: 100%; padding-top: 10px; {!if(policy.Total_Credit__c>0,'','display: none;')}">
+        <tbody>
+            <tr>
+                <td style="width: 99%;">&nbsp;</td>
+                <td style="width: 1%; white-space: nowrap;">* CREDITS APPLIED&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td style="color: blue; width: 1%; white-space: nowrap; padding-left: 20px; {!if(policy.ISBAM_policy_dividend__c  != null || policy.ISBAM_policy_dividend__c  > 0,'','display: none;')}">
+                    {!(YEAR(policy.Effective_Date__c) - 1)}  DIVIDEND:&nbsp;
+                    <apex:outputText value="-${0, number,###,###,###,###}">
+                        <apex:param value="{!(policy.ISBAM_policy_dividend__c )}" />
+                    </apex:outputText>
+                </td>                
+                <td style="color: blue; width: 1%; white-space: nowrap; padding-left: 20px; {!if(policy.Total_CLE_Credit__c > 0,'','display: none;')}">&nbsp;&nbsp;
+                    CLE Credit:&nbsp;
+                    <apex:outputText value="-${0, number,###,###,###,###}">
+                        <apex:param value="{!(policy.Total_CLE_Credit__c)}" />
+                    </apex:outputText>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <br/>
+    <br/>
+
+    
+    <div style="font-weight: bold;">
+        Once your Policy has been bound by ISBA Mutual, you will receive an email from <b style="text-decoration: underline;">accounting@isbamutual.com</b> with instructions on how to manage your premium payment online.
+    </div>
+    
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    
+    <center style="font-size:18px; color:red;">
+        <b>PREMIUM PAYMENT OPTIONS</b>
+    </center>
+    
+    <br/>
+    <br/>
+    
+    <p style="font-weight: bold;">
+        Online Payment Methods:
+    </p>
+    <ul style="list-style-type:square;color:#000000;font-size:13px;">
+        <li>
+            <p class="normalParagraph  tableDataLeft">
+                Credit Card
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph  tableDataLeft">
+                ACH/Echeck – (electronic bank account withdrawal) 
+            </p>
+            <br/>
+        </li>
+    </ul>
+    
+    <center style="font-size:18px; color:black;">
+        <b>OR</b>
+    </center>
+    
+
+    <br/>
+    
+    <p style="font-weight: bold;">
+        Send a check for FULL premium payment to:
+    </p>
+    
+    <div style="padding-left: 25px;">ISBA Mutual Insurance Company</div>
+    <div style="padding-left: 25px;">20 S. Clark, Suite 800</div>
+    <div style="padding-left: 25px;">Chicago, IL 60603</div>
+
+
+    <br/>
+    <br/>
+    <br/>
+    
+    <div class="normalParagraph" syle="display:none;">
+        <b>As a reminder, Coverage is not bound until appropriate premiums have been received by ISBA Mutual Insurance Company</b>
+    </div>
+    
+    <p class="normalParagraph" style="display:none;">
+        <i>* Credit Description:  {!policy.Total_CLE_Credit__c} CLE Credit, {!policy.Dividend_Credit__c} Dividend Credit </i>
+    </p>
+</apex:component>

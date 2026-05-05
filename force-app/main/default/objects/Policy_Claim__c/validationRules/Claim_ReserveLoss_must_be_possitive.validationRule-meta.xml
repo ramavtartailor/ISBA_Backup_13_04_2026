@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Claim_ReserveLoss_must_be_possitive</fullName>
+    <active>false</active>
+    <errorConditionFormula>!ISNULL( Reserve_Loss__c ) &amp;&amp; 
+ Reserve_Loss__c &lt;0</errorConditionFormula>
+    <errorDisplayField>Reserve_Loss__c</errorDisplayField>
+    <errorMessage>Loss Reserve cannot be Negative!</errorMessage>
+</ValidationRule>

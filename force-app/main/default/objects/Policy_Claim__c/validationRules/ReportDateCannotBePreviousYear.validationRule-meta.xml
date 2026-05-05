@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReportDateCannotBePreviousYear</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(OR(AND(NOT(AND(DAY(TODAY())&gt;=1,                      
+                   DAY(TODAY())&lt;=17,         
+                   MONTH(TODAY())==1)),
+           (YEAR( Report_Date__c ) &lt; YEAR(TODAY())) ),
+       AND(AND(DAY(TODAY())&gt;=1,                      
+               DAY(TODAY())&lt;=17,         
+               MONTH(TODAY())==1),
+           (YEAR( Report_Date__c ) &lt; YEAR(TODAY())-1) )),
+    ISNEW() )</errorConditionFormula>
+    <errorDisplayField>Report_Date__c</errorDisplayField>
+    <errorMessage>Report Date shouldn&apos;t be previous year, if Today is not between the first 10 days of this year.</errorMessage>
+</ValidationRule>

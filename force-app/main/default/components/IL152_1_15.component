@@ -1,0 +1,54 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Adding a Lawyer Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the lawyer identified below is an<span class="normalBoldParagraph"> INSURED </span>on this Policy on the effective date stated on this endorsement with the<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>shown below.
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Lawyer</u>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Prior Acts Date</u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputField value="{!endorsement.Lawyer_Name__c}"/>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!endorsement.Prior_Act_Date__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    Additional Premium:  <apex:outputField value="{!endorsement.Premium__c}"/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:400px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

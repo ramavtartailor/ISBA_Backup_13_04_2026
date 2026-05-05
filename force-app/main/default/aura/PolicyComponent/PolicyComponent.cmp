@@ -1,0 +1,141 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" controller="PolicyController" access="global">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="LstPolicy" type="Policy_Lawyer__c[]"/>
+    <aura:attribute name="countTotal" type="Decimal"/>
+    <aura:attribute name="count7" type="Decimal" default="0"/>
+    <aura:attribute name="count6" type="Decimal" default="0"/>
+    <aura:attribute name="count5" type="Decimal" default="0"/>
+    <aura:attribute name="count4" type="Decimal" default="0"/>
+    <aura:attribute name="count3" type="Decimal" default="0"/>
+    <aura:attribute name="count2" type="Decimal" default="0"/>
+    <aura:attribute name="count1" type="Decimal" default="0"/>
+    <aura:attribute name="count0" type="Decimal" default="0"/>
+    <aura:attribute name="fullTimeTotal" type="Decimal"/>
+    <aura:attribute name="fullTime7" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime6" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime5" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime4" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime3" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime2" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime1" type="Decimal" default="0"/>
+    <aura:attribute name="fullTime0" type="Decimal" default="0"/>
+    
+    <aura:attribute name="deductibleFactor" type="String"/>
+    <aura:attribute name="limitFactor" type="String"/>
+    <aura:attribute name="baseRate" type="String"/>
+    <aura:attribute name="firmMod" type="String"/>
+    <aura:attribute name="quoteLimit" type="String"/>
+    <aura:attribute name="quoteDeductible" type="String"/>
+    <aura:attribute name="adjMod" type="String"/>
+    <aura:attribute name="mod_230" type="String"/>
+    <aura:attribute name="mod_234" type="String"/>
+    <aura:attribute name="mod_261" type="String"/>
+   
+    <div>
+        <div>
+            <div style="width: 50%;float: left;">
+                <h1 style="">By Step Count</h1>
+            </div>
+            <div style="width: 50%;float: right;">
+                <lightning:button  variant="brand" aura:id="premiumBreakDown" label="Premium Breakdown" onclick="{!c.openModal}" class="rightButton"/>
+            </div>
+        </div>
+        <table>
+             <tr style="color:#80bfff">
+                <th></th>
+                <th>7</th>
+                <th>6</th>
+                <th>5</th>
+                <th>4</th>
+                <th>3</th>
+                <th>2</th>
+                <th>1</th>
+                <th>0</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <th>Count:</th>
+                <th>{!v.count7}</th>
+                <th>{!v.count6}</th>
+                <th>{!v.count5}</th>
+                <th>{!v.count4}</th>
+                <th>{!v.count3}</th>
+                <th>{!v.count2}</th>
+                <th>{!v.count1}</th>
+                <th>{!v.count0}</th>
+                <th>{!v.countTotal}</th>
+            </tr>
+            <tr style="background-color:#efeff5">
+                <th>Full Time:</th>
+                <th>{!v.fullTime7}</th>
+                <th>{!v.fullTime6}</th>
+                <th>{!v.fullTime5}</th>
+                <th>{!v.fullTime4}</th>
+                <th>{!v.fullTime3}</th>
+                <th>{!v.fullTime2}</th>
+                <th>{!v.fullTime1}</th>
+                <th>{!v.fullTime0}</th>
+                <th>{!v.fullTimeTotal}</th>
+            </tr>
+        </table>
+        <br/>        
+        <div class="">
+            <div class="">
+                <div>
+                    <c:PolicyLawyerListComponent recordId="{!v.recordId}"/>
+                </div>
+            </div>
+            <div class="" style="background:#f3f3f3;padding-top: 1%;padding-bottom: 1%;">
+                <div style="">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>Limit </b> {!v.quoteLimit} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Deductible </b> {!v.quoteDeductible}
+                </div>
+                <div style="">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>Base Rate </b> {!v.baseRate} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Limit Factor </b> {!v.limitFactor} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Deductible Factor </b> {!v.deductibleFactor} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Firm Mod </b> {!v.firmMod} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>ADJ MOD </b> {!v.adjMod}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>MOD_230 </b> {!v.mod_230}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>MOD_234 </b> {!v.mod_234}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>MOD_261 </b> {!v.mod_261}&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>                
+            </div>
+        </div>
+    </div>
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal  slds-modal_large">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 id="header43" class="slds-text-heading--medium">Policy Lawyers</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+                <div>
+                    <c:PolicyLawyerListComponent recordId="{!v.recordId}"/>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <footer class="slds-modal__footer">
+                    <div style="float:left;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<b>Limit </b> {!v.quoteLimit} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Deductible </b> {!v.quoteDeductible}
+                    </div><br/>
+                    <div style="float:left;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<b>Base Rate </b> {!v.baseRate} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Limit Factor </b> {!v.limitFactor} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Deductible Factor </b> {!v.deductibleFactor} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Firm Mod </b> {!v.firmMod} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>ADJ MOD </b> {!v.adjMod}&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>MOD_230 </b> {!v.mod_230}&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>MOD_234 </b> {!v.mod_234}&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>MOD_261 </b> {!v.mod_261}&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Close</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+   
+</aura:component>

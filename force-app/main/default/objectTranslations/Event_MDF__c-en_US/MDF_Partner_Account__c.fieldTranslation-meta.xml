@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Account which the Market Development Fund (MDF) is associated --></help>
+    <label><!-- MDF Partner Account --></label>
+    <name>MDF_Partner_Account__c</name>
+    <relationshipLabel><!-- Event MDFs --></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,111 @@
+.THIS.body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.THIS .Section{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #cdcdcd;
+    border-radius: .4rem;
+}
+.THIS .sectionHeader{
+    display: flex;
+    gap: 1rem;
+    background: #89001a;
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 0 2px 0 #89001a;
+    border-top-right-radius: .3rem;
+    padding: .5rem 1rem;
+    border-top-left-radius: .3rem;
+}
+.THIS .greenBox{
+    background-color: #34D39D;
+    color: white;
+    box-shadow: 0 0 2px 0 #34D39D;
+}
+.THIS .blueBox{
+    background-color: #3480d3;
+    color: white;
+    box-shadow: 0 0 2px 0 #3480d3;
+}
+.THIS .redBox{
+    background-color: #89001a;
+    color: white;
+    box-shadow: 0 0 2px 0 #89001a;
+}
+.THIS .allMatched{
+    background-color: #cdcdcd;
+    color: black;
+    box-shadow: 0 0 2px 0 #cdcdcd;
+}
+.THIS .sectionBody{
+    padding: .5rem;
+    overflow-y: scroll;
+}
+.THIS .nbaTable{
+    border-radius: .4rem !important;
+    border: 1px solid #e5e5e5;
+    border-collapse: separate;
+    margin: 0 .5rem .5rem;
+    width: calc(100% - 1rem);
+}
+.THIS .nbaTable td{
+    padding: .25rem .5rem;
+    border-top: 1px solid #e5e5e5;
+}
+.THIS .nbaTable th{
+    padding: .25rem .5rem;
+    text-wrap: nowrap;
+    background: #f3f3f3;
+    border-top: 1px solid #e5e5e5;
+}
+.THIS .leftTop{
+    border-top-left-radius: .4rem;
+}
+.THIS .rightTop{
+    border-top-right-radius: .4rem;
+}
+.THIS .leftBottom{
+    border-bottom-left-radius: .4rem;
+}
+.THIS .rightBottom{
+    border-bottom-right-radius: .4rem;
+}
+.THIS .icon{
+    cursor: pointer;
+}
+.THIS .newLawyer{
+    background-color: #34D39D;
+    color: white;
+    box-shadow: 0 0 2px 0 #34D39D;
+}
+
+.THIS .removeLawyer{
+    background-color: red;
+    color: white;
+    box-shadow: 0 0 2px 0 #34D39D;
+}
+.THIS .accRadioGroup .slds-form-element__control{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: .5rem;
+}
+.THIS .accRadioGroup .slds-form-element__control .slds-radio{
+    width: 50%;
+}
+
+.THIS .disabledIcon {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.THIS .leftHeadSection{
+    text-align: left;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: .5rem;
+}

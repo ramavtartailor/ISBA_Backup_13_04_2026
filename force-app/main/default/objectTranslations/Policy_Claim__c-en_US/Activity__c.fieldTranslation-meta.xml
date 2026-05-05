@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Activity --></label>
+    <name>Activity__c</name>
+    <picklistValues>
+        <masterLabel>ARDC</masterLabel>
+        <translation><!-- ARDC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Administrative</masterLabel>
+        <translation><!-- Administrative --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Administrative Procedure</masterLabel>
+        <translation><!-- Administrative Procedure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Administrative Review</masterLabel>
+        <translation><!-- Administrative Review --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Advice</masterLabel>
+        <translation><!-- Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Appeal</masterLabel>
+        <translation><!-- Appeal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Work</masterLabel>
+        <translation><!-- Bond Work --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bonds</masterLabel>
+        <translation><!-- Bonds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Child Support/Custody</masterLabel>
+        <translation><!-- Child Support/Custody --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Civil Rights</masterLabel>
+        <translation><!-- Civil Rights --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Class Action</masterLabel>
+        <translation><!-- Class Action --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closing</masterLabel>
+        <translation><!-- Closing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Collection Practice</masterLabel>
+        <translation><!-- Collection Practice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Collections</masterLabel>
+        <translation><!-- Collections --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Compliance Advice</masterLabel>
+        <translation><!-- Compliance Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Contract</masterLabel>
+        <translation><!-- Contract --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Contracts</masterLabel>
+        <translation><!-- Contracts --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Corporate Takeovers</masterLabel>
+        <translation><!-- Corporate Takeovers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Distribution of Assets</masterLabel>
+        <translation><!-- Distribution of Assets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Document Preparation</masterLabel>
+        <translation><!-- Document Preparation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Drafting Will</masterLabel>
+        <translation><!-- Drafting Will --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Employee Benefits</masterLabel>
+        <translation><!-- Employee Benefits --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Enforcement of Judgement</masterLabel>
+        <translation><!-- Enforcement of Judgement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equitable Distribution</masterLabel>
+        <translation><!-- Equitable Distribution --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Establishing Trust</masterLabel>
+        <translation><!-- Establishing Trust --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Estate Planning/Financial Advice</masterLabel>
+        <translation><!-- Estate Planning/Financial Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Filing Estate or Inheritance Tax Returns</masterLabel>
+        <translation><!-- Filing Estate or Inheritance Tax Returns --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Filing of Documents</masterLabel>
+        <translation><!-- Filing of Documents --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Financial Advice</masterLabel>
+        <translation><!-- Financial Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Foreclosures</masterLabel>
+        <translation><!-- Foreclosures --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Forming Partnership/Joint Venture</masterLabel>
+        <translation><!-- Forming Partnership/Joint Venture --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>General Advice to Employer</masterLabel>
+        <translation><!-- General Advice to Employer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Giving Advice</masterLabel>
+        <translation><!-- Giving Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Incorporation</masterLabel>
+        <translation><!-- Incorporation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investigation</masterLabel>
+        <translation><!-- Investigation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investigation and Discovery</masterLabel>
+        <translation><!-- Investigation and Discovery --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Issuing Stock</masterLabel>
+        <translation><!-- Issuing Stock --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lis Pendens</masterLabel>
+        <translation><!-- Lis Pendens --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Litigation</masterLabel>
+        <translation><!-- Litigation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Loan Documentation</masterLabel>
+        <translation><!-- Loan Documentation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Maintenance</masterLabel>
+        <translation><!-- Maintenance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mechanics Lien</masterLabel>
+        <translation><!-- Mechanics Lien --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Merger</masterLabel>
+        <translation><!-- Merger --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mergers</masterLabel>
+        <translation><!-- Mergers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Motion Practice/Pretrial</masterLabel>
+        <translation><!-- Motion Practice/Pretrial --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Negotiation/Settlement</masterLabel>
+        <translation><!-- Negotiation/Settlement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Offering Ltd. Partnership Shares</masterLabel>
+        <translation><!-- Offering Ltd. Partnership Shares --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Personal Injury</masterLabel>
+        <translation><!-- Personal Injury --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Plea Bargaining</masterLabel>
+        <translation><!-- Plea Bargaining --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Post Trial/Appeal</masterLabel>
+        <translation><!-- Post Trial/Appeal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Preparation of Documents</masterLabel>
+        <translation><!-- Preparation of Documents --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Preparation of Taxes</masterLabel>
+        <translation><!-- Preparation of Taxes --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Preparation/Filing Documents</masterLabel>
+        <translation><!-- Preparation/Filing Documents --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Products Liability</masterLabel>
+        <translation><!-- Products Liability --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Professional Liability</masterLabel>
+        <translation><!-- Professional Liability --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Property</masterLabel>
+        <translation><!-- Property --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Property Damage</masterLabel>
+        <translation><!-- Property Damage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prospectus Preparation</masterLabel>
+        <translation><!-- Prospectus Preparation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Purchase/Sale of Business</masterLabel>
+        <translation><!-- Purchase/Sale of Business --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Referral</masterLabel>
+        <translation><!-- Referral --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Regulatory/Compliance Advice</masterLabel>
+        <translation><!-- Regulatory/Compliance Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Regulatory/Statutory Compliance</masterLabel>
+        <translation><!-- Regulatory/Statutory Compliance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Representing Creditor</masterLabel>
+        <translation><!-- Representing Creditor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Representing Debtor</masterLabel>
+        <translation><!-- Representing Debtor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Representing Governmental Entities (othe</masterLabel>
+        <translation><!-- Representing Governmental Entities (othe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Representing Management</masterLabel>
+        <translation><!-- Representing Management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Representing Union</masterLabel>
+        <translation><!-- Representing Union --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Securing Financing</masterLabel>
+        <translation><!-- Securing Financing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Serving as BOD/General Counsel</masterLabel>
+        <translation><!-- Serving as BOD/General Counsel --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Serving as a Mediator</masterLabel>
+        <translation><!-- Serving as a Mediator --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Serving as a Trustee</masterLabel>
+        <translation><!-- Serving as a Trustee --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Serving as an Arbitrator</masterLabel>
+        <translation><!-- Serving as an Arbitrator --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sexual Harassment/Discrimination</masterLabel>
+        <translation><!-- Sexual Harassment/Discrimination --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Stock Offerings</masterLabel>
+        <translation><!-- Stock Offerings --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Syndication</masterLabel>
+        <translation><!-- Syndication --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tax Advice</masterLabel>
+        <translation><!-- Tax Advice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tax Preparation</masterLabel>
+        <translation><!-- Tax Preparation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tender Offerings</masterLabel>
+        <translation><!-- Tender Offerings --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Title Search</masterLabel>
+        <translation><!-- Title Search --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Transactional</masterLabel>
+        <translation><!-- Transactional --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Trial</masterLabel>
+        <translation><!-- Trial --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Workers Compensation</masterLabel>
+        <translation><!-- Workers Compensation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Written Opinion</masterLabel>
+        <translation><!-- Written Opinion --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wrongful Death</masterLabel>
+        <translation><!-- Wrongful Death --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wrongful Termination</masterLabel>
+        <translation><!-- Wrongful Termination --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

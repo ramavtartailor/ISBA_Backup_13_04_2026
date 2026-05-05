@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Converted_Status_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(AND(PolicyId__c == null, ISPICKVAL( Application_Status__c ,&apos;Converted&apos;) ) ,true, false)</errorConditionFormula>
+    <errorMessage>You cannot mark the status as &quot;Converted&quot;.</errorMessage>
+</ValidationRule>

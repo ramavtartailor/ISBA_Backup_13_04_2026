@@ -1,0 +1,2 @@
+<apex:page controller="ReprocessPaymentCtrl" action="{!reprocessPayment}">
+</apex:page>

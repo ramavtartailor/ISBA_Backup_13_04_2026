@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Action --></label>
+    <name>Action__c</name>
+    <picklistValues>
+        <masterLabel>Add Lawyer</masterLabel>
+        <translation><!-- Add Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bound</masterLabel>
+        <translation><!-- Bound --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delete Lawyer</masterLabel>
+        <translation><!-- Delete Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL107</masterLabel>
+        <translation><!-- IL107 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL130</masterLabel>
+        <translation><!-- IL130 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL210</masterLabel>
+        <translation><!-- IL210 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL261</masterLabel>
+        <translation><!-- IL261 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

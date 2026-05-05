@@ -1,0 +1,679 @@
+<aura:component controller="ProcessRegularRenewalCmpCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__container{
+        width: 90%;
+        height: 100%;
+        max-width: unset;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-form-element__legend{
+        font-weight: normal;
+        }
+        
+    </aura:html>
+    <aura:attribute name="isQuickAction" type="Boolean" default="true"/>
+    <aura:attribute name="spinner" type="Boolean" default="true"/>
+    <aura:attribute name="wrapper" type="Object"/>
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Yes', 'value': true},
+                                                        {'label': 'No', 'value': false}
+                                                        ]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" variant="Brand" />
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isQuickAction}">
+        <div class="slds-modal__header">
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Customer Application</h1>
+        </div>
+    </aura:if>
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <div class="container">
+            <div class="section">
+                <div class="heading">Law Firm Information</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop"></th>
+                            <th>Policy</th>
+                            <th class="rightTop">Customer Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.Name == v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}">
+                            <tr>
+                                <td>Name</td>
+                                <td>{!v.wrapper.policy.Account__r.Name}</td>
+                                <td>{!v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Name</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.Name}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.Trade_Name_or_D_B_A__c == v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c}">
+                            <tr>
+                                <td>Trade Name or D/B/A</td>
+                                <td>{!v.wrapper.policy.Account__r.Trade_Name_or_D_B_A__c}</td>
+                                <td>{!v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Trade Name or D/B/A</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.Trade_Name_or_D_B_A__c}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.BillingStreet == v.wrapper.onlineNBA.Street__c}">
+                            <tr>
+                                <td>Principal Street Address</td>
+                                <td>{!v.wrapper.policy.Account__r.BillingStreet}</td>
+                                <td>{!v.wrapper.onlineNBA.Street__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Principal Street Address</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.BillingStreet}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Street__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.BillingCity == v.wrapper.onlineNBA.City__c}">
+                            <tr>
+                                <td>City</td>
+                                <td>{!v.wrapper.policy.Account__r.BillingCity}</td>
+                                <td>{!v.wrapper.onlineNBA.City__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">City</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.BillingCity}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.City__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.BillingState == v.wrapper.onlineNBA.State__c}">
+                            <tr>
+                                <td>State</td>
+                                <td>{!v.wrapper.policy.Account__r.BillingState}</td>
+                                <td>{!v.wrapper.onlineNBA.State__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">State</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.BillingState}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.State__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.BillingPostalCode == v.wrapper.onlineNBA.Zip_Code__c}">
+                            <tr>
+                                <td>Zip Code</td>
+                                <td>{!v.wrapper.policy.Account__r.BillingPostalCode}</td>
+                                <td>{!v.wrapper.onlineNBA.Zip_Code__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Zip Code</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.BillingPostalCode}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Zip_Code__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.Billing_Address_County__c == v.wrapper.onlineNBA.County__c}">
+                            <tr>
+                                <td>County</td>
+                                <td>{!v.wrapper.policy.Account__r.Billing_Address_County__r.Name}</td>
+                                <td>{!v.wrapper.onlineNBA.County__r.Name}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">County</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.Billing_Address_County__r.Name}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.County__r.Name}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.Phone == v.wrapper.onlineNBA.Firm_Phone_Number__c}">
+                            <tr>
+                                <td>Firm Phone Number</td>
+                                <td>{!v.wrapper.policy.Account__r.Phone}</td>
+                                <td>{!v.wrapper.onlineNBA.Firm_Phone_Number__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Firm Phone Number</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.Phone}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Firm_Phone_Number__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.Establish_Date__c == v.wrapper.onlineNBA.Date_Firm_Established__c}">
+                            <tr>
+                                <td>Date Firm Established</td>
+                                <td>
+                                    <lightning:formattedDateTime  value="{!v.wrapper.policy.Account__r.Establish_Date__c}" year="numeric"
+                                                                 month="2-digit" day="2-digit" />
+                                </td>
+                                <td><lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Date_Firm_Established__c}" year="numeric"
+                                                                 month="2-digit" day="2-digit" />
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Date Firm Established</td>
+                                    <td class="isChanged">
+                                        <lightning:formattedDateTime  value="{!v.wrapper.policy.Account__r.Establish_Date__c}" year="numeric"
+                                                                     month="2-digit" day="2-digit" />
+                                    </td>
+                                    <td class="isChanged">
+                                        <lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Date_Firm_Established__c}" year="numeric"
+                                                                     month="2-digit" day="2-digit" /></td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Account__r.Website__c == v.wrapper.onlineNBA.Website__c}">
+                            <tr>
+                                <td class="">Website</td>
+                                <td>{!v.wrapper.policy.Account__r.Website__c}</td>
+                                <td class="">{!v.wrapper.onlineNBA.Website__c}</td>
+                            </tr>
+                            <aura:set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Website</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Account__r.Website__c}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Website__c}</td>
+                                </tr>
+                            </aura:set>
+                        </aura:if>
+                        <tr>
+                            <td>Effective Date Requested</td>
+                            <td></td>
+                            <td>
+                                <lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Effective_Date_Requested__c}" year="numeric"
+                                                             month="2-digit" day="2-digit" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Past Fiscal Year</td>
+                            <td></td>
+                            <td><lightning:formattedNumber value="{!v.wrapper.onlineNBA.Q_Firm_Gross_Revenue_Past_Year__c}" style="currency" currencyCode="USD"/></td>
+                        </tr>
+                        <tr>
+                            <td class="leftBottom">Estimate for Next Fiscal Year</td>
+                            <td></td>
+                            <td class="rightBottom"><lightning:formattedNumber value="{!v.wrapper.onlineNBA.Q_Firm_Gross_Revenue_Next_Year__c}" style="currency" currencyCode="USD"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="section">
+                <div class="heading">Contact Information</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop"></th>
+                            <th>Policy</th>
+                            <th class="rightTop">Customer Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{!v.wrapper.policy.Firm_Contact__r.FirstName == v.wrapper.onlineNBA.Contact_Name__c}">
+                            <tr>
+                                <td>Contact First Name</td>
+                                <td>{!v.wrapper.policy.Firm_Contact__r.FirstName}</td>
+                                <td>{!v.wrapper.onlineNBA.Contact_Name__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Contact First Name</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Firm_Contact__r.FirstName}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Contact_Name__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Firm_Contact__r.LastName == v.wrapper.onlineNBA.Contact_Last_Name__c}">
+                            <tr>
+                                <td>Contact Last Name</td>
+                                <td>{!v.wrapper.policy.Firm_Contact__r.LastName}</td>
+                                <td>{!v.wrapper.onlineNBA.Contact_Last_Name__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Contact Last Name</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Firm_Contact__r.LastName}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Contact_Last_Name__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Firm_Contact__r.Phone == v.wrapper.onlineNBA.Contact_Phone_Number__c}">
+                            <tr>
+                                <td>Contact Phone Number</td>
+                                <td>{!v.wrapper.policy.Firm_Contact__r.Phone}</td>
+                                <td>{!v.wrapper.onlineNBA.Contact_Phone_Number__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Contact Phone Number</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Firm_Contact__r.Phone}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Contact_Phone_Number__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.policy.Firm_Contact__r.Email == v.wrapper.onlineNBA.Contact_E_mail_Address__c}">
+                            <tr>
+                                <td>Contact E-mail Address</td>
+                                <td>{!v.wrapper.policy.Firm_Contact__r.Email}</td>
+                                <td>{!v.wrapper.onlineNBA.Contact_E_mail_Address__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <td class="isChanged">Contact E-mail Address</td>
+                                    <td class="isChanged">{!v.wrapper.policy.Firm_Contact__r.Email}</td>
+                                    <td class="isChanged">{!v.wrapper.onlineNBA.Contact_E_mail_Address__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section">
+                <div class="heading">Lawyer Information</div>
+                <div style="overflow-y: scroll;">
+                    <table class="slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th class="leftTop rightTop" style="text-align: center;" colspan="9">
+                                    Policy Lawyer
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="slds-truncate" width="10%">FirstName</th>
+                                <th class="slds-truncate" width="10%">MiddleName</th>
+                                <th class="slds-truncate" width="10%">LastName</th>
+                                <th class="slds-truncate" width="10%">ISBA #</th>
+                                <th class="slds-truncate" width="10%">ARDC Number</th>
+                                <th class="slds-truncate" width="10%">Cell Phone</th>
+                                <th class="slds-truncate" width="10%">Birthdate</th>
+                                <th class="slds-truncate" width="15%">Firm Email</th>
+                                <th class="slds-truncate" width="15%">Personal Email</th>
+                            </tr>
+                        </thead> 
+                        <!--tbody>
+                            <aura:iteration items="{!v.wrapper.policy.Policy_Lawyers__r}" var="item">
+                                <tr>
+                                    <td class="leftBottom">{!item.First_Name_Contact__c}</td>
+                                    <td>{!item.Middle_Name_Contact__c}</td>
+                                    <td>{!item.Last_Name_Contact__c}</td>
+                                    <td>{!item.ISBA_Number__c}</td>
+                                    <td>{!item.ARDC_Number__c}</td>
+                                    <td>{!item.Lawyer__r.Contact__r.Cell_Phone__c}</td>
+                                    <td>{!item.Lawyer__r.Contact__r.Birthdate}</td>
+                                    <td>{!item.Contact_Email__c}</td>
+                                    <td class="rightBottom">{!item.Lawyer__r.Contact__r.Personal_Email__c}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody-->
+                        <tbody>
+                            <aura:if isTrue="{!v.wrapper.policyLawyers.length > 0}">
+                                <aura:iteration items="{!v.wrapper.policyLawyers}" var="item">
+                                    <tr>                                    
+                                        <aura:iteration items="{!item}" var="obj">
+                                            <aura:if isTrue="{!OR(obj.isChanged,obj.isRemoved)}">
+                                                <aura:if isTrue="{!obj.isChanged}">
+                                                    <td class="isChanged ">{!obj.val}</td>
+                                                    <aura:set attribute="else" >
+                                                        <td class="isRemoved">{!obj.val}</td>
+                                                    </aura:set>
+                                                </aura:if>
+                                                <aura:set attribute="else" >
+                                                    <td class="leftBottom rightBottom">{!obj.val}</td>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </tr>
+                                </aura:iteration>
+                                <aura:set attribute="else" >
+                                    <tr>
+                                        <td style="text-align: center;" colSpan="9">No records found.</td></tr>
+                                </aura:set>
+                            </aura:if>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="overflow-y: scroll;">
+                    <table class="slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th class="leftTop rightTop" style="text-align: center;" colspan="9">
+                                    Customer Application Lawyer
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="slds-truncate" width="10%">FirstName</th>
+                                <th class="slds-truncate" width="10%">MiddleName</th>
+                                <th class="slds-truncate" width="10%">LastName</th>
+                                <th class="slds-truncate" width="10%">ISBA #</th>
+                                <th class="slds-truncate" width="10%">ARDC Number</th>
+                                <th class="slds-truncate" width="10%">Cell Phone</th>
+                                <th class="slds-truncate" width="10%">Birthdate</th>
+                                <th class="slds-truncate" width="15%">Firm Email</th>
+                                <th class="slds-truncate" width="15%">Personal Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.wrapper.onlineNBA.Customer_Application_Lawyers__r}" var="item">
+                                <tr>
+                                    <td class="leftBottom">{!item.Name}</td>
+                                    <td>{!item.Middle_Initial__c}</td>
+                                    <td>{!item.Last_Name__c}</td>
+                                    <td>{!item.ISBA_Number__c}</td>
+                                    <td>{!item.ARDC_Number__c}</td>
+                                    <td>{!item.Cell_Phone__c}</td>
+                                    <td>
+                                        <lightning:formattedDateTime  value="{!item.Birthday__c}" year="numeric"
+                                                                     month="2-digit" day="2-digit" />
+                                    </td>
+                                    <td>{!item.Firm_Email_Address__c}</td>
+                                    <td class="rightBottom">{!item.Personal_Email_Address__c}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="questionSection">
+                    <lightning:radioGroup label="Does the Firm or any Lawyer practice in states other than Illinois?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Outside_IL__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    
+                    <aura:if isTrue="{!v.wrapper.onlineNBA.Q_Outside_IL__c}">
+                        <lightning:textarea name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Outside_IL_Description__c}" label="Please list the state(s) and/or country(ries) including the percentage (%) of practice in each for the past twelve (12) months below." />
+                    </aura:if>
+                    
+                    <lightning:radioGroup label="Does the Firm use engagement letters?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Engagement_Letters__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    
+                    <lightning:radioGroup label="Does the Firm utilize co-counsel, local counsel, refer cases, or case share with any other Lawyer?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Firm_Share_Cases__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    <aura:if isTrue="{!v.wrapper.onlineNBA.Q_Firm_Share_Cases__c}">
+                        <lightning:radioGroup label="Does the Firm confirm Lawyers Professional Liability is carried by the other Firm or Lawyer?"
+                                              options="{! v.options }"
+                                              value="{! v.wrapper.onlineNBA.Q_Firm_Share_Cases_Insured__c}"
+                                              type="button"
+                                              disabled="true"/>
+                    </aura:if>
+                    
+                    <lightning:radioGroup label="Does the Firm have a procedure for evaluating New Clients/New Matters, such as, but not limited to, fit with Firm’s Areas of Practice, conflict of interest check, the client’s expectations, merits of the client’s case and/or client’s history of changing Lawyers?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Firm_Evaluate_New_Clients__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    <!--                     
+                    <lightning:radioGroup label="Does the Firm review conflicts of interest throughout the duration of the client or matter representation?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Firm_Review_Conflicts__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    
+                    <lightning:radioGroup label="Does the Firm routinely use client engagement letters, contingency fee agreements, or retainer agreements which outline the scope of services to be provided when accepting all new matters to the Firm?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Firm_Use_Agreements_Or_Engagement_Lett__c}"
+                                          type="button"
+                                          disabled="true"/> -->
+                    
+                    <lightning:radioGroup label="Does the Firm notify clients in writing when an existing relationship is terminated, or when the Firm declines to represent a prospective client’s matter?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Q_Firm_Notify_Clients_Terminated__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    
+                    <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Firm_Maintain_a_Docket__c}" label="Describe how the Firm calendars and tracks dates and deadlines of client matters:" />
+                    <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Firm_Conflict_Of_Interest_System__c}" label="Please describe how the Firm identifies and resolves conflicts of interest:" />
+                    
+                    
+                    <lightning:radioGroup label="As a solo practicioner, it is important to have a backup lawyer in the event of your absence or inability to provide service to your clients. Do you have a backup plan?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Does_the_Firm_have_a_backup_Lawyer__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    <!-- <aura:if isTrue="{!v.wrapper.onlineNBA.Does_the_Firm_have_a_backup_Lawyer__c}">
+                        <br/>
+                        <label>
+                            Please identify the Lawyer who is designated to handle cases in the event of your absence or provide a detailed description of your back-up plan in the event of your absence:
+                        </label>
+                        <div style="display:flex; width:100%; gap: .5rem;">
+                            <lightning:input style="flex: 1;" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Lawyer_Backup_Name__c}" label="Lawyer Name" />
+                            <lightning:input style="flex: 1;" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Lawyer_Backup_Firm__c}" label="Address" />
+                            <lightning:input style="flex: 1;" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Lawyer_Backup_Phone__c}" label="Phone" />
+                            <lightning:input style="flex: 1;" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Lawyer_Backup_Carrier__c}" label="Email" />
+                        </div>
+                    </aura:if> -->
+                    <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Q_Non_Lawyer_Personnel__c}" label="Number of non-lawyer personnel:" />
+                </div>
+            </div>
+            <div class="section">
+                <div class="heading">Area of Practice</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th width="50%">Area of Practice</th>
+                            <th width="50%">%</th>
+                            <!-- <th width="25%">Area of Practice</th>
+                            <th width="25%">%</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.wrapper.aopList}" var="item">
+                            <tr>
+                                <td class="leftBottom">{!item.aop1}</td>
+                                <td class="rightBottom">{!item.aop1Per}</td>
+                                <!-- <td>{!item.aop2}</td>
+                                <td class="rightBottom">{!item.aop2Per}</td> -->
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            <aura:if isTrue="{!v.wrapper.onlineNBA.RecordType.Name != 'Regular Renewal'}">
+                <div class="section">
+                    <div class="heading">Prior Insurance</div>
+                    <div class="questionSection">
+                        <!-- <lightning:radioGroup label="Is the Firm currently insured?"
+                                            options="{! v.options1 }"
+                                            value="{! v.wrapper.onlineNBA.Is_the_firm_currently_insured__c}"
+                                            type="button"
+                                            disabled="true"/> -->
+                        <label>
+                            Is the Firm currently insured?
+                        </label>
+                        <div style="display: flex ; border: 1px solid; width: fit-content; border-radius: 0.2rem;">
+                            <div style=" border-right: 1px solid black;" class="{!if(v.wrapper.onlineNBA.Is_the_firm_currently_insured__c == 'Yes' , 'Active' , 'inActive')}">Yes</div>
+                            <div style=" border-right: 1px solid black;" class="{!if(v.wrapper.onlineNBA.Is_the_firm_currently_insured__c == 'No' , 'Active' , 'inActive')}">No</div>
+                            <div style="" class="{!if(v.wrapper.onlineNBA.Is_the_firm_currently_insured__c == 'Unsure' , 'Active' , 'inActive')}">Unsure</div>
+                        </div>
+                        <aura:if isTrue="{!v.wrapper.onlineNBA.Is_the_firm_currently_insured__c == 'Yes'}">
+                            <table>
+                                <tr>
+                                    <td width="33%" colSpan="2">
+                                        <label>
+                                            Effective Date
+                                        </label>
+                                        <div class="outputDiv">
+                                            <lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Prior_Insurance_Effective_Date__c}" year="numeric"
+                                                             month="2-digit" day="2-digit" />
+                                            
+                                        </div>
+                                    </td>
+                                    <td width="33%" colSpan="2">
+                                        <label>
+                                            Expiration Date
+                                        </label>
+                                        <div class="outputDiv">
+                                            <lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Prior_Insurance_Expiration_Date__c}" year="numeric"
+                                                             month="2-digit" day="2-digit" />
+                                            
+                                        </div>
+                                    </td>
+                                    <td width="33%" colSpan="2">
+                                        <label>
+                                            Retroactive Date
+                                        </label>
+                                        <div class="outputDiv">
+                                            <lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Retroactive_Date__c}" year="numeric"
+                                                             month="2-digit" day="2-digit" />
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="100%" colSpan="6">
+                                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Insurance_Carrier__c}" label="Insurance Carrier" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" colSpan="3">
+                                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Limits_of_Liability__c}" label="Limits of Liability" />
+                                    </td>
+                                    <td width="50%" colSpan="3">
+                                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Deductible__c}" label="Deductible" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" colSpan="3">
+                                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Annual_Premium__c}" label="Annual Premium" />
+                                    </td>
+                                    <td width="50%" colSpan="3">
+                                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.of_Insured_Lawyers__c}" label="# of Insured Lawyers" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </aura:if>
+                    </div>
+                </div>
+            </aura:if>
+            <div class="section">
+                <div class="heading">Prior Claims</div>
+                <div class="questionSection">
+                    <lightning:radioGroup label="Has any professional liability claim or suit been made against the Firm or any past or present Lawyers with the Firm during the past five (5) years?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Professional_Liability_Claim__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    <aura:if isTrue="{!v.wrapper.onlineNBA.Professional_Liability_Claim__c}">
+                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Professional_Claim_Number_Against_Firm__c}" label="If Yes, provide number of claims" />
+                    </aura:if>
+                    <lightning:radioGroup label="Is the Firm, or any Lawyer with the Firm, aware of any potential claim?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Any_Potential_Claim__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    <aura:if isTrue="{!v.wrapper.onlineNBA.Any_Potential_Claim__c}">
+                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Potential_Claim_Number__c}" label="If Yes, provide number of claims" />
+                    </aura:if>
+                    <lightning:radioGroup label="Have any of the Firm’s Lawyers been the subject of any disciplinary action, investigation or proceeding by any court, administrative agency or regulatory body in the past five (5) years that resulted in a disciplinary sanction?"
+                                          options="{! v.options }"
+                                          value="{! v.wrapper.onlineNBA.Any_Disciplinary_Action__c}"
+                                          type="button"
+                                          disabled="true"/>
+                    <aura:if isTrue="{!v.wrapper.onlineNBA.Any_Disciplinary_Action__c}">
+                        <lightning:input type="checkbox" label="Ongoing Investigation/Proceeding" checked="{!v.wrapper.onlineNBA.Pending_Investigation_Proceeding__c}" disabled="true"/>
+                        <lightning:input type="checkbox" label="Censured" checked="{!v.wrapper.onlineNBA.Censured__c}" disabled="true"/>
+                        <lightning:input type="checkbox" label="Refused Admittance to Bar or Court" checked="{!v.wrapper.onlineNBA.Refused_Admittance_to_Bar_or_Court__c}" disabled="true"/>
+                        <lightning:input type="checkbox" label="Suspended" checked="{!v.wrapper.onlineNBA.Suspended__c}" disabled="true"/>
+                        <lightning:input type="checkbox" label="Sanctioned or Fined" checked="{!v.wrapper.onlineNBA.Sanctioned_or_Fined__c}" disabled="true"/>
+                        <lightning:input type="checkbox" label="Disbarred" checked="{!v.wrapper.onlineNBA.Disbarred__c}" disabled="true"/>
+                        <lightning:input type="checkbox" label="Reprimanded" checked="{!v.wrapper.onlineNBA.Reprimanded__c}" disabled="true"/>
+                        <lightning:input style="" name="input5" disabled="true" value="{!v.wrapper.onlineNBA.Any_Other_Action__c}" label="Other (specify)" />
+                    </aura:if>
+                </div>
+            </div>
+            <div class="section">
+                <div class="heading">Quote</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop rightTop" style="text-align: center;" colspan="4">
+                                Policy Quotes
+                            </th>
+                        </tr>
+                        <tr>
+                            <th width="25%">Is Final Quote</th>
+                            <th width="25%">Coverage</th>
+                            <th width="25%">Deductible</th>
+                            <th width="25%">Quote Expire Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.wrapper.policy.Policy_Quotes__r}" var="item">
+                            <tr>
+                                <td class="leftBottom"><lightning:input type="checkbox" variant="label-hidden" checked="{!item.Final_Quote__c}" disabled="true"/></td>
+                                <td>{!item.Coverage__r.Name}</td>
+                                <td>{!item.Deductible__r.Name}</td>
+                                <td class="rightBottom">
+                                    <lightning:formattedDateTime  value="{!item.Quote_Expire_Date__c}" year="numeric"
+                                                                 month="2-digit" day="2-digit" />
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop rightTop" style="text-align: center;" colspan="4">
+                                Customer Application Quotes
+                            </th>
+                        </tr>
+                        <tr>
+                            <th width="25%">Is Final Quote</th>
+                            <th width="25%">Coverage</th>
+                            <th width="25%">Deductible</th>
+                            <th width="25%">Quote Expire Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.wrapper.onlineNBA.Quotes__r}" var="item">
+                            <tr>
+                                <td class="leftBottom"><lightning:input type="checkbox" variant="label-hidden" checked="{!item.Final_Quote__c}" disabled="true"/></td>
+                                <td>{!item.Coverage__r.Name}</td>
+                                <td>{!item.Deductible__r.Name}</td>
+                                <td class="rightBottom">
+                                    <lightning:formattedDateTime  value="{!item.Quote_Expire_Date__c}" year="numeric"
+                                                                 month="2-digit" day="2-digit" />
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody> 
+                </table>
+                <div class="questionSection">
+                    <lightning:input type="checkbox" label="I would like to inquire about higher limits or deductibles." checked="{!v.wrapper.onlineNBA.Inquire_About_Higher_Limits_Deductibles__c}" disabled="true"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

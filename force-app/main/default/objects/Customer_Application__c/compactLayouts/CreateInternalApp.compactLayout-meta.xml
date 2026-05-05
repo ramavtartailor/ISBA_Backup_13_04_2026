@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CreateInternalApp</fullName>
+    <fields>Contact_Name__c</fields>
+    <fields>Contact_Last_Name__c</fields>
+    <fields>Full_Legal_Name_of_the_Firm__c</fields>
+    <fields>Contact_E_mail_Address__c</fields>
+    <fields>Annual_Premium__c</fields>
+    <label>CreateInternalApp</label>
+</CompactLayout>

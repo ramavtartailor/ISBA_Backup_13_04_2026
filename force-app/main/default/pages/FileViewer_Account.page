@@ -1,0 +1,3 @@
+<apex:page showHeader="false" sidebar="false" standardController="Account"> 
+    <apex:iframe height="900" src="https://fv-isbamutualinsurance.msappproxy.net/underwriting/file-viewer/salesforce/{!Account.AccountNumber}"/> 
+</apex:page>

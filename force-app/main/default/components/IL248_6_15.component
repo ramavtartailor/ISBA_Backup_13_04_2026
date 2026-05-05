@@ -1,0 +1,45 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Death, Total And Permanent Disability, Or U.S Active Duty Military Service Exclusion For Insureds Identified
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VIII. DEATH, TOTAL AND PERMANENT DISABILITY, OR U.S ACTIVE DUTY MILITARY SERVICE </span>is deleted for the<span class="normalBoldParagraph"> INSUREDs </span>identified below.
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:50%">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Name(s) of<span class="normalBoldParagraph"> INSURED(s) </span></u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputField value="{!endorsement.Name_Of_Insured__c}"/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:290px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

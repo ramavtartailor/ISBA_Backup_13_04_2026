@@ -1,0 +1,36 @@
+<aura:component controller="CreateInternalApplicationCtrl" implements="lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:attribute name="application" type="Customer_Application__c" default="{ 'sobjectType': 'Customer_Application__c' }"/>
+    
+    <div>
+        <section role="dialog" tabindex="-1"  aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h1 style="font-size: 20px;">New Internal Application</h1>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium alignLeft" id="modal-content-id-1">
+                    <lightning:recordEditForm  objectApiName="Customer_Application__c" onsubmit="{!c.handleSuccess}">
+                        <lightning:messages />
+                        <div class="slds-grid slds-wrap slds-align_absolute-center" >
+                            <div class="slds-col slds-size_2-of-4" style="padding-bottom:20px">
+                                <lightning:inputField fieldName="Contact_Name__c" required="true" value="{!v.application.Contact_Name__c}"/>
+                                <lightning:inputField fieldName="Full_Legal_Name_of_the_Firm__c" value="{!v.application.Full_Legal_Name_of_the_Firm__c}"/>
+                            </div>
+                            <div class="slds-col slds-size_2-of-4" style="padding-bottom:20px">
+                                <lightning:inputField fieldName="Contact_Last_Name__c" required="true" value="{!v.application.Contact_Last_Name__c}"/>                                
+                                <lightning:inputField fieldName="Contact_E_mail_Address__c" required="true" value="{!v.application.Contact_E_mail_Address__c}"/>
+                            </div>                                                            
+                        </div>
+                    </lightning:recordEditForm>
+                </div>
+                <div class="modal-footer slds-modal__footer slds-size_1-of-1">                    
+                    <lightning:button label="Cancel" title="" onclick="{!c.handleCancel}"/>
+                    <lightning:button variant="brand" label="Save" title="Save" onclick="{!c.handleSave}" />                    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    
+    
+</aura:component>

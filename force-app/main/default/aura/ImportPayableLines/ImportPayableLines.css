@@ -1,0 +1,50 @@
+/*.THIS table ,.THIS tr td{
+    border:1px;
+}
+.THIS tbody {
+    display:block;
+    height:200px;
+    overflow:auto;
+}
+.THIS thead, .THIS tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.THIS thead {
+    width: 100%;
+}
+.THIS table {
+    width:100%;
+}
+.THIS .rowElement{
+    padding-left: 1em;
+}*/
+.THIS .rAlign{
+    text-align: right;
+}
+
+
+.THIS table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* Style table header */
+.THIS th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Style table rows */
+.THIS td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Add a scrollbar to the table body */
+.THIS .table-container {
+    max-height: 300px; /* Adjust this value as needed */
+    overflow-y: auto;
+}

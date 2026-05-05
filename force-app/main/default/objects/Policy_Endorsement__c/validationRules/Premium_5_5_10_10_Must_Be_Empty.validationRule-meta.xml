@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Premium_5_5_10_10_Must_Be_Empty</fullName>
+    <active>false</active>
+    <description>If Override Rating checkbox is false then the 5x5 and 10x10 fields should be empty.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName != &apos;AP_Adjust_Premium_Transaction&apos;, Override_Rating__c = false, OR(NOT(ISNULL( Override_5_5__c )), NOT(ISNULL( Override_10_10__c ))))</errorConditionFormula>
+    <errorDisplayField>Override_Rating__c</errorDisplayField>
+    <errorMessage>Override Rating must be checked to fill the values in 5x5 and 10x10!</errorMessage>
+</ValidationRule>

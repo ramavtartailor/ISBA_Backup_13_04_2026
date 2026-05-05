@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Application_Endorsement</fullName>
+    <availability>online</availability>
+    <description>/apex/CreateApplicationEndorsementsVFP?scontrolCaching=1&amp;id={!Policy__c.Id}&amp;origin=false&amp;name=richa</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <hasMenubar>false</hasMenubar>
+    <hasScrollbars>true</hasScrollbars>
+    <hasToolbar>false</hasToolbar>
+    <height>600</height>
+    <isResizable>true</isResizable>
+    <linkType>url</linkType>
+    <masterLabel>New Application Endorsement</masterLabel>
+    <openType>newWindow</openType>
+    <position>none</position>
+    <protected>false</protected>
+    <showsLocation>false</showsLocation>
+    <showsStatus>false</showsStatus>
+    <url>/apex/ManageEndorsements?scontrolCaching=1&amp;relatedId={!Policy__c.Id}&amp;origin=false</url>
+</WebLink>

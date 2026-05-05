@@ -1,0 +1,58 @@
+<apex:component controller="Terms_Of_Service_Template_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+        
+    <p class="heading">
+        TERMS AND CONDITIONS
+    </p>
+    <p class="b normalParagraph">
+        IN ORDER TO BIND COVERAGE, WE MUST FIRST RECEIVE THE FOLLOWING:
+    </p>
+    <p class="normalParagraph">
+        <apex:outputText value="{!policy.Terms_Conditions__c}" escape="false"/>
+    </p>
+    <br />
+    <br />
+ 	<p  class="normalParagraph">
+        <!--<span class="b">PLEASE REMEMBER</span> that it is an ISBA Mutual Insurance Company Policy Condition that all insured lawyers must be members of the Illinois State Bar Association (ISBA).  Please visit www.ISBA.org to renew your ISBA membership and explore the other ISBA member benefits.-->
+        <br /><br />
+		The ISBA Mutual Insurance Company Policy provides coverage solely for Professional Services performed on behalf of the Named Insured.
+ 		<br /><br />
+		Please review any Endorsements attached to this Quote which modify coverage.  Remember to review your ISBA Mutual Insurance Company Policy yearly.  Please request a copy of the Policy at any time if you do not have one.
+		<br /><br /> 
+        <span class="b">Any questions, please contact me:</span>
+    </p>
+
+
+
+ 
+    <br />
+    <br />
+    
+    <p  class="normalParagraph">
+        Sincerely,<br /><br />
+        <apex:outputPanel rendered="{! NOT(policy.Application_Type__c == 'New Business')}">
+            {!policy.Underwriter_User__r.FirstName}&nbsp;{!policy.Underwriter_User__r.LastName}
+            {!policy.Underwriter_User__r.Title}<br />
+            Email: {!policy.Underwriter_User__r.Email}<br />
+            Phone: {!policy.Underwriter_User__r.Phone}<br />
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{! AND(policy.Application_Type__c == 'New Business',policy.Sales_User__c != null)}">
+            {!policy.Sales_User__r.FirstName}&nbsp;{!policy.Sales_User__r.LastName}
+            {!policy.Sales_User__r.Title}<br />
+            Phone: {!policy.Sales_User__r.Phone}<br />
+            Email: {!policy.Sales_User__r.Email}<br />
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{! AND(policy.Application_Type__c == 'New Business',policy.Sales_User__c == null)}">
+            {!policy.Underwriter_User__r.FirstName}&nbsp;{!policy.Underwriter_User__r.LastName}
+            {!policy.Underwriter_User__r.Title}<br />
+            Email: {!policy.Underwriter_User__r.Email}<br />
+            Phone: {!policy.Underwriter_User__r.Phone}<br />
+        </apex:outputPanel>
+    	Fax: (312) 379-2049<br />
+    </p>
+    
+
+    <br />
+    
+</apex:component>

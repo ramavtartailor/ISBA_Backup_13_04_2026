@@ -1,0 +1,24 @@
+<apex:page standardController="Policy__c" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <body>
+        <div class="header" style="margin-top:50px;">
+            <c:PolicyHeader recordIdParam="{!Policy__c.id}"/>
+        </div>
+        
+        <div class="content">
+            <c:CERTIFICATION_OF_INSURANCE_Template recordIdParam="{!Policy__c.id}"/>
+        </div>
+        <div class="footer" style="width:100%">
+            <div style="width:50%;float:left">
+                <p class="normalParagraph">
+                    <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>
+                </p>
+            </div>
+            <div style="width:50%;float:right">
+                <p style="text-align:right;" class="normalParagraph">
+                    Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                </p>
+            </div>
+        </div>   
+    </body>
+</apex:page>

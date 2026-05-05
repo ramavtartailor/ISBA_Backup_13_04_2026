@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Event Type --></label>
+    <name>Event_Type__c</name>
+    <picklistValues>
+        <masterLabel>Executive Event</masterLabel>
+        <translation><!-- Executive Event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Internal Event</masterLabel>
+        <translation><!-- Internal Event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Launch Event</masterLabel>
+        <translation><!-- Launch Event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Trade Show</masterLabel>
+        <translation><!-- Trade Show --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>User Conference</masterLabel>
+        <translation><!-- User Conference --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

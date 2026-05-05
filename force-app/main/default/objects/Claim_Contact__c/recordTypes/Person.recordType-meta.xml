@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Person</fullName>
+    <active>true</active>
+    <label>Person</label>
+    <picklistValues>
+        <picklist>Contact_Type__c</picklist>
+        <values>
+            <fullName>Claimant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claimant Attorney</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deductible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Defendant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Defense Attorney</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Defense Expert</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plaintiff Expert</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial Judge</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

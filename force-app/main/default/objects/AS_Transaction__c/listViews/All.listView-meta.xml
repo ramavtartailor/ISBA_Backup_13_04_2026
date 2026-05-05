@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>Amount__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Firm_Id__c</columns>
+    <columns>Transaction_Sub_Type__c</columns>
+    <columns>Transaction_Type__c</columns>
+    <columns>NAME</columns>
+    <columns>Policy_Id__c</columns>
+    <columns>Policy_Claim_Detail__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Transaction_Type__c</field>
+        <operation>equals</operation>
+        <value>Issue Policy</value>
+    </filters>
+    <label>All</label>
+</ListView>

@@ -1,0 +1,112 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId"
+                controller="HighlightsPanelCtrl" access="global">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="searchTerm" type="String" />
+    <aura:attribute name="accList" type="Account[]" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="currentName" type="String"/>
+    <aura:attribute name="currentPhone" type="String"/>
+    <aura:attribute name="currentFullAddress" type="String"/>
+    
+    
+    <aura:registerEvent name="closeModal" type="c:closeLinkAccountModalEvt" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:if isTrue="showSpinner">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+             aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close" class="slds-modal__close"/>
+                <div class="header">
+                    <div class="leftHeadSection">
+                        <div><b>Name: &nbsp;</b> {!v.currentName}</div>
+                        <div><b>Address: &nbsp;</b> {!v.currentFullAddress}</div>
+                        <div><b>Phone: &nbsp;</b> {!v.currentPhone}</div>
+                    </div>
+                    <h2 class="heading slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                        Search Account
+                    </h2>
+                </div>
+                
+            </header>
+            
+            
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div style="display: flex ; flex-direction: column; gap: 1rem; width: 100%;">
+                    <lightning:input label="" value="{!v.searchTerm}" variant="label-hidden"
+                                     placeholder="Search Account ...." onchange="{!c.handleSearch}" />
+                    
+                    <div style="min-height: 300px;">
+                        <aura:if isTrue="{!v.accList.length}">
+                            <div style="max-height: 300px; overflow-y: auto; border: 1px solid #d8dde6;">
+                                <table
+                                       class="slds-table slds-table_cell-buffer slds-table_striped custom-search-table table sticky-table">
+                                    <thead>
+                                        <tr class="slds-text-title_caps">
+                                            <th width="15%">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                            <th width="40%">
+                                                <div class="slds-truncate">Account Name</div>
+                                            </th>
+                                            <th width="40%">
+                                                <div class="slds-truncate">Address</div>
+                                            </th>
+                                            <th width="20%">
+                                                <div class="slds-truncate">Phone</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.accList}" var="item">
+                                            <tr>
+                                                <td>
+                                                    <a href="javascript:void(0);"
+                                                       class="slds-text-link"
+                                                       data-row="{!item.Id}"
+                                                       onclick="{!c.saveApp}">
+                                                        Select
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <!--data-row="{!item.Id}" onclick="{!c.saveApp}" style="cursor:pointer;"-->
+                                                    <a href="{!'/'+item.Id}"
+                                                       target="_blank">
+                                                        {!item.Name}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <lightning:formattedAddress street="{!item.BillingAddress}"
+                                                                                    city="{!item.BillingCity}" country="{!item.BillingState}"
+                                                                                    postalCode="{!item.BillingPostalCode}" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>{!item.Phone}</div>
+                                                </td>
+                                                
+                                                
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <aura:set attribute="else">
+                                <div style="text-align:center; padding: 1rem;">
+                                    Records not found.
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

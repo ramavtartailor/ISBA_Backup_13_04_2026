@@ -1,0 +1,17 @@
+<aura:component controller="GeneratePositivePayController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:html tag="style">
+        .slds-modal__content{
+			height : 0 !important;       
+        }
+        .slds-modal__header{
+        	display:none !important;
+        }
+        .slds-spinner_container{
+        	Background :none !important;
+        }
+    </aura:html>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
+    <div class="exampleHolder">
+        <lightning:spinner alternativeText="Loading" variant="brand"/>
+    </div>
+</aura:component>

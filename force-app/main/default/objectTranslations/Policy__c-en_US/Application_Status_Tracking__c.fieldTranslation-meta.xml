@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Application Status Tracking --></label>
+    <name>Application_Status_Tracking__c</name>
+    <picklistValues>
+        <masterLabel>Additional Firm Info</masterLabel>
+        <translation><!-- Additional Firm Info --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Application open</masterLabel>
+        <translation><!-- Application open --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Firm Renewal Quotes</masterLabel>
+        <translation><!-- Firm Renewal Quotes --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Firm info</masterLabel>
+        <translation><!-- Firm info --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lawyer</masterLabel>
+        <translation><!-- Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quote Acceptance</masterLabel>
+        <translation><!-- Quote Acceptance --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

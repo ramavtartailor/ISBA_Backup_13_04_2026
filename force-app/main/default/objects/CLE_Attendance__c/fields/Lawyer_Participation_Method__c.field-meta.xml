@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lawyer_Participation_Method__c</fullName>
+    <label>Lawyer Participation Method</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>LVA</fullName>
+                <default>false</default>
+                <label>Live - Technology</label>
+            </value>
+            <value>
+                <fullName>FIRWP</fullName>
+                <default>false</default>
+                <label>Faculty in room with participants</label>
+            </value>
+            <value>
+                <fullName>RVA</fullName>
+                <default>false</default>
+                <label>Recorded - Technology</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Claim_Close_Payment_Resolutions__c</fullName>
+    <label>Claim Close Payment Resolutions</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Closed with no payment:  coverage denied</fullName>
+                <default>false</default>
+                <label>Closed with no payment:  coverage denied</label>
+            </value>
+            <value>
+                <fullName>Closed with no payment: no tender</fullName>
+                <default>false</default>
+                <label>Closed with no payment: no tender</label>
+            </value>
+            <value>
+                <fullName>Closed with no payment:  only potential; claim never advanced</fullName>
+                <default>false</default>
+                <label>Closed with no payment:  only potential; claim never advanced</label>
+            </value>
+            <value>
+                <fullName>Closed with lae payment only</fullName>
+                <default>false</default>
+                <label>Closed with lae payment only</label>
+            </value>
+            <value>
+                <fullName>Closed with indemnity payment only</fullName>
+                <default>false</default>
+                <label>Closed with indemnity payment only</label>
+            </value>
+            <value>
+                <fullName>Closed with both lae and indemnity payment</fullName>
+                <default>false</default>
+                <label>Closed with both lae and indemnity payment</label>
+            </value>
+            <value>
+                <fullName>Close with ULAE payment –disciplinary</fullName>
+                <default>false</default>
+                <label>Close with ULAE payment –disciplinary</label>
+            </value>
+            <value>
+                <fullName>Closed with no payment: coverage denied</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Closed with no payment: coverage denied</label>
+            </value>
+            <value>
+                <fullName>Closed with no payment: only potential; claim never advanced</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Closed with no payment: only potential; claim never advanced</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

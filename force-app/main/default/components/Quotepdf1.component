@@ -1,0 +1,152 @@
+<apex:component controller="Quotepdf_Ctrl">
+  <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+  <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <table style="width:100%;margin-top:50px;">
+            <tr>
+                <td style="width:20%;" class="tableDataLeft">
+                    <apex:image url="{!$Resource.ISBA_Logo}" width="250" height="100"/>
+                </td>
+                <td style="width:80%;vertical-align:center;" class="tableDataRight">
+                    <p>
+                        <span class="normalBoldParagraph"> QUOTATION/ACCEPTANCE FORM  </span> 
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <hr/>
+        
+        <table class="normalParagraph" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="padding:10px;vertical-align:top;">
+               <span class="normalBoldParagraph"> Quote Number:   </span>  
+                <br/>
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+                <apex:outputField styleClass="tableDataRight" value="{!quote.NAME}"/>
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+               <span class="normalBoldParagraph"> Date of Quote: </span>  <br/>  
+               <span class="normalBoldParagraph"> Valid until: </span>  
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+                <apex:outputText styleClass="tableDataRight" value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.CREATEDDATE}" /> </apex:outputText><br/>
+                <apex:outputText styleClass="tableDataRight" value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.Quote_Expire_Date__c}" /> </apex:outputText>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:10px;vertical-align:top;">
+               <span class="normalBoldParagraph"> Proposed Effective Date: </span>  
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.Policy_Effective_Date__c}" /> </apex:outputText> 
+                
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+               <span class="normalBoldParagraph"> Coverage: </span> 
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+                Lawyer’s Professional Liability
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:10px;vertical-align:top;">
+               <span class="normalBoldParagraph"> Firm Name: </span> 
+                
+            </td>
+            <td style="padding:10px;vertical-align:top;">
+                <apex:outputField value="{!quote.Policy_Firm__c}"/> <br/>
+                                <apex:outputField value="{!quote.Firm_BillingStreet__c}"/> <br/>
+                                <br/>
+                                <apex:outputField value="{!quote.Firm_BillingCity__c}"/>, <apex:outputField value="{!quote.Firm_BillingState__c}"/> <apex:outputField value="{!quote.Firm_BillingZIP__c}"/><br/>
+
+            </td>
+             <td style="padding:10px;vertical-align:top;">
+               <span class="normalBoldParagraph"> Payment Due Date:   </span> 
+             </td>
+             
+            <td style="padding:10px;vertical-align:top;">
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.Policy_Effective_Date__c}" /> </apex:outputText>
+               
+            </td>
+        </tr>
+        </table>
+        <table class="normalParagraph" cellspacing="0" cellpadding="0" style="border-collpase:collpase;width:100%;" >
+        <tr>
+            <td colspan="5" style="border-bottom:1px solid black;border-top:1px solid black;padding:10px;text-align:center;background-color:red;color:#fff;">
+              <span class="normalBoldParagraph" style="color:#fff;"> Coverage Options – Must select one option  </span>
+            </td>
+        </tr>    
+        <tr>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+                &nbsp; 
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+                <span class="normalBoldParagraph"> Per Claim Limit </span><br/>
+
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+               <span class="normalBoldParagraph"> Aggregate Limit </span><br/>
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+                <span class="normalBoldParagraph"> Deductible </span><br/>
+                
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;">
+                <span class="normalBoldParagraph"> Premium </span><br/>
+                
+            </td>
+            
+        </tr>
+        <tr>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+                
+                <apex:image url="{!$Resource.Unchecked}" width="20" height="20"/>
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+               $<apex:outputField value="{!quote.Coverage_Max_Per_Claim__c}"/>
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+                $<apex:outputField value="{!quote.Full_Coverage__c}"/>
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;border-right:1px solid black;">
+                <apex:outputField value="{!quote.Deductible_Amount__c}"/>
+            </td>
+            <td style="padding:10px;border-bottom:1px solid black;">
+                <apex:outputField value="{!quote.Quote_Final_Premium__c}"/>
+            </td>
+            
+        </tr>
+        </table>
+        <p style="padding:10px;">
+            <span class="normalBoldParagraph"> THE UNDERSIGNED ACCEPTS THE TERMS SELECTED ABOVE AND HEREBY CERTIFIES THAT THERE HAS BEEN NO CHANGE IN THE INFORMATION PREVIOUSLY PROVIDED ON THE APPLICATION FOR THIS COVERAGE: </span>
+        </p>
+        <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:30%;padding:10px;">
+             <span class="normalBoldParagraph"> _____________________________________<br/>
+             (Signature of Partner, Owner or Officer) </span>  
+            </td>
+            <td style="width:20%;padding:10px;">&nbsp;<br/>&nbsp;</td>
+             <td style="width:30%;">
+             <span class="normalBoldParagraph"> ___________________________________________<br/>
+             (Title) </span>  
+            </td>
+        </tr>
+        <tr>
+            <td style="width:30%;padding:10px;">
+               <span class="normalBoldParagraph"> ___________________________________<br/>
+             (Please print name) </span>
+            </td>
+            <td style="width:20%;padding:10px;">&nbsp;<br/>&nbsp;</td>
+             <td style="width:30%;">
+               <span class="normalBoldParagraph"> __________________________________________<br/>
+             (Date) </span>
+            </td>
+        </tr>
+        </table>
+        <p style="padding:10px;font-size:smaller;">
+        <span class="normalBoldParagraph">  COVERAGE IS NOT BOUND UNTIL APPROPRIATE PREMIUMS HAVE BEEN RECEIVED AND ALL CONDITIONS OF THE QUOTATION HAVE BEEN MET. THE COMPANY RESERVES THE RIGHT TO WITHDRAW OR AMEND THE QUOTED TERMS AT ANY TIME PRIOR TO THE PROPOSED EFFECTIVE DATE OF COVERAGE IF CHANGES MATERIAL TO THE UNDERWRITING OF THE APPLICATION ARE RECEIVED. </span>
+        </p>
+      
+</apex:component>

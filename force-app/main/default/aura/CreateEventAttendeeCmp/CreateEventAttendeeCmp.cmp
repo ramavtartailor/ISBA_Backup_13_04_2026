@@ -1,0 +1,339 @@
+<aura:component controller="CreateEventAttendeeCmpController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:LightningQuickActionWithoutHeader,lightning:isUrlAddressable" access="global" >
+    
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="loadingSpinner" type="Boolean"/> 
+    <aura:attribute name="csvString" type="String"/>
+    <aura:attribute name="wrapper" type="Object"/>
+    <aura:attribute name="eventId" type="String"/>
+    <aura:attribute name="event" type="Object"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/> 
+    <aura:attribute name="errorList" type="Object[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="v.csvString" action="{!c.handleGetRecords}"/>
+    
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:600px !important;
+        }
+    </aura:html>
+    
+    <aura:if isTrue="{!v.loadingSpinner}">
+        <lightning:spinner
+                           alternativeText="Loading"
+                           size="large"
+                           variant="brand"
+                           />
+    </aura:if>
+    
+    <div class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+            
+            <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="doctype:gsheet" alternativeText="Audio file" />
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate">Upload CLE Event Attendees File - {!v.event.Name}</span>
+                                        </h1>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <aura:if isTrue="{!not(empty(v.csvString))}">
+                                <div class="slds-no-flex ">
+                                    <div class="slds-button-group" style="float: right;" role="group">
+                                        <lightning:button label="Back" onclick="{!c.refresh}" variant="brand-outline"/>
+                                        <lightning:button label="Create Records" onclick="{!c.handleCreateRecords}" disabled ="{!v.showErrors}" variant="brand"/>
+                                    </div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!empty(v.csvString)}">
+                                <div class="slds-no-flex ">
+                                    <div class="slds-button-group" style="float: right;" role="group">
+                                        <lightning:button label="Cancel" onclick="{!c.backToEvent}"  class="slds-button slds-button_brand" />
+                                    </div>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aura:if isTrue="{!empty(v.csvString)}">
+                <div class="slds-align_absolute-center">
+                    <div class="slds-m-top_xx-large">            
+                        <lightning:input aura:id="file" style="text-align:center;" class="file" multiple="false" type="file" label="{!v.fileName}" name="file" onchange="{!c.handleUploadFinished}"/>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+        <br/>
+        <aura:if isTrue="{!!v.showErrors}">
+
+            <aura:if isTrue="{!not(empty(v.wrapper.emptyARDCList))}">
+                <div class="slds-scrollable" style="height:auto;width:auto">
+                    <span style="vertical-align: -webkit-baseline-middle;font-size:1.2em;padding-left: 15px"><b>Error In ARDC Contacts</b></span>
+                    <table class="slds-table slds-scrollable ">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div class="slds-truncate" > </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >First Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Last Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ARDC#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ISBA#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Email</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Phone</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Error</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                            <aura:iteration items="{!v.wrapper.emptyARDCList}" var="line"  indexVar="indx">
+                                <tr>
+                                    <td style="padding-left: 15px"><ui:outputText value="{!indx + 1}"/></td>
+                                    <td>{!line[5]}</td>
+                                    <td>{!line[6]}</td>
+                                    <td>{!line[4]}</td>
+                                    <td>
+                                        <!-- {!line[11]} -->
+                                    </td>
+                                    <td>{!line[13]}</td>
+                                    <td>{!line[15]}</td>
+                                    <td>{!line[16]}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+                <br/>
+            </aura:if>
+            
+            <aura:if isTrue="{!not(empty(v.wrapper.contactList))}">
+                <span style="vertical-align: -webkit-baseline-middle;font-size:1.2em;padding-left: 15px"><b>New ARDC Leads</b></span>
+                <div class="slds-scrollable" style="height:auto;width:auto">
+                    <table class="slds-table slds-scrollable ">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div class="slds-truncate" > </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >First Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Last Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ARDC#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ISBA#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Email</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Phone</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                            <aura:iteration items="{!v.wrapper.contactList}" var="line"  indexVar="indx">
+                                <tr>
+                                    <td style="padding-left: 15px"><ui:outputText value="{!indx + 1}"/></td>
+                                    <td>{!line[5]}</td>
+                                    <td>{!line[6]}</td>
+                                    <td>{!line[4]}</td>
+                                    <td>
+                                        <!-- {!line[11]} -->
+                                    </td>
+                                    <td>{!line[13]}</td>
+                                    <td>{!line[15]}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+                <br/>
+            </aura:if>
+            
+            <aura:if isTrue="{!not(empty(v.wrapper.existingContactList))}">
+                <span style="vertical-align: -webkit-baseline-middle;font-size:1.2em;padding-left: 15px"><b>Existing ARDC Contacts</b></span>
+                <div class="slds-scrollable" style="height:auto;width:auto">
+                    <table class="slds-table slds-scrollable ">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div class="slds-truncate" > </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >First Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Last Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ARDC#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ISBA#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Email</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Phone</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                            <aura:iteration items="{!v.wrapper.existingContactList}" var="line"  indexVar="indx">
+                                <tr>
+                                    <td style="padding-left: 15px"><ui:outputText value="{!indx + 1}"/></td>
+                                    <td>{!line[5]}</td>
+                                    <td>{!line[6]}</td>
+                                    <td>{!line[4]}</td>
+                                    <td>
+                                        <!-- {!line[11]} -->
+                                    </td>
+                                    <td>{!line[13]}</td>
+                                    <td>{!line[15]}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+                <br/>
+            </aura:if>
+            
+            <aura:if isTrue="{!not(empty(v.wrapper.attendeeList))}">
+                <div class="slds-scrollable" style="height:auto;width:auto">
+                    <span style="vertical-align: -webkit-baseline-middle;font-size:1.2em; padding-left: 15px"><b>New CLE Attendees</b></span>
+                    <table class="slds-table slds-scrollable ">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div class="slds-truncate" > </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >First Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Last Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ARDC#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ISBA#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Email</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Phone</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                            <aura:iteration items="{!v.wrapper.attendeeList}" var="line" indexVar="indx">
+                                <tr>
+                                    <td style="padding-left: 15px"><ui:outputText value="{!indx + 1}"/></td>
+                                    <td>{!line[5]}</td>
+                                    <td>{!line[6]}</td>
+                                    <td>{!line[4]}</td>
+                                    <td>
+                                        <!-- {!line[11]} -->
+                                    </td>
+                                    <td>{!line[13]}</td>
+                                    <td>{!line[15]}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+                <br/>
+            </aura:if>
+            
+            <aura:set attribute="else">
+                <span style="vertical-align: -webkit-baseline-middle;font-size:1.2em;padding-left: 15px"><b>Errors</b></span>
+                <div class="slds-scrollable" style="height:auto;width:auto">
+                    <table class="slds-table slds-scrollable ">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div class="slds-truncate" > </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >First Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Last Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ARDC#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >ISBA#</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Email</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Phone</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" >Error</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body">
+                            <aura:iteration items="{!v.errorList}" var="item"  indexVar="indx">
+                                <tr>
+                                    <td style="padding-left: 15px"><ui:outputText value="{!indx + 1}"/></td>
+                                    <td>{!item.record.FirstName}</td>
+                                    <td>{!item.record.LastName}</td>
+                                    <td>{!item.record.ARDC_Number__c}</td>
+                                    <td>{!item.record.ISBA_Member_Number__c}</td>
+                                    <td>{!item.record.Email}</td>
+                                    <td>{!item.record.Phone}</td>
+                                    <td>{!item.error}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IBF_Contribution_Amount__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF ( ISPICKVAL(IBF_Contribtuion__c,&quot;Yes - IBF Contribution Requested&quot;), 
+    IF (IBF_Custom_Amount__c &gt; 0,
+        IBF_Custom_Amount__c,
+        ISBAM_policy_dividend__c
+    ),
+    0
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>IBF Contribution Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,144 @@
+<aura:component controller="Account_CLE_AttendancesCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<!--Init handler which is call doInit js function on component Load--> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="AttendeeList" type="Object[]"/> 
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="allRecords" type="boolean" default="false"/>
+    <aura:attribute name="totalAttendees" type="Integer" default="0"/>
+    <aura:attribute name="account" type="String" default=""/>
+    
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <!--Header Part-->       
+        <div class="slds-card__header slds-grid" style="{!v.allRecords ?'display:none;':'' }">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="extraSmall forceEntityIcon" style="background-color: #bf7b66" data-aura-class="forceEntityIcon">
+                        <span class="uiImage" data-aura-class="uiImage">
+                            
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <a class="slds-card__header-link baseCard__header-title-container"  onclick="{!c.goToAllAttendees}">
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="CLE Attendance">
+                                <aura:if isTrue="{! 7 > v.totalAttendees }">
+                                    CLE Attendance ({!v.totalAttendees})
+                                    <aura:set attribute="else">
+                                        CLE Attendance (6+)
+                                    </aura:set>
+                                </aura:if>
+                            </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <div class="actionsContainer">
+                    <ul class="branding-actions slds-button-group slds-m-left--xx-small small oneActionsRibbon forceActionsContainer" data-aura-class="oneActionsRibbon forceActionsContainer">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="{!v.allRecords ?'':'display:none;' }" class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader" role="banner"  data-aura-class="forceListViewManagerHeader">
+            <div class="slds-grid" >
+                <div class="slds-col slds-has-flexi-truncate" >
+                    <div class="slds-media slds-no-space slds-grow" >
+                        <!--render facet: 4973:0-->
+                        <div class="slds-media__body slds-align-middle" >
+                            <nav role="navigation" aria-label="Breadcrumbs" >
+                                <ol class="slds-breadcrumb slds-list--horizontal" >
+                                    <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                        <!--<a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem"  onclick="{!c.navigateToAttendees}"> -->
+                                            <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                CLE Attendance &nbsp;
+                                            </span>
+                                        <!--</a>-->
+                                    </li>
+                                    <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                        <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem" onclick="{!c.navigateToAccount}">
+                                            <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                {!v.account}
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <h1 class="slds-page-header__title slds-truncate" title="CLE Attendance" >CLE Attendance</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <!--Table Part-->      
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid" style="{!v.AttendeeList.length==0 ? 'display:none;' :''}"> 
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col" >
+                                                        <div class="slds-truncate" title="System Id">CLE Attendance Name</div>
+                                                    </th>                                                    
+                                                    <th scope="col" >
+                                                        <div class="slds-truncate" title="Policy Number">Contact</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div class="slds-truncate" title="System Id">CLE Event</div>
+                                                    </th>
+                                                    <th scope="col" width="10%">
+                                                        <div class="slds-truncate" title="System Id">CLE Event Date</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align:right;">
+                                                        <div class="slds-truncate" title="System Id">Event Hours</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>   
+                                            <tbody>       
+                                                <aura:iteration items="{!v.AttendeeList}" var="item" indexVar="index">
+                                                    <tr class="">
+                                                        <th scope="row">
+                                                            <a href="{!'/'+item.Id}">{!item.Name}</a>
+                                                        </th>
+                                                        <th scope="row">
+                                                            <a href="{!'/'+item.Contact__c}">{!item.Contact__r.Name}</a>
+                                                        </th>
+                                                        <th scope="row">
+                                                            <a href="{!'/'+item.CLE_Event__c}">{!item.CLE_Event__r.Name}</a>
+                                                        </th>
+                                                        <th scope="row">
+                                                            <ui:outputDate  value="{!item.CLE_Event__r.Date__c}"/>
+                                                        </th>
+                                                        <th scope="row" style="text-align:right;">
+                                                            <lightning:formattedNumber value="{!item.CLE_Event__r.Hours__c}" maximumFractionDigits="2" minimumFractionDigits="2"/>
+                                                        </th>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a style="{!v.AttendeeList.length==0 ? 'display:none;' :v.allRecords ?'display:none;':'' }" onclick="{!c.goToAllAttendees}">
+            <div class="slds-card__footer">
+                <span class="view-all-label">
+                    View All
+                </span>
+            </div>
+        </a>
+    </article>
+</aura:component>

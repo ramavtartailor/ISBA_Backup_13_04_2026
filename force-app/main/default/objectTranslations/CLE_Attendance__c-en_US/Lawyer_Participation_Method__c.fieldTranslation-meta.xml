@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Lawyer Participation Method --></label>
+    <name>Lawyer_Participation_Method__c</name>
+    <picklistValues>
+        <masterLabel>Faculty in room with participants</masterLabel>
+        <translation><!-- Faculty in room with participants --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Live - Technology</masterLabel>
+        <translation><!-- Live - Technology --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Recorded - Technology</masterLabel>
+        <translation><!-- Recorded - Technology --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

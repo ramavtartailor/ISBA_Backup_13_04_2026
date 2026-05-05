@@ -1,0 +1,147 @@
+<apex:component controller="RegularRenewalDoc_Ctrl">
+
+ <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+ 
+
+      <div class="footer" style="width:100%">
+          <table width="100%">
+              <tr>
+                  <td width="20%">
+                      ISBAMIC REN 07 2020
+                  </td>
+                  <td width="30%" style="text-align:right;">
+                      Page&nbsp;<b><span class="pagenumber" /></b>&nbsp;of&nbsp;<b><span class="pagecount" /></b>
+                  </td>
+                  <td width="50%" style="text-align:right;">
+                      LAWYERS PROFESSIONAL LIABILITY RENEWAL APPLICATION
+                  </td>
+              </tr>
+          </table>
+         
+      </div>
+    
+     <!---HEADER------------------------------------------------------------>
+    <div style="">
+        <c:Application_Header />    
+    </div>
+            
+              
+    <div class="c" style="
+            color: #89001b;
+            font-size: 16pt;
+            font-weight: bold;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #ededed;"
+    >
+        LAWYERS PROFESSIONAL LIABILITY<br/>
+        LAWYERS SUPPLEMENTAL APPLICATION
+    </div>
+        
+    <div class="div_pad" style="font-weight: bold;">
+        Please complete the following for each Lawyer in the Firm, FOR WHOM COVERAGE IS DESIRED, including Independent Contractors and Of Counsel Lawyers. If you are a Solo Practitioner, your information must be listed.
+    </div>
+                
+ 
+     
+    <!---LAWYER INFO #1------------------------------------------------------------>
+                <table id="lawyer_table" class="table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">List of Lawyers for whom coverage is desired</th>
+                        </tr>
+                        <tr class="th_pad">
+                            <th style="width: 25%;">Laywer Name</th>
+                            <th style="width: 15%;">Designation<br/>(see below)</th>
+                            <th style="width: 15%;">Individual<br/>Prior Acts<br/>Exclusion Date <span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                            <th style="width: 15%;">Average Number<br/>of Hours Worked<br/>per Week on Behalf<br/>of the Firm</th>
+                            <th style="width: 15%;">Still with Firm?<br/>Yes or <span class="pc">No</span></th>
+                            <th style="width: 15%;">If No, provide<br/>last date of<br/>employment<br/>with Firm<br/><span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable var="lawyerCount" value="{!1}"   />        <!-- Initialise-->
+                        <apex:repeat value="{!policyLawyers}" var="pLawyer">
+                                <tr style="">       
+                                    <td><span class="pc" style="font-weight: bold;">#{!lawyerCount}</span>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Name}</td>
+                                    <td>{!pLawyer.Contact_Role__c}</td>
+                                    <td>
+                                        <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                                            <apex:param value="{!pLawyer.Prior_Act_Date__c}" /> 
+                                        </apex:outputText>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr style="">       
+                                    <td colspan="2"><b>Email:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.Email}</td>
+                                    <td colspan="2"><b>ARDC #:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.ARDC_Number__c}</td>
+                                    <td colspan="2"><b>ISBA #:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.ISBA__c}</td>
+                                </tr>
+                            <apex:variable value="{!lawyerCount + 1}" var="lawyerCount"/>  <!--increment-->
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                      
+    <div class="div_pad">
+        <span style="font-weight: italics;">
+            <b>Designations:</b> <b>O</b> = Owner, Officer, or Shareholder; <b>P</b> = Partner of a Partnership; <b>A</b> = Associate or Employed Lawyer; <b>S</b> = Solo Practitioner; <b>IC</b> = Independent Contractor; or <b>OC</b> = Of Counsel.
+        </span>
+    </div>
+                
+                
+    <!---SIGNATURE ------------------------------------------------------------>
+    <table id="signature_table" style="font-size: 12px; font-weight: bold;" class="table_head table_border table_spacing">
+        <thead>
+            <tr class="table_title">
+                <th colspan="99">QUOTE ACCEPTANCE AND SIGNATURE</th>
+            </tr>
+            <tr class="sc_header">
+                <th colspan="99">Signature of Owner, Officer, Partner, Shareholder, or Member (only one signature needed)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="sc_header" style="">
+                <td colspan="2" align="left">Name:</td>
+                <td colspan="2" align="left">Title:</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="height: 20px;">    
+                        &nbsp;
+                    </div>
+                </td>
+                <td colspan="2">
+                    <div style="height: 20px;">    
+                        &nbsp;
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="sc_header" width="15%" style="font-size: 14px; height: 20px;">
+                    SIGNATURE>
+                </td>
+                <td width="55%">
+                    <div style="height: 20px;">    
+                        &nbsp;
+                    </div>
+                </td>
+                <td class="sc_header" width="15%" style="font-size: 14px; height: 20px;">
+                    DATE>
+                </td>
+                <td>
+                    <div style="height: 20px;">    
+                        &nbsp;
+                    </div>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+               
+    
+    
+    
+
+</apex:component>

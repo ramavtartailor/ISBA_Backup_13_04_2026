@@ -1,0 +1,19 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId,force:appHostable" controller="AddRenewalAppLtng">
+    <aura:attribute name="msg" type="String" />
+    <aura:attribute name="objPolicy" type="Policy__c" />
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+	<aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+    <div aura:id="confirmBox">
+        Are you sure you want to continue?<br/>
+        <ui:button press="{!c.addRenewalApp}" label="Yes"/>
+        <ui:button press="{!c.hideConfirmBox}" label="No"/>
+    </div>
+    
+    
+    <div aura:id="errorMsg" class="hide">
+    	<p><br/><br/><b>{!v.msg}</b></p> 
+        <ui:button press="{!c.hideConfirmBox}" label="Back"/>
+    </div>
+    <ui:spinner aura:id="spinner" isVisible="False" />
+</aura:component>

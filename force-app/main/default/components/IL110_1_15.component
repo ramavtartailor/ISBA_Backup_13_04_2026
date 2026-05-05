@@ -1,0 +1,83 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Securities, Bond, and Limited Partnership Exclusion
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the<span class="normalBoldParagraph"> COMPANY </span>will not defend or pay under this Policy for any<span class="normalBoldParagraph"> CLAIM: </span>
+    </p>
+    <ol type="A">
+        <li>
+            <p class="normalParagraph">
+                Arising out of an actual or alleged violation of:
+                <ol type="1">
+                    <li>
+                        <p class="normalParagraph">
+                            The Securities Act of 1933;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The Securities Exchange Act of 1934;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The Public Utilities Holding Act of 1935;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The Trust Indenture Act of 1939;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The Investment Company Act of 1940;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            The Investment Advisors Act of 1940;
+                        </p>
+                    </li>
+                    <li>
+                        <p class="normalParagraph">
+                            Any state Blue-Sky laws, or any rules, regulations or amendments issued in relation to such acts or laws.
+                        </p>
+                    </li>
+                </ol>
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                Based upon common law principles of liability in connection with an actual or alleged violation of any law listed in Paragraph A.
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                Arising out of<span class="normalBoldParagraph"> PROFESSIONAL SERVICES </span>involving, directly or indirectly, any state or municipal financing or bonds.
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                Based upon or arising out of the formation, syndication, operation or administration of any limited partnership and/or joint venture.
+            </p>
+        </li>
+    </ol>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:170px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

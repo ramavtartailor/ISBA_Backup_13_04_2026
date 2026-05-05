@@ -1,0 +1,124 @@
+<aura:component controller="LimitDeductibleOnClaimCtrl" implements="force:lightningQuickAction,force:hasRecordId,flexipage:availableForAllPageTypes" access="global"  >
+    
+    <aura:attribute name="record" type="Policy_Claim__c" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="Record Details"> 
+        <lightning:card variant="Narrow" iconName="standard:account" title="Policy Information" class="slds-size_11-of-11" >
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+                
+                <div class="slds-card__body" >
+                    <div class="" >
+                        <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                            <div class="">
+                                <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                    <div class="listViewContent" >
+                                        <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                            <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                                <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Policy
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <a href="{!'/one/one.app?#/sObject/'+ v.record.Policy__c + '/view'}" target="">{!v.record.Policy__r.Name}</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Limits
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                {!v.record.Policy__r.Limits__c}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-card__body" >
+                    <div class="" >
+                        <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                            <div class="">
+                                <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                    <div class="listViewContent" >
+                                        <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                            <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                                <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Incurred
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.record.Policy_Incurred__c}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Remaining
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.record.Policy_Remaining_By_All_Claims__c}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-card__body" >
+                    <div class="" >
+                        <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                            <div class="">
+                                <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                    <div class="listViewContent" >
+                                        <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                            <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                                <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Deductible
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                {!v.record.Policy__r.Deductible__c}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Remaining
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.record.Per_Claim_Deductible_Balance__c}" style="currency" currencyCode="USD"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </article>
+        </lightning:card>
+    </div>
+</aura:component>

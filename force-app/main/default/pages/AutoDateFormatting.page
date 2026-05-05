@@ -1,0 +1,11 @@
+<apex:page sidebar="false" showHeader="false">
+    <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+    <body>
+        <apex:form >
+            <label for="amount">Date</label>
+            <apex:inputText styleClass="date" onkeydown="autoFormat(this)" />
+            <small>Enter date as Month / Day / Year</small>
+        </apex:form>
+    </body>
+    
+</apex:page>

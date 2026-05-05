@@ -1,0 +1,106 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="HighlightsPanelCtrl" access="global">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="record" type="AcctSeed__Billing__c"
+                    description="The record object to be displayed"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="paymentSchedule" type="Object"/>
+    <aura:attribute name="isRejected" type="Boolean" default="false"/>
+    <!--<div class="mainDiv normal">-->
+        <div class="{! 'mainDiv ' + if(OR(v.record.ISBAM_Overdue__c==true, v.isRejected),'overdue',if(v.record.AcctSeed__Balance__c>0,'balanceNormal','normal'))}">
+        <table>
+      
+            
+            <div style="display:none;">
+                <br/> Payment Type: {!v.record.Computed_Payment_Type__c}
+                <br/> Payment Type: {!v.record.Computed_Payment_Frequency__c}
+                <br/> Payment Type: {!v.record.Billing_Description__c}
+                <br/> FORTE: days overdue ({!v.record.Days_Overdue__c})
+                <br/> FORTE: next payment date {!v.record.Next_Payment_Date__c}
+                <br/> FORTE: next payment amount <lightning:formattedNumber value="{!v.record.Next_Payment_Base_Amount__c}" style="currency" currencyCode="USD"/>
+                <br/> latest activity {!v.record.Latest_Activity_Date__c}
+                <br/> l{!v.record.Policy__r.Limit__r.Name} -- {!v.record.Policy__r.Limits__c}
+                <br/> {!v.record.Policy__r.Deductible_ID__r.Name} -- {!v.record.Policy__r.Deductible__c}
+                <br/> <ui:outputDate value="{!v.record.Latest_Cash_Receipt__c}"/>
+            </div>
+            
+           
+            
+            <tr>
+                <th width="10%;">
+                    Type                     
+                </th>
+                
+                <th width="10%;">
+                    <aura:if isTrue="{!v.record.AcctSeed__Payment_Processor__r.Name == 'Cardknox'}">
+                        Next Schedule Date
+                    </aura:if>
+                </th>
+                <th width="10%;">
+                    <aura:if isTrue="{!v.record.AcctSeed__Payment_Processor__r.Name == 'Cardknox'}">
+                        Next Schedule Amount
+                    </aura:if>
+                </th>
+                <th width="10%;">
+                    <aura:if isTrue="{!v.record.AcctSeed__Payment_Processor__r.Name == 'Cardknox'}">
+                        Remaining Schedules
+                    </aura:if>
+                </th>
+                <th width="10%;">
+                    Billing Contact
+                </th>
+                <th width="10%;">
+                    Processor 
+                </th>
+            </tr>
+            
+            
+            <tr>
+                 <td>
+                    <aura:if isTrue="{!v.record.Claim__c != null}">
+                        Claim:&nbsp;<a href="{!'/one/one.app?#/sObject/'+ v.record.Claim__c + '/view'}" target="">{!v.record.Claim__r.Name}</a>                        
+                    </aura:if>
+                    <aura:if isTrue="{!v.record.Policy_Endorsement__c != null}">
+                        Endorsement:&nbsp;<a href="{!'/one/one.app?#/sObject/'+ v.record.Policy_Endorsement__c + '/view'}" target="">{!v.record.Policy_Endorsement__r.Name}</a>
+                    </aura:if>
+                    <aura:if isTrue="{!v.record.Policy__c != null}">                   
+                        Policy:&nbsp;<a href="{!'/one/one.app?#/sObject/'+ v.record.Policy__c + '/view'}" target="">{!v.record.Policy__r.Name}</a>
+                    </aura:if>                    
+                </td>       
+                
+                <td>
+                    <aura:if isTrue="{!v.record.AcctSeed__Payment_Processor__r.Name == 'Cardknox'}">
+                        <aura:if isTrue="{!v.record.Remaining_Payments__c == 0}">
+                            N/A
+                            <aura:set attribute="else">
+                                <ui:outputDate value="{!v.paymentSchedule.Due_Date__c}"/>
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>                    
+                </td>
+                <td>
+                    <aura:if isTrue="{!v.record.AcctSeed__Payment_Processor__r.Name == 'Cardknox'}">
+                        <aura:if isTrue="{!v.record.Remaining_Payments__c == 0}">
+                            N/A
+                            <aura:set attribute="else">
+                                <lightning:formattedNumber value="{!v.paymentSchedule.Due_Amount__c}" style="currency" currencyCode="USD"/>
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>
+                </td>
+                <td>
+                    <aura:if isTrue="{!v.record.AcctSeed__Payment_Processor__r.Name == 'Cardknox'}">
+                        {!v.record.Remaining_Payments__c}
+                    </aura:if>
+                </td>
+                <td>
+                    <a href="{!'/one/one.app?#/sObject/'+ v.record.AcctSeed__Billing_Contact__c + '/view'}" target="">{!v.record.AcctSeed__Billing_Contact__r.Name}</a>
+                </td>
+                <td>
+                	{!v.record.AcctSeed__Payment_Processor__r.Name}
+            	</td>
+            </tr>  
+            
+            
+        </table>
+    </div>
+</aura:component>

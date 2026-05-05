@@ -1,0 +1,315 @@
+<apex:component controller="NAS_EOC_Template_Ctrl">
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+    <p class="normalParagraph">
+        As a Professional Liability Insurance policyholder with Illinois State Bar Association Mutual Insurance Company (hereinafter, “ISBA Mutual”), the person or entity named below is insured under an e-JD® Cyber Liability Insurance Master Policy issued to ISBA Mutual by Tokio Marine HCC Cyber &amp; Professional Lines Group (TMHCC-CPLG) on behalf of Houston Casualty Company (hereinafter, “the Company”). 
+        <br/><br/>
+        As used herein, “you” and “your” mean the Named Insured designated below. All payments made by the Company on your behalf, including defense costs, are included within your Limit of Liability. There is no deductible for this coverage. 
+        <br/><br/>
+        This document will serve as your evidence of coverage. The terms and conditions of the coverage evidenced herein are more fully described in the Master Policy on file with ISBA Mutual.
+    </p>
+    
+    <br/><br/>
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <th colspan="2" >
+                <p class="normalParagraphLessMargin" style="text-align:center;color:white;font-size:13px;">INSURED INFORMATION</p>
+            </th>
+        </tr>
+        <tr>
+            <th width="25%" class="pad">
+                Named Insured:
+            </th>
+            <td class="pad">
+                <apex:outputField value="{!policy.Firm_Name_History__c}"/>
+            </td>
+        </tr>
+        <tr>
+            <th class="pad" valign="top">
+                Principal Address:
+            </th>
+            <td class="pad" valign="top">
+                <pre style="font: inherit;"><apex:outputText value="{!policy.Firm_Billing_Address_History__c}" escape="false" /></pre>
+            </td>
+        </tr>
+        <tr>
+            <th class="pad">
+                &nbsp;ISBA Policy No.:
+            </th>
+            <td class="pad">
+                <apex:outputField value="{!policy.Policy_Number_History__c}"/>
+            </td>
+        </tr>
+        <tr>
+            <th class="pad" nowrap="true">
+                &nbsp;Retroactive Date:
+            </th>
+            <td class="pad">
+                Same as your Professional Liability Insurance retroactive date with ISBA Mutual
+            </td>
+        </tr>
+        <tr>
+            <th class="pad" nowrap="true">
+                &nbsp;Knowledge Date:
+            </th>
+            <td class="pad">
+                <b>Inception</b>
+            </td>
+        </tr>
+        <tr>
+            <th class="pad" nowrap="true">
+                &nbsp;Master Policy Number:
+            </th>
+            <td class="pad">
+                H23ECN51598-00
+            </td>
+        </tr>
+        <tr>
+            <th class="pad" nowrap="true">
+                &nbsp;Master Policy Period:
+            </th>
+            <td class="pad">
+                April 1, 2023 to April 1, 2024
+            </td>
+        </tr>
+        <tr>
+            <th class="pad" nowrap="true">
+                &nbsp;Coverage Period:
+            </th>
+            <td class="pad">
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Effective_Date_History__c}" /> </apex:outputText>&nbsp;To&nbsp;
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Expiration_Date_History__c}" /> </apex:outputText>
+            </td>
+        </tr>
+    </table>
+    
+    <br/><br/>
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <th colspan="2">
+                <p class="normalParagraphLessMargin" style="text-align:center; color:white; font-size:13px;">LIMITS OF LIABILITY</p>
+            </th>
+        </tr>
+        <tr>
+            <td class="pad" width="65%">
+                &nbsp;Multimedia Liability
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                &nbsp;Security and Privacy Liability
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                Privacy Regulatory Defense and Penalties
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+         <tr>
+            <td class="pad">
+                PCI DSS Liability
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                Breach Event Costs
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad" nowrap="true" align="left">
+                <div>BrandGuard &#174;</div>
+                <div><b>(2-week waiting period and 6-month period of indemnity applies)</b></div>
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                <div>System Failure<br/></div>
+                <div><b>(8-hour waiting period and 4-month period of restoration applies to business interruption coverage)</b></div>
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                Cyber Extortion
+            </td>
+            <td class="pad">
+                $50,000 each <b>claim</b>/aggregate
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                <b>Your Annual Aggregate Limit of Liability</b>
+            </td>
+            <td class="pad">
+                $50,000
+            </td>
+        </tr>
+        <tr>
+            <td class="pad">
+                <b>Master Policy Annual Aggregate Limit (as to all Insureds)</b>
+            </td>
+            <td class="pad">
+                $2,500,000
+            </td>
+        </tr>
+    </table>
+    
+
+    <div style="page-break-after:always;"/>
+    
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <td class="pad" width="100%" style="color:white; text-align: center;">
+                IMPORTANT NOTICE REGARDING LIMITS OF LIABILITY
+            </td>
+        </tr>
+        <tr>
+            <td class="pad" width="100%; margin: 5px !important; padding: 5px !important; text-align: left !important;">
+                The Limits of Liability shown above reflect the most the Insurer will pay on your behalf under the Master Policy for all claims first made during your coverage period, regardless of the number of claims, claimants, Insuring Agreements that apply, or persons, organizations or locations insured under this certificate of insurance. All amounts paid under this insurance, including the costs of defense, will reduce and may completely exhaust your Limits of Liability and the Master Policy Annual Aggregate Limit. Further, the Master Policy Annual Aggregate Limit will be reduced and may completely be exhausted by amounts paid on behalf of other insureds covered under the Master Policy.
+                <br/><br/><b>IF YOUR LIMITS OF LIABILITY ARE EXHAUSTED, THERE WILL BE NO INSURANCE AVAILABLE TO YOU UNDER THIS MASTER POLICY, AND OUR OBLIGATIONS WITH RESPECT TO ALL PERSONS, ORGANIZATIONS AND LOCATIONS INSURED UNDER THIS CERTIFICATE OF INSURANCE WILL BE DEEMED COMPLETELY FULFILLED AND EXTINGUISHED.</b>
+                <br/><br/><b>IF THE MASTER POLICY ANNUAL AGGREGATE LIMIT (INCLUDING ANY POTENTIAL REINSTATEMENT OF SUCH ANNUAL AGGREGATE LIMIT) IS EXHAUSTED BY AMOUNTS PAID ON BEHALF OF OTHER INSUREDS (INCLUDING DEFENSE COSTS, LIABILITY PAYMENTS AND/OR SETTLEMENTS), YOUR ANNUAL AGGREGATE LIMIT WILL ALSO BE DEEMED EXHAUSTED, AND THERE WILL BE NO FURTHER SEPARATE LIMIT AVAILABLE TO YOU.</b>
+            </td>
+        </tr>
+    </table>
+    
+    <br/><br/>
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <th colspan="2" >
+                <p class="normalParagraphLessMargin" style="text-align:center;color:white;font-size:13px;">INSTRUCTIONS FOR REPORTING CLAIMS</p>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <p class="normalParagraphLessMargin " style="padding-left:10px;padding-right:10px;">You must provide written notice to TMHCC-CPLG of any claim as soon as practicable during your coverage period, but no later than 60 days after expiration of your coverage period, or during the Automatic Extended Reporting Period, if applicable. Claims that are not reported in accordance with these reporting instructions may not be covered. </p>
+            </td>
+        </tr>
+        <tr class="noBoarder">
+            <td>
+                <table rules="none">
+                    <tr>
+                        <td valign="top" width="30%">
+                            <p class="normalParagraph tableDataLeft" style="padding-left:10px;">
+                                REPORT CLAIMS TO:
+                            </p>
+                        </td>
+                        <td>
+                            <p class="normalParagraph tableDataLeft" style="padding-left:10px;">
+                                    Tokio Marine HCC Cyber &amp; Professional Lines Group<br/>
+                                    Claims Department<br/>
+                                    16501 Ventura Blvd., Suite 200<br/>
+                                    Encino, CA 91436<br/>
+                                    Claims Telephone Number:    888-627-8995<br/>
+                                    Claims Email Address:   <a href="mailto:cpl.claims@tmhcc.com">cpl.claims@tmhcc.com</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <br/><br/>
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <th width="100%" >
+                <p class="normalParagraphLessMargin" style="text-align:center;color:white;font-size:13px;">HIGHER LIMITS ARE AVAILABLE</p>
+            </th>
+        </tr>
+        <tr>
+            <td class="pad" width="100%">
+                For higher limits, please contact your ISBA Mutual representative at 312-379-2000. Higher limits are subject to individual underwriting by TMHCC-CPLG.
+            </td>
+        </tr>
+    </table>
+    
+    <div style="page-break-after:always;"/>
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <td width="100%" colspan="99">
+                <p class="normalParagraphLessMargin" style="text-align:center;color:white;font-size:13px;">LIABILITY (THIRD PARTY) COVERAGE DESCRIPTIONS <br/>
+                COVERAGE FOR CLAIMS MADE AGAINST AN INSURED (CLAIMS-MADE AND REPORTED BASIS)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Multimedia Liability</b> – duty to defend coverage for third party claims alleging liability resulting from the dissemination of online or offline media material, including claims alleging copyright/trademark infringement, libel, slander, plagiarism or personal injury.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Security and Privacy Liability</b> – duty to defend coverage for third party claims alleging liability resulting from a security breach or privacy breach, including failure to safeguard electronic or non-electronic confidential information or failure to prevent virus attacks, denial of service attacks or the transmission of malicious code from an insured computer system to the computer system of a third party.            
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Privacy Regulatory Defense and Penalties</b> - duty to defend coverage for regulatory fines and penalties and/or regulatory compensatory awards incurred in privacy regulatory proceedings/investigations brought by a federal, state, local or foreign government agency.            
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>PCI DSS Liability</b> - duty to defend coverage for assessments, fines or penalties imposed by banks or credit card companies due to non-compliance with the Payment Card Industry Data Security Standard (PCI DSS) or payment card company rules.
+            </td>
+        </tr>
+    </table>
+      
+    <br/><br/>
+    
+    <table cellspacing="0" cellpadding="0" style="width:100%;" border="1">
+        <tr style="background-color:#000000;">
+            <td width="100%" colspan="99">
+                <p class="normalParagraphLessMargin" style="text-align:center;color:white;font-size:13px;">
+                    NON-LIABILITY (FIRST PARTY) COVERAGE DESCRIPTIONS <br/> 
+                    COVERAGE FOR YOUR OWN LOSSES (EVENT DISCOVERED AND REPORTED BASIS)
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Breach Event Costs </b> – coverage for mitigation costs and expenses incurred because of a privacy breach, security breach or adverse media report, including legal expenses, proactive and reactive public relations expenses, advertising and IT forensic expenses, breach notification costs (including voluntary notification costs), and the cost to set up call centers and provide credit monitoring and identity theft assistance. 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>BrandGuard &#174;</b> – coverage for loss of net profit incurred as a direct result of an adverse media report or notification to affected individuals following a security breach or privacy breach. <b>A 2-week waiting period and 6-month period of indemnity apply to BrandGuard coverage</b>.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>System Failure</b> - coverage for (1) reasonable and necessary amounts incurred to recover and/or replace electronic data that is compromised, damaged, lost, erased, corrupted or stolen and (2) business income loss and interruption expenses incurred due to an unplanned outage, interruption, failure, suspension, or degradation of service of an insured computer system, including any such incident caused by a hacking attack. <b>An 8-hour waiting period and 4-month period of restoration apply to the business interruption coverage component of System Failure</b>.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Cyber Extortion</b> - coverage for extortion expenses incurred and extortion monies paid as a direct result of a credible cyber extortion threat.
+            </td>
+        </tr>
+    </table>
+    
+</apex:component>

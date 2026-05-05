@@ -1,0 +1,75 @@
+<aura:component controller="LostApplicationCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    
+    <aura:attribute name="isDescriptionReqired" type="Boolean" default="false"/>
+    <aura:attribute name="showSub1" type="Boolean" default="false"/>
+    <aura:attribute name="showSub2" type="Boolean" default="false"/>
+    <aura:attribute name="placeholder" type="String" default=""/>
+    <aura:attribute name="lostReason" type="String" default=""/>
+    <aura:attribute name="lostReasonSub1" type="String" default=""/>
+    <aura:attribute name="lostReasonSub2" type="String" default=""/>
+    <aura:attribute name="lostReasonList" type="List" default=""/>
+    <aura:attribute name="lostReasonSub1List" type="List" default=""/>
+    <aura:attribute name="lostReasonSub2List" type="List" default=""/>
+    <aura:attribute name="lostDescription" type="String" default=""/>
+    <aura:attribute name="spinner" type="Boolean" default="true"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand"/>
+    </aura:if>
+    
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Lost Application</h1>
+    </div>
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <div class="content">
+            <div class="section">
+                <lightning:select aura:id="field"  name="select" label="Lost Reason" value="{!v.lostReason}" required="true" onchange="{! c.onChange }">
+                    <option label="--None-" value='' ></option>
+                    <aura:iteration items="{!v.lostReasonList}" var="obj">
+                        <option text="{!obj}"></option>
+                    </aura:iteration>
+                </lightning:select>
+                <aura:if isTrue="{!v.lostReasonSub1List.length > 0}">
+                    <lightning:select aura:id="field"  name="select" label="Lost Reason Sub1" value="{!v.lostReasonSub1}" variant="label-inline" required="true" onchange="{!c.onSub1Change}">
+                        <option label="--None-" value='' ></option>
+                        <aura:iteration items="{!v.lostReasonSub1List}" var="obj">
+                            <option text="{!obj.val}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </aura:if>
+                <aura:if isTrue="{!v.lostReasonSub2List.length > 0 }">
+                    <lightning:select aura:id="field" name="select" label="Lost Reason Sub2" value="{!v.lostReasonSub2}" required="true" variant="label-inline"  onchange="{!c.onSub2Change}">
+                        <option label="--None-" value='' ></option>
+                        <aura:iteration items="{!v.lostReasonSub2List}" var="obj">
+                            <option text="{!obj.Lost_Reason_Sub2__c}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </aura:if>
+            </div>
+            <div class="section">
+                <lightning:textarea aura:id="field" name="input1" label="Lost Description" value="{!v.lostDescription}" placeholder="{!v.placeholder}" required="{!v.isDescriptionReqired}"/>
+            </div>
+        </div>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button label="Cancel" title="Cancel" onclick="{! c.handleClose }"/>
+        
+        <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.handleSave }" />
+    </div>
+    
+</aura:component>

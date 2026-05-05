@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Billing</label>
+    <protected>false</protected>
+    <values>
+        <field>Attachment_Library_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Template_Name__c</field>
+        <value xsi:type="xsd:string">0% Interest Advantage</value>
+    </values>
+    <values>
+        <field>Fields_To_Query__c</field>
+        <value xsi:type="xsd:string">Id,AcctSeed__Customer__c,Name,Policy_Number__c,Policy__r.Application_Type__c</value>
+    </values>
+    <values>
+        <field>Object_API_Name__c</field>
+        <value xsi:type="xsd:string">AcctSeed__Billing__c</value>
+    </values>
+    <values>
+        <field>Send_To_Contact_Field_API_Name__c</field>
+        <value xsi:type="xsd:string">AcctSeed__Billing_Contact__c</value>
+    </values>
+</CustomMetadata>

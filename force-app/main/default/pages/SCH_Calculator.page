@@ -1,0 +1,211 @@
+<apex:page docType="html-5.0" id="pg" standardStylesheets="false" showHeader="false" controller="SCHCalcultorCtrl">
+    
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+        <head>
+           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+           
+           <style>
+               .slds-scope .slds-form-element{
+                   padding-left: 55px;
+               }
+               .slds-scope .slds-form_horizontal .slds-form-element>.slds-form-element__label{
+                   text-align: left;
+               }
+           </style>
+           
+           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+           <script type="text/javascript">
+               function overrideValue(thisVal, elementShow){
+                   console.log('thisVal---'+thisVal.checked);
+                   
+                   if(thisVal.checked){
+                       document.getElementById(elementShow).style.display='inline-block';
+                   } else {
+                       document.getElementById(elementShow).style.display='none';
+                   }
+               }
+           </script>
+           
+        </head>
+        
+        <div class="slds-page-header">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                        <img class="slds-icon--xx-large slds-icon" src="{!URLFOR($Resource.SLDS214, 'assets/icons/action/edit_relationship_120.png')}" />
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">SCH Calculator</h1>
+                <p class="slds-text-body_small slds-line-height_reset">Calculator</p>
+                </div>
+            </div>
+        </div>
+        
+        <apex:form id="fm" >
+            <div class="slds-section">
+                <h3 class="slds-section__title">
+                <button aria-controls="expando-unique-id" class="slds-button slds-section__title-action">
+                <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                </svg>
+                <span class="slds-truncate" title="Section Title">Schedule Modifiers - Internal Procedures (-5% to +10%):</span>
+                </button>
+                </h3>
+            </div>
+            
+            <div class="slds-form slds-form_horizontal">
+                <div class="slds-form-element">
+                    <apex:variable value="{!0}" var="index"/>
+                    <apex:repeat value="{!modVarWrapList}" var="modVar">
+                        <label class="slds-form-element__label">
+                            <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:14px;" />
+                        </label>
+                        <div class="slds-form-element__control">
+                            <apex:input type="number" required="false" value="{!modVar.normalMod}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                            <apex:inputCheckbox label="override" value="{!modVar.isOverride}" onchange="overrideValue(this, '{!index}-overMod')" style="position: absolute;width: 1.5%;margin-left:4%;margin-right: 10%;" disabled="" styleClass="slds-input slds-size_1-of-4" />  
+                            <div id="{!index}-overMod" style="display:none;width:15%;position: absolute;margin-left: 10%;">
+                                <apex:input type="number" required="false" value="{!modVar.overrideMod}" styleClass="slds-input slds-size_1-of-1" html-min="-5" html-max="10" />   
+                            </div>                     
+                        </div>
+                        <apex:variable value="{!index + 1}" var="index"/>
+                        <br/>
+                    </apex:repeat>
+                </div>
+            </div>
+            
+            <!--
+            <div class="slds-form slds-form_horizontal">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel value="Docket Systems" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-docketSystems" value="{!docketSystems}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                        <apex:inputCheckbox label="override" value="{!isDocketSystems}" onchange="overrideValue(this, 'overdocketSystems')" style="position: absolute;width: 1.5%;margin-left:4%;margin-right: 10%;" disabled="" styleClass="slds-input slds-size_1-of-4" />  
+                        <apex:input type="number" required="false" id="overdocketSystems" value="{!docketSystems}" style="display:none;position: absolute;margin-left: 10%;" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />                        
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel value="Conflict Systems" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-conflictSystems" value="{!conflictSystems}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                        <apex:inputCheckbox label="override" value="{!isDocketSystems}" onchange="overrideValue(this, 'overconflictSystems')" style="position: absolute;width: 1.5%;margin-left:4%;margin-right: 10%;" disabled="" styleClass="slds-input slds-size_1-of-4" />  
+                        <apex:input type="number" required="false" id="overconflictSystems" value="{!docketSystems}" style="display:none;position: absolute;margin-left: 10%;" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />                        
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-clientInatke" value="Client Intake/New Matter Acceptance Procedures" style="font-weight:bold;font-size:14px;"  />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-clientInatke" value="{!clientInatke}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel value="Billing Procedures" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-billProcedure" value="{!billProcedure}" styleClass="slds-input slds-size_1-of-4" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel value="Fee Suits" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-feeSuits" value="{!feeSuits}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-account-Type" value="Risk Management - Outside Interests" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-outsideInterests" value="{!outsideInterests}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-account-Type" value="Risk Management - Mgmt. Committee" style="font-weight:bold;font-size:14px;"  />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-mgmtCommittee" value="{!mgmtCommittee}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfClientEnagagement" value="Use of  Client Engagement/Contingency Fee Agreement Letters" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfClientEnagagement" value="{!useOfClientEnagagement}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfClientFeeAgreement" value="Use of Client Fee Agreements" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfClientFeeAgreement" value="{!useOfClientFeeAgreement}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfDeclination" value="Use of  Declination/Non-Engagement Letters" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfDeclination" value="{!useOfDeclination}"  styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfTermination" value="Use of Termination Letters" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfTermination" value="{!useOfTermination}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfReferral" value="Use of Referral Letters" style="font-weight:bold;font-size:14px;"  />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfReferral" value="{!useOfReferral}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfSettlement" value="Use of  Settlement Agreements" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfSettlement" value="{!useOfSettlement}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-useOfClientCommunication" value="Use of  Client Communication Letters" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-useOfClientCommunication" value="{!useOfClientCommunication}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="input-id-01">
+                        <apex:outputLabel for="fld-generalOverride" value="General Override (needs approval)" style="font-weight:bold;font-size:14px;" />
+                    </label>
+                    <div class="slds-form-element__control">
+                        <apex:input type="number" required="false" id="fld-generalOverride" value="{!generalOverride}" styleClass="slds-input slds-size_1-of-4" html-min="-5" html-max="10" />
+                    </div>
+                </div>
+            </div>
+            -->
+           
+        </apex:form>
+    
+    </html>
+</apex:page>

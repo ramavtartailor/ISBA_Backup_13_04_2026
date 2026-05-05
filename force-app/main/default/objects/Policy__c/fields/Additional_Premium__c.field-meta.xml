@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Additional_Premium__c</fullName>
+    <label>Additional Premium Application</label>
+    <summarizedField>Policy_Endorsement__c.Additional_Premium__c</summarizedField>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>IL 130 LIMIT OF LIABILITY ENDORSEMENT,  IL 210 SEPARATELY OWNED TITLE AGENCY</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.Is_Application_Endorsement__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Policy_Endorsement__c.Policy__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,146 @@
+<aura:component controller="BlocksComponentHandler" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <!--Init handler which is call doInit js function on component Load--> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler name="NavigateToBlockRecord" event="c:NavigateToBlockRecord" action="{!c.navigateToBlock}"/>
+    <aura:handler name="ChangeBlockStatus" event="c:ChangeBlockStatus" action="{!c.changeStatus}"/>
+    
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+    
+    <aura:attribute name="PageNumber" type="integer" default="1"/>
+    <aura:attribute name="TotalPages" type="integer" default="0"/>
+    <aura:attribute name="TotalRecords" type="integer" default="0"/>
+    <aura:attribute name="RecordStart" type="integer" default="0"/>
+    <aura:attribute name="RecordEnd" type="integer" default="0"/>
+    
+    <aura:attribute name="arrowDirection" type="string" default="arrowdown" description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute name="isAsc" type="boolean" default="false" description="boolean flag for pass sorting condition to apex class"/> 
+    <aura:attribute name="selectedTabsoft" type="string" default="CreatedDate" description="Use for show/hide arraow sign on header based on conditions"/>
+    
+    <aura:attribute name="BlocksList" type="Application_Block__c[]"/> 
+    <aura:attribute name="BlockRec" type="object" />
+    <aura:attribute name="reloadForm" type="boolean" default="true" />
+    <aura:attribute name="recordId" type="Id" />
+    <!--Header Part-->       
+    
+    <aura:if isTrue="{!v.spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container">
+                <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                    <span class="slds-assistive-text">Loading...</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+    <div class="slds-clearfix" style="z-index: 100;padding: 0.4%;background-color:whitesmoke;">
+        <div >
+            <div  style="width:60%;float:right;">
+                <div class="slds-float_right">
+                    {!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}<br/>
+                    <lightning:button disabled="{!v.PageNumber == 1}" variant="brand" aura:id="prevPage" label="Prev" onclick="{!c.handlePrev}" />            
+                    <lightning:button disabled="{!v.PageNumber == v.TotalPages}" aura:id="nextPage" variant="brand" label="Next" onclick="{!c.handleNext}"/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--<lightning:button  variant="brand" aura:id="export" label="Export" onclick="{!c.ExportBlocks}" />-->
+                    <lightning:button  variant="brand" aura:id="new" label="New" onclick="{!c.newBlock}" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning:buttonIcon iconName="utility:refresh" alternativeText="Refresh" onclick="{!c.refresh }"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal  slds-modal_large">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 id="header43" class="slds-text-heading--medium">New Block</h2>
+            </div>
+            
+            <div class="slds-modal__content slds-p-around--medium">
+                <div>
+                    
+              <lightning:recordEditForm objectApiName="Application_Block__c" >
+                  <aura:if isTrue="{!v.reloadForm}">
+                      <div class="slds-grid slds-wrap slds-col slds-size_1-of-1"  >
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Subject__c"   value="{!v.BlockRec.Subject__c}" />
+                              </div>
+                              
+                          </div>
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Status__c"   value="{!v.BlockRec.Status__c}" />
+                              </div>
+                              
+                          </div>
+                          <div class="slds-col slds-size_1-of-1">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Description__c"   value="{!v.BlockRec.Description__c}" />
+                              </div>
+                              
+                          </div>
+                      </div>
+                  </aura:if>
+                    </lightning:recordEditForm>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <center>
+                    <lightning:button label="Cancel" onclick="{!c.onCancel}" variant="brand" class="slds-button slds-button_destructive"/>
+                    <lightning:button label="Save" onclick="{!c.handleSuccess}" variant="brand" class="slds-button slds-button_brand" />
+                </center>
+            </div>
+            
+        </div>
+    </div>
+    <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+    
+    <br/>
+        <!--Table Part-->          
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" width="5%">
+                        <div class="slds-truncate">#</div>
+                    </th>
+                    <th scope="col"  width="10%">
+                        <div class="slds-truncate" title="Name">Name</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-title--caps" width="10%" scope="col" onclick="{!c.sortByDate}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Department">Created date</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'CreatedDate') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'CreatedDate') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th>
+                    <th scope="col"  width="10%">
+                        <div class="slds-truncate" title="Created By">Created By</div>
+                    </th>
+                    <th scope="col"  width="10%">
+                        <div class="slds-truncate" title="Status">Status</div>
+                    </th>
+                    <th scope="col"  width="5%">
+                        <div class="slds-truncate" title=""></div>
+                    </th>
+                    <!--<th scope="col"  width="15%">
+                        <div class="slds-truncate" title="Subject">Subject</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Description">Description</div>
+                    </th>-->
+                </tr>
+            </thead>   
+            <tbody>       
+                <aura:iteration items="{!v.BlocksList}" var="item" indexVar="index">
+                    <c:InnerBlockComponent BlocksInstance="{!item}" rowIndex="{!index}" />
+                </aura:iteration>
+            </tbody>
+        </table>
+    <br/>
+    <!--<button class="slds-button slds-button_brand"  onclick="{!c.Cancel}">Back</button>-->
+</aura:component>

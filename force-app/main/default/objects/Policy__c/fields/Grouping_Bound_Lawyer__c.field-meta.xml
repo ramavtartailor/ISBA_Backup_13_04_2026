@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grouping_Bound_Lawyer__c</fullName>
+    <description>Group Original Lawyer Count into bunckets</description>
+    <externalId>false</externalId>
+    <formula>IF ((Bound_Lawyer_Count__c == 1), &apos;A:  1&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 2 &amp;&amp; Bound_Lawyer_Count__c &lt;= 5), &apos;B:  2-5&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 6 &amp;&amp; Bound_Lawyer_Count__c &lt;= 10), &apos;C:  6-10&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 11 &amp;&amp; Bound_Lawyer_Count__c &lt;= 25), &apos;D:  11-25&apos;,
+IF ((Bound_Lawyer_Count__c &gt;= 26 &amp;&amp; Bound_Lawyer_Count__c &lt;= 50), &apos;E:  26-50&apos;,
+IF ((Bound_Lawyer_Count__c &gt; 51), &apos;F:  51+&apos;,
+&apos;Unknown&apos;
+))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Grouping - Bound Lawyer</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

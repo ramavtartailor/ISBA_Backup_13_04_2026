@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- EventTypeId --></label>
+    <name>EventTypeId__c</name>
+    <picklistValues>
+        <masterLabel>AddressChangeNote</masterLabel>
+        <translation><!-- AddressChangeNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AppEZSentNote</masterLabel>
+        <translation><!-- AppEZSentNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AppSentNote</masterLabel>
+        <translation><!-- AppSentNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AttorneyFormNote</masterLabel>
+        <translation><!-- AttorneyFormNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CLECreditNote</masterLabel>
+        <translation><!-- CLECreditNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CancellationNote</masterLabel>
+        <translation><!-- CancellationNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CertInsReqNote</masterLabel>
+        <translation><!-- CertInsReqNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DeathNote</masterLabel>
+        <translation><!-- DeathNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FileLocationNote</masterLabel>
+        <translation><!-- FileLocationNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FirmDisolveNote</masterLabel>
+        <translation><!-- FirmDisolveNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FollowUpNote</masterLabel>
+        <translation><!-- FollowUpNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LetterNote</masterLabel>
+        <translation><!-- LetterNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LimitDedNote</masterLabel>
+        <translation><!-- LimitDedNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LossRunReqNote</masterLabel>
+        <translation><!-- LossRunReqNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NP1</masterLabel>
+        <translation><!-- NP1 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NewBusinessNote</masterLabel>
+        <translation><!-- NewBusinessNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PhoneNote</masterLabel>
+        <translation><!-- PhoneNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PleadingNote</masterLabel>
+        <translation><!-- PleadingNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PolicyBoundNote</masterLabel>
+        <translation><!-- PolicyBoundNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PreReviewNote</masterLabel>
+        <translation><!-- PreReviewNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PriorCarrierNote</masterLabel>
+        <translation><!-- PriorCarrierNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>QuoteAcceptNote</masterLabel>
+        <translation><!-- QuoteAcceptNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>QuoteReleaseNote</masterLabel>
+        <translation><!-- QuoteReleaseNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ReinsFacNote</masterLabel>
+        <translation><!-- ReinsFacNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ReinsTreatyNote</masterLabel>
+        <translation><!-- ReinsTreatyNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ReinstatementNote</masterLabel>
+        <translation><!-- ReinstatementNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RenewalBlocked</masterLabel>
+        <translation><!-- RenewalBlocked --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RenewalNote</masterLabel>
+        <translation><!-- RenewalNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RistManageHtlnNote</masterLabel>
+        <translation><!-- RistManageHtlnNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>TailNote</masterLabel>
+        <translation><!-- TailNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>UWActionNote</masterLabel>
+        <translation><!-- UWActionNote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>UnblockNote</masterLabel>
+        <translation><!-- UnblockNote --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

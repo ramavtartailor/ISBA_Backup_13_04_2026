@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>File_Type__c</fullName>
+    <label>File Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Incident</fullName>
+                <default>false</default>
+                <label>Incident</label>
+            </value>
+            <value>
+                <fullName>Claim</fullName>
+                <default>false</default>
+                <label>Claim</label>
+            </value>
+            <value>
+                <fullName>Suit</fullName>
+                <default>false</default>
+                <label>Suit</label>
+            </value>
+            <value>
+                <fullName>ARDC Complaint</fullName>
+                <default>false</default>
+                <label>ARDC Complaint</label>
+            </value>
+            <value>
+                <fullName>Memo</fullName>
+                <default>false</default>
+                <label>Memo</label>
+            </value>
+            <value>
+                <fullName>Supoena</fullName>
+                <default>false</default>
+                <label>Subpoena</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

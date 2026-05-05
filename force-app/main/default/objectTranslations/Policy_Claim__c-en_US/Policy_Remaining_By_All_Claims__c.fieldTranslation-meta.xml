@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Policy Remaining --></label>
+    <name>Policy_Remaining_By_All_Claims__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,5 @@
+<apex:page standardController="AcctSeed__Billing__c" contentType="text/html;charset=utf-8">
+
+<h1>hello...</h1>
+  
+</apex:page>

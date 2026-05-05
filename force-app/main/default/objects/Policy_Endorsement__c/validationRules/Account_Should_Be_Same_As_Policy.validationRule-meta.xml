@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Should_Be_Same_As_Policy</fullName>
+    <active>true</active>
+    <description>Account for functional endorsements of Lawyer should be same as the Account on Policy.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = &apos;AL_Add_Lawyer_Transaction&apos;,  Account__c &lt;&gt;  Policy__r.Account__c)</errorConditionFormula>
+    <errorDisplayField>Account__c</errorDisplayField>
+    <errorMessage>Account should be same as that on Policy!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>4100</label>
+    <protected>false</protected>
+    <values>
+        <field>Claim_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Claim_Last_Transaction_Date_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>GL_Account__c</field>
+        <value xsi:type="xsd:string">4100-Ceded Premium Primary Layer</value>
+    </values>
+    <values>
+        <field>Policy_Field__c</field>
+        <value xsi:type="xsd:string">Total_Primary__c</value>
+    </values>
+</CustomMetadata>

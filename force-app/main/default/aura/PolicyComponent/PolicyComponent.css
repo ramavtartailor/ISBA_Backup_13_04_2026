@@ -1,0 +1,26 @@
+.THIS table {
+    width: 100%;
+    font-family: Helvetica, Arial, sans-serif; 
+}
+
+.THIS h1{
+    color:#6593E3;
+    font-weight:bold;
+    margin-bottom:2rem;
+    font-size: 20px;
+}
+
+.THIS th{
+    border-bottom: 2px solid #80bfff;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.THIS th:ntchild(1) {
+    width:11%;
+}
+
+.THIS .rightButton {
+    float : right;
+}

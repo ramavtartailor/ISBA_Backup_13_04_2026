@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_Error__c</fullName>
+    <label>Type of Error</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Admistrative Error</fullName>
+                <default>false</default>
+                <label>Admistrative Error</label>
+            </value>
+            <value>
+                <fullName>Intentional Wrong</fullName>
+                <default>false</default>
+                <label>Intentional Wrong</label>
+            </value>
+            <value>
+                <fullName>Substantive Error</fullName>
+                <default>false</default>
+                <label>Substantive Error</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Object_Type__c</fullName>
+    <label>Object Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Policy__c</fullName>
+                <default>false</default>
+                <label>Policy__c</label>
+            </value>
+            <value>
+                <fullName>Policy_Claim__c</fullName>
+                <default>false</default>
+                <label>Policy_Claim__c</label>
+            </value>
+            <value>
+                <fullName>Account</fullName>
+                <default>false</default>
+                <label>Account</label>
+            </value>
+            <value>
+                <fullName>Policy_Endorsement__c</fullName>
+                <default>false</default>
+                <label>Policy_Endorsement__c</label>
+            </value>
+            <value>
+                <fullName>AcctSeed__Billing__c</fullName>
+                <default>false</default>
+                <label>AcctSeed__Billing__c</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,42 @@
+<aura:component controller="CreateCashReceiptCtrl" implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name ="cr" type = "Object"/>
+    <aura:attribute name ="showSpinner" type = "Boolean" default="true"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Create Receipt</h1>
+    </div>
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <div>
+            <div>
+                <lightning:input aura:id='input' required="true" type="number" name="Amount" label="Amount" value="{!v.cr.AcctSeed__Amount__c}" formatter="currency" step="0.01"/>
+            </div>
+            <div>
+                <lightning:input aura:id='input'  type="number" required="true" name="Check Number" label="Check Number" value="{!v.cr.AcctSeed__Check_Number__c}" step="1"/>
+            </div>
+        </div>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button label="Cancel" title="Cancel" onclick="{! c.handleCancel }"/>
+        <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.handleSave }" />
+    </div>
+    
+</aura:component>

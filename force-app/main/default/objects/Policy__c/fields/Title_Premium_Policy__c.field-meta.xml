@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Title_Premium_Policy__c</fullName>
+    <label>Title Premium Policy</label>
+    <summarizedField>Policy_Endorsement__c.Additional_Premium__c</summarizedField>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>IL 210 SEPARATELY OWNED TITLE AGENCY</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.Is_Application_Endorsement__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.Event_Status__c</field>
+        <operation>equals</operation>
+        <value>Approved</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Policy_Endorsement__c.Policy__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

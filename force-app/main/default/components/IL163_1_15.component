@@ -1,0 +1,24 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Individual Prior Acts   Date Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the PRIOR ACTS DATE for any lawyer who was formerly an employee, partner or shareholder of the NAMED INSURED or its PREDECESSOR FIRM, is the individual PRIOR ACTS DATE for that lawyer on the most recent policy issued to the NAMED INSURED or its PREDECESSOR FIRM.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:510px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

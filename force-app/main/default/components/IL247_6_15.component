@@ -1,0 +1,47 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Incident/Circumstance Claim Expense Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> I. COVERAGE AGREEMENTS, D. </span>of this Policy is hereby deleted.<br/><br/>
+        It is agreed that<span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE, E. </span>of this Policy is hereby deleted and replaced with the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    &nbsp;
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Subject to the Limit of Liability:<br/>
+                    For a<span class="normalBoldParagraph"> CLAIM </span>as defined in<span class="normalBoldParagraph"> III. DEFINITIONS, B.2 </span>, the first $5,000 in<span class="normalBoldParagraph"> CLAIM EXPENSES </span>shall be paid by the<span class="normalBoldParagraph"> COMPANY </span>before the<span class="normalBoldParagraph"> DEDUCTIBLE </span>applies to<span class="normalBoldParagraph"> CLAIM EXPENSES </span>exceeding $5,000; however, for a<span class="normalBoldParagraph"> CLAIM </span>as defined in<span class="normalBoldParagraph"> III. DEFINITIONS, B.1 </span>, the<span class="normalBoldParagraph"> DEDUCTIBLE </span>applies to all<span class="normalBoldParagraph"> CLAIM EXPENSES </span>including<span class="normalBoldParagraph"> CLAIM EXPENSES </span>incurred when<span class="normalBoldParagraph"> III. DEFINITIONS, B.2 </span>was met.<br/><br/>
+                    The<span class="normalBoldParagraph"> COMPANY </span>is liable to pay<span class="normalBoldParagraph"> DAMAGES </span>and<span class="normalBoldParagraph"> CLAIM EXPENSES </span>in excess of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. The<span class="normalBoldParagraph"> DEDUCTIBLE </span>for all<span class="normalBoldParagraph"> DAMAGES </span>and<span class="normalBoldParagraph"> CLAIM EXPENSES </span>in any<span class="normalBoldParagraph"> POLICY TERM </span>applies separately to each<span class="normalBoldParagraph"> CLAIM </span>. The<span class="normalBoldParagraph"> NAMED INSURED </span>is responsible for the payment of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>, and each<span class="normalBoldParagraph"> INSURED </span>is individually liable for the payment of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. In the event that the<span class="normalBoldParagraph"> COMPANY </span>expends funds for<span class="normalBoldParagraph"> DAMAGES </span>or<span class="normalBoldParagraph"> CLAIM EXPENSES </span>on an<span class="normalBoldParagraph"> INSURED </span>’s behalf, the<span class="normalBoldParagraph"> INSURED </span>will reimburse the<span class="normalBoldParagraph"> COMPANY </span>for such expenditures up to the amount of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. Reimbursement of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>will be due within thirty (30) days of the<span class="normalBoldParagraph"> COMPANY </span>’s first demand or thirty (30) days from the date the<span class="normalBoldParagraph"> COMPANY </span>or counsel appointed by the<span class="normalBoldParagraph"> COMPANY </span>first bills the<span class="normalBoldParagraph"> INSURED </span>, whichever is earlier. If the<span class="normalBoldParagraph"> INSURED </span>does not reimburse the<span class="normalBoldParagraph"> COMPANY </span>or counsel appointed by the<span class="normalBoldParagraph"> COMPANY </span>within sixty (60) days, the<span class="normalBoldParagraph"> COMPANY </span>will be entitled to recover from the<span class="normalBoldParagraph"> INSURED </span>reasonable legal fees, costs, and expenses incurred by the<span class="normalBoldParagraph"> COMPANY </span>in collecting the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. 
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <p class="normalParagraph">
+       <span class="normalBoldParagraph"> OUR </span>determination as to what qualifies as<span class="normalBoldParagraph"> III. DEFINITIONS, B. CLAIM 1. </span>and<span class="normalBoldParagraph"> III. DEFINITIONS, B. CLAIM 2. </span>will be conclusive.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:60px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

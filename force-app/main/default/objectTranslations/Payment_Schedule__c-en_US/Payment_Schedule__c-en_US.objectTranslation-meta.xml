@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment Schedule</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payment Schedules</value>
+    </caseValues>
+    <fieldSets>
+        <label><!-- Payment_Site_Fields --></label>
+        <name>Payment_Site_Fields</name>
+    </fieldSets>
+    <layouts>
+        <layout>Payment Schedule Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Execute Schedule --></label>
+        <name>Execute_Schedule</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Process Check --></label>
+        <name>Process_Check</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- The payment method must be from the same account. --></errorMessage>
+        <name>Payment_Method_Validation</name>
+    </validationRules>
+</CustomObjectTranslation>

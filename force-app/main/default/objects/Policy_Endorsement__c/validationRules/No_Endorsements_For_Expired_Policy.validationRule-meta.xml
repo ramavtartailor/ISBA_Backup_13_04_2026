@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Endorsements_For_Expired_Policy</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISNULL(Policy__r.ERE_Date__c), Policy_Expiration_Date__c&lt;= TODAY(),NOT(AND(OR(CONTAINS(RecordType.Name,&apos;107&apos;),CONTAINS(RecordType.Name,&apos;152&apos;),CONTAINS(RecordType.Name,&apos;153&apos;),CONTAINS(RecordType.Name,&apos;190&apos;)),Policy_Expiration_Date__c + 270 &gt; TODAY())))</errorConditionFormula>
+    <errorDisplayField>Account__c</errorDisplayField>
+    <errorMessage>Policy is already expired.</errorMessage>
+</ValidationRule>

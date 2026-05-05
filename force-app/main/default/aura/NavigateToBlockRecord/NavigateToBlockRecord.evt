@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event to navigate to block row" >
+    <aura:attribute name="indexVar" type="Integer" description="Use For block Row" />
+</aura:event>

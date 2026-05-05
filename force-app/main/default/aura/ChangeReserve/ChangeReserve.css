@@ -1,0 +1,7 @@
+.THIS .slds-modal__content{
+    height: 350px !important;
+    max-height: 350px !important;
+}
+.THIS .saveButton{
+    margin-top: 5px;
+}

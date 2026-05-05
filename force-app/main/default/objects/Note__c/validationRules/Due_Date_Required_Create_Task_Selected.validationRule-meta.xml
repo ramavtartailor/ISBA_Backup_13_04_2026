@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Due_Date_Required_Create_Task_Selected</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(Create_Task__c,OR(ISBLANK(Due_Date__c),ISBLANK(Task_Owner__c)))</errorConditionFormula>
+    <errorMessage>Due Date and Task owner is mandatory to create a task</errorMessage>
+</ValidationRule>

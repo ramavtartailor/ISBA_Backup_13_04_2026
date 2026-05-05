@@ -1,0 +1,50 @@
+<apex:component controller="Policy_Letter_Template_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <br/>
+    <p class="normalParagraph">
+        <apex:outputText value="{0,date,MMMM dd, yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        <!--<apex:outputText value="{!policy.Primary_Contact_Name_History__c}"/><br/>
+        <apex:outputText value="{!policy.Related_Firm_Id_History__c}"/><br/>-->
+        <apex:outputText value="{!policy.Firm_Name_History__c}"/><br/>
+        <pre class="normalParagraph" style="margin-top: 0 !important;margin-bottom: 0 !important;">
+          <apex:outputText value="{!policy.Firm_Billing_Address_History__c}" escape="false"/>
+        </pre>
+        <br/>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%;page-break-inside:avoid;page-break-after:auto" >
+        <tr>
+            <td style="width:10%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    Re:
+                </p>
+            </td>
+            <td style="width:90%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft b">
+                    ISBA Mutual Lawyers’ Malpractice Insurance<br/>
+                    Policy #:  &nbsp;&nbsp;<apex:outputText value="{!policy.Policy_Number_History__c}"/><br/>
+                    Policy Term:  &nbsp;&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Effective_Date_History__c}" /> </apex:outputText>&nbsp;
+                    To &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Expiration_Date_History__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+<br/><br/>
+    <p class="normalParagraph" style="line-height: 1.5">
+        Dear&nbsp;<apex:outputText value="{!policy.Primary_Contact_Name_History__c}"/> :<br/><br/>
+        
+        On behalf of the Members and Board of Directors of ISBA Mutual, I wanted to express our
+appreciation for the opportunity to serve as your Lawyers’ Professional Liability provider. ISBA
+Mutual was created to ensure affordable and reliable insurance coverage for small to medium
+sized firms headquartered in Illinois. Becoming a member of ISBA Mutual provides stability for
+the Illinois legal community so lawyers can operate with confidence knowing both the firm and
+the public are protected. It is our sincere hope that we will continue to work with your Firm as
+a valued partner well into the future.
+        <br/><br/><br/>    
+        Best Regards,<br/><br/>
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </p>
+</apex:component>

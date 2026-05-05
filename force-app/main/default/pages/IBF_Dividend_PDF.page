@@ -1,0 +1,159 @@
+<apex:page controller="RegularRenewalDoc_Ctrl" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    
+    <head>
+    <style>
+        body {
+    		font-family: 'Arial', sans-serif !important;
+		    font-size: 13.3333px;
+		}
+    	@page {
+		    margin-top: 30px;
+    		margin-bottom: 100px;
+		    font-family: 'Arial', sans-serif !important;
+		}
+        .arial {
+        	font-family: 'Arial', sans-serif !important;
+        }
+        
+        .ibf_subtitle {
+        	font-size:18px;
+	        color:black;
+        	text-align: center;
+        }
+        
+        .isbam_primary_red {
+        	color: #89001B;
+        }
+        
+    </style>
+    </head>
+    
+    <!---HEADER------------------------------------------------------------>
+      <div style="" class="header">
+          <c:Application_Header />    
+      </div>
+      
+     <div style="height: 20px;">
+         &nbsp;
+    </div>
+    
+    <table style="width:100%;">
+    <tr>
+      <td style="font-size: 11pt; width:50%; white-space:nowrap !important; text-align: right;" align="right" class="normalParagraph">
+         Effective:&nbsp;<apex:outputText value="{0,date,MMM d, yyyy}"> 
+            <apex:param value="{!policy.Effective_Date__c}" /> 
+         </apex:outputText><br/>
+         Policy #:&nbsp;<apex:outputField value="{!policy.Name}"/><br/>
+         <apex:outputField value="{!policy.Account__r.Name}"/>
+      </td>
+    </tr>
+  </table>
+    
+    <br/>
+    
+    <div class="arial" style="font-size: 15px;">
+        
+
+        <center class="arial ibf_subtitle" >
+            <b>SUPPORT THE ILLINOIS BAR FOUNDATION</b>
+        </center>
+        <br/>
+        
+        <p class="arial" style="text-align: justify;">
+            Consider joining the <span class="isbam_primary_red" style="font-weight: bold;">ISBA Mutual Giving Circle</span> by donating all or part of your 
+            <apex:outputText value=" {0, date, YYYY}">
+                <apex:param value="{!(dividendYear)}" />
+            </apex:outputText> 
+             
+            ISBA Mutual Dividend of
+            <apex:outputText value=" ${0, number,###,###,###,###}">
+                <apex:param value="{!(policy.ISBAM_policy_dividend__c)}" />
+            </apex:outputText> 
+            to the <b>ILLINOIS BAR FOUNDATION</b>.
+        </p>
+    
+        <p class="arial" style="text-align: justify;">
+            The vision of the <b>ILLINOIS BAR FOUNDATION</b> is to be a statewide leader in assisting lawyers in crisis and advancing equal justice.  Your generous contribution will help close the gap in the civil justice system by providing funding for civil legal aid programs throughout the state of Illinois and will also help provide financial aid to lawyers who are no longer able to support themselves and their families due to age, illness or injury.
+        </p>
+            
+        <p class="arial" >
+            Firms and individuals who join the <span class="isbam_primary_red" style="font-weight: bold;">ISBA Mutual Giving Circle</span> receive:
+        </p>
+        
+        <ul class="arial isbam_primary_red" style="list-style-type:disc;">
+            <li style="color: black;">
+                &nbsp;&nbsp;Recognition on the Illinois Bar Foundation and ISBA Mutual Websites
+            </li>
+            <li style="color: black;">
+                &nbsp;&nbsp;Recognition on the ISBA’s <i>Illinois Lawyer Now</i> blog
+            </li>
+            <li style="color: black;">
+                &nbsp;&nbsp;A certificate of recognition
+            </li>
+        </ul>
+                
+        <center class="arial ibf_subtitle">
+            <b>The 100% Club</b>
+        </center>
+        
+        <p class="arial">
+            Firms and individuals who donate their entire dividend join the exclusive ranks of the 100% Club, which includes the following additional benefits:
+        </p>
+        
+        <ul class="isbam_primary_red" style="list-style-type:disc;">
+            <li class="arial" style="color: black;">
+                &nbsp;&nbsp;Quarterly recognition in the Illinois Bar Journal
+            </li>
+            <li class="arial" style="color: black;">
+                &nbsp;&nbsp;Recognition at the ISBA Annual Meeting
+            </li>
+        </ul>
+        
+        <br/>
+        <hr style="border-top: 1px dashed black;"/>
+        <br/>
+    
+        <center class="arial" style="color:black;">
+            <b>
+                JOIN THE <span  class="isbam_primary_red">ISBA MUTUAL GIVING CIRCLE</span><br />
+                and elect the tax-deductible amount your firm wishes to contribute:
+            </b>
+        </center>
+        
+        <ul class="arial isbam_primary_red" style="list-style-type:none;">
+            <li class="arial" style="color: black;">
+                [&nbsp;&nbsp;]&nbsp;&nbsp;Donate 100% of our 
+                <apex:outputText value=" ${0, number,###,###,###,###}">
+                    <apex:param value="{!(policy.ISBAM_policy_dividend__c)}" />
+                </apex:outputText> 
+                dividend to the Illinois Bar Foundation. 
+            </li>
+            <li class="arial" style="color: black;">
+                [&nbsp;&nbsp;]&nbsp;&nbsp;Donate $________________  of our 
+                <apex:outputText value=" ${0, number,###,###,###,###}">
+                    <apex:param value="{!(policy.ISBAM_policy_dividend__c)}" />
+                </apex:outputText> 
+                dividend to the Illinois Bar Foundation.  
+            </li>
+        </ul>
+            
+        <p>
+            Select preferences for use of your donation: 
+        </p>
+        <ul class="arial isbam_primary_red" style="list-style-type:none;">
+            <li class="arial" style="color: black;">
+                [&nbsp;&nbsp;]&nbsp;&nbsp;Please restrict my pledge for the _______________________________ appellate district. 
+            </li>
+            <li class="arial" style="color: black;">
+                [&nbsp;&nbsp;]&nbsp;&nbsp;Please use my pledge statewide wherever the need is greatest. 
+            </li>
+            <li class="arial" style="color: black;">
+                [&nbsp;&nbsp;]&nbsp;&nbsp;Please use my pledge to support the Rural Practice Initiative. 
+            </li>
+        </ul>
+        <center class="arial isbam_primary_red" style="">
+            <b>Please return this completed form with your Quote and Acceptance Form</b>
+            <br/><b>Your generous contribution is greatly appreciated!</b>
+        </center>
+    </div>
+</apex:page>

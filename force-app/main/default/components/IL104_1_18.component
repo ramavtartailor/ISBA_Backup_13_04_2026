@@ -1,0 +1,23 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Specific Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended to exclude any<span class="normalBoldParagraph"> Claim </span>based upon, arising out of, directly or indirectly resulting from, or in any way connected with a<span class="normalBoldParagraph"> Wrongful Act </span>involving: 
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        <apex:outputField value="{!endorsement.Entity_Name__c}"/>
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!--<div style="width:30%;margin-top:380px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div>-->
+</apex:component>

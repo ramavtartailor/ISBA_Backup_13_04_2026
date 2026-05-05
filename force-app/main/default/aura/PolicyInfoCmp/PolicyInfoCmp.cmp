@@ -1,0 +1,692 @@
+<aura:component controller="PolicyInfoCmpCtrl"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__container{
+        width: 90%;
+        height: 100%;
+        max-width: unset;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-form-element__legend{
+        font-weight: normal;
+        }
+
+    </aura:html>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="spinner" type="Boolean" default="true" />
+    <aura:attribute name="wrapper" type="Object" />
+
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" variant="Brand" />
+    </aura:if>
+
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <div class="container">
+            <div class="section">
+                <div class="heading">Quotes</div>
+                <div style="display: flex;">
+                    <div style="flex: 1;">
+                        <table class="slds-table_cell-buffer">
+                            <thead>
+                                <tr>
+                                    <th class="leftTop rightTop" style="text-align: center;" colspan="4">
+                                        Previous Policy Quotes
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th width="25%">Final Quote</th>
+                                    <th width="25%">Limits</th>
+                                    <th width="25%">Deductible</th>
+                                    <th width="25%">Premium</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.wrapper.oldPolicy.Policy_Quotes__r}" var="item">
+                                    <tr>
+                                        <td class="leftBottom">
+                                            <lightning:input type="checkbox" variant="label-hidden"
+                                                checked="{!item.Final_Quote__c}" disabled="true" />
+                                        </td>
+                                        <td>{!item.Limits__c}</td>
+                                        <td>{!item.Deductible__r.Name}</td>
+                                        <td class="rightBottom">
+                                            <lightning:formattedNumber value="{!item.Quote_Final_Premium__c}"
+                                                style="currency" currencyCode="USD" minimumFractionDigits="2"
+                                                maximumFractionDigits="2" />
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="flex: 1;">
+                        <table class="slds-table_cell-buffer">
+                            <thead>
+                                <tr>
+                                    <th class="leftTop rightTop" style="text-align: center;" colspan="4">
+                                        Current Policy Quotes
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th width="25%">Final Quote</th>
+                                    <th width="25%">Limits</th>
+                                    <th width="25%">Deductible</th>
+                                    <th width="25%">Premium</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.wrapper.currPolicy.Policy_Quotes__r}" var="item">
+                                    <tr>
+                                        <td class="leftBottom">
+                                            <lightning:input type="checkbox" variant="label-hidden"
+                                                checked="{!item.Final_Quote__c}" disabled="true" />
+                                        </td>
+                                        <td>{!item.Limits__c}</td>
+                                        <td>{!item.Deductible__r.Name}</td>
+                                        <td class="rightBottom">
+                                            <lightning:formattedNumber value="{!item.Quote_Final_Premium__c}"
+                                                style="currency" currencyCode="USD" minimumFractionDigits="2"
+                                                maximumFractionDigits="2" />
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="heading">Firm Mod Information</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop"></th>
+                            <th class="rightTop">Previous Policy</th>
+                            <th>Current Policy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.SCH_Mod__c == v.wrapper.oldPolicy.SCH_Mod__c}">
+                            <tr>
+                                <th>SCH Mod</th>
+                                <td>{!v.wrapper.oldPolicy.SCH_Mod__c}</td>
+                                <td>{!v.wrapper.currPolicy.SCH_Mod__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">SCH Mod</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.SCH_Mod__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.SCH_Mod__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.GEO_Mod__c == v.wrapper.oldPolicy.GEO_Mod__c}">
+                            <tr>
+                                <th>GEO Mod</th>
+                                <td>{!v.wrapper.oldPolicy.GEO_Mod__c}</td>
+                                <td>{!v.wrapper.currPolicy.GEO_Mod__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">GEO Mod</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.GEO_Mod__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.GEO_Mod__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if
+                            isTrue="{!v.wrapper.currPolicy.Claims_Factor__c == v.wrapper.oldPolicy.Claims_Factor__c}">
+                            <tr>
+                                <th>Claims Factor</th>
+                                <td>{!v.wrapper.oldPolicy.Claims_Factor__c}</td>
+                                <td>{!v.wrapper.currPolicy.Claims_Factor__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Claims Factor</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.Claims_Factor__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.Claims_Factor__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.AOP_Factor__c == v.wrapper.oldPolicy.AOP_Factor__c}">
+                            <tr>
+                                <th>AOP Mod</th>
+                                <td>{!v.wrapper.oldPolicy.AOP_Factor__c}</td>
+                                <td>{!v.wrapper.currPolicy.AOP_Factor__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">AOP Mod</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.AOP_Factor__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.AOP_Factor__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.ADJ_MOD__c == v.wrapper.oldPolicy.ADJ_MOD__c}">
+                            <tr>
+                                <th>ADJ Mod</th>
+                                <td>{!v.wrapper.oldPolicy.ADJ_MOD__c}</td>
+                                <td>{!v.wrapper.currPolicy.ADJ_MOD__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">ADJ Mod</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.ADJ_MOD__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.ADJ_MOD__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.Firm_Mod__c == v.wrapper.oldPolicy.Firm_Mod__c}">
+                            <tr>
+                                <th>Firm Mod</th>
+                                <td>{!v.wrapper.oldPolicy.Firm_Mod__c}</td>
+                                <td>{!v.wrapper.currPolicy.Firm_Mod__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Firm Mod</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.Firm_Mod__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.Firm_Mod__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="heading">Policy Factor Information</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop"></th>
+                            <th class="rightTop">Previous Policy</th>
+                            <th>Current Policy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.Base_Amount__c == v.wrapper.oldPolicy.Base_Amount__c}">
+                            <tr>
+                                <th>Base Rate</th>
+                                <td>{!v.wrapper.oldPolicy.Base_Amount__c}</td>
+                                <td>{!v.wrapper.currPolicy.Base_Amount__c}</td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Base Rate</th>
+                                    <td class="isChanged">{!v.wrapper.oldPolicy.Base_Amount__c}</td>
+                                    <td class="isChanged">{!v.wrapper.currPolicy.Base_Amount__c}</td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currCoverageFactor == v.wrapper.oldCoverageFactor}">
+                            <tr>
+                                <th>Limit Factor</th>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.oldCoverageFactor))}">
+                                        {!v.wrapper.oldCoverageFactor}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.currCoverageFactor))}">
+                                        {!v.wrapper.currCoverageFactor}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Limit Factor</th>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.oldCoverageFactor))}">
+                                            {!v.wrapper.oldCoverageFactor}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.currCoverageFactor))}">
+                                            {!v.wrapper.currCoverageFactor}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currDeductibleFactor == v.wrapper.oldDeductibleFactor}">
+                            <tr>
+                                <th>Deductible Factor</th>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.oldDeductibleFactor))}">
+                                        {!v.wrapper.oldDeductibleFactor}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.currDeductibleFactor))}">
+                                        {!v.wrapper.currDeductibleFactor}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Deductible Factor</th>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.oldDeductibleFactor))}">
+                                            {!v.wrapper.oldDeductibleFactor}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.currDeductibleFactor))}">
+                                            {!v.wrapper.currDeductibleFactor}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if
+                            isTrue="{!v.wrapper.currPolicy.Treaty_Version__r.Ceded_Primary_Rate__c == v.wrapper.oldPolicy.Treaty_Version__r.Ceded_Primary_Rate__c}">
+                            <tr>
+                                <th>Ceded Primary Rate</th>
+                                <td>
+                                    <aura:if
+                                        isTrue="{!not(empty(v.wrapper.oldPolicy.Treaty_Version__r.Ceded_Primary_Rate__c))}">
+                                        {!v.wrapper.oldPolicy.Treaty_Version__r.Ceded_Primary_Rate__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if
+                                        isTrue="{!not(empty(v.wrapper.currPolicy.Treaty_Version__r.Ceded_Primary_Rate__c))}">
+                                        {!v.wrapper.currPolicy.Treaty_Version__r.Ceded_Primary_Rate__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Ceded Primary Rate</th>
+                                    <td class="isChanged">
+                                        <aura:if
+                                            isTrue="{!not(empty(v.wrapper.oldPolicy.Treaty_Version__r.Ceded_Primary_Rate__c))}">
+                                            {!v.wrapper.oldPolicy.Treaty_Version__r.Ceded_Primary_Rate__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if
+                                            isTrue="{!not(empty(v.wrapper.currPolicy.Treaty_Version__r.Ceded_Primary_Rate__c))}">
+                                            {!v.wrapper.currPolicy.Treaty_Version__r.Ceded_Primary_Rate__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if
+                            isTrue="{!v.wrapper.currPolicy.Treaty_Version__r.Ceded_4x1_Rate__c == v.wrapper.oldPolicy.Treaty_Version__r.Ceded_4x1_Rate__c}">
+                            <tr>
+                                <th>Ceded 4x1 Rate</th>
+                                <td>
+                                    <aura:if
+                                        isTrue="{!not(empty(v.wrapper.oldPolicy.Treaty_Version__r.Ceded_4x1_Rate__c))}">
+                                        {!v.wrapper.oldPolicy.Treaty_Version__r.Ceded_4x1_Rate__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if
+                                        isTrue="{!not(empty(v.wrapper.currPolicy.Treaty_Version__r.Ceded_4x1_Rate__c))}">
+                                        {!v.wrapper.currPolicy.Treaty_Version__r.Ceded_4x1_Rate__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Ceded 4x1 Rate</th>
+                                    <td class="isChanged">
+                                        <aura:if
+                                            isTrue="{!not(empty(v.wrapper.oldPolicy.Treaty_Version__r.Ceded_4x1_Rate__c))}">
+                                            {!v.wrapper.oldPolicy.Treaty_Version__r.Ceded_4x1_Rate__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if
+                                            isTrue="{!not(empty(v.wrapper.currPolicy.Treaty_Version__r.Ceded_4x1_Rate__c))}">
+                                            {!v.wrapper.currPolicy.Treaty_Version__r.Ceded_4x1_Rate__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="heading">Endorsement Mod Information</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop"></th>
+                            <th class="rightTop">Previous Policy</th>
+                            <th>Current Policy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.Mod_230__c == v.wrapper.oldPolicy.Mod_230__c}">
+                            <tr>
+                                <th>Mod_230</th>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.oldPolicy.Mod_230__c))}">
+                                        {!v.wrapper.oldPolicy.Mod_230__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.currPolicy.Mod_230__c))}">
+                                        {!v.wrapper.currPolicy.Mod_230__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Mod_230</th>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.oldPolicy.Mod_230__c))}">
+                                            {!v.wrapper.oldPolicy.Mod_230__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.currPolicy.Mod_230__c))}">
+                                            {!v.wrapper.currPolicy.Mod_230__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.Mod_234__c == v.wrapper.oldPolicy.Mod_234__c}">
+                            <tr>
+                                <th>Mod_234</th>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.oldPolicy.Mod_234__c))}">
+                                        {!v.wrapper.oldPolicy.Mod_234__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.currPolicy.Mod_234__c))}">
+                                        {!v.wrapper.currPolicy.Mod_234__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Mod_234</th>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.oldPolicy.Mod_234__c))}">
+                                            {!v.wrapper.oldPolicy.Mod_234__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.currPolicy.Mod_234__c))}">
+                                            {!v.wrapper.currPolicy.Mod_234__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.wrapper.currPolicy.Mod_261__c == v.wrapper.oldPolicy.Mod_261__c}">
+                            <tr>
+                                <th>Mod_261</th>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.oldPolicy.Mod_261__c))}">
+                                        {!v.wrapper.oldPolicy.Mod_261__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!not(empty(v.wrapper.currPolicy.Mod_261__c))}">
+                                        {!v.wrapper.currPolicy.Mod_261__c}
+                                        <aura:set attribute="else">
+                                            N/A
+                                        </aura:set>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                            <aura:Set attribute="else">
+                                <tr>
+                                    <th class="isChanged">Mod_261</th>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.oldPolicy.Mod_261__c))}">
+                                            {!v.wrapper.oldPolicy.Mod_261__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td class="isChanged">
+                                        <aura:if isTrue="{!not(empty(v.wrapper.currPolicy.Mod_261__c))}">
+                                            {!v.wrapper.currPolicy.Mod_261__c}
+                                            <aura:set attribute="else">
+                                                N/A
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:Set>
+                        </aura:if>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="heading">Lawyer Information</div>
+                <div style="display: flex;">
+                    <div style="flex: 1;">
+                        <table class="slds-table_cell-buffer">
+                            <thead>
+                                <tr>
+                                    <th class="leftTop rightTop" style="text-align: center;" colspan="5">
+                                        Previous Policy Lawyer
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="slds-truncate" width="60%">Full Name</th>
+                                    <th class="slds-truncate" width="20%">PAD</th>
+                                    <th class="slds-truncate" width="20%">Step</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.wrapper.prevPolicyLawyers}" var="lawyer">
+                                    <tr>
+                                        <td
+                                            class="{!lawyer.firstName.isChanged ? 'isChanged' : (lawyer.firstName.isRemoved ? 'isRemoved' : 'leftBottom')}">
+                                            {!lawyer.firstName.formattedVal}
+                                        </td>
+                                        <td
+                                            class="{!lawyer.priorActDate.isChanged ? ' isChanged' : (lawyer.priorActDate.isRemoved ? ' isRemoved' : '')}">
+                                            {!lawyer.priorActDate.formattedVal}
+                                        </td>
+                                        <td
+                                            class="{!(lawyer.step.isChanged ? ' isChanged' : (lawyer.step.isRemoved ? ' isRemoved' : ' rightBottom '))}">
+                                            {!lawyer.step.formattedVal}
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="flex: 1;">
+                        <table class="slds-table_cell-buffer">
+                            <thead>
+                                <tr>
+                                    <th class="leftTop rightTop" style="text-align: center;" colspan="5">
+                                        Current Policy Lawyer
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="slds-truncate" width="60%">Full Name</th>
+                                    <th class="slds-truncate" width="20%">PAD</th>
+                                    <th class="slds-truncate" width="20%">Step</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.wrapper.currPolicyLawyers}" var="item">
+                                    <tr >
+                                        <td class="{!item.isNew ? 'newLawyer' : 'leftBottom'}">{!item.lawObj.First_Name_Contact__c}
+                                            <aura:if isTrue="{!item.lawObj.Middle_Name_Contact__c != null}">
+                                                &nbsp;{!item.lawObj.Middle_Name_Contact__c}
+                                            </aura:if>
+                                            &nbsp;{!item.lawObj.Last_Name_Contact__c}
+                                        </td>
+                                        <td class="{!item.isNew ? 'newLawyer' : ''}">
+                                            {!item.priorActDate}
+                                        </td>
+                                        <td class="{!item.isNew ? ' newLawyer' : 'rightBottom'}">{!item.lawObj.Step__c}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="heading">AOP</div>
+                <table class="slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th class="leftTop">Previous Policy AOP</th>
+                            <th>Factor Mod</th>
+                            <th>Percentage</th>
+                            <th>Current Policy AOP</th>
+                            <th>Factor Mod</th>
+                            <th class="rightTop">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{!not(empty(v.wrapper.aopComparisons))}">
+                            <aura:iteration items="{!v.wrapper.aopComparisons}" var="comp">
+                                <tr>
+                                    <th>
+                                        <aura:if isTrue="{!not(empty(comp.previous))}">
+                                            {!comp.previous.AOP__r.Name}
+                                        </aura:if>
+                                    </th>
+                                    <td>
+                                        <aura:if isTrue="{!not(empty(comp.previous))}">
+                                            {!comp.previous.Factor_Mod__c}
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!not(empty(comp.previous))}">
+                                            <lightning:formattedNumber value="{!comp.previous.Percentage__c}"
+                                                style="percent-fixed" maximumFractionDigits="2"
+                                                minimumFractionDigits="2" />
+                                        </aura:if>
+                                    </td>
+                                    <th>
+                                        <aura:if isTrue="{!not(empty(comp.current))}">
+                                            {!comp.current.AOP__r.Name}
+                                        </aura:if>
+                                    </th>
+                                    <td>
+                                        <aura:if isTrue="{!not(empty(comp.current))}">
+                                            {!comp.current.Factor_Mod__c}
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!not(empty(comp.current))}">
+                                            <lightning:formattedNumber value="{!comp.current.Percentage__c}"
+                                                style="percent-fixed" maximumFractionDigits="2"
+                                                minimumFractionDigits="2" />
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </aura:if>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</aura:component>

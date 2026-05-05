@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Area_of_Practice</fullName>
+    <active>true</active>
+    <label>Area of Practice</label>
+    <picklistValues>
+        <picklist>Factor_Type__c</picklist>
+        <values>
+            <fullName>AOP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Base Value</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Coverage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deductible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Step Rate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

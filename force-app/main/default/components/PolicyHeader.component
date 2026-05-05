@@ -1,0 +1,15 @@
+<apex:component controller="Policy_Header_Ctrl" >
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%;" class="tableDataLeft">
+                <apex:image url="{!$Resource.ISBA_Logo_125x70 }" width="125" height="70"/>
+            </td>
+            <td style="width:50%; white-space:nowrap !important; text-align: right;" align="right" class="normalParagraph">
+                Effective:&nbsp;<apex:outputText value="{0,date,MMM d, yyyy}" rendered="{!if(policy==null,false,true)}"> <apex:param value="{!policy.Effective_Date__c}" /> </apex:outputText> <apex:outputText value="{0,date,MMM d, yyyy} 12:01 AM CST" rendered="{!if(policy==null,true,false)}"> <apex:param value="{!endorsement.Endorsement_Effective_Date__c}" /> </apex:outputText><br/>
+                Policy #:&nbsp;<apex:outputField value="{!policy.Name}" rendered="{!if(policy==null,false,true)}"/><apex:outputField value="{!endorsement.Policy_Number__c}" rendered="{!if(policy==null,true,false)}"/><br/>
+                <apex:outputField value="{!policy.Account__r.Name}" rendered="{!if(policy==null,false,true)}"/><apex:outputField value="{!endorsement.Policy_Firm__c}" rendered="{!if(policy==null,true,false)}"/>
+            </td>
+        </tr>
+    </table>
+</apex:component>

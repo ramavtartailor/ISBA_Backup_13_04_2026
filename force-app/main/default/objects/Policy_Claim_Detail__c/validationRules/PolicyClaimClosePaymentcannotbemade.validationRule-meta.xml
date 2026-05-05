@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PolicyClaimClosePaymentcannotbemade</fullName>
+    <active>false</active>
+    <description>If master claim has been closed then user can not make any payment.</description>
+    <errorConditionFormula>Policy_Claim__r.Claim_Closed__c &amp;&amp;
+ RecordType.Name = &apos;Claim Payment&apos;</errorConditionFormula>
+    <errorMessage>Payment cannot be made if  &apos;Claim&apos; is Closed!</errorMessage>
+</ValidationRule>

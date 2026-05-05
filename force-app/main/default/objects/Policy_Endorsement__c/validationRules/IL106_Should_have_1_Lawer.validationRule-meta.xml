@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IL106_Should_have_1_Lawer</fullName>
+    <active>true</active>
+    <description>The number of lawyer associated with the Policy should be only 1.</description>
+    <errorConditionFormula>AND( RecordType.DeveloperName = &apos;IL_106_AMENDMENT_OF_EXTENDED_REPORTING_PERIOD&apos;,  Policy__r.Number_of_Lawyers__c &gt; 1 )</errorConditionFormula>
+    <errorMessage>106 endorsement invalid on policies with multiple lawyers</errorMessage>
+</ValidationRule>

@@ -1,0 +1,58 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Past Acts Coverage Buyback Endorsement
+    </p>
+    <p class="normalParagraph">
+        This endorsement amends this Policy.
+    </p>
+    <ol>
+        <li>
+            <p class="normalParagraph">
+                Such coverage as is afforded by this Policy is extended to include a<span class="normalBoldParagraph"> Claim </span>for a<span class="normalBoldParagraph"> Wrongful Act </span>committed by &nbsp;<apex:outputField value="{!endorsement.Attorney__c}"/> during the following term(s) at 12:01 a.m. Central Standard Time:<br/>
+                <table  cellspacing="0" cellpadding="0" style="width:100%; padding-top: 20px; padding-bottom: 20px;">
+                    <tr>
+                        <td style="width:50%;" class="ztableDataCenter">
+                            <p class="normalParagraph ztableDataCenter">
+                                <span class="normalBoldParagraph" style="text-decoration: underline">Name of Firm </span>
+                            </p>
+                        </td>
+                        <td style="width:50%;" class="ztableDataCenter">
+                            <p class="normalParagraph ztableDataCenter">
+                                <span class="normalBoldParagraph" style="text-decoration: underline">Term </span>
+                            </p>
+                        </td>
+                    </tr>
+                    <apex:repeat value="{!termList}" var="term">
+                        <tr>
+                            <td style="width:50%;" class="ztableDataCenter">
+                                <p class="normalParagraph ztableDataCenter">
+                                    <apex:outputField value="{!term.Firm_Entity__c}"/>
+                                </p>
+                            </td>
+                            <td style="width:50%;" class="ztableDataCenter">
+                                <p class="normalParagraph ztableDataCenter">
+                                    <apex:outputText value="{0,date,MMMM dd, yyyy}"> <apex:param value="{!term.Term_Start_Date__c}" /></apex:outputText>&nbsp;&nbsp;-&nbsp;&nbsp;<apex:outputText value="{0,date,MMMM dd, yyyy}"> <apex:param value="{!term.Term_End_Date__c}" /> </apex:outputText>
+                                </p>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+            </table>
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                This extension of coverage does not apply to any<span class="normalBoldParagraph"> Claim </span>made against the<span class="normalBoldParagraph"> Insured </span>named above for a<span class="normalBoldParagraph"> Wrongful Act </span>which occurred prior to the date such<span class="normalBoldParagraph"> Insured </span>joined the above named firm(s)/entity(ies).
+            </p>
+        </li>
+    </ol>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:210px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

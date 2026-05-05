@@ -1,0 +1,4 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId,force:appHostable" controller="CompleteAndCreateFollowUpTaskCtrl">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:spinner alternativeText="Loading" size="medium" aura:id="spinner" />
+</aura:component>

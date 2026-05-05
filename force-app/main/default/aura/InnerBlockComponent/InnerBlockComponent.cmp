@@ -1,0 +1,46 @@
+<aura:component >
+    <aura:attribute name="BlocksInstance" type="Application_Block__c"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <aura:registerEvent name="NavigateToBlockRecord" type="c:NavigateToBlockRecord"/> 
+    <aura:registerEvent name="ChangeBlockStatus" type="c:ChangeBlockStatus"/> 
+    <!-- Table Row -->  
+    <tr class="slds-text-title_caps" style="{!v.BlocksInstance.Status__c=='Active' ? 'background-color:#EEA2AD' :''}">
+        <td> 
+            {!v.rowIndex + 1}
+        </td>
+        <td>
+            <a onclick="{!c.goToRecord}">{!v.BlocksInstance.Name}</a>
+        </td>
+        <td>
+            <ui:outputDate  value="{!v.BlocksInstance.CreatedDate}"/>
+        </td>
+        <td>
+            <ui:outputText  value="{!v.BlocksInstance.Created_By_Name__c}"/>
+        </td>
+        <td>
+            <ui:outputText value="{!v.BlocksInstance.Status__c}"/>
+        </td>
+         <td>
+            <a onclick="{!c.statusChange}">{!v.BlocksInstance.Status__c=='Active' ? 'Disable' :'Activate'}</a>
+        </td>
+        <!--<td>
+            <ui:outputText value="{!v.BlocksInstance.Subject__c}"/>
+        </td>
+        <td>
+            <ui:outputRichText value="{!v.BlocksInstance.Description__c}"/>
+        </td>-->
+    </tr>
+    <tr>
+        <td>
+        	&nbsp;
+        </td>
+        <td colspan="6">
+            <div class="slds-cell-wrap" style="font-size:15px;padding: 15px;">
+                <b><ui:outputText value="{!v.BlocksInstance.Subject__c}"/></b><br/><br/>
+                <ui:outputRichText value="{!v.BlocksInstance.Description__c}"/>
+            </div>
+        </td>
+    </tr>
+</aura:component>

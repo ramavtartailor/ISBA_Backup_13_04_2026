@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_Reserve_is_not_allowed_4_ClaimClose</fullName>
+    <active>false</active>
+    <description>If master claim is closed then user reserve can not allowed.</description>
+    <errorConditionFormula>Policy_Claim__r.Claim_Closed__c &amp;&amp;
+   ISPICKVAL(Type__c, &apos;User Reserve&apos;)</errorConditionFormula>
+    <errorDisplayField>Type__c</errorDisplayField>
+    <errorMessage>&quot;User Reserve&quot; cannot be made if  &apos;Claim&apos; is Closed!</errorMessage>
+</ValidationRule>

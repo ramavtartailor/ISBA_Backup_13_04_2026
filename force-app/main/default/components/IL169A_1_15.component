@@ -1,0 +1,41 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Securities Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that there is no coverage under this Policy for any<span class="normalBoldParagraph"> CLAIM </span>or<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>resulting from or arising out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>involving<span class="normalBoldParagraph"> SECURITIES WORK. </span>
+    </p>
+    <p class="normalParagraph">
+        In addition,<span class="normalBoldParagraph"> III. DEFINITIONS, R. SECURITIES WORK </span>is added to this Policy as follows:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <!--<td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> R. </span>
+                </p>
+            </td>-->
+            <td style="width:100%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> R. SECURITIES WORK </span>means all acts or omissions relating to a sale, purchase, offer to sell or purchase, or the solicitation of an offer to sell or purchase, a security covered by, or claimed to be covered, in whole or in part by the Securities Act of 1933, the Securities Exchange Act of 1934, the Investment Advisors Act of 1940, or any other Federal or State Blue Sky or Securities Law, or any rules or regulations issued pursuant to any of the referenced Acts, or any amendments thereto.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:390px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- ISBAM Error --></label>
+    <name>ISBAM_Error__c</name>
+    <picklistValues>
+        <masterLabel>Rejected Cash Receipt</masterLabel>
+        <translation><!-- Rejected Cash Receipt --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rejected Payment</masterLabel>
+        <translation><!-- Rejected Payment --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

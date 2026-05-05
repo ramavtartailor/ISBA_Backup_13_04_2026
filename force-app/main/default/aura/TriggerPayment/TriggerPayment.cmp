@@ -1,0 +1,26 @@
+<aura:component  implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable" controller="TriggerPaymentCtrl">
+	<aura:attribute name="spinner" type="boolean" default="false"/>
+    <aura:attribute name="noteText" type="String" />
+    <aura:attribute name="triggerPaymentButtonEnable"  type="boolean" default="true" ></aura:attribute>
+    <div aura:id="confirmBox" class="container slds-p-around--large slds-scrollable_y">
+        <div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-3 slds-p-top--large slds-text-heading--medium">
+                    <label>Note Text:<span class="slds-m-left--x-small" style="color:red">*</span>:</label> 
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-top--medium slds-p-left--medium">
+                    <lightning:textarea  onchange="{!c.checkRequiredField}" aura:id="noteText" value="{!v.noteText}" name="noteText" class="slds-size--10-of-12"/>
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container slds-is-relative ">
+                <lightning:spinner  style="height: 245px;margin-top: -39%;" alternativeText="Loading"  size="large" variant="brand"/>
+            </div>
+        </aura:if>
+    </div>
+    <div slot="footer " class="slds-modal__footer">
+        <lightning:button variant="neutral" onclick="{!c.closeModal}" label="Cancel" />
+        <lightning:button variant="brand" disabled="{!v.triggerPaymentButtonEnable}" onclick="{!c.triggerPayment}" class="slds-m-right--medium" label="Trigger Payment" />       
+    </div>
+</aura:component>

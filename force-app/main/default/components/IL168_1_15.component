@@ -1,0 +1,27 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended to include the following Exclusion:
+    </p>
+    <p class="normalParagraph">
+        The Policy does not apply to any<span class="normalBoldParagraph"> CLAIM </span>arising out of<span class="normalBoldParagraph"> WRONGFUL ACTS </span>against an<span class="normalBoldParagraph"> INSURED </span>acting as a(n) &nbsp;<apex:outputField value="{!endorsement.Broker__c}"/>.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:510px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

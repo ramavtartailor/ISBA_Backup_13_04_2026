@@ -1,0 +1,1985 @@
+<apex:page showHeader="false" sidebar="false" controller="PaymentGateway_Ctrl">
+    <html><head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>Payments - ISBA Mutual</title>
+        <script>
+        var globalStaticResourcePath = '{!URLFOR($Resource.ISBA_Payment)}';
+        </script>
+        <script src="{!URLFOR($Resource.ISBA_Payment, 'ISBA_Payment/jquery.min.js')}"></script> 
+        <style id="stylerStyle"></style><script id="stylerScript"></script>
+        <script src="{!URLFOR($Resource.ISBA_Payment, 'ISBA_Payment/semantic.min.js')}"></script>
+        
+        <script src="https://kit.fontawesome.com/8c605ec374.js" crossorigin="anonymous"></script>
+        
+        <apex:stylesheet value="{!URLFOR($Resource.ISBA_Payment, 'ISBA_Payment/semantic.min.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.ISBA_Payment, 'ISBA_Payment/semantic-mobile.css')}"/>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                if('{!redirectUrl}'){
+                    window.open('{!redirectUrl}','_self');
+                }
+            });
+        	/*window.onload = function myOnLoadFunction() {
+                if('{!redirectUrl}'){
+                    window.open('{!redirectUrl}','_self');
+                }
+            }*/
+        </script>
+        
+        <style>
+            @import url('http://fonts.cdnfonts.com/css/lato');
+        </style>                
+        
+        <style>
+            body div {
+            font-family: 'Lato', sans-serif !important;
+            }
+            
+            #payment-gateway {
+            max-width: 1000px !important;
+            }
+            
+            
+        </style>
+        
+        <style> .dateFormat{display:none;} </style>
+        
+        
+        <script>
+        
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        
+        // global vars
+        var validationArray = [];
+        var validClass="field";
+        var errorClass="field error";     
+        
+        
+        /*********************************************************        
+     * LOGIC:  check ACH routing number ABA) 
+     ********************************************************/
+        function isValidRoutingNumber(routingNumber) {
+            
+            // check null/blank
+            if (!routingNumber) {
+                return false;
+            }
+            
+            // pad 0's tp 9 digits
+            var routing = routingNumber.toString();
+            while (routing.length < 9) {
+                routing = '0' + routing;
+            }
+            
+            // varify length of 9 didgits
+            var match = routing.match("^\\d{9}$");
+            if (!match) {
+                return false;
+            }
+            
+            // https://en.wikipedia.org/wiki/Routing_transit_number
+            // first two digits must be in the ranges;
+            //    00 through 12, 
+            //    21 through 32,
+            //    61 through 72,
+            //    or 80.
+            // 
+            const start = parseInt(routing.substring(0, 2));
+            const valid_start =  (0 <= start && start <= 12)
+            || (21 <= start && start <= 32)
+            || (61 <= start && start <= 72)
+            || start === 80;
+            if (!valid_start) {
+                return false;
+            }
+            
+            // test checksum
+            // http://www.siccolo.com/Articles/SQLScripts/how-to-create-sql-to-calculate-routing-check-digit.html
+            const weights = [3, 7 ,1];
+            var sum = 0;
+            for (var i=0 ; i<8; i++) {
+                sum += parseInt(routing[i]) * weights[i % 3];
+            }
+            
+            return (10 - (sum % 10)) % 10 === parseInt(routing[8]);
+        }
+        
+        
+        
+        /*********************************************************        
+     * UI:  validate ACH routing number (ABA)
+     ********************************************************/        
+        function validateRoutingNumber(){
+            console.log("validateRoutingNumber");
+            let routingNumber = document.getElementById('{!$Component.form1.routingNumberId}').value;
+            let routingDiv = document.getElementById('routingNumberDiv');
+            if (!isValidRoutingNumber(routingNumber)){
+                //console.log("validateRoutingNumber failed: ",routingNumber);
+                routingDiv.className = errorClass;
+                return false;
+            }
+            routingDiv.className = validClass;
+            //console.log("validateRoutingNumber success: ", routingNumber);
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+     * LOGIC:  check ACH account number)  
+     ********************************************************/ 
+        // isValidAccountNumber
+        function isValidAccountNumber(accountNumber){
+            if (accountNumber && !isNaN(accountNumber) && accountNumber.length > 3 && accountNumber.length < 18){
+                return true;
+            }
+            return false;
+        }
+        
+        
+        /*********************************************************        
+     * UI:  validate ACH account number
+     ********************************************************/          
+        function validateAccountNumber(){
+            console.log("validateAccountNumber");
+            let accountNumber = document.getElementById('{!$Component.form1.accountNumberId}').value;
+            let accountDiv = document.getElementById('accountNumberDiv');
+            if (!isValidAccountNumber(accountNumber)){
+                //console.log("validateAccountNumber failed: ",accountNumber);
+                accountDiv.className = errorClass;
+                return false;
+            }
+            accountDiv.className = validClass;
+            //console.log("validateAccountNumber success: ", accountNumber);
+            return true;
+        }
+        
+        
+        
+     /*********************************************************        
+     * LOGIC:  validate credit card number
+     ********************************************************/         
+        function isValidCC(cardNumber) {
+            cardNumber = cardNumber.split(' ').join("");
+            if (parseInt(cardNumber) <= 0 || (!/\d{15,16}(~\W[a-zA-Z])*$/.test(cardNumber)) || cardNumber.length > 16) {
+                return false;
+            }
+            var carray = new Array();
+            for (var i = 0; i < cardNumber.length; i++) {
+                carray[carray.length] = cardNumber.charCodeAt(i) - 48;
+            }
+            carray.reverse();
+            var sum = 0;
+            for (var i = 0; i < carray.length; i++) {
+                var tmp = carray[i];
+                if ((i % 2) != 0) {
+                    tmp *= 2;
+                    if (tmp > 9) {
+                        tmp -= 9;
+                    }
+                }
+                sum += tmp;
+            }
+            return ((sum % 10) == 0);
+        }
+        
+        
+     /*********************************************************        
+     * LOGIC:  validate CVV number
+     ********************************************************/        
+        function isValidCVV(cvvNumber, ccType){
+            
+            let obj = {
+                valid: true,
+                cvv: cvvNumber,
+                cctype: ccType,
+                error: '',
+            }
+            
+            // check null/blank
+            if (!cvvNumber || !ccType) {
+                obj.valid = false;
+                obj.error = 'CCV is empty';
+            }
+            
+            let cvv = cvvNumber.toString();
+            
+            if (ccType === 'amex'){
+                var match = cvv.match("^\\d{4}$");
+                if (!match) {
+                    obj.valid = false;
+                    obj.error = "CVV must be 4 digits"
+                }
+            } else {
+                var match = cvv.match("^\\d{3}$");
+                if (!match) {
+                    obj.valid = false;
+                    obj.error = "CVV must be 3 digits"
+                }
+            }
+            
+            return obj;
+        }
+        
+        
+        
+        /*********************************************************        
+     * LOGIC:  determine credit card type by number         
+     ********************************************************/
+        function ccCardType(cardNumber) { // returns card type; should not rely on this for checking if a card is valid
+            console.log("ccCardType");
+            cardNumber = cardNumber.split(' ').join("");
+            var o = {
+                //electron: /^(4026|417500|4405|4508|4844|4913|4917)\d+$/,
+                //maestro: /^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/,
+                //dankort: /^(5019)\d+$/,
+                //interpayment: /^(636)\d+$/,
+                //unionpay: /^(62|88)\d+$/,
+                visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+                mastercard: /^5[1-5][0-9]{14}$/,
+                amex: /^3[47][0-9]{13}$/,
+                //diners: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+                discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
+                //jcb: /^(?:2131|1800|35\d{3})\d{11}$/
+            }
+            for(var k in o) {
+                if(o[k].test(cardNumber)) {
+                    console.log("ccCardType: ", k);
+                    return k;
+                }
+            }
+            return null;
+        }
+        
+        
+        
+        
+        /*********************************************************        
+     * LOGIC:  compare computed credit card type vs credit card type dropdown 
+     ********************************************************/        
+        // 
+        function compareCCType(){
+            let ccSelect = document.getElementById('{!$Component.form1.cardTypeVarId}').value;
+            let ccNumber = document.getElementById('{!$Component.form1.cardNumberId}').value;
+            if (!ccNumber || !isValidCC(ccNumber)){
+                return true;    // CC type should not be considered invalid if CC number is invalid
+            }
+            let ccType = ccCardType(ccNumber);
+            //console.log(`${ccType} === ${ccSelect}`);
+            if (ccType === 'amex' && ccSelect === 'amex'){ return true; }
+            if (ccType === 'discover' && ccSelect === 'disc'){ return true; }
+            if (ccType === 'mastercard' && ccSelect === 'mast'){ return true; }
+            if (ccType === 'visa' && ccSelect === 'visa'){ return true; }
+            return false;
+        }
+        
+        
+        
+        /*********************************************************        
+     * UI:  validate UI for credit card type
+     *******************************************************
+    function validateCCType(){
+        console.log("validateCCType");
+        let ccNumber = document.getElementById('{!$Component.form1.cardNumberId}').value;
+        let ccDiv = document.getElementById('cardNumberDiv');
+        showCCType(ccNumber);
+        if (!isValidCC(ccNumber)){
+            //console.log("ValidateCC failed: ",ccNumber);
+            ccDiv.className = errorClass;
+            return false;
+        }
+        ccDiv.className = validClass;
+        //console.log("ValidateCC success: ", ccNumber);
+        return true;
+    }
+      */
+        
+        
+        /*********************************************************        
+     * UI:  show/hide credit card brand logo
+     ********************************************************/        
+        function showCCType(ccNumber){
+            let ccType = ccCardType(ccNumber);
+            let ccTypeDiv = document.getElementById('cc-type');
+            let ccTypeClass = '';
+            let ccIconClass = '';
+            if (!compareCCType()){
+                ccIconClass = 'cc-error';
+            } else {
+                ccIconClass = 'cc-icon';
+            }
+            if (ccType){
+                ccTypeClass = `fab fa-3x fa-cc-${ccType} ${ccIconClass}`;
+            }
+            //console.log("showCCType: ", ccTypeClass);
+            ccTypeDiv.className = ccTypeClass
+        }
+        
+        // creditCardListDiv
+        // cardTypeVarId
+        // if(document.getElementById('{!$Component.form1.expireMonthId}').value!=''){
+        
+        
+        
+        
+        /*********************************************************        
+     * UI:  validate UI for credit card number
+     ********************************************************/        
+        // 
+        function validateCCType(){
+            console.log("validateCCType");
+            let ccListDiv = document.getElementById('creditCardListDiv');
+            ccListDiv.className = validClass;
+            if (!compareCCType()){
+                //console.log("CC match: ", compareCCType());
+                ccListDiv.className = errorClass;
+                return false;
+            }
+            //console.log("ValidateCC success: ", ccNumber);
+            let ccNumber = document.getElementById('{!$Component.form1.cardNumberId}').value;
+            let cvv = document.getElementById('{!$Component.form1.verificationNumberId}').value;
+            showCCType(ccNumber);
+            if (cvv){
+                validateCVV();
+            }
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+     * UI:  validate UI for credit card number
+     ********************************************************/        
+        // 
+        function validateCC(){
+            console.log("validateCC");
+            let ccNumber = document.getElementById('{!$Component.form1.cardNumberId}').value;
+            let ccDiv = document.getElementById('cardNumberDiv');
+            ccDiv.className = validClass;        
+            showCCType(ccNumber);
+            if (!isValidCC(ccNumber)){
+                //console.log("ValidateCC failed: ",ccNumber);
+                ccDiv.className = errorClass;
+                return false;
+            }
+            validateCCType();
+            //console.log("ValidateCC success: ", ccNumber);
+            let cvv = document.getElementById('{!$Component.form1.verificationNumberId}').value;
+            if (cvv){
+                validateCVV();
+            }
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+     * UI:  validate UI for credit card CVV
+     ********************************************************/
+        function validateCVV(){
+            console.log("validateCVV");
+            let cvv = document.getElementById('{!$Component.form1.verificationNumberId}').value;
+            let cvvDiv = document.getElementById('verificationNumberDiv');
+            let ccNumber = document.getElementById('{!$Component.form1.cardNumberId}').value;
+            cvvDiv.className = validClass;
+            if (validateCC){
+                let ccType = ccCardType(ccNumber);
+                if (ccType){
+                    let cvvResult = isValidCVV(cvv, ccType);
+                    if (!cvvResult || !cvvResult.valid){
+                        //console.log("validateCVV failed : ", cvvResult);
+                        cvvDiv.className = errorClass;
+                        return false;
+                        
+                    }
+                }
+            }
+            //console.log("validateCVV success: ", ccNumber, cvv);
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+    * LOGIC/UI:  validate first name
+    *********************************************************/        
+        // 
+        function validateFirstName(){
+            console.log("validateFirstName");
+            let v = document.getElementById('{!$Component.form1.firstNameId}').value;
+            let div = document.getElementById('firstNameDiv');
+            div.className = validClass;
+            if (!v){
+                div.className = errorClass;
+                return false;
+            }
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate last name
+    *********************************************************/        
+        // 
+        function validateLastName(){
+            console.log("validateLastName");
+            let v = document.getElementById('{!$Component.form1.lastNameId}').value;
+            let div = document.getElementById('lastNameDiv');
+            div.className = validClass;
+            if (!v){
+                div.className = errorClass;
+                return false;
+            }
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate ACH account type
+    *********************************************************/        
+        // 
+        function validateAccountTypeACH(){
+            console.log("validateAccountTypeACH");
+            let v = document.getElementById('{!$Component.form1.accountTypeId}').value;
+            let div = document.getElementById('accountTypeDiv');
+            div.className = validClass;
+            if (!v){
+                div.className = errorClass;
+                return false;
+            }
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate ACH account holder
+    *********************************************************/        
+        // 
+        function validateAccountHolderACH(){
+            console.log("validateAccountHolderACH");
+            let v = document.getElementById('{!$Component.form1.accountHolderNameId}').value;
+            let div = document.getElementById('accountHolderNameDiv');
+            div.className = validClass;
+            if (!v){
+                div.className = errorClass;
+                return false;
+            }
+            return true;
+        }
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate CC expire year
+    *********************************************************/        
+        // 
+        function validateExpireYear(){
+            console.log("validateExpireYear");
+            let y = document.getElementById('{!$Component.form1.expireYearId}').value;
+            let div = document.getElementById('expireYearDiv');
+            div.className = validClass;
+            if (!y){
+                div.className = errorClass;
+                return false;
+            }
+            validateExpireMonth();
+            return true;
+        }    
+        
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate CC expire month
+    *********************************************************/        
+        // 
+        function validateExpireMonth(){
+            console.log("validateExpireMonth");
+            let y = document.getElementById('{!$Component.form1.expireYearId}').value;
+            let m = document.getElementById('{!$Component.form1.expireMonthId}').value;
+            let div = document.getElementById('expireMonthDiv');
+            div.className = validClass;
+            if (!m){
+                div.className = errorClass;
+                return false;
+            }
+            if (!y){
+                return true;
+            }
+            var dateObj = new Date();
+            var yearGreater = false;
+            let thisYear = dateObj.getFullYear();
+            let thisMonth = dateObj.getMonth() + 1;
+            
+            if (y == thisYear){
+                if(m < thisMonth){
+                    div.className = errorClass;
+                    return false;
+                }
+            }
+            return true;
+        }    
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate CC name of card
+    *********************************************************/        
+        // 
+        function validateNameOnCardCC(){
+            console.log("validateNameOnCardCC");
+            let v = document.getElementById('{!$Component.form1.nameOnCardId}').value;
+            let div = document.getElementById('nameOnCardDiv');
+            div.className = validClass;
+            if (!v){
+                div.className = errorClass;
+                return false;
+            }
+            return true;
+        }
+        
+        
+        
+        /*********************************************************        
+    * LOGIC/UI/UI:  validate confirmation email
+    *********************************************************/        
+        // 
+        function validateConfirmationEmail(){
+            console.log("validateConfirmationEmail");
+            let x = document.getElementById('{!$Component.form1.confirmationEmailId}').value;
+            let div = document.getElementById('confirmationEmailDiv');
+            div.className = validClass;
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(!(x.trim().match(mailformat))){
+                div.className = errorClass;
+                return false;
+            }
+            return true;
+        }
+        
+        
+        
+        
+        
+        
+        
+        ////////////////////////////////////////////////////////////////////////////////////        
+        
+        
+        function validateFields(nextStage,paymentTypeVar){
+            if(nextStage == 'schedule'){
+                
+                // check invoice, policy and zipdoe
+                if(document.getElementById('{!$Component.form1.policyInvoiceNumberId}').value!=''){
+                    document.getElementById('policyInvoiceNumberDiv').className = 'field';
+                    if(document.getElementById('{!$Component.form1.zipCodeId}').value!=''){
+                        document.getElementById('zipCodeDiv').className = 'field';
+                        next('schedule');
+                    }else{
+                        document.getElementById('zipCodeDiv').className = 'field error';                        
+                    }    
+                }else{
+                    document.getElementById('policyInvoiceNumberDiv').className = 'field error';
+                    if(document.getElementById('{!$Component.form1.zipCodeId}').value!=''){
+                        document.getElementById('zipCodeDiv').className = 'field';
+                    }else{
+                        document.getElementById('zipCodeDiv').className = 'field error'; 
+                    }    
+                }    
+                
+            }else if(nextStage == 'processPayment'){
+                
+                // clear payment error
+                let payment_error_div = document.getElementById('__paymentError');
+                if (payment_error_div){
+                    payment_error_div.innerHTML = "";
+                }
+                
+                var error = false;
+                
+                // validate first name
+                if (!validateFirstName()){
+                    error = true;
+                }
+                
+                // validate last name
+                if (!validateLastName()){
+                    error = true;
+                }
+                
+                if(paymentTypeVar == 'check'){
+                    
+                    // validate ACH routing number (ABA)
+                    if (!validateRoutingNumber()){
+                        error = true;
+                    }
+                    
+                    // validate ACH account number
+                    if (!validateAccountNumber()){
+                        error = true;
+                    }
+                    
+                    // validate ACH account type
+                    if (!validateAccountTypeACH()){
+                        error = true;
+                    }
+                    
+                    // validate ACH account holder
+                    if (!validateAccountHolderACH()){
+                        error = true;
+                    }
+                    
+                    
+                    // CREDIT CARD VALIDATION
+                } else if(paymentTypeVar == 'creditCard'){
+                    
+                    // check if card type matches card
+                    if (!compareCCType()){
+                        error = true;
+                    }
+                    
+                    // check if card type is valid
+                    if (!validateCCType()){
+                        error = true;   
+                    }
+                    
+                    // validate credit card number
+                    if (!validateCC()){
+                        error = true;       
+                    }
+                    
+                    // validate credit card CVV
+                    if (!validateCVV()){
+                        error = true;
+                    }
+                    
+                    // validate credit card month
+                    if (!validateExpireMonth()){
+                        error = true;
+                    }
+                    
+                    // validate credit card year
+                    if (!validateExpireYear()){
+                        error = true;
+                    }
+                    
+                    // validate CC name on card
+                    if (!validateNameOnCardCC()){
+                        error = true;
+                    }
+                    
+                }
+                
+                // validate CC name on card
+                if (!validateConfirmationEmail()){
+                    error = true;
+                }
+                
+                if(!error){
+                    next('processPayment');
+                } 
+            }    
+        }
+        $(document)
+        .ready(function() {
+            postProcessing();
+            // fix menu when passed
+            $('.masthead')
+            .visibility({
+                once: false,
+                onBottomPassed: function() {
+                    $('.fixed.menu').transition('fade in');
+                },
+                onBottomPassedReverse: function() {
+                    $('.fixed.menu').transition('fade out');
+                }
+            })
+            ;
+            
+            // create sidebar and attach to menu open
+            $('.ui.sidebar')
+            .sidebar('attach events', '.toc.item')
+            ;
+            
+        })
+        ;
+        
+        </script>
+        
+        
+        <style>
+            select {
+            background-color:#3498DB;
+            background-repeat:no-repeat;
+            background-position: right 10px top 15px;
+            background-size: 16px 16px;
+            color:white;
+            padding:12px;
+            width:auto;
+            font-family:arial,tahoma;
+            font-size:16px;
+            font-weight:bold;
+            color:#fff;
+            text-align:center;
+            text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
+            border-radius:3px;
+            -webkit-border-radius:3px;
+            
+            border:0;
+            outline:0;
+            -webkit-transition:0.3s ease all;
+            -moz-transition:0.3s ease all;
+            -ms-transition:0.3s ease all;
+            -o-transition:0.3s ease all;
+            transition:0.3s ease all;
+            }
+            
+            .blue {
+            background-color:#3498DB;
+            }
+            
+            .blue:hover {
+            background-color:#2980B9;
+            }
+            select:focus, select:active {
+            border:0;
+            outline:0;
+            }
+            .tooltip1:hover .tooltiptext1 {
+            visibility: visible;
+            }
+            .tooltip1 {
+            position: relative;
+            display: inline-block;
+            }
+            
+            .tooltip1 .tooltiptext1 {
+            visibility: hidden;
+            width: 200px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            }
+            .main{
+            min-height:100%; 
+            padding-bottom:100px; 
+            box-sizing:border-box;
+            }
+            .footer {
+            background-color: #fff;
+            position: absolute;
+            margin-top:-100px;
+            left: 0;
+            padding: 15px 0;
+            width: 100%;
+            },
+            #cancelation-policy {
+            
+            }
+            #cancelation-policy:hover {
+            cursor: pointer;
+            color: maroon;
+            font-weight: hold;
+            }
+            .field {
+            clear: both;
+            margin: 0 0 1em;
+            }
+            .ui.header {
+            clear: both;
+            margin: 0 0 1em;
+            }
+        </style>
+        <style type="text/css">
+            .rb {
+            border: 1px solid red;
+            }
+            #payment-gateway {
+            font-family: 'Avenir', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-align: left;
+            color: #2c3e50;
+            margin: 20px;
+            }
+            
+            
+            
+        </style><style type="text/css">
+        .container[data-v-1b706cf5] {
+        height: 70px;
+        margin-top: 25px;
+        font-size: 14pt;
+        }
+        .firm {
+        font-weight: bold;
+        }
+        .invoice {
+        color: blue;
+        margin-left: 15px;
+        font-weight: bold;
+        }
+        
+        
+        
+        </style><style type="text/css">
+        @media only screen and (max-width: 775px) {
+        .hide-small {
+        display: none !important;
+        }
+        }
+        .mouse:hover {
+        cursor: pointer;
+        color: red;
+        }
+        b {
+        font-weight: bold;
+        }
+        
+        </style><style type="text/css">
+        .tooltip {
+        margin-left: 10px;
+        }
+        
+        </style><style type="text/css">
+        .help {
+        padding-left: 10px;
+        }
+        .selected {
+        font-weight: bold;
+        }
+        .invoice {
+        display: inline;
+        color: blue;
+        margin-left: 15px;
+        font-weight: bold;
+        }
+        .install-date {
+        display: inline;
+        color: gray;
+        margin-left: 15px;
+        }
+        
+        
+        
+        </style><style type="text/css">
+        .b {
+        font-weight: bold;
+        }
+        .service-fee {
+        display: inline;
+        padding-left: 10px;
+        }
+        .serviceFeeOn {
+        color: maroon;
+        }
+        .service-attention {
+        font-weight: bold;
+        }
+        table.payment {
+        width: 100%;
+        border: 0px solid black;
+        }
+        table.payment tr td:first-child {
+        width: 150px;
+        }
+        table.payment tr td:nth-child(3) {
+        text-align: right;
+        }
+        table.additional-payment {
+        margin-left: 25px;
+        }
+        table.additional-payment tr td {
+        font-size: 11pt;
+        }
+        table.additional-payment tr td:first-child {
+        zwidth: 160px;
+        }
+        .total {
+        font-weight: bold;
+        color: black;
+        }
+        .total-today {
+        color: green;
+        font-weight: bold;
+        padding-left: 6%;
+        }
+        .help {
+        padding-left: 0px;
+        }
+        .invoice {
+        color: blue;
+        font-weight: bold;
+        }
+        .service {
+        color: #B53828;
+        font-weight: bold;
+        }
+        .installment-date {
+        display: inline;
+        color: grey;
+        margin-left: 15px;
+        white-space: nowrap;
+        }
+        .fee-installment {
+        margin-left: 9px;
+        color: maroon;
+        }
+        
+        </style><style type="text/css">
+        .b {
+        font-weight: bold;
+        }
+        .card-fee {
+        display: inline;
+        padding-left: 10px;
+        color: maroon !important;
+        }
+        .service-fee {
+        display: inline;
+        padding-left: 10px;
+        }
+        .serviceFeeOn {
+        color: maroon;
+        }
+        
+        
+        </style><style type="text/css">
+        label {
+        font-weight: bold;
+        }
+        .help {
+        padding-left: 10px;
+        }
+        .selected {
+        font-weight: bold;
+        }
+        .invoice {
+        display: inline;
+        color: blue;
+        margin-left: 15px;
+        font-weight: bold;
+        }
+        .install-date {
+        display: inline;
+        color: gray;
+        margin-left: 15px;
+        }
+        
+        
+        
+        </style>
+        
+        
+        <style>
+            
+            .rowSpacer: {
+            height: 10px;
+            }
+            
+            .cc-icon {
+            color: blue;
+            }
+            
+            .cc-error {
+            color: red;
+            }
+            
+        </style>
+        
+        
+        </head>
+        <body class="dimmable blurring">
+            <div class="main">
+                <apex:form id="form1">
+                    <apex:actionFunction name="next" action="{!nextFunction}" rerender="panel1" status="myStatus" oncomplete="postProcessing();">
+                        <apex:param name="currentStageValue" assignTo="{!currentStage}" value="{!currentStage}"/>
+                    </apex:actionFunction>
+                    <apex:actionFunction name="paymentSchedule" action="{!paymentScheduleFunction}" rerender="panel1" status="myStatus" oncomplete="postProcessing();" immediate="false">
+                        <apex:param value="{!warpperObj.paymentScheduleVar}" name="paymentScheduleValue" assignto="{!warpperObj.paymentScheduleVar}"/>
+                    </apex:actionFunction>
+                    <apex:actionFunction name="paymentType" action="{!paymentTypeFunction}" rerender="panel1" status="myStatus" oncomplete="postProcessing();">
+                        <apex:param value="{!warpperObj.paymentTypeVar}" name="paymentTypeValue" assignto="{!warpperObj.paymentTypeVar}"/>
+                    </apex:actionFunction>
+                    <apex:actionFunction name="cardType" action="{!cardTypeFunction}" rerender="panel1" status="myStatus" oncomplete="postProcessing();">
+                        <apex:param value="{!warpperObj.cardTypeVar}" name="cardTypeValue" assignto="{!warpperObj.cardTypeVar}"/>
+                    </apex:actionFunction>
+                    <apex:actionStatus id="myStatus">
+                        <apex:facet name="start">
+                            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 20; background-color: black;">
+                                &nbsp;
+                            </div>
+                            <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; opacity: 0.75; z-index: 20; margin: 30% 50%">
+                                <img src="{!URLFOR($Resource.ISBA_Payment,'ISBA_Payment/Cursor_Windows_Vista.gif')}" />
+                            </div>
+                        </apex:facet>
+                    </apex:actionStatus>
+                    <div id="app">
+                        <div id="payment-gateway" class="ui text container">    
+                            <div class="ui grid right aligned"><div class="center aligned two column row"><div class="ui left aligned column"><img src="https://www.isbamutual.com/wp-content/uploads/2021/02/ISBA-Logo-Wide.png"></img></div> <div class="column"><div class="ui" style="width: 100%; padding-right: 30px; border:0px solid red; position: absolute; bottom: 0; right 0;"><h2 style="color: rgb(0, 0, 0);">Online Payments</h2></div></div></div>
+                        </div> 
+                        <hr/>
+                        <div data-v-1b706cf5=""><!----> <div data-v-1b706cf5="">
+                            &nbsp;<br data-v-1b706cf5=""/><br data-v-1b706cf5=""/><br data-v-1b706cf5=""/></div></div> <div data-v-616eb668="" class="ui last container" style="margin-left: 100px;" id="breadcrump"><div data-v-616eb668="" class="hide-small ui three steps "><a data-v-616eb668="" href="#/" class=" step router-link-exact-active router-link-active active" id="findInvoice" style="cursor:pointer !important;text-decoration:none !important;"><i data-v-616eb668="" class="search icon"></i> <div data-v-616eb668="" class="content"><div data-v-616eb668="" class="title">Find Your Invoice</div> <div data-v-616eb668="" class="description">Find Invoice</div></div></a> <a data-v-616eb668="" href="#/schedule" class="step disabled" id="schedule" style="cursor:pointer !important;text-decoration:none !important;"><i data-v-616eb668="" class="calendar icon"></i> <div data-v-616eb668="" class="content"><div data-v-616eb668="" class="title">Schedule</div> <div data-v-616eb668="" class="description">Choose Schedule</div></div></a> <a data-v-616eb668="" href="#/payment" class="step disabled" style="cursor:pointer !important;text-decoration:none !important;" id="payment"><i data-v-616eb668="" class="payment icon"></i> <div data-v-616eb668="" class="content"><div data-v-616eb668="" class="title">Payment</div> <div data-v-616eb668="" class="description">Pick Payment Type</div></div></a></div> <br data-v-616eb668=""/><br data-v-616eb668=""/><br data-v-616eb668=""/></div> 
+                        <apex:outputPanel rendered="true" id="panel1">
+                            <script>
+                            function postProcessing(){
+                                var currentStage = "{!currentStage}";
+                                var paymentScheduleVar = "{!warpperObj.paymentScheduleVar}";
+                                var paymentTypeVar = "{!warpperObj.paymentTypeVar}";
+                                var cardTypeVar = "{!warpperObj.cardTypeVar}";
+                                var selectedExistingMethod = "{!SelectedMethod}";
+                                if(currentStage=='findInvoice'){
+                                    document.getElementById("breadcrump").style.display = "block";
+                                    document.getElementById("findInvoice").className = "step router-link-exact-active router-link-active active";
+                                    document.getElementById("schedule").className = "step disabled";
+                                    document.getElementById("payment").className = "step disabled";
+                                }else if(currentStage=='schedule'){
+                                    document.getElementById("breadcrump").style.display = "block";
+                                    document.getElementById("schedule").className = "step router-link-exact-active router-link-active active";
+                                    document.getElementById("findInvoice").className = "step disabled";
+                                    document.getElementById("payment").className = "step disabled";
+                                    if(paymentScheduleVar=='Full'){
+                                        document.getElementById("fullId").checked=true;
+                                        document.getElementById("scheduleContinue").className = "ui submit green button";
+                                    }else if(paymentScheduleVar=='Month'){
+                                        document.getElementById("monthId").checked=true;
+                                        document.getElementById("scheduleContinue").className = "ui submit green button";
+                                    }else if(paymentScheduleVar=='Quarter'){
+                                        document.getElementById("quarterId").checked=true;
+                                        document.getElementById("scheduleContinue").className = "ui submit green button";
+                                    }else{
+                                        document.getElementById("scheduleContinue").className = "ui submit green button disabled";
+                                    }    
+                                }else if(currentStage=='payment'){
+                                    document.getElementById("breadcrump").style.display = "block";
+                                    document.getElementById("payment").className = "step router-link-exact-active router-link-active active";
+                                    document.getElementById("schedule").className = "step disabled";
+                                    document.getElementById("findInvoice").className = "step disabled";
+                                    if(paymentTypeVar=='check'){
+                                        document.getElementById("checkId").checked=true;
+                                        document.getElementById("paymentContinue").className = "ui submit green button";
+                                        //document.getElementById("creditCardList").style.display = "none";
+                                    }else if(paymentTypeVar=='creditCard'){
+                                        document.getElementById("creditCardId").checked=true;
+                                        document.getElementById("paymentContinue").className = "ui submit green button";
+                                        //document.getElementById("creditCardList").style.display = "block";
+                                        /*if(cardTypeVar!=''){
+                                            document.getElementById("paymentContinue").className = "ui submit green button";
+                                        }else{
+                                            document.getElementById("paymentContinue").className = "ui submit green button disabled";
+                                        }*/    
+                                        }else if(paymentTypeVar=='Existing'){
+                                            document.getElementById("ExistingId1").checked=true;
+                                            document.getElementById("j_id0:form1:ExistingMeth").style.display = "block";
+                                            if(selectedExistingMethod!=''){
+                                                document.getElementById("paymentContinue").className = "ui submit green button";
+                                            }else{
+                                                document.getElementById("paymentContinue").className = "ui submit green button disabled";
+                                            }  
+                                        }else{
+                                            document.getElementById("scheduleContinue").className = "ui submit green button disabled";
+                                            document.getElementById("creditCardList").style.display = "none";
+                                        }
+                                    }else if(currentStage=='contactDetails'){
+                                        document.getElementById("breadcrump").style.display = "none";
+                                    }   
+                                }
+                                </script>
+                                <div style="max-width: 700px; margin: 0 auto;">
+                                    <apex:outputPanel rendered="{!If(currentStage='findInvoice',true,false)}">
+                                        <div data-v-56988874="" class="ui four column stackable grid"><div data-v-56988874="" class="twelve wide column centered zsegment ui">
+                                            <!--<form data-v-56988874="" class="ui form">-->
+                                                <h2 data-v-56988874="" class="ui header">Provide your Invoice # and Zip Code</h2> <br data-v-56988874=""/><br data-v-56988874=""/> 
+                                                <div data-v-56988874="" class="ui container form"><div data-v-56988874="" class="fields">
+                                                    <div data-v-56988874="" class="field" id="policyInvoiceNumberDiv">
+                                                        <label data-v-56988874="">Invoice #
+                                                            <i data-v-56988874="" class="ui help circle link icon tooltip1"><span data-v-56988874="" data-content="" data-inverted="" class="tooltiptext1" >Your invoice number is at the top of your invoice</span></i></label> <apex:inputText id="policyInvoiceNumberId" value="{!warpperObj.policyInvoiceNumber}" html-placeholder="10123456" styleClass="column" onkeydown="if (event.keyCode == 13){validateFields('schedule','');return false;}"/></div> <div data-v-56988874="" class="field" id="zipCodeDiv"><label data-v-56988874="">Zip Code
+                                                    <i data-v-56988874="" class="ui help circle link icon tooltip1"><span data-v-56988874="" data-content="" data-inverted="" class="tooltiptext1">If your firm has multiple office locations, use the zip code for the primary address used in the application</span></i></label> <apex:inputText id="zipCodeId" value="{!warpperObj.zipCode}" html-placeholder="60000" styleClass="column" onkeydown="if (event.keyCode == 13){validateFields('schedule','');return false;}"/> </div></div></div> 
+                                                <apex:outputPanel rendered="{!noInvoiceFound}">
+                                                    <div data-v-56988874="" class="ui negative message"><div data-v-56988874="" class="header"><div data-v-56988874="">{!invoiceNotFoundErrorMessage}</div></div></div>
+                                                </apex:outputPanel>
+                                                <br data-v-56988874=""/><br data-v-56988874=""/> 
+                                                <div data-v-56988874="" class="ui submit green button" onclick="validateFields('schedule','');return false;">
+                                                    Continue
+                                                    <i data-v-56988874="" class="chevron circle right icon"></i></div>
+                                          <!--  </form>-->
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!If(currentStage=='schedule',true,false)}">
+                                        <div data-v-1b706cf5="" style="margin-bottom:60px;"><div data-v-1b706cf5="" class="container"><div data-v-1b706cf5="" class="ui two column stackable grid container firmbox"><div data-v-1b706cf5="" class="column nine wide">
+                                            <div data-v-1b706cf5="" class="" >
+                                                <span style="font-weight:bolder;">{!accountName}</span><br/> 
+                                                {!warpperObj.billingStreet} <br/>
+                                                {!warpperObj.billingCity}, {!warpperObj.billingState} &nbsp; {!warpperObj.billingPostal}
+                                            </div></div> <div data-v-1b706cf5="" class="column six wide right aligned">
+                                            Invoice #:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{!warpperObj.invoiceId}"/></span><br/>
+                                            Effective Date:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!warpperObj.effectiveDate}" /> </apex:outputText></span><br/>
+                                            Invoice Amount:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{0,number,currency}" escape="true" ><apex:param value="{!warpperObj.balanceDue}" /></apex:outputText></span>
+                                            </div> <br data-v-1b706cf5=""/></div></div> 
+                                            <div style="padding-left: 1rem !important;padding-top: 1rem !important;"><b>Description:</b>&nbsp;<apex:outputText value="{!warpperObj.description}"/> </div>
+                                        </div> 
+                                        <div data-v-41d28d4e="" class="ui four column stackable grid"><div data-v-41d28d4e="" id="schedule" class="seven wide column centered zsegment ui">
+                                            <!--<form data-v-41d28d4e="" class="ui form">-->
+                                                <h2 data-v-41d28d4e="" class="ui header">Select Payment Schedule</h2> <br data-v-41d28d4e=""/><br/> <div data-v-41d28d4e="" class="field"><div data-v-41d28d4e="" class="ui radio checkbox">
+                                            <input id="fullId" type="radio" value="Full" onclick="paymentSchedule(this.value);return false;" name="paymentScheduleRadio" tabindex="0" /> <label data-v-41d28d4e="" class="">Full (one-time)</label></div></div> <div data-v-41d28d4e="" class="field"><div data-v-41d28d4e="" class="ui radio checkbox"> 
+                                            <input id="quarterId" type="radio" value="Quarter" onclick="paymentSchedule(this.value);return false;" name="paymentScheduleRadio" tabindex="0" /> <label data-v-41d28d4e="" class="">Quarterly</label></div></div> <div data-v-41d28d4e="" class="field"><div data-v-41d28d4e="" class="ui radio checkbox">
+                                            <input id="monthId" type="radio" value="Month"  onclick="paymentSchedule(this.value);return false;" name="paymentScheduleRadio" tabindex="0"/> <label data-v-41d28d4e="" class="">Monthly</label></div></div> <br data-v-41d28d4e=""/>
+                                            
+                                            <div style="{!IF(enablePaymentDate, '' , 'display:none')}">
+                                                <div style="padding-left: 10px; padding-bottom: 20px;">
+                                                    <span style="color: blue; font-weight: bold;">Payment Date:</span><br/>
+                                                    <apex:inputField style="width: 110px; text-align: center; border: 1px solid gray; padding: 4px; margin-bottom: 4px;" value="{!policy.Effective_Date__c}" rendered="{!enablePaymentDate}"/>                                                
+                                                    <span style="color:gray; font-size: 12px;">Must be on or before &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!firstInstallmentDate}" /></apex:outputText></span>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <apex:outputPanel rendered="{!paymentInvalidDate}">
+                                                <div data-v-56988874="" class="ui negative message">
+                                                    <div data-v-56988874="" class="header">
+                                                        <div style="font-size: 16px; font-weight: bold;" data-v-56988874="">{!paymentInvalidDateError}</div>
+                                                        <span style="color: black; font-size: 13px;">
+                                                            Payment date must be between <b><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!today()}" /></apex:outputText></b>
+                                                            and <b><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!firstInstallmentDate}" /></apex:outputText></b>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>
+                                            <br data-v-41d28d4e=""/>
+                                            <a data-v-41d28d4e="" href="#/" class="ui submit blue button router-link-active" onclick="next('findInvoice');return false;"><i data-v-41d28d4e="" class="chevron circle left icon"></i>
+                                                Back
+                                            </a>
+                                            
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            
+                                            <a data-v-41d28d4e="" onclick="next('payment');return false;" class="ui submit green button disabled" id="scheduleContinue">
+                                                Continue
+                                                <i data-v-41d28d4e="" class="chevron circle right icon"></i>
+                                            </a>
+                                            <!--</form>-->
+                                            </div> 
+                                            <div data-v-13edc253="" data-v-41d28d4e="" class="centered ui seven wide column" style="xx-width:50% !important;">
+                                                <apex:outputPanel rendered="{!If(warpperObj.paymentScheduleVar=='Full',true,false)}">
+                                                    <div data-v-13edc253="" class="column">
+                                                        <div data-v-13edc253="" class="ui card" style="xx-width:100% !important">
+                                                            <div data-v-13edc253="" class="content">
+                                                                <div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Full</b></div>
+                                                            </div>
+                                                            <div data-v-13edc253="" class="content">
+                                                                <table border="0" data-v-13edc253="" style="width: 100%;" class="payment">
+                                                                    
+                                                                    
+    
+                                                                    <tr data-v-13edc253="" style="{!if((totalCredit > 0 && billing.Policy_Endorsement__c == null),'','display: none;')}">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">Premium:</td>
+                                                                        <td data-v-13edc253="" style="padding-right: 10px; color: black; font-weight: bold; text-align: right;" class="zinvoice">
+                                                                            <apex:outputText value="{0,number,Currency}">
+                                                                                <apex:param value="{!premium}" />
+                                                                            </apex:outputText>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr data-v-13edc253="" style="{!if((totalCredit > 0 && billing.Policy_Endorsement__c == null),'','display: none;')}">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">* Credit:</td>
+                                                                        <td data-v-13edc253="" align="right" style="padding-right: 10px; color: maroon; font-weight: bold; text-align: right;" class="zinvoice">
+                                                                            -<apex:outputText value="{0,number,Currency}">
+                                                                                <apex:param value="{!totalCredit}" />
+                                                                            </apex:outputText>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr data-v-13edc253="">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">Invoice:</td>
+                                                                        <td data-v-13edc253="" style="padding-right: 10px; color: blue; font-weight: bold; text-align: right;" class="zinvoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td>
+                                                                    </tr>
+                                                                </table> <!----> <!---->
+                                                            </div> <!----> 
+                                                            <div data-v-13edc253="" class="content">
+                                                                <table border="0" data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td>
+                                                                    <td class="total-today" style="padding-right: 10px; font-weight: bold; text-align: right;"><apex:outputText value="{0,number,currency}" escape="true" ><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!---->
+                                                        <div data-v-13edc253="" class="content" style="padding-top: 30px;{!If(totalAmountDue == 0,'','display:none;')}"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                            <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                <apex:outputText value="{0,number,Currency}">
+                                                                    <apex:param value="{!firstInstallment}" />
+                                                                </apex:outputText>
+                                                                </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!firstInstallmentDateString}</span></td>
+                                                            </tr>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                        <!----------- credit definition -------->
+                                                        <div style="border: 0px solid black; width: 100%; padding-top: 10px; {!if(totalCredit>0,'','display: none;')}">
+                                                            <div style="color: black; font-weight: bold; padding-bottom: 5px;">
+                                                                * CREDITS APPLIED
+                                                            </div>
+                                                            <div style="color: black; width: 1%; white-space: nowrap; padding-left: 30px; {!if(policyDividend != null || policyDividend > 0,'','display: none;')}">
+                                                                {!(YEAR(warpperObj.effectiveDate) - 1)}  DIVIDEND:&nbsp;
+                                                                <span style="color: black; font-weight: bold;">
+                                                                <apex:outputText value="${0, number,###,###,###,###}">
+                                                                    <apex:param value="{!(policyDividend)}" />
+                                                                </apex:outputText>
+                                                                    </span>
+                                                            </div>            
+                                                            <div style="color: black; width: 1%; white-space: nowrap; padding-left: 30px; {!if(totalCLECredit > 0,'','display: none;')}">
+                                                                CLE Credit:&nbsp;
+                                                                <span style="color: black; font-weight: bold;">
+                                                                <apex:outputText value="${0, number,###,###,###,###}">
+                                                                    <apex:param value="{!(totalCLECredit)}" />
+                                                                </apex:outputText>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!----------- credit definition -------->
+                                                        
+                                                    </div>
+                                                    
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(warpperObj.paymentScheduleVar=='Month',true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Monthly</b></div></div> <div data-v-13edc253="" class="content">
+                                                        <table border="0" data-v-13edc253="" style="width: 100%;" class="payment">
+                                                                    <tr data-v-13edc253="" style="{!if((totalCredit > 0 && billing.Policy_Endorsement__c == null),'','display: none;')}">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">Premium:</td>
+                                                                        <td data-v-13edc253="" style="padding-right: 10px; color: black; font-weight: bold; text-align: right;" class="zinvoice">
+                                                                            <apex:outputText value="{0,number,Currency}">
+                                                                                <apex:param value="{!premium}" />
+                                                                            </apex:outputText>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr data-v-13edc253="" style="{!if((totalCredit > 0 && billing.Policy_Endorsement__c == null),'','display: none;')}">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">* Credit:</td>
+                                                                        <td data-v-13edc253="" align="right" style="padding-right: 10px; color: maroon; font-weight: bold; text-align: right;" class="zinvoice">
+                                                                            -<apex:outputText value="{0,number,Currency}">
+                                                                                <apex:param value="{!totalCredit}" />
+                                                                            </apex:outputText>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr data-v-13edc253="">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">Invoice:</td>
+                                                                        <td data-v-13edc253="" style="padding-right: 10px; color: blue; font-weight: bold; text-align: right;" class="zinvoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td>
+                                                                    </tr>
+                                                                </table> <!----> <!---->
+                                                        
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perMonthAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table> <!----> <!----> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> 
+                                                        <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                            <apex:repeat value="{!paymentMonths}" var="month">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perMonthAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!month}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                            </table></div></div>
+                                                            
+                                                        <!----------- credit definition -------->
+                                                        <div style="border: 0px solid black; width: 100%; padding-top: 10px; {!if(totalCredit>0,'','display: none;')}">
+                                                            <div style="color: black; font-weight: bold; padding-bottom: 5px;">
+                                                                * CREDITS APPLIED
+                                                            </div>
+                                                            <div style="color: black; width: 1%; white-space: nowrap; padding-left: 30px; {!if(policyDividend != null || policyDividend > 0,'','display: none;')}">
+                                                                {!(YEAR(warpperObj.effectiveDate) - 1)}  DIVIDEND:&nbsp;
+                                                                <span style="color: black; font-weight: bold;">
+                                                                <apex:outputText value="${0, number,###,###,###,###}">
+                                                                    <apex:param value="{!(policyDividend)}" />
+                                                                </apex:outputText>
+                                                                    </span>
+                                                            </div>            
+                                                            <div style="color: black; width: 1%; white-space: nowrap; padding-left: 30px; {!if(totalCLECredit > 0,'','display: none;')}">
+                                                                CLE Credit:&nbsp;
+                                                                <span style="color: black; font-weight: bold;">
+                                                                <apex:outputText value="${0, number,###,###,###,###}">
+                                                                    <apex:param value="{!(totalCLECredit)}" />
+                                                                </apex:outputText>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!----------- credit definition -------->
+                                                        
+                                                    </div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(warpperObj.paymentScheduleVar=='Quarter',true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Quarterly</b></div></div> <div data-v-13edc253="" class="content">
+                                                        <table border="0" data-v-13edc253="" style="width: 100%;" class="payment">
+                                                                    <tr data-v-13edc253="" style="{!if((totalCredit > 0 && billing.Policy_Endorsement__c == null),'','display: none;')}">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">Premium:</td>
+                                                                        <td data-v-13edc253="" style="padding-right: 10px; color: black; font-weight: bold; text-align: right;" class="zinvoice">
+                                                                            <apex:outputText value="{0,number,Currency}">
+                                                                                <apex:param value="{!premium}" />
+                                                                            </apex:outputText>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr data-v-13edc253="" style="{!if((totalCredit > 0 && billing.Policy_Endorsement__c == null),'','display: none;')}">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">* Credit:</td>
+                                                                        <td data-v-13edc253="" align="right" style="padding-right: 10px; color: maroon; font-weight: bold; text-align: right;" class="zinvoice">
+                                                                            -<apex:outputText value="{0,number,Currency}">
+                                                                                <apex:param value="{!totalCredit}" />
+                                                                            </apex:outputText>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr data-v-13edc253="">
+                                                                        <td data-v-13edc253="" nowrap="nowrap">Invoice:</td>
+                                                                        <td data-v-13edc253="" style="padding-right: 10px; color: blue; font-weight: bold; text-align: right;" class="zinvoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td>
+                                                                    </tr>
+                                                                </table> <!----> <!---->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perQuarterAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table> <!----> <!----> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                        <apex:repeat value="{!paymentQuarters}" var="Quarter">
+                                                            <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                <apex:outputText value="{0,number,Currency}">
+                                                                    <apex:param value="{!perQuarterAmount}" />
+                                                                </apex:outputText>
+                                                                </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!Quarter}</span></td>
+                                                            </tr>
+                                                        </apex:repeat>
+                                                        </table></div></div>
+                                                    
+                                                        <!----------- credit definition -------->
+                                                        <div style="border: 0px solid black; width: 100%; padding-top: 10px; {!if(totalCredit>0,'','display: none;')}">
+                                                            <div style="color: black; font-weight: bold; padding-bottom: 5px;">
+                                                                * CREDITS APPLIED
+                                                            </div>
+                                                            <div style="color: black; width: 1%; white-space: nowrap; padding-left: 30px; {!if(policyDividend != null || policyDividend > 0,'','display: none;')}">
+                                                                {!(YEAR(warpperObj.effectiveDate) - 1)}  DIVIDEND:&nbsp;
+                                                                <span style="color: black; font-weight: bold;">
+                                                                <apex:outputText value="${0, number,###,###,###,###}">
+                                                                    <apex:param value="{!(policyDividend)}" />
+                                                                </apex:outputText>
+                                                                    </span>
+                                                            </div>            
+                                                            <div style="color: black; width: 1%; white-space: nowrap; padding-left: 30px; {!if(totalCLECredit > 0,'','display: none;')}">
+                                                                CLE Credit:&nbsp;
+                                                                <span style="color: black; font-weight: bold;">
+                                                                <apex:outputText value="${0, number,###,###,###,###}">
+                                                                    <apex:param value="{!(totalCLECredit)}" />
+                                                                </apex:outputText>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!----------- credit definition -------->
+                                                        
+                                                    </div>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!If(currentStage=='payment',true,false)}">
+                                        <div data-v-1b706cf5="" style="margin-bottom:60px;"><div data-v-1b706cf5="" class="container"><div data-v-1b706cf5="" class="ui two column stackable grid container firmbox"><div data-v-1b706cf5="" class="column nine wide">
+                                            <div data-v-1b706cf5="" class="" >
+                                                <span style="font-weight:bolder;">{!accountName}</span><br/> 
+                                                {!warpperObj.billingStreet} <br/>
+                                                {!warpperObj.billingCity}, {!warpperObj.billingState} &nbsp; {!warpperObj.billingPostal}
+                                            </div></div> <div data-v-1b706cf5="" class="column six wide right aligned">
+                                            Invoice #:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{!warpperObj.invoiceId}"/></span><br/>
+                                            Effective Date:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!warpperObj.effectiveDate}" /> </apex:outputText></span><br/>
+                                            Invoice Amount:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{0,number,currency}" escape="true" ><apex:param value="{!warpperObj.balanceDue}" /></apex:outputText></span>
+                                            </div> <br data-v-1b706cf5=""/></div></div> 
+                                            <div style="padding-left: 1rem !important;padding-top: 1rem !important;"><b>Description:</b>&nbsp; <apex:outputText value="{!warpperObj.description}"/> </div>
+                                        </div> 
+                                        <div data-v-a776d3c2="" class="ui four column stackable grid"><div data-v-a776d3c2="" class="seven wide column centered zsegment ui">
+                                            <!--<form data-v-a776d3c2="" class="ui form">-->
+                                            <h2 data-v-a776d3c2="" class="ui header">Select Payment Type</h2> 
+                                            <br data-v-a776d3c2=""/><br/>
+                                            
+                                            <!-- <div data-v-a776d3c2="" class="field"><div data-v-a776d3c2="" class="ui radio checkbox">
+<input id="ExistingId1" onclick="paymentType(this.value);return false;" data-v-a776d3c2="" type="radio" value="Existing" name="paymentTypeRadio" tabindex="0" /> <label data-v-a776d3c2="" class="">Existing
+</label></div></div> -->
+                                            <div data-v-a776d3c2="" class="field" style="{!if(ExistingList.size >1 ,'','display:none;')}"><div data-v-a776d3c2="" class="ui radio checkbox">
+                                                
+                                                <input id="ExistingId1" data-v-a776d3c2="" onclick="paymentType(this.value);return false;" type="radio" value="Existing" name="paymentTypeRadio" tabindex="0" /> <label data-v-a776d3c2="" class="b">Use Previous Payment Option</label></div>
+                                                <apex:selectList size="1"  id="ExistingMeth" required="false" value="{!SelectedMethod}"
+                                                                 style="height: 2.5em;margin-bottom: 15px;width:100%;display:none;">
+                                                    <apex:selectOptions value="{!ExistingList}"></apex:selectOptions>
+                                                    <apex:actionSupport event="onchange" action="{!cardTypeFunction}" id="lm" reRender="panel1" status="myStatus" oncomplete="postProcessing();"/>
+                                                </apex:selectList>
+                                            </div>
+                                            <div data-v-a776d3c2="" class="field"><div data-v-a776d3c2="" class="ui radio checkbox">
+                                                
+                                                <input id="checkId" data-v-a776d3c2="" onclick="paymentType(this.value);return false;" type="radio" value="check" name="paymentTypeRadio" tabindex="0" /> <label data-v-a776d3c2="" class="b">eCheck/ACH <!-- <apex:outputText value=" (${!CHECK_TRANSACTION_FEE} service fee)" rendered="{!(NOT(warpperObj.paymentScheduleVar=='Full'))}"/> --> </label></div></div> 
+                                            <!--<div data-v-a776d3c2="" class="field" style="display: none;"><div data-v-a776d3c2="" class="ui radio checkbox"><input data-v-a776d3c2="" type="radio" value="D" name="paymentType" tabindex="0" class="hidden"/> <label data-v-a776d3c2="" class="">Debit Card</label></div></div> 
+<div data-v-a776d3c2="" style="display: none;"><div data-v-a776d3c2="" class="field" style="padding-bottom: 10px;"><div data-v-a776d3c2="" class="ui select"><div class="ui dropdown selection" tabindex="0"><select data-v-a776d3c2=""><option data-v-a776d3c2="" value="">Select Card Type</option> <option data-v-a776d3c2="" value="mast">
+Mastercard
+</option> <option data-v-a776d3c2="" value="visa">
+VISA
+</option></select><i class="dropdown icon"></i><div class="default text">Select Card Type</div><div class="menu" tabindex="-1"><div class="item" data-value="mast">
+Mastercard
+</div><div class="item" data-value="visa">
+VISA
+</div></div></div></div></div>
+</div>--> 
+                                            
+                                            <div data-v-a776d3c2="" class="field">
+                                                <div data-v-a776d3c2="" class="ui radio checkbox">
+                                                
+                                                    <apex:outputPanel rendered="{!IF(warpperObj.balanceDue <= 20000, true, false)}">
+                                                        <input id="creditCardId" onclick="paymentType(this.value);return false;" data-v-a776d3c2="" type="radio" value="creditCard" name="paymentTypeRadio" tabindex="0" /> <label data-v-a776d3c2="" class="">Credit Card</label>
+                                                    </apex:outputPanel>
+                                                    <apex:outputPanel rendered="{!IF(warpperObj.balanceDue > 20000, true, false)}">
+                                                        <input id="creditCardId" onclick="paymentType(this.value);return false;" data-v-a776d3c2="" type="radio" disabled="true" value="creditCard" name="paymentTypeRadio" tabindex="0" /> <label data-v-a776d3c2="" class="">Credit Card <span style="font-color:gray, textdecoration: italics;"> - not available for transactions exceeding $20,000</span></label>
+                                                    </apex:outputPanel>
+
+                                                </div>
+                                                
+                                            </div> 
+                                            
+                                            
+                                           <!-- </form>-->
+                                            <br data-v-a776d3c2=""/><br data-v-a776d3c2=""/> <a data-v-a776d3c2="" href="#/schedule" class="ui submit blue button" onclick="next('schedule');return false;"><i data-v-a776d3c2="" class="chevron circle left icon"></i>
+                                            Back
+                                            </a>
+                                            
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            
+                                            <a data-v-a776d3c2="" href="#/billing" class="ui submit green button disabled" onclick="next('contactDetails');return false;" id="paymentContinue">
+                                                Continue
+                                                <i data-v-a776d3c2="" class="chevron circle right icon"></i></a></div> 
+                                            <div data-v-13edc253="" data-v-a776d3c2="" class="centered ui seven wide column"  style="xx-width:50% !important;">
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Full',OR(warpperObj.paymentTypeVar=='check',warpperObj.paymentTypeVar=='Existing')),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Full</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">
+<span data-v-13edc253="">Transaction Fee</span>:</td> 
+<td data-v-13edc253=""><span data-v-13edc253="" class="service-attention service" style="margin-left: 21%;">$0.00</span></td> 
+<td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">ACH processing fee.</span></i></td></tr> </table> --> 
+                                                        
+                                                        </div>
+                                                        <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!---->
+                                                        <div data-v-13edc253="" class="content" style="padding-top: 30px;{!If(totalAmountDue == 0,'','display:none;')}"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                            <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                <apex:outputText value="{0,number,Currency}">
+                                                                    <apex:param value="{!firstInstallment}" />
+                                                                </apex:outputText>
+                                                                </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!firstInstallmentDateString}</span></td>
+                                                            </tr>
+                                                            </table></div>
+                                                        </div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Full',warpperObj.paymentTypeVar=='creditCard'),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Full</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table> <!---->
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Service Fee %</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-fee-percent" style="margin-left: 21%;"><apex:outputText value="{0,number,0.00}"><apex:param value="{!creditCardfee}" /></apex:outputText>%</span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Credit card processing fee percent.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention service" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total credit card processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <!----> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!---->
+                                                        <div data-v-13edc253="" class="content" style="padding-top: 30px;{!If(totalAmountDue == 0,'','display:none;')}"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                            <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                <apex:outputText value="{0,number,Currency}">
+                                                                    <apex:param value="{!firstInstallment}" />
+                                                                </apex:outputText>
+                                                                </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!firstInstallmentDateString}</span></td>
+                                                            </tr>
+                                                            </table></div>
+                                                        </div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Month',OR(warpperObj.paymentTypeVar=='check',warpperObj.paymentTypeVar=='Existing')),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Monthly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Transaction Fee</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">ACH processing fee.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total ACH processing fee on invoice</span></i></td></tr></table> --> <!----></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perMonthAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table>
+                                                        <!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></td></tr></table>--> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentMonths}" var="month">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perMonthAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ $0.00
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!month}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Month',warpperObj.paymentTypeVar=='creditCard'),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Monthly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table> <!---->
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Service Fee %</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-fee-percent" style="margin-left: 21%;"><apex:outputText value="{0,number,0.00}"><apex:param value="{!creditCardfee}" /></apex:outputText>%</span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Credit card processing fee percent.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total credit card processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perMonthAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText></td></tr></table> --> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentMonths}" var="month">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perMonthAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ <apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText>
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!month}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Quarter',OR(warpperObj.paymentTypeVar=='check',warpperObj.paymentTypeVar=='Existing')),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Quarterly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table>
+                                                        <!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Transaction Fee</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">ACH processing fee.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total ACH processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perQuarterAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table> --> <!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></td></tr></table> --> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentQuarters}" var="Quarter">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perQuarterAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ $0.00
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!Quarter}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Quarter',warpperObj.paymentTypeVar=='creditCard'),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Quarterly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table> <!---->
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Service Fee %</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-fee-percent" style="margin-left: 21%;"><apex:outputText value="{0,number,0.00}"><apex:param value="{!creditCardfee}" /></apex:outputText>%</span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Credit card processing fee percent.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total credit card processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perQuarterAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table><!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText></td></tr></table>--> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentQuarters}" var="Quarter">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perQuarterAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ <apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText>
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!Quarter}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!If(currentStage=='contactDetails',true,false)}">
+                                        <div data-v-1b706cf5="" style="margin-bottom:60px;"><div data-v-1b706cf5="" class="container"><div data-v-1b706cf5="" class="ui two column stackable grid container firmbox"><div data-v-1b706cf5="" class="column nine wide">
+                                            <div data-v-1b706cf5="" class="" >
+                                                <span style="font-weight:bolder;">{!accountName}</span><br/> 
+                                                {!warpperObj.billingStreet} <br/>
+                                                {!warpperObj.billingCity}, {!warpperObj.billingState} &nbsp; {!warpperObj.billingPostal}
+                                            </div></div> <div data-v-1b706cf5="" class="column six wide right aligned">
+                                            Invoice #:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{!warpperObj.invoiceId}"/></span><br/>
+                                            Effective Date:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!warpperObj.effectiveDate}" /> </apex:outputText></span><br/>
+                                            Invoice Amount:<span data-v-1b706cf5="" style="margin-left: 15px;font-weight: bold;"><apex:outputText value="{0,number,currency}" escape="true" ><apex:param value="{!warpperObj.balanceDue}" /></apex:outputText></span>
+                                            </div> <br data-v-1b706cf5=""/></div></div> 
+                                            <div style="padding-left: 1rem !important;padding-top: 1rem !important;"><b>Description:</b>&nbsp; <apex:outputText value="{!warpperObj.description}"/> </div>
+                                        </div> 
+                                        <div data-v-0d954414="" class="ui four column stackable grid" style="margin-top: 15px;">
+                                            <div data-v-0d954414="" class="seven wide column centered zsegment ui form">
+                                               <!-- <form  class="ui form">-->
+                                                    <h2 data-v-0d954414="" class="ui header">Billing Information</h2>
+                                                    <br/>
+                                                    <br data-v-0d954414=""/>
+                                                    
+                                                    
+                                                    <div data-v-0d954414="" class="two fields"><div data-v-0d954414="" class="field" id="firstNameDiv"><div data-v-0d954414="" class="ui">
+                                                        <apex:inputText onBlur="validateFirstName();" value="{!warpperObj.firstName}" id="firstNameId"/>
+                                                        <label data-v-0d954414="">First Name</label></div></div> <div data-v-0d954414="" class="field" id="lastNameDiv"><div data-v-0d954414="" class="ui">
+                                                        <apex:inputText onBlur="validateLastName();" value="{!warpperObj.lastName}" id="lastNameId"/>
+                                                        <label data-v-0d954414="">Last Name</label></div></div></div> 
+                                                    
+                                                    <apex:outputPanel rendered="{!If(warpperObj.paymentTypeVar=='check',true,false)}">
+                                                        
+                                                        
+                                                        <div style="padding-top: 20px;" data-v-0d954414="" class="field">
+                                                            <apex:image style="width: 100%;" url="{!URLFOR($Resource.ISBA_Payment,'ISBA_Payment/eCheckDetails.png')}"/>
+                                                        </div> 
+                                                        
+                                                        <div data-v-0d954414="" class="field" id="routingNumberDiv">
+                                                            <div data-v-0d954414="" class="ui">
+                                                                <apex:inputText onBlur="validateRoutingNumber();" value="{!warpperObj.routingNumber}" id="routingNumberId" />
+                                                                <label data-v-0d954414="">Routing Number</label>
+                                                                <a style="color: darkgray;cursor: pointer;"  onClick="$('#ACHInfo-modal').modal('show');return false;"> (what's this?)</a>
+                                                            </div>
+                                                        </div> 
+                                                        <div data-v-0d954414="" class="field" id="accountNumberDiv">
+                                                            <div data-v-0d954414="" class="ui">
+                                                                <apex:inputText onBlur="validateAccountNumber();" value="{!warpperObj.accountNumber}" id="accountNumberId" />
+                                                                <label data-v-0d954414="">Account Number</label>
+                                                                <a style="color: darkgray;cursor: pointer;" onClick="$('#ACHInfo-modal').modal('show');return false;"> (what's this?)</a>
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div style="padding-top: 20px;" data-v-0d954414="" class="field" id="accountTypeDiv">
+                                                            <apex:selectList onChange="validateAccountTypeACH();" id="accountTypeId" value="{!warpperObj.accountType}" multiselect="false" size="1" style="width:100%; font-family:Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important; font-weight:normal; !important;font-size:1em !important;text-shadow: none !important;" >
+                                                                <apex:selectOption itemValue="" itemLabel="----Select Account type----" />
+                                                                <apex:selectOption itemValue="Checking" itemLabel="Checking" />
+                                                                <apex:selectOption itemValue="Savings" itemLabel="Savings" />
+                                                            </apex:selectList>
+                                                            <label data-v-0d954414="">Account Type</label>
+                                                        </div>
+                                                        <div data-v-0d954414="" class="field" id="accountHolderNameDiv"><div data-v-0d954414="" class="ui"><apex:inputText value="{!warpperObj.accountHolderName}" id="accountHolderNameId" /> <label data-v-0d954414="">Account Holder Name</label></div></div> 
+                                                    </apex:outputPanel>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    <apex:outputPanel rendered="{!If(warpperObj.paymentTypeVar=='creditCard',true,false)}">
+                                                        <div data-v-a776d3c2="" class="field " id="creditCardListDiv">
+                                                            <div data-v-a776d3c2="" class="ui" id="creditCardList">
+                                                                <apex:selectList onChange="validateCCType();" id="cardTypeVarId" styleClass="blue" multiselect="false" size="1" style="width:100%" value="{!warpperObj.cardTypeVar}">
+                                                                    <apex:selectOption itemValue="" itemLabel="----Select Card Type----" />
+                                                                    <apex:selectOption itemValue="amex" itemLabel="American Express" />
+                                                                    <apex:selectOption itemValue="disc" itemLabel="Discover Card" />
+                                                                    <apex:selectOption itemValue="mast" itemLabel="Mastercard" />
+                                                                    <apex:selectOption itemValue="visa" itemLabel="VISA" />
+                                                                    
+                                                                    <!--<apex:actionSupport event="onchange" action="{!cardTypeFunction}" id="lm" reRender="panel1" status="myStatus" oncomplete="postProcessing();"/>-->
+                                                                </apex:selectList>
+                                                                <label data-v-0d954414="">Card Type</label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="rowSpacer">&nbsp;</div>
+                                                        
+                                                        <div data-v-0d954414="" class="field" id="cardNumberDiv">
+                                                            <div data-v-0d954414="" class="ui grid">
+                                                                <div class="twelve wide column">
+                                                                    <apex:inputText onBlur="validateCC();" value="{!warpperObj.cardNumber}" id="cardNumberId" />
+                                                                    <label data-v-0d954414="">Card Number</label>
+                                                                </div>
+                                                                <div class="one wide column">
+                                                                    <i id="cc-type" class=""></i>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div data-v-0d954414="" class="field" id="verificationNumberDiv">
+                                                            <div data-v-0d954414="" class="ui grid">
+                                                                <div class="twelve wide column">
+                                                                    <apex:inputText onBlur="validateCVV();" value="{!warpperObj.verificationNumber}" id="verificationNumberId" />
+                                                                    <label data-v-0d954414="">Security Code </label>
+                                                                    <a style="color: darkgray;cursor: pointer;"  onClick="$('#creditCardInfo-modal').modal('show');return false;"> (what's this?)</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="rowSpacer">&nbsp;</div>
+                                                        
+                                                        <div data-v-0d954414=""><div data-v-0d954414="" class="two fields">
+                                                            <div data-v-0d954414="" class="field" id="expireMonthDiv">
+                                                                <apex:selectList onChange="validateExpireMonth();" id="expireMonthId" value="{!warpperObj.expireMonth}" multiselect="false" size="1" style="width:100%; font-family:Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important; font-weight:normal; !important;font-size:1em !important;text-shadow: none !important;" >
+                                                                    <apex:selectOptions value="{!expireMonthsList}"/>
+                                                                </apex:selectList>
+                                                                <label data-v-0d954414="">Expire Month</label>
+                                                            </div> 
+                                                            <div data-v-0d954414="" class="field" id="expireYearDiv" >
+                                                                <apex:selectList onChange="validateExpireYear();" id="expireYearId" value="{!warpperObj.expireYear}" multiselect="false" size="1" style="width:100%; font-family:Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important; font-weight:normal; !important;font-size:1em !important;text-shadow: none !important;" >
+                                                                    <apex:selectOptions value="{!expireYearsList}"/>
+                                                                </apex:selectList>
+                                                                <label data-v-0d954414="">Expire Year</label>
+                                                            </div></div></div>
+                                                        
+                                                        <div class="rowSpacer">&nbsp;</div>
+                                                        
+                                                        
+                                                        <div data-v-0d954414="" class="field" id="nameOnCardDiv" style="margin: 0 0 1em !important;"><div data-v-0d954414="" class="ui"><apex:inputText onBlur="validateNameOnCardCC();" value="{!warpperObj.nameOnCard}" id="nameOnCardId" /> <label data-v-0d954414="">Name on Card</label></div></div> 
+                                                    </apex:outputPanel>
+                                                    
+                                                    
+                                                    
+                                                    <apex:outputPanel rendered="{!If(warpperObj.paymentTypeVar=='Existing',true,false)}"  >
+                                                        <apex:outputPanel rendered="{!If(warpperObj.cardNumber!=Null,true,false)}"  >
+                                                            <fieldset disabled="disabled">
+                                                                
+                                                                <div data-v-a776d3c2="" class="field" id="creditCardListDiv1">
+                                                                    <div data-v-a776d3c2="" class="ui">
+                                                                        <apex:selectList id="cardTypeVarId1" styleClass="blue" multiselect="false" size="1" style="width:100%" value="{!warpperObj.cardTypeVar}" >
+                                                                            <!--<apex:selectOption itemValue="" itemLabel="----Select Card Type----" />-->
+                                                                            
+                                                                            <apex:selectOption itemValue="amex" itemLabel="American Express" />
+                                                                            <apex:selectOption itemValue="disc" itemLabel="Discover Card" />
+                                                                            <apex:selectOption itemValue="mast" itemLabel="Mastercard" />
+                                                                            <apex:selectOption itemValue="visa" itemLabel="VISA" />
+                                                                            
+                                                                            <!--<apex:actionSupport event="onchange" action="{!cardTypeFunction}" id="lm" reRender="panel1" status="myStatus" oncomplete="postProcessing();"/>-->
+                                                                        </apex:selectList>
+                                                                        <label data-v-0d954414="">Card Type</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div data-v-0d954414="" class="field" id="cardNumberDiv"><div data-v-0d954414="" class="ui">
+                                                                    <div  style="border: 1px solid #ddd;border-radius: 5px;padding: 5px;">
+                                                                        <apex:outputText value="************{!RIGHT(warpperObj.cardNumber,4)}" id="cardNumberId1"  /> 
+                                                                    </div><label data-v-0d954414="">Card Number</label></div></div>
+                                                                <div data-v-0d954414="" class="field" id="verificationNumberDiv"><div data-v-0d954414="" class="ui"><apex:inputText value="{!warpperObj.verificationNumber}" id="verificationNumberId1" /> <label data-v-0d954414="">Security Code </label><a style="color: darkgray;cursor: pointer;"  onClick="$('#creditCardInfo-modal').modal('show');return false;"> (what's this?)</a></div></div>
+                                                                <div data-v-0d954414=""><div data-v-0d954414="" class="two fields">
+                                                                    <div data-v-0d954414="" class="field" id="expireMonthDiv1">
+                                                                        <apex:selectList id="expireMonthId1" value="{!warpperObj.expireMonth}" multiselect="false" size="1" style="width:100%; font-family:Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important; font-weight:normal; !important;font-size:1em !important;text-shadow: none !important;" >
+                                                                            <apex:selectOptions value="{!expireMonthsList}"/>
+                                                                        </apex:selectList>
+                                                                        <label data-v-0d954414="">Expire Month</label>
+                                                                    </div> 
+                                                                    <div data-v-0d954414="" class="field" id="expireYearDiv1" >
+                                                                        <apex:selectList id="expireYearId1" value="{!warpperObj.expireYear}" multiselect="false" size="1" style="width:100%; font-family:Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important; font-weight:normal; !important;font-size:1em !important;text-shadow: none !important;" >
+                                                                            <apex:selectOptions value="{!expireYearsList}"/>
+                                                                        </apex:selectList>
+                                                                        <label data-v-0d954414="">Expire Year</label>
+                                                                    </div></div></div>
+                                                                <div data-v-0d954414="" class="field" id="nameOnCardDiv" style="margin: 0 0 1em !important;"><div data-v-0d954414="" class="ui"><apex:inputText value="{!warpperObj.nameOnCard}" id="nameOnCardId1" /> <label data-v-0d954414="">Name on Card</label></div></div> 
+                                                            </fieldset>  
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel rendered="{!If(warpperObj.accountNumber!=Null,true,false)}"  >
+                                                            <fieldset disabled="disabled">
+                                                                
+                                                                <div data-v-0d954414="" class="field" id="accountNumberDiv"><div data-v-0d954414="" class="ui"> <div  style="border: 1px solid #ddd;border-radius: 5px;padding: 5px;"><apex:outputText value="********{!RIGHT(warpperObj.accountNumber,4)}" id="accountNumberId2" /></div> <label data-v-0d954414="">Account Number</label><a style="color: darkgray;cursor: pointer;" onClick="$('#ACHInfo-modal').modal('show');return false;"> (what's this?)</a></div></div> 
+                                                                <div data-v-0d954414="" class="field" id="routingNumberDiv"><div data-v-0d954414="" class="ui"> <apex:inputText value="{!warpperObj.routingNumber}" id="routingNumberId2" /> <label data-v-0d954414="">Routing Number</label><a style="color: darkgray;cursor: pointer;"  onClick="$('#ACHInfo-modal').modal('show');return false;"> (what's this?)</a></div></div> 
+                                                                <div data-v-0d954414="" class="field" id="accountTypeDiv">
+                                                                    <apex:selectList id="accountTypeId2" value="{!warpperObj.accountType}" multiselect="false" size="1" style="width:100%; font-family:Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important; font-weight:normal; !important;font-size:1em !important;text-shadow: none !important;" >
+                                                                        <apex:selectOption itemValue="" itemLabel="----Select Account type----" />
+                                                                        <apex:selectOption itemValue="Checking" itemLabel="Checking" />
+                                                                        <apex:selectOption itemValue="Savings" itemLabel="Savings" />
+                                                                    </apex:selectList>
+                                                                    <label data-v-0d954414="">Account Type</label>
+                                                                </div>
+                                                                <div data-v-0d954414="" class="field" id="accountHolderNameDiv"><div data-v-0d954414="" class="ui">
+                                                                    <apex:inputText onBlur="validateNameOnCardCC();" value="{!warpperObj.accountHolderName}" id="accountHolderNameId2" /> <label data-v-0d954414="">Account Holder Name</label></div></div> 
+                                                            </fieldset>  
+                                                        </apex:outputPanel> 
+                                                        
+                                                    </apex:outputPanel>
+                                                    <br/>
+                                                    <div data-v-0d954414="" class="field" id="confirmationEmailDiv"><div data-v-0d954414="" class="ui">
+                                                        <apex:inputText onBlur="validateConfirmationEmail();" value="{!warpperObj.confirmationEmail}" id="confirmationEmailId" />  <label data-v-0d954414="">Send confirmation email</label></div></div>
+                                            <!--</form> <!----> 
+                                                <apex:outputPanel rendered="{!paymentError}">
+                                                    <div data-v-0d954414="" class="ui negative message" >
+                                                        <div data-v-0d954414="" class="header">Payment Error:</div> 
+                                                        <p data-v-0d954414=""></p> 
+                                                        <div data-v-0d954414="" id="__paymentError">
+                                                            {!paymentErrorMessage}
+                                                        </div>                                                
+                                                        <p>
+                                                            For assistance, please contact the ISBA Mutual Accounting at <a href="mailto:accounting@isbamutual.com">accounting@isbamutual.com</a> or <span style="white-space:nowrap;">(312) 379-2005.</span>
+                                                        </p>
+                                                    </div> 
+                                                </apex:outputPanel>
+                                                <br data-v-0d954414=""/><br data-v-0d954414=""/> <a data-v-0d954414="" href="#/payment" class="ui submit blue button" onclick="next('payment');return false;"><i data-v-0d954414="" class="chevron circle left icon"></i>
+                                                Back
+                                                </a>
+                                                
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                
+                                                <div data-v-0d954414="" to="/billing" class="ui submit green button" onclick="validateFields('processPayment','{!warpperObj.paymentTypeVar}');return false;">
+                                                    Pay Now
+                                                    <i data-v-0d954414="" class="chevron circle right icon"></i></div> <div data-v-0d954414="" to="/billing" class="ui submit green loading button" style="display: none;">
+                                                Processing
+                                                </div></div>
+                                            
+                                            <div data-v-13edc253="" data-v-a776d3c2="" class="centered ui seven wide column"  style="xx-width:50% !important;">
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Full',OR(warpperObj.paymentTypeVar=='check',warpperObj.paymentTypeVar=='Existing')),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Full</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">
+<span data-v-13edc253="">Transaction Fee</span>:</td> 
+<td data-v-13edc253=""><span data-v-13edc253="" class="service-attention service" style="margin-left: 21%;">$0.00</span></td> 
+<td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">ACH processing fee.</span></i></td></tr> </table> --> 
+                                                        
+                                                        </div>
+                                                        <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!---->
+                                                        <div data-v-13edc253="" class="content" style="padding-top: 30px;{!If(totalAmountDue == 0,'','display:none;')}"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                            <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                <apex:outputText value="{0,number,Currency}">
+                                                                    <apex:param value="{!firstInstallment}" />
+                                                                </apex:outputText>
+                                                                </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!firstInstallmentDateString}</span></td>
+                                                            </tr>
+                                                            </table></div>
+                                                        </div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Full',warpperObj.paymentTypeVar=='creditCard'),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Full</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table> <!---->
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Service Fee %</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-fee-percent" style="margin-left: 21%;"><apex:outputText value="{0,number,0.00}"><apex:param value="{!creditCardfee}" /></apex:outputText>%</span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Credit card processing fee percent.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention service" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total credit card processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <!----> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!---->
+                                                        <div data-v-13edc253="" class="content" style="padding-top: 30px;{!If(totalAmountDue == 0,'','display:none;')}"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> <table data-v-13edc253="" class="additional-payment">
+                                                            <tr data-v-13edc253=""><td data-v-13edc253="" class="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                <apex:outputText value="{0,number,Currency}">
+                                                                    <apex:param value="{!firstInstallment}" />
+                                                                </apex:outputText>
+                                                                </span> <!----></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!firstInstallmentDateString}</span></td>
+                                                            </tr>
+                                                            </table></div>
+                                                        </div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Month',OR(warpperObj.paymentTypeVar=='check',warpperObj.paymentTypeVar=='Existing')),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Monthly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Transaction Fee</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">ACH processing fee.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total ACH processing fee on invoice</span></i></td></tr></table> --> <!----></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perMonthAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table>
+                                                        <!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></td></tr></table>--> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentMonths}" var="month">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perMonthAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ $0.00
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!month}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Month',warpperObj.paymentTypeVar=='creditCard'),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Monthly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table> <!---->
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Service Fee %</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-fee-percent" style="margin-left: 21%;"><apex:outputText value="{0,number,0.00}"><apex:param value="{!creditCardfee}" /></apex:outputText>%</span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Credit card processing fee percent.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total credit card processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perMonthAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalMonthAmount}" /></apex:outputText></td></tr></table> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText></td></tr></table> --> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentMonths}" var="month">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perMonthAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ <apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText>
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!month}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Quarter',OR(warpperObj.paymentTypeVar=='check',warpperObj.paymentTypeVar=='Existing')),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Quarterly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table>
+                                                        <!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Transaction Fee</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">ACH processing fee.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total ACH processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perQuarterAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table>
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table> --> <!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!CHECK_TRANSACTION_FEE}" /></apex:outputText></td></tr></table> --> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentQuarters}" var="Quarter">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perQuarterAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ $0.00
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!Quarter}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(AND(warpperObj.paymentScheduleVar=='Quarter',warpperObj.paymentTypeVar=='creditCard'),true,false)}">
+                                                    <div data-v-13edc253="" class="column"><div data-v-13edc253="" class="ui card" style="xx-width:100% !important"><div data-v-13edc253="" class="content"><div data-v-13edc253="" class="medium header">Payment Details - <b data-v-13edc253="">Quarterly</b></div></div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Invoice:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!balance}" /></apex:outputText></td></tr></table> <!---->
+                                                        <!--<table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="">Service Fee %</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-fee-percent" style="margin-left: 21%;"><apex:outputText value="{0,number,0.00}"><apex:param value="{!creditCardfee}" /></apex:outputText>%</span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Credit card processing fee percent.</span></i></td></tr> <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="service-attention">Total Fees</span>:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="service-attention" style="margin-left: 21%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalServiceFee}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">Total credit card processing fee on invoice</span></i></td></tr></table>-->
+                                                        </div> <div data-v-13edc253="" class="content"><table data-v-13edc253="" class="payment"><!--<tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Down Payment:</td> <td data-v-13edc253=""><span data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perQuarterAmount}" /></apex:outputText></span></td> <td data-v-13edc253="" class="helpcell"><i data-v-13edc253="" class="ui help circle link icon tooltip1"><span data-v-13edc253="" data-content="" data-inverted="" class="tooltiptext1">DOWN PAYMENT: provides a grace period for any issues with future billing cycles to ensure coverage is not disrupted.</span></i></td></tr> --><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">First Installment:</td> <td data-v-13edc253="" class="invoice"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table><!-- <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Sub-Total:</td> <td data-v-13edc253="" style="padding-left: 6%;"><apex:outputText value="{0,number,Currency}"><apex:param value="{!perTotalQuarterAmount}" /></apex:outputText></td></tr></table> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap">Service Fee:</td> <td data-v-13edc253="" class="invoice service"><apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText></td></tr></table>--> <br data-v-13edc253=""/> <table data-v-13edc253="" class="payment"><tr data-v-13edc253=""><td data-v-13edc253="" class="total">Total Due Today:</td> <td data-v-13edc253="" class="total-today"><apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText></td></tr></table></div> <!----> <div data-v-13edc253="" class="content" style="padding-top: 30px;"><h4 data-v-13edc253="">Future Payments:<br/>&nbsp;</h4> 
+                                                        <table data-v-13edc253="" class="">
+                                                            <apex:repeat value="{!paymentQuarters}" var="Quarter">
+                                                                <tr data-v-13edc253=""><td data-v-13edc253="" nowrap="nowrap"><span data-v-13edc253="" class="invoice">
+                                                                    <apex:outputText value="{0,number,Currency}">
+                                                                        <apex:param value="{!perQuarterAmount}" />
+                                                                    </apex:outputText>
+                                                                    </span> <!--<span data-v-13edc253="" class="fee-installment">
++ <apex:outputText value="{0,number,Currency}"><apex:param value="{!creditCardServiceFee}" /></apex:outputText>
+</span>--></td> <td data-v-13edc253=""><span data-v-13edc253="" class="installment-date">{!Quarter}</span></td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                        </table></div></div></div>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!If(currentStage=='processPayment',true,false)}">
+                                        <div class="innerBox">
+                                            
+                                            <div style="margin: 0px 0 80px;text-align: center;width: 100%;float: left;">
+                                                <apex:image url="{!URLFOR($Resource.ISBA_Payment, 'ISBA_Payment/Thank_You.png')}" /><br/>
+                                                <apex:outputPanel rendered="{!totalAmountDue > 0}">
+                                                    Your payment of&nbsp;<apex:outputText value="{0,number,Currency}"><apex:param value="{!totalAmountDue}" /></apex:outputText> for Invoice #{!warpperObj.invoiceId}  has been processed successfully.<br/>
+                                                    We'll send you a confirmation email shortly.<br/>
+                                                    For your reference, your transaction id #{!receiptNumber}.
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!AND(totalAmountDue == 0,warpperObj.paymentScheduleVar == 'Full')}">
+                                                    Your payment of&nbsp;<apex:outputText value="{0,number,Currency}"><apex:param value="{!firstInstallment}" /></apex:outputText> for Invoice #{!warpperObj.invoiceId}  will be processed on&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}" ><apex:param value="{!firstInstallmentDate}"/></apex:outputText>.<br/>
+                                                    We'll send you a confirmation email shortly.<br/>
+                                                    For your reference, your transaction id #{!receiptNumber}.
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!AND(totalAmountDue == 0,warpperObj.paymentScheduleVar != 'Full')}">
+                                                    Your first installment of&nbsp;<apex:outputText value="{0,number,Currency}"><apex:param value="{!firstInstallment}" /></apex:outputText> for Invoice #{!warpperObj.invoiceId}  will be processed on&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}" ><apex:param value="{!firstInstallmentDate}"/></apex:outputText>.<br/>
+                                                    We'll send you a confirmation email shortly.<br/>
+                                                    For your reference, your transaction id #{!receiptNumber}.
+                                                </apex:outputPanel>
+                                                
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                </div>
+                        </apex:outputPanel>
+                    </div>
+               
+                </div>
+                
+            </apex:form>
+        </div>
+        <div class="footer">
+            
+            <div class="ui text container">
+                <div class="ui grid">
+                    <div class="ten wide column">
+                        © {!YEAR(TODAY())} ISBA Mutual Insurance Company<br/>
+                        <apex:image url="{!URLFOR($Resource.ISBA_Payment,'ISBA_Payment/payment-types.png')}"/>
+                    </div>
+                    <div class="six wide column right align">
+                        
+                    </div>
+                </div>
+                
+                <script>
+                $('#cancelation-policy').on('click', function(e){
+                    $('#cancelation-modal').modal('show');
+                    return false;
+                });
+                $('#credit-CardInfo').on('click', function(e){
+                    $('#creditCardInfo-modal').modal('show');
+                    return false;
+                });
+                $('#ACHInfo').on('click', function(e){
+                    $('#ACHInfo-modal').modal('show');
+                    return false;
+                });
+                </script>
+                
+            </div>
+            
+        </div><div class="ui dimmer modals page transition hidden">
+        <div class="ui modal processing"><i class="close icon"></i> <div class="success header">
+            Processing Payment
+            </div> <div class="image content"><div class="ui active inverted dimmer"><div class="ui text loader">Processing</div></div></div>
+        </div>
+        <div class="two wide column ui small modal success"><div class="success header">
+            Payment Success
+            </div> <div class="image content">
+            
+            </div> <div class="actions"><div class="ui positive right labeled icon button">
+            Continue
+            <i class="checkmark icon"></i></div></div>
+        </div>
+        <div id="cancelation-modal" class="two wide column ui small modal success transition hidden" style="margin-top: -159px;"><div class="success header">
+            Cancellation Policy
+            </div> <div class="content">
+            If at any time prior to the expiration of your insurance policy you wish to cancel your policy and request a refund of any unused premium, a member of our team will be happy to assist you.  Please contact our office via email at underwriting@isbamutual.com, via phone at (312) 379-2005, or in writing to;
+            <br/><br/> <div style="padding-left: 20px;">
+            ISBA Mutual<br/>
+            20 South Clark Street, Suite 800<br/>
+            Chicago, IL<br/>
+            60603-1826<br/></div></div> <div class="actions"><div class="ui positive right labeled icon button">
+            Close
+            <i class="checkmark icon"></i></div></div>
+        </div>
+        <div id="creditCardInfo-modal" class="two wide column ui small modal success transition hidden" style="margin-top: -159px;">
+            
+            <div class="content">
+                <apex:image url="{!URLFOR($Resource.ISBA_Payment,'ISBA_Payment/CC_Security.png')}"/>
+            </div> <div class="actions"><div class="ui positive right labeled icon button">
+            Close
+            <i class="checkmark icon"></i></div></div>
+        </div>
+        <div id="ACHInfo-modal" class="two wide column ui small modal success transition hidden" style="margin-top: -159px;">
+            
+            <div class="content">
+                <apex:image url="{!URLFOR($Resource.ISBA_Payment,'ISBA_Payment/eCheckDetails.png')}"/>
+            </div> 
+            <div class="actions"><div class="ui positive right labeled icon button">
+                Close
+                <i class="checkmark icon"></i></div></div>
+        </div>
+        <div class="two wide column ui modal error"><div class="error header">
+            Payment Error
+            </div> <div class="image content">
+            
+            </div> <div class="actions"><div class="ui negative right labeled icon button">
+            Go Back
+            <i class="checkmark icon"></i></div></div>
+        </div>
+        </div></body></html>
+</apex:page>

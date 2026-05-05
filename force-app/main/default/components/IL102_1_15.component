@@ -1,0 +1,54 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Prior Acts Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended to exclude any<span class="normalBoldParagraph"> CLAIM </span>or<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>made against an<span class="normalBoldParagraph"> INSURED </span>for a<span class="normalBoldParagraph"> WRONGFUL ACT </span>or any act, error, or omission, or<span class="normalBoldParagraph"> PERSONAL INJURY </span>which occurred prior to the applicable<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>as stated below.
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    Name of Attorney
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    Individual Prior Acts Date
+                </p>
+            </td>
+        </tr>
+        <apex:repeat value="{!policyLawyers}" var="lawyer">
+            <tr>
+                <td style="width:50%;" class="tableDataCenter">
+                    <p class="normalParagraph tableDataCenter">
+                        <apex:outputText value="{!lawyer.lawyername}"/>
+                    </p>
+                </td>
+                <td style="width:50%;" class="tableDataCenter">
+                    <p class="normalParagraph tableDataCenter">
+                        <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!lawyer.priorActsDate}" /> </apex:outputText>
+                    </p>
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:410px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

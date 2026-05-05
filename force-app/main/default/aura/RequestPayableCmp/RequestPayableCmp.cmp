@@ -1,0 +1,246 @@
+<aura:component controller="RequestPayableCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+	<aura:attribute name="Payable" type ="Object"/>
+       
+    <aura:attribute name="showSpinner" type ="Boolean" default="false"/>
+    <aura:attribute name="contentDocIds" type ="list"/>
+    <aura:attribute name="FileNames" type ="list"/>
+    
+    <!-- Pagination  -->
+    <aura:attribute name="pageNumber" type="Integer" default="1"/>
+    <aura:attribute name="totalPages" type="List[]" default=""/>
+    <aura:attribute name="Payables" type="List[]" default=""/>
+    <aura:attribute name="totalNumOfRecords" type="Integer" default="0"/>
+    <aura:attribute name="limit" type="Integer" default="10"/>
+    <aura:attribute name="LastPage" type="boolean" default="false"/>
+    <aura:attribute name="PayablesList" type="List[]" default=""/>
+    <aura:attribute name="showModal" type="boolean" default="false"/>
+    <aura:attribute name="PayableIdforDeletion" type="boolean" default="false"/>
+    <aura:attribute name="PayableName" type="boolean" default="false"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <!--<aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around- -medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .title{
+        color:white;
+        }
+        .slds-modal__container{
+        max-width: 70rem !important;
+        width:90% !important;
+        
+        }
+        
+        .slds-p-around–small {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        
+        .slds-modal__header {
+        background: #337AB7; 
+        }
+        
+        
+    </aura:html>-->
+
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" size="large" />
+    </aura:if>
+    
+    <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium" >Request Payable</h4>
+    </div>
+    
+    <div class="slds-modal__content slds-p-around--x-small slds-size_1-of-1 slds-is-relative" style="padding:0rem 1rem;">
+        <form class="slds-form">
+
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered " style="width:100%">
+                <thead>
+                    <tr class="slds-line-height_reset" height="30px;">
+                        
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Payee Reference">Payee Reference</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Due Date">Due Date</div>
+                        </th> 
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Amount">Amount</div>
+                        </th> 
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Add Files" style="padding-left: 15px;">Add Files</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Uploded Files">Uploded Files</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="slds-align_absolute-left" role="gridcell">
+                            <div class="slds-truncate"> 
+                                <lightning:input name="Payee Reference" value="{!v.Payable.PaymentRef}"/>
+                            </div>
+                        </td>
+                        
+                        <td>
+                            <div class="slds-truncate"> 
+                                <lightning:input type="date" value="{!v.Payable.DueDate}"/>
+                            </div>
+                        </td>
+                        
+                        <td>
+                            <div class="slds-truncate"> 
+                                <lightning:input type="number" value="{!v.Payable.Amount}" step="0.01"/>
+                            </div>
+                        </td>
+                        
+                        <td >
+                            <div class="slds-truncate"> 
+                                <table width="100%" style="border-collapse: collapse;">
+                                	<tr>
+                                        <td width="5%">
+                                        	<lightning:helptext content="{!$Label.c.RequestPayableFileHelpTxt}" />
+                                        </td>
+                                        <td width="95%">
+                                        	<lightning:fileUpload name="fileUploader" multiple="true"  onuploadfinished="{!c.handleUploadFinished}" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                
+                            </div>
+                        </td>
+                        
+                        <td>
+                            <div class="slds-truncate"> 
+                                <ul>
+                                    <aura:iteration items="{!v.FileNames}" var="name">
+                                        <li>{!name}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            
+        </form> 
+    </div>
+    
+    
+    <footer class="slds-modal__footer" style="text-align:center !important;">
+       
+        <lightning:button variant="neutral" 
+                          label="Cancel"
+                          title="Cancel"
+                          onclick="{!c.closeModel}"/>
+        
+         <lightning:button variant="brand" 
+                          
+                          label="Save"
+                          title="Save"
+                          onclick="{!c.Save}"/>
+        
+    </footer>
+    
+    <aura:if isTrue="{!v.showModal}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Meaningful description of the modal content" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate mheader">Delete {!v.PayableName}</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless content" id="modal-content-id-1">
+                    Are you sure you want to delete {!v.PayableName} Payable.
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="No" title="No" onclick="{!c.closeModal}"/>
+                    
+                    <lightning:button variant="brand" label="Yes" title="Yes" onclick="{!c.handleDelete}"/>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </aura:if>
+    <div class="payableContainer">
+        <div class="header">
+            Payables
+        </div>
+        <div class="body">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th class="alRight">Requested Amount</th>
+                        <th class="alRight">Total</th>
+                        <th class="alRight">Balance</th>
+                        <th class="alRight">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.Payables}" var="obj" indexVar="indx">
+                    	<tr>
+                        	<td><a href="{!'/'+obj.Id}">{!obj.Name}</a></td>
+                            <td><lightning:formattedDateTime value="{!obj.AcctSeed__Date__c}" /></td>
+                            <td><lightning:formattedDateTime value="{!obj.AcctSeed__Due_Date__c}" /></td>
+                            <td>{!obj.AcctSeed__Status__c}</td>
+                            <td class="alRight"><lightning:formattedNumber value="{!obj.Pre_Payable_Amount__c}" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/></td>
+                            <td class="alRight"><lightning:formattedNumber value="{!obj.AcctSeed__Total__c}" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/></td>
+                            <td class="alRight"><lightning:formattedNumber value="{!obj.AcctSeed__Balance__c}" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/></td>
+                            <td class="alRight">
+                                <aura:if isTrue="{!obj.AcctSeed__Status__c == 'Waiting for Approval'}">
+                                    <div data-id="{!obj.Id}" data-name="{!obj.Name}">
+                                        <lightning:buttonIcon iconName="utility:delete" size="small" variant="destructive" alternativeText="delete" title="delete" onclick="{!c.openModal}" />
+                                    </div>
+                                </aura:if>
+                            </td>
+                        </tr>                        
+                    </aura:iteration>
+                </tbody>
+            </table>
+            
+        </div>
+        <div class="footer">
+            <lightning:button variant="brand"                           
+                              label="Previous"
+                              class="button"
+                              title="Previous"
+                              disabled="{!v.pageNumber == 1}"
+                              iconName="utility:chevronleft"
+                              onclick="{!c.Previous}"/>
+            
+            <lightning:select name="" class="option" label="Page No." variant="label-hidden" value="{!v.pageNumber}" onchange="{!c.onSelect}" >
+                <aura:iteration items="{!v.totalPages}" var="page">
+                    <option class="option" text="{!page}"></option>
+                </aura:iteration>
+            </lightning:select>
+            
+            <lightning:button variant="brand" 
+                              class="button"
+                              label="Next"
+                              title="Next"
+                              disabled="{!v.LastPage}"
+                              iconName="utility:chevronright" iconPosition="right" 
+                              onclick="{!c.Next}"/>
+        </div>
+    </div>
+</aura:component>

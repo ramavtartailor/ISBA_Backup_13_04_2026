@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReportDateShouldnotLTPolicyEffectiveDate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(Report_Date__c &lt; Policy__r.Effective_Date__c,
+    ISNEW() )</errorConditionFormula>
+    <errorDisplayField>Report_Date__c</errorDisplayField>
+    <errorMessage>&apos;Report Date&apos; should not be Less than Policy&apos;s &apos;Effective Date&apos;!</errorMessage>
+</ValidationRule>

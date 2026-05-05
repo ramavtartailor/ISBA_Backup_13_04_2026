@@ -1,0 +1,46 @@
+<aura:component >
+	<aura:attribute name="LawyerInstance" type="Policy_Lawyer__c"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    <tr class="">
+        <td scope="row">
+            <ui:outputText value="{!v.LawyerInstance.Lawyer_Name__c}"/>
+        </td>
+        <td scope="row">
+            <ui:outputDate  value="{!v.LawyerInstance.Prior_Act_Date__c}" format="MM/DD/YYYY"/>
+        </td>
+        <td scope="row">
+            <ui:outputText  value="{!v.LawyerInstance.Step__c}"/>
+        </td>
+        <td scope="row">
+            <ui:outputText value="{!v.LawyerInstance.Overriding_Step_Value__c}"/>
+        </td>
+        <td scope="row">
+            <ui:outputText value="{!v.LawyerInstance.Rate_At__c}"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.Term__c}"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.Primary__c}" style="currency" currencyCode="USD"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.Excess__c}" style="currency" currencyCode="USD"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.X5_5__c}" style="currency" currencyCode="USD"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.X10_10__c}" style="currency" currencyCode="USD"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.ADJ_MOD__c}" style="currency" currencyCode="USD"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.Premium__c}" style="currency" currencyCode="USD"/>
+        </td>
+        <td scope="row">
+            <lightning:formattedNumber value="{!v.LawyerInstance.CLE_Credit__c}" style="currency" currencyCode="USD"/>
+        </td>
+    </tr>
+</aura:component>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rate_At_Must_not_Exceed_100</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(Rate_At__c  &gt; 100,  Rate_At__c &lt; 0)</errorConditionFormula>
+    <errorDisplayField>Rate_At__c</errorDisplayField>
+    <errorMessage>&apos;Rate At&apos; must be between 0-100!</errorMessage>
+</ValidationRule>

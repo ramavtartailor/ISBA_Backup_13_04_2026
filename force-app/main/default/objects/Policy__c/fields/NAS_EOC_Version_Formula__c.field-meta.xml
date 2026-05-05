@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NAS_EOC_Version_Formula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( 
+	Effective_Date__c &lt; DATE(2022,04,01) , &apos;&apos;,
+	IF( Effective_Date__c &lt; DATE(2023,04,01) , &apos;4/22&apos;,
+	IF( Effective_Date__c &lt; DATE(2024,04,01) , &apos;4/23&apos;,
+	IF( Effective_Date__c &lt; DATE(2025,04,01) , &apos;4/24&apos;,
+	IF( Effective_Date__c &lt; DATE(2026,04,01) , &apos;4/25&apos;,
+	IF( Effective_Date__c &lt; DATE(2027,04,01) , &apos;4/26&apos;,
+	IF( Effective_Date__c &lt; DATE(2028,04,01) , &apos;4/27&apos;,
+	IF( Effective_Date__c &lt; DATE(2029,04,01) , &apos;4/28&apos;,
+	IF( Effective_Date__c &lt; DATE(2030,04,01) , &apos;4/29&apos;,
+	&apos;4/30&apos;
+)))))))))</formula>
+    <label>NAS EOC Version</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

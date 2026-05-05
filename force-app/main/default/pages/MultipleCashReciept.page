@@ -1,0 +1,741 @@
+<apex:page standardController="AcctSeed__Cash_Receipt__c" extensions="MultipleCashRecieptExt" id="pg" docType="html-5.0" standardStylesheets="true" sidebar="false" cache="false" >
+    <apex:slds />
+    <head>
+        <title>Cash Reciepts</title>
+        
+        <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+        <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+            <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <style>
+    
+    .slds-truncate{
+        text-align:center;
+    }
+
+
+.Search-lookup-field{
+    color: #16325c;
+    border: 1px solid #d8dde6;
+    border-radius: .25rem;
+    width: 80%;
+    transition: border .1s linear,background-color .1s linear;
+    display: inline-block;
+    padding: 0 1rem 0 .75rem;
+    line-height: 1.875rem;
+    min-height: calc(1.875rem + (1px * 2));
+}
+
+.required-symbol{
+    border-left:2px solid  red !important;
+} 
+.requiredInput a{
+    border:none !important;
+}
+
+.slds-table th{
+    background: #0070d2;
+    color: white;
+}
+.new-table th {
+    background: #959ea7 !important;
+    color: white;
+}
+.slds-scope a {
+    color: #0070d2;
+    text-decoration: none;
+    transition: color .1s linear;
+    border: none !important;
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.lookupInput input{
+    width:80% !important;
+    border-left:2px solid  red !important;
+}
+
+.lookupInput a{
+    width:20% !important;
+}   
+
+.datePicker{ z-index: 99999 ; } .dateFormat { padding: 0 2px; display: none; }
+
+<!--------Action status Css ------->
+    #spinner {
+    position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+z-index: calc(9000 + 2);
+background-color: rgba(106, 175, 172, 0.09);
+visibility: visible;
+opacity: 1;
+transition: opacity .2s ease, visibility 0s;
+transition-delay: 0s, .3s;
+}
+table thead tr > th{
+    padding: 1px !important;
+    font-size: 14px;
+}             
+table tbody tr > td {
+    padding: 1px !important;
+}             
+#assign-action-spinner-main {
+position: fixed;
+left: 0;
+top: 0;
+background-color:rgba(0,0,0,.6);
+height: 100%;
+width: 100%;
+z-index: 999;
+align: center;
+vertical-align: middle;
+}
+#assign-action-spinner-content {
+position: absolute; 
+top: 50%;
+left: 50%;
+z-index: 1000;
+background-color: #F5FCFF;
+width: 204;
+height: 94; 
+border-radius: 1em;
+border: 1px solid #CEECFF;
+padding: 20px 40px 20px 40px;
+margin-left: -116px;
+margin-top: -36px;
+}
+#assign-action-spinner-content img {
+width: 32;
+height: 32;
+align: center;
+vertical-align: middle;
+}
+#assign-action-spinner-content p {
+display: inline;
+font-size: 135%;
+font-weight: bold;
+}  
+.bPageBlock .list {
+    width: 98.3%;
+    margin-left: 1em;
+    margi
+    n-right: 4em;
+} 
+
+<!------------------- End Action status css ----------------->
+    
+    [type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  background: #186;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+    font-family: 'Rubik', sans-serif;
+    font-size: inherit;
+  font-weight: 500;
+  outline: none;
+  padding: 1rem 50px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+  
+  
+  
+}
+        .highlightClass{
+        background-color:#FEB3B3;
+        }
+        .highlightGreenClass{
+        background-color:#bbff96;
+        }  
+        
+        .highlightOrangeClass{
+        background-color:#FFA500;
+        }
+        .highlightBlueClass{
+        background-color:lightskyblue;
+        }
+    </style>
+</head>
+
+<script>
+    function check(lookup){
+    
+    $('input[id$=' + lookup + ']').val('');
+    $('.' + lookup + 'Value').val('');
+    $('input[class$=' + lookup + 'Name]').val('');
+    $('[id$=' + lookup + 'Label]').text('');
+    $('[id$=' + lookup + 'Search]').removeClass('slds-hide');
+    $('[id$=' + lookup + 'LabelDiv]').addClass('slds-hide');
+    
+    
+    
+}
+
+
+$('body').click(function(evt) {
+    $(".closeDiv :visible").each(function() {
+        $('.closeDiv').hide();
+    });
+});
+
+function search(lookName,listIndex) {
+    try {
+        $('input[id$=' + lookName + ']').css('background', 'url("http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif") no-repeat right center');
+        var key = $('input[id$=' + lookName + ']').val();
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.MultipleCashRecieptExt.getLookupRecord}',
+            key,
+            function(result, event) {
+                if (result != null) {
+                    if (event.status) {
+                        var tables = "<ul class='slds-lookup__list' role='listbox'>  ";
+                        var check = true;
+                        
+                        for (var i = 0; i < result.length; i++) {
+                            //alert(result[i].Name);
+                            tables += "<li role='presentation' onclick=\"fillRecord( '" + lookName + "','" + result[i].Id + "','" + result[i].Name.replace("&#39;", "\\'") +  "','"+ listIndex  +  "','"+ result[i].AccountNumber + "')\"><span class='slds-lookup__item-action slds-media' id='lookup-option-483' role='option'><div class='slds-media__body'><div class='slds-lookup__result-text'>" +  result[i].AccountNumber+ ' - ' + result[i].Name + "</div></div></span></li>";
+                        }
+                        tables += "</ul>";
+                        if (result.length > 0) {
+                            
+                            tables = "<div class='slds-lookup__item--label slds-text-body--small'></div>" + tables;
+                        } else {
+                            check = false;
+                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>No record found .</div>";
+                        }
+                        document.getElementById(lookName + "SrchDrpDwn").innerHTML = tables;
+                        $('[id$=' + lookName + 'SrchDrpDwn]').show();
+                        
+                        if(check){
+                            $('[id$=' + lookName + 'SrchDrpDwn]').focus();
+                        }
+                        
+                    } else if (event.type === 'exception') {
+                        
+                    } else {
+                        
+                    }
+                    $('input[id$=' + lookName + ']').css('background', 'none');
+                } else {
+                    $('input[id$=' + lookName + ']').css('background', 'none');
+                }
+            }, {
+                escape: true
+            }
+        );
+    } catch (e) {
+        alert('An Error has Occured. Error:' + e);
+    }
+    
+}
+
+function fillRecord(lookup, id, name,listIndex,AccNum) {
+
+    ChangeAccount(listIndex,id);
+    $('[id$=' + lookup + 'SrchDrpDwn]').hide();
+    $('.' + lookup + 'Value').val(id);
+    
+    $('input[class$=' + lookup + 'Name]').val(AccNum+' - '+name);
+   // $('.' + lookup + 'Value').change();
+    
+    $('[id$=' + lookup + 'Label]').text(AccNum+' - '+name);
+    $('[id$=' + lookup + 'Search]').addClass('slds-hide');
+    $('[id$=' + lookup + 'LabelDiv]').removeClass('slds-hide');
+    
+    }
+
+
+function checkRequiredFields() {
+    var requiredItems = document.getElementsByClassName('required-symbol');
+    var showError = false;
+    for(var i = 0; i < requiredItems.length; i++){
+        if(!requiredItems[i].value){
+            showError = true;
+            break;
+        }
+    }
+    if(showError == false){
+        var requiredItem = document.getElementsByClassName('amountf');
+        if(!requiredItem[0].value || requiredItem[0].value == 0){
+            showError = true;
+        }
+    }
+    if(showError){
+        document.getElementById("errorMsg").style.display = "block";
+        document.getElementById("dynamicError").innerHTML = 'Please Fill all Required Fields.';
+    }else if(!showError){
+        document.getElementById("errorMsg").style.display = "none";
+        
+        callSubmit();
+    }
+}
+
+function redirectToHome(){
+    window.location.href = '/home/home.jsp';
+}
+
+function DynamicDatePicker(d_id)
+
+{
+    
+    DatePicker.pickDate(false,d_id.id,false);
+    
+}
+
+function ApplyCR(indx){
+    $('.apply'+indx).removeClass('slds-hide');
+}
+function closeApplyCR(indx){
+    $('.apply'+indx).addClass('slds-hide');
+}
+function SaveApplyCR(indx){
+    var bal = 0;
+    var isNotError = true;
+    $('.balanceChecked'+indx).each(function(i,e){
+        bal += Number($(e).val());
+    });
+    $('.errorBal'+indx).each(function(i,e){
+        isNotError = false;
+    });
+    if(Number($('.amount'+indx).val()) == bal && isNotError == true){
+        $('.apply'+indx).addClass('slds-hide');
+        $('.error'+indx).addClass('slds-hide');
+        $('.rwClass'+indx).addClass('highlightBlueClass');
+        $('.rwClass'+indx).removeClass('highlightOrangeClass');
+    }else{
+        $('.error'+indx).removeClass('slds-hide');        
+    }
+}
+
+function balanceChange(total,balance,indx){
+    if(Number(total)-Number(balance) >= 0){
+        $('.errorBalance'+indx).addClass('slds-hide');
+        $('.errorBalance'+indx).removeClass('errorBal'+indx);
+    }else{
+        $('.errorBalance'+indx).removeClass('slds-hide');
+        $('.errorBalance'+indx).addClass('errorBal'+indx);
+    }
+}
+
+function selectedCheck(indx){
+   var bal = 0;
+   $('.balanceChecked'+indx).each(function(i,e){
+        bal += Number($(e).val());
+    });
+    $('.totalSelectedAmount'+indx).html(bal);
+    
+    if(bal == Number($('.amount'+indx).val())){
+        $('.rwClass'+indx).removeClass('highlightClass');
+    }else{
+        $('.rwClass'+indx).addClass('highlightClass');
+    }
+}
+
+
+function ProcessFile(){
+    var readFile= document.getElementById("fileId").files[0];
+    
+    console.log(readFile);
+    var reader = new FileReader();
+    if(readFile == undefined){
+        return ;
+    }else{
+        reader.readAsText(readFile);
+        reader.onload = attLoaded;
+    }
+}
+function attLoaded(evt) {  
+    var fileString = evt.target.result;
+    var extension;
+    var input = document.getElementById("fileId");
+    filename= input.value;
+    extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length).toLowerCase();
+    if(extension !='csv'){
+        document.getElementById("errorMsg").style.display = "block";
+        document.getElementById("dynamicError").innerHTML = 'File can only be csv format.';        
+    }else{
+        document.getElementById("errorMsg").style.display = "none";
+        ProcessedFile(fileString);
+   }
+} 
+ 
+</script>
+        
+        
+        <apex:form id="mainForm">
+            
+            <apex:pageMessages id="errorPanel"></apex:pageMessages>
+            <body class="slds-scope">
+                <div class="message errorM3" role="alert" id="errorMsg" style="display:none">
+                    <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+                        <tbody>
+                            <tr valign="top">
+                                <td>
+                                    <img alt="ERROR" class="msgIcon" src="/s.gif" title="ERROR"/>
+                                    
+                                </td>
+                                <td class="messageCell">
+                                    <h4>Errors</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td id="dynamicError">
+                                    <!--Please Fill all Required Fields.-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="slds-page-header" role="banner" style="background:#1199ab">
+                    
+                    <div class="slds-grid" style="font-size:16px;font-weight:bold;color:white">
+                        <image src="/s.gif" alt="AcctSeed__Cash_Receipt__c" class="pageTitleIcon" title="AcctSeed__Cash_Receipt__c"/>Multiple Payments</div>
+                </div>
+                <br/>
+               <apex:outputPanel rendered="{!!isFileProcessed}">
+                   <center>
+                       <input type="file" id="fileId" onchange="ProcessFile();" name="attFile" />
+                       <label for="fileId" class="btn-2"><b>Upload File</b></label>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       <b><apex:CommandButton value="Manual Entry" action="{!ManualEntry}" style="background: #b14;border-radius: 5px;color: #fff;font-weight: 500;padding: 1rem 50px;" rerender="mainForm" status="spinner" /></b>
+                   </center> 
+               </apex:outputPanel>
+               <apex:outputPanel rendered="{!isFileProcessed}"> 
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer" width="100%">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Customer">S.No.</div>
+                            </th>
+                            <th scope="col" colspan="2">
+                                <div class="slds-truncate" title="Customer">Account</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Customer">Amount</div>
+                            </th>
+                            <th scope="col" >
+                                <div class="slds-truncate" title="Customer">Reference</div>
+                            </th>
+                            <th scope="col" >
+                                <div class="slds-truncate" title="Amount">Date</div>
+                            </th>
+                            <th scope="col" >
+                                <div class="slds-truncate" title="Gl Account">Gl Account</div>
+                            </th>  
+                            
+                            <th scope="col" >
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable var="rownum" value="{!0}"/>                        
+                        <apex:repeat value="{!cashRecieptWrpList}" var="wrp" id="dataTable">
+                            <apex:variable var="rownum" value="{!rownum + 1}"/>
+                            <tr class="{!if(wrp.containsRef && not(isBlank(wrp.reference)),'highlightGreenClass', if(OR(wrp.cashReceipt.AcctSeed__Account__c == null,wrp.billingList.size == 0,!wrp.hasAnyBillSelected),'highlightClass',if(wrp.billingList.size>1,'highlightOrangeClass','')))} rwClass{!rownum}">
+                            <!--<tr class="{!if(wrp.cashReceipt.AcctSeed__Account__c == null,'highlightOrangeClass',if(wrp.containsRef && not(isBlank(wrp.reference)),'highlightGreenClass', if(wrp.billingList.size == 1,'','highlightClass')))} rwClass{!rownum}">-->
+                                <td scope="row" data-label="Customer" align="center">
+                                    <div class="slds-form-element__control">
+                                       <center> <apex:outputText value="{!rownum}"/></center>
+                                    </div>
+                                </td>
+                                <td scope="row" data-label="Customer" align="center">
+                                    <div class="slds-form-element__control">
+                                        <apex:outputText value="{!wrp.AccountNumber}"/>
+                                   </div>
+                                </td>
+                                <td scope="row" data-label="Customer" align="center">
+                                    <div class="slds-form-element__control">
+                                        
+                                        <div class=" slds-lookup" data-select="single" id="lookup{!rownum}Search">
+                                            <div class="slds-form-element__control slds-grid slds-box--border">
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true">
+                                                    </svg>
+                                                    <input type="text" id="lookup{!rownum}" class="slds-input" onkeyup="search('lookup{!rownum}','{!rownum}')" placeholder="Search Account" style="border:none;border-left: 4px solid red !important;" />
+                                                    <div class="slds-lookup__menu closeDiv" id="lookup{!rownum}SrchDrpDwn" style="display:none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="display:none;">
+                                            <apex:inputText id="lookupValue" value="{!wrp.cashReceipt.AcctSeed__Account__c}" styleclass="lookup{!rownum}Value" style="width:0px;height:0px;" >
+                                              <!--  <apex:actionSupport action="{!onChangeAccount}" reRender="balance,amount,innerTable" event="onchange" status="spinner" immediate="false" >
+                                                    <apex:param value="{!rownum}" name="rowno"/>
+                                                    <apex:param value="{!wrp.cashReceipt.AcctSeed__Account__c}" name="accId"/>
+                                                </apex:actionSupport>-->
+                                            </apex:inputText>
+                                            <apex:inputText value="{!wrp.CustormerName}" styleclass="lookup{!rownum}Name" style="width:0px;height:0px;">
+                                              
+                                            </apex:inputText>
+                                            
+                                        </div>            
+                                        <!-- Display window -->
+                                        <div class="slds-form-element slds-lookup slds-hide" data-select="single" id="lookup{!rownum}LabelDiv">
+                                            <div class="slds-form-element__control slds-grid slds-box--border" style="display: inline-flex;">
+                                                <div class="slds-dropdown--trigger slds-dropdown-trigger--click slds-align-middle slds-m-left--xx-small slds-shrink-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="slds-icon slds-icon-standard-account slds-icon--small" aria-hidden="true">
+                                                        <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <label class="slds-align-middle slds-lookup__search-input slds-input--bare" for="form-help" id="lookup{!rownum}Label">{!wrp.CustormerName}</label>
+                                                    <apex:image style="height: 21px; width: 21px;" url="{!$Resource.removeImage}" width="50" height="50" onclick="check('lookup{!rownum}');"/>&nbsp;
+                                                </div>
+                                            </div>
+                                            
+                                            <script>
+                                            
+                                            if($('.lookup{!rownum}Value').val() != ''){
+                                                
+                                                $('[id$=lookup{!rownum}Search]').addClass('slds-hide');
+                                                $('[id$=lookup{!rownum}LabelDiv]').removeClass('slds-hide');
+                                                $('[id$=lookup{!rownum}]').val("{!wrp.CustormerName}");
+                                            }
+                                            
+                                            </script>
+                                            
+                                        </div>     
+                                        
+                                    </div>
+                                    
+                                </td>
+                                
+                                <td scope="row" data-label="Customer" align="center">
+                                    <div class="slds-form-element__control">
+                                        <apex:outputText value="{!wrp.cashReceipt.AcctSeed__Amount__c}"  id="amount1" styleclass="slds-input" rendered="{!!isManualEntry}">
+                                           
+                                        </apex:outputText>
+                                        <apex:inputText value="{!wrp.amount}"  id="amount" styleclass="slds-input amountf  amount{!rownum} ">
+                                           
+                                        </apex:inputText>
+                                    </div>
+                                </td>
+                                <td scope="row" data-label="Customer" align="center">
+                                    <div class="slds-form-element__control">
+                                        <apex:input type="text" value="{!wrp.reference}" id="reference" styleclass="slds-input required-symbol" onchange="ChangeCrRef('{!rownum}')"/>
+                                    </div>
+                                </td>
+                                
+                                <td scope="row" data-label="Customer" align="center">
+                                    <div class="slds-form-element__control">
+                                        <apex:inputfield value="{!wrp.cashReceipt.AcctSeed__Receipt_Date__c }" styleclass="slds-input required-symbol"/>
+                                    </div>
+                                </td>
+                                
+                                <td scope="row" data-label="Gl Account" align="center">
+                                    <div class="slds-form-element__control">
+                                        <apex:inputfield value="{!wrp.cashReceipt.AcctSeed__Credit_GL_Account__c}"  id="glAccount" styleclass="slds-input " />
+                                    </div>
+                                </td>  
+                                
+                                <td align="center">                                    
+                                    <button type="button" class="slds-button slds-button--neutral slds-grow disableButtons"  onclick="ApplyCR('{!rownum}');">Apply</button>
+                                    <button type="button" id="hideBotton" class="slds-button slds-button--neutral slds-grow disableButtons" onclick="callAddRow('{!rownum + 1}');">+</button>
+                                    <button type="button" class="slds-button slds-button--neutral slds-grow disableButtons"  onclick="removeRowMethod('{!rownum}');">-</button>
+                                    
+                                    <div class="apply{!rownum} slds-hide">
+                                    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                                        <div class="slds-modal__container" style="width: 90% !important;max-width: 150rem !important;">
+                                            <header class="slds-modal__header">
+                                                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Apply Cash Reciept</h2>
+                                            </header>
+                                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                            
+                                            <apex:outputPanel id="innerTable">
+                                                <center><span class="slds-hide error{!rownum}" style="padding: 20px;background-color: #f44336;color: white;">Total Applied Amount must be equal to Cash Reciept Amount.</span></center>
+                                                
+                                                <table class="slds-table slds-table_bordered slds-table_cell-buffer"  width="100%">
+                                                    <thead>
+                                                        <tr class="slds-text-title_caps">
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Customer">Select</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Billing">Billing</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Date">Date</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Description">Description</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Policy">Policy</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Claim">Claim</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Balance">Balance</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Applied Amount">Applied Amount</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <apex:repeat value="{!wrp.billingList}" var="bill">
+                                                    <tr>
+                                                        <td scope="row" data-label="Customer" align="center">
+                                                            <div class="slds-form-element__control">
+                                                                <center> <apex:inputCheckbox id="selected" onclick="if($(this).prop('checked')){$('.balance{!bill.billName}{!rownum}').addClass('balanceChecked{!rownum}');}else{$('.balance{!bill.billName}{!rownum}').removeClass('balanceChecked{!rownum}')} selectedCheck({!rownum});" value="{!bill.selected}"/></center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="Customer"  align="center">
+                                                            <div class="slds-form-element__control">
+                                                                <center> <apex:outputText id="billName" value="{!bill.billName}"></apex:outputText></center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="Date"  align="center">
+                                                            <div class="slds-form-element__control">
+                                                                <center> 
+                                                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                                                        <apex:param value="{!bill.billingDate}" /> 
+                                                                    </apex:outputText>
+                                                                </center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="ASTransactionDescription" width="25%" align="center">
+                                                            <div class="slds-form-element__control">
+                                                                <center> <apex:outputText id="ASTransactionDescription" value="{!bill.ASTransactionDescription}"></apex:outputText></center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="policyNumber"  align="center">
+                                                            <div class="slds-form-element__control">
+                                                                <center> <apex:outputText id="policyNumber" value="{!bill.policyNumber}"></apex:outputText></center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="claimNumber"  align="center">
+                                                            <div class="slds-form-element__control">
+                                                                <center> <apex:outputText id="claimNumber" value="{!bill.claimNumber}"></apex:outputText></center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="Customer" align="center" padding-left="">
+                                                            <div class="slds-form-element__control">
+                                                                <center> $<apex:outputText id="balanceOriginal" value="{!bill.balanceOriginal}"></apex:outputText></center>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="Customer"  align="center" padding-left="">
+                                                            <div class="slds-form-element__control">
+                                                                <center> <apex:inputText id="balance" value="{!bill.Balance}" styleclass="slds-input required-symbol balance{!bill.billName}{!rownum} {!if(wrp.billingList.size == 1,'balanceChecked','')}{!rownum}" onchange="balanceChange({!bill.balanceOriginal},$(this).val(),{!bill.billName});selectedCheck({!rownum});"></apex:inputText></center>
+                                                                <span class="slds-hide errorBalance{!bill.billName} " style="padding: 20px;color: red;"><b>Applied Amount must be less than or equal to balance.</b></span>
+                                                
+                                                            </div>
+                                                        </td>
+                                                        </tr>
+                                                        </apex:repeat>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td><div class="slds-form-element__control"><b>Total Selected Amount</b></div></td>
+                                                            <td colspan = "5">
+                                                                <div class="slds-form-element__control">
+                                                                    <b>$<span class="totalSelectedAmount{!rownum}">{!if(wrp.billingList.size == 1,wrp.amount,'0')}</span></b>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </apex:outputPanel>
+                                                
+                                                <apex:outputPanel rendered="{!wrp.ServiceFee != ''}" style="width:100%;padding: 20px;"><b>Service Fee: </b>{!wrp.ServiceFee}<br/></apex:outputPanel>
+                                                
+                                            </div>
+                                            <footer class="slds-modal__footer">
+                                                <button type="button" class="slds-button slds-button_neutral slds-grow disableButtons" onclick="closeApplyCR('{!rownum}');">Cancel</button>
+                                                <button type="button" class="slds-button slds-button_brand slds-grow disableButtons" onclick="SaveApplyCR('{!rownum}');">Save</button>
+                                            </footer>
+                                        </div>
+                                    </section>
+                                    <div class="slds-backdrop slds-backdrop_open"></div>
+                                </div>
+                                </td>
+                                
+                            </tr>
+                        </apex:repeat>  
+                    </tbody>
+                </table>  
+                
+                <br/>
+                <center>
+                    <button type="button" class="slds-button slds-button--neutral slds-grow" id="submitButtonId" onclick="checkRequiredFields()">Submit</button>
+                    <button type="button" class="slds-button slds-button--neutral slds-grow" id="cancelButtonId" onclick="redirectToHome();">Cancel</button>
+                </center>
+                   <apex:outputPanel rendered="{!!isManualEntry}">
+                       <b>Rows already processed : </b> {!alreadyProcessed}<br/>
+                       <b>Rows shows : </b> {!totalShows}<br/>
+                       <b>Rows left to process :  </b> {!leftToProcess}<br/>
+                   </apex:outputPanel>
+               </apex:outputPanel>
+               
+               
+                <apex:actionStatus id="spinner">
+                    <apex:facet name="start">
+                        <div id="assign-action-spinner-main">
+                            <div id="assign-action-spinner-content">
+                                <img src="/img/analytics/reportbuilder/icons/spinner32.gif" 
+                                     alt="Processing..." title="Processing..." /> 
+                                <p>Processing...</p>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionStatus>
+                
+              <!--  <apex:actionRegion >-->
+                <apex:actionFunction name="callAddRow" action="{!addRow}" rerender="mainForm" status="spinner">
+                    <apex:param value="" name="rowno"/>
+                </apex:actionFunction>
+                <apex:actionFunction name="callSubmit" action="{!submit}" rerender="errorPanel" status="spinner" />
+                <apex:actionFunction name="removeRowMethod" action="{!removeRow}" rerender="mainForm" status="spinner">
+                    <apex:param value="" name="listIndex"/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="ProcessedFile" action="{!ProcessFile}" rerender="mainForm" status="spinner" >
+                    <apex:param value="" name="file"/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="ChangeAccount" action="{!onChangeAccount}" reRender="mainForm,balance,amount,innerTable,errorPanel" status="spinner">
+                    <apex:param value="" name="rowno"/>
+                    <apex:param value="" name="AccountId"/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="ChangeCrRef" action="{!crReference}" rerender="mainForm" status="spinner">
+                    <apex:param value="" name="listIndex"/>
+                </apex:actionFunction>
+                
+          <!--      </apex:actionRegion>-->
+            </body></apex:form>
+        
+    </apex:page>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Treaty_Version__c</fullName>
+    <label>Treaty Version</label>
+    <referenceTo>Treaty_Versions__c</referenceTo>
+    <relationshipLabel>Treaty Version Transaction</relationshipLabel>
+    <relationshipName>Treaty_Version_Transaction</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

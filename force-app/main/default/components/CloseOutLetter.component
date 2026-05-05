@@ -1,0 +1,133 @@
+<apex:component controller="RegularRenewalDoc_Ctrl" access="global">
+    <apex:attribute name="recId" type="String" assignTo="{!recordId}" description="recordId"/>
+    <head>
+        <style>
+            body {
+            font-family: 'Arial', sans-serif !important;
+            font-size: 13.3333px;
+            }
+            @page {
+            margin-top: 30px;
+            margin-bottom: 100px;
+            font-family: 'Arial', sans-serif !important;
+            }
+            .arial {
+            font-family: 'Arial', sans-serif !important;
+            }
+            
+            .ibf_subtitle {
+            font-size:18px;
+            color:black;
+            text-align: center;
+            }z
+            
+            .isbam_primary_red {
+            color: #89001B;
+            }
+            
+            #conditions tr td {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            }
+            
+            .conditions {
+            padding-top: 13px;
+            display: inline-block
+            }
+            
+        </style>
+    </head>
+    
+    
+    <div class="arial" style="font-size: 15px;">
+        <br/>
+        <table>
+            <tr>
+                <td>
+                    <table style="width:100%; padding-top: 0px;">
+                        <tr>
+                            <td style="width: 50%">
+                                <apex:outputText value="{0,date,MMM dd, yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText><br/>
+                                <br/>
+                                <apex:outputField value="{!PolicyRec.Account__r.Name}"/><br/>
+                                {!PolicyRec.Account__r.BillingStreet}<br/>
+                                {!PolicyRec.Account__r.BillingCity}, {!PolicyRec.Account__r.BillingState}&nbsp;&nbsp;{!PolicyRec.Account__r.BillingPostalCode}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br/>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width: 30px;" valign="top">
+                                Re:
+                            </td>
+                            <td>
+                                Lawyers’ Malpractice Policy: {!PolicyRec.Name}<br/>
+                                Policy Term:&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!PolicyRec.Effective_Date__c}"/></apex:outputText>
+                                to&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!PolicyRec.Expiration_Date__c}" /></apex:outputText>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Dear {!PolicyRec.Firm_Contact__r.FirstName},
+                    
+                    <br/>
+                    
+                    <p class="arial" style="text-align: justify;">
+                        As of 12:01 AM CST&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!PolicyRec.Expiration_Date__c}" /></apex:outputText>
+                        the captioned Lawyers Professional Liability Insurance Policy
+                        expired and the 60-day Automatic Extended Reporting Period has been triggered.  Since we have not
+                        received instructions from you to renew this policy, we are closing our file.
+                    </p>
+                    
+                    <p class="arial" style="text-decoration: underline;">
+                        If it is your intention to continue your professional liability coverage with ISBA Mutual, please contact me <b>immediately</b>.
+                    </p>
+                    
+                    <p class="arial" style="text-align: justify;">
+                        Your expired ISBA Mutual Policy is a claims-made and reported policy. <b>Due to the nature of claims-made policies, you no 
+                        longer have coverage for Legal Services rendered after the expiration date of the Policy referenced above, subject to 
+                        all other Policy Provisions.</b>
+                    </p>
+                    
+                    <p class="arial" style="">
+                        Section VII of your ISBA Mutual Policy details your options, rights, and the process to procure an
+                        Extended Reporting Period Endorsement.
+                    </p>
+                    
+                    <p class="arial" style="text-align: justify;">
+                        Thank you for your past support of the ISBA Mutual Insurance Company.  It has been a privilege and a pleasure to have insured your firm.
+                        If you have any questions regarding the above, please do not hesitate to contact me.
+                    </p>
+                    
+                    <br/><br/>
+                    Sincerely,
+                    <br/><br/>
+                    <table style="width: 100%;">
+                        <tr>
+<td style="width: 70%;">
+{!PolicyRec.Underwriter_User__r.FirstName}&nbsp;{!PolicyRec.Underwriter_User__r.LastName}<br/>
+Underwriting<br/>
+{!PolicyRec.Underwriter_User__r.Phone}<br/>
+ISBA Mutual Insurance Company<br/>
+20 S. Clark, Suite 800<br/>
+Chicago, IL 60603<br/>
+</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+        </table>
+        
+    </div>
+    
+</apex:component>

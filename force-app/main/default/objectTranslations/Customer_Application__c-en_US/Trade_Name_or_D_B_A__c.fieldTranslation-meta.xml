@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Trade Name or D/B/A --></label>
+    <name>Trade_Name_or_D_B_A__c</name>
+</CustomFieldTranslation>

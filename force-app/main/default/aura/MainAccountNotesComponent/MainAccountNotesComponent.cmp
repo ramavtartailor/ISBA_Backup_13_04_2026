@@ -1,0 +1,20 @@
+<aura:component Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <div aura:id="thecontainer" class="thecontainer" id="thecontainer">
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open slds-modal--large">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 id="header43" class="slds-text-heading--large">Notes</h2>
+                </div>
+                <div class="slds-modal__content slds-p-top--x-large slds-p-around--large" aura:id="modalbody" id="modalbody">
+                    
+                    <c:AccountNotesComponent recordId="{!v.recordId}"/>
+                    
+                </div><!-- modal -->
+                <div class="slds-modal__footer">
+                    <!-- Footer elements, if required -->
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open" ></div>
+    </div>
+</aura:component>

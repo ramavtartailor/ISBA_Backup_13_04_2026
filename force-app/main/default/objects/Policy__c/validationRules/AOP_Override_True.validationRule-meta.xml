@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AOP_Override_True</fullName>
+    <active>true</active>
+    <description>When AOP Override is checked then value must be insert and manager role should be allocated to current user.</description>
+    <errorConditionFormula>AND( AOP_Override__c =True, 
+   $UserRole.Name = &quot;Manager&quot;, (NULLVALUE(AOP_Override_Value__c, 0)&lt;=0))</errorConditionFormula>
+    <errorDisplayField>AOP_Override_Value__c</errorDisplayField>
+    <errorMessage>Please input positive AOP Override value !</errorMessage>
+</ValidationRule>

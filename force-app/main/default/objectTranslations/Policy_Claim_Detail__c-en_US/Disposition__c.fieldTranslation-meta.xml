@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Disposition --></label>
+    <name>Disposition__c</name>
+    <picklistValues>
+        <masterLabel>Abandoned</masterLabel>
+        <translation><!-- Abandoned --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Accepted / Covered by Another</masterLabel>
+        <translation><!-- Accepted / Covered by Another --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Accepted/Covered by Another Insurance</masterLabel>
+        <translation><!-- Accepted/Covered by Another Insurance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed due to Claim Repair with LAE payment</masterLabel>
+        <translation><!-- Closed due to Claim Repair with LAE payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with LAE payment only</masterLabel>
+        <translation><!-- Closed with LAE payment only --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with both Indemnity and LAE</masterLabel>
+        <translation><!-- Closed with both Indemnity and LAE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Coverage Denied</masterLabel>
+        <translation><!-- Coverage Denied --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No manner in which disposed indicated</masterLabel>
+        <translation><!-- No manner in which disposed indicated --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Resolved through Arbitration</masterLabel>
+        <translation><!-- Resolved through Arbitration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Settled by Insured without ISBA Mutual</masterLabel>
+        <translation><!-- Settled by Insured without ISBA Mutual --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Settled by Mediation</masterLabel>
+        <translation><!-- Settled by Mediation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tried to Final Judgement with Indemnity</masterLabel>
+        <translation><!-- Tried to Final Judgement with Indemnity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tried to Final Judgement without Indemni</masterLabel>
+        <translation><!-- Tried to Final Judgement without Indemni --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

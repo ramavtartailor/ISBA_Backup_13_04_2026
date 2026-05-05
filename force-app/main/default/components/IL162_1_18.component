@@ -1,0 +1,21 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Amendment of <span style="font-weight: bolder;">Damages</span> Definition - <br/> FDCPA Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> III. DEFINITIONS, E. DAMAGES, </span>is amended to include the following:
+    </p>
+    <p class="normalParagraph p_padding">
+        <span class="boldSpan">Damages </span> also includes those amounts that the court is permitted to award against a debt collector pursuant to 15 U.S.C. § 1692k(a).
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!--  <div style="width:30%;margin-top:400px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

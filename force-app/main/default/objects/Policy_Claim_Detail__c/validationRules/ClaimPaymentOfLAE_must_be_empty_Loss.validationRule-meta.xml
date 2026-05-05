@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClaimPaymentOfLAE_must_be_empty_Loss</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISPICKVAL( Type__c , &apos;LAE Payment&apos;) &amp;&amp;
+!ISNULL(Loss_Amount__c)</errorConditionFormula>
+    <errorDisplayField>Loss_Amount__c</errorDisplayField>
+    <errorMessage>&apos;Loss Amount&apos; should be empty in case of &apos;LAE Payment&apos;!</errorMessage>
+</ValidationRule>

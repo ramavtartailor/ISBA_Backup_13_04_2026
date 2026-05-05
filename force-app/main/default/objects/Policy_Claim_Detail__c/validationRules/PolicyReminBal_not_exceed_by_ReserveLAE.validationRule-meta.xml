@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PolicyReminBal_not_exceed_by_ReserveLAE</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(
+ISPICKVAL( Type__c , &apos;User Reserve&apos;),
+ISPICKVAL( Type__c , &apos;Reopen Reserve&apos;)
+) &amp;&amp;
+!ISNULL(  LAE_Amount__c  ) &amp;&amp; 
+IF( ISNEW() , 
+          LAE_Amount__c &gt;    Policy_Claim__r.Policy_Remaining_By_All_Claims__c, 
+           (PRIORVALUE(LAE_Amount__c) + Policy_Claim__r.Policy_Remaining_By_All_Claims__c - LAE_Amount__c) &lt;0
+    )</errorConditionFormula>
+    <errorDisplayField>LAE_Amount__c</errorDisplayField>
+    <errorMessage>&apos;LAE Amount&apos; cannot exceed &apos;Remaining Limits&apos; of Policy in case of &apos;User Reserve&apos; or &apos;Re-Opened Reserve&apos;!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,42 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Claim Expense Exclusion
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> I. COVERAGE AGREEMENTS, D. </span>of this Policy is hereby deleted.<br/><br/>
+        It is agreed that<span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE, E. </span>of this Policy is hereby deleted and replaced with the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    &nbsp;
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Subject to the Limit of Liability:<br/>
+                    The<span class="normalBoldParagraph"> COMPANY </span>is liable to pay<span class="normalBoldParagraph"> DAMAGES </span>and<span class="normalBoldParagraph"> CLAIM EXPENSES </span>in excess of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. The<span class="normalBoldParagraph"> DEDUCTIBLE </span>for all<span class="normalBoldParagraph"> DAMAGES </span>and<span class="normalBoldParagraph"> CLAIM EXPENSES </span>in any<span class="normalBoldParagraph"> POLICY TERM </span>applies separately to each<span class="normalBoldParagraph"> CLAIM </span>. The<span class="normalBoldParagraph"> NAMED INSURED </span>is responsible for the payment of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>, and each<span class="normalBoldParagraph"> INSURED </span>is individually liable for the payment of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. In the event that the<span class="normalBoldParagraph"> COMPANY </span>expends funds for<span class="normalBoldParagraph"> DAMAGES </span>or<span class="normalBoldParagraph"> CLAIM EXPENSES </span>on an<span class="normalBoldParagraph"> INSURED </span>’s behalf, the<span class="normalBoldParagraph"> INSURED </span>will reimburse the<span class="normalBoldParagraph"> COMPANY </span>for such expenditures up to the amount of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>. Reimbursement of the<span class="normalBoldParagraph"> DEDUCTIBLE </span>will be due within thirty (30) days of the<span class="normalBoldParagraph"> COMPANY </span>’s first demand or thirty (30) days from the date the<span class="normalBoldParagraph"> COMPANY </span>or counsel appointed by the<span class="normalBoldParagraph"> COMPANY </span>first bills the<span class="normalBoldParagraph"> INSURED </span>, whichever is earlier. If the<span class="normalBoldParagraph"> INSURED </span>does not reimburse the<span class="normalBoldParagraph"> COMPANY </span>or counsel appointed by the<span class="normalBoldParagraph"> COMPANY </span>within sixty (60) days, the<span class="normalBoldParagraph"> COMPANY </span>will be entitled to recover from the<span class="normalBoldParagraph"> INSURED </span>reasonable legal fees, costs, and expenses incurred by the<span class="normalBoldParagraph"> COMPANY </span>in collecting the<span class="normalBoldParagraph"> DEDUCTIBLE </span>.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:260px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

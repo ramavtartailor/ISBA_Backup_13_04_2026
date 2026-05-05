@@ -1,0 +1,307 @@
+<aura:component controller="AccountNotesComponentHandler" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <!--Init handler which is call doInit js function on component Load--> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="NavigateToNoteRecord" event="c:NavigateToNoteRecord" action="{!c.navigateToNote}"/>
+    <aura:handler name="change" value="{!v.selectedFilterValue}" action="{!c.handleFilterChange}"/>
+    <aura:handler name="change" value="{!v.selectedNoteTypeFilterValue}" action="{!c.handleFilterChange}"/>
+    <!--<aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>-->
+    
+    <aura:attribute name="NotesList" type="Note__c[]"/> 
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+    <aura:attribute name="filterList" type="String[]"/>
+    <aura:attribute name="selectedFilterValue" type="String"/>
+    <aura:attribute name="noteTypefilterList" type="String[]"/>
+    <aura:attribute name="selectedNoteTypeFilterValue" type="String"/>
+    <aura:attribute name="newNoteRecordTypeId" type="Id" />
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    
+   	<!--<aura:attribute name="enableInfiniteLoading" type="Boolean" default="true"/>
+    <aura:attribute name="notesColumns" type="List"/>
+    <aura:attribute name="initialRows" type="Integer" default="10"/>
+    <aura:attribute name="currentCount" type="Integer" default="10"/>
+    <aura:attribute name="totalRows" type="Integer" default="0"/>
+    <aura:attribute name="loadOffset" type="Integer" default="1"/> -->
+    <aura:attribute name="PageSize" type="integer" default="20"/>
+    <aura:attribute name="PageNumber" type="integer" default="1"/>
+    <aura:attribute name="TotalPages" type="integer" default="0"/>
+    <aura:attribute name="TotalRecords" type="integer" default="0"/>
+    <aura:attribute name="RecordStart" type="integer" default="0"/>
+    <aura:attribute name="RecordEnd" type="integer" default="0"/>
+    
+    <aura:attribute name="arrowDirection" type="string" default="arrowdown" description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute name="isAsc" type="boolean" default="false" description="boolean flag for pass sorting condition to apex class"/> 
+    <aura:attribute name="selectedTabsoft" type="string" default="CreatedDate" description="Use for show/hide arraow sign on header based on conditions"/>
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="showError" type="boolean" default="false"/>
+    <aura:attribute name="NoteRec" type="object" />
+     <aura:attribute name="reloadForm" type="boolean" default="true" />
+     
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+     <aura:if isTrue="{!v.showError}">
+        <div class="slds-notify_container" style="margin-top:1%;text-align:center;">
+            <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                <span class="slds-assistive-text">Error</span>
+                <div class="notify__content slds-grid">
+                    <span class="slds-icon__container ">
+                        <span class="slds-assistive-text">Alert</span>
+                    </span>
+                    <div class="slds-col slds-align-middle" >
+                        <h2 class="slds-text-heading- -medium "><center><b>{!v.status}</b></center></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <div class="slds-clearfix" style="z-index: 100;padding: 0.4%;background-color:whitesmoke;">
+        <div >
+            <div style="width:40%;float:left;">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-p-around_large slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12" style="padding: 0 !important;">
+                        <lightning:select name="select" label="Filter Notes" aura:id="filterNotes"  value="{!v.selectedFilterValue}">
+                            <aura:iteration items="{!v.filterList}" var="filterValue">
+                                <option value="{!filterValue.value}" text="{!filterValue.label}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    
+                    <div class="slds-p-around_large slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12" style="padding: 0 !important;">
+                        <lightning:select name="select" label="Note Type" aura:id="noteType"  value="{!v.selectedNoteTypeFilterValue}">
+                            <aura:iteration items="{!v.noteTypefilterList}" var="noteTypefilterValue">
+                                <option value="{!noteTypefilterValue}" text="{!noteTypefilterValue}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+            </div>
+            <div  style="width:60%;float:right;">
+                <div class="slds-float_right">
+                    {!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}<br/>
+                    <lightning:button disabled="{!v.PageNumber == 1}" variant="brand" aura:id="prevPage" label="Prev" onclick="{!c.handlePrev}" />            
+                    <lightning:button disabled="{!v.PageNumber == v.TotalPages}" aura:id="nextPage" variant="brand" label="Next" onclick="{!c.handleNext}"/>
+                    <!--<button class="slds-button slds-button_brand"  onclick="{!c.Cancel}">Close</button>-->
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning:button  variant="brand" aura:id="export" label="Export" onclick="{!c.ExportNotes}" />
+                    <lightning:button  variant="brand" aura:id="new" label="New" onclick="{!c.newNote}" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning:buttonIcon iconName="utility:refresh" alternativeText="Refresh" onclick="{!c.doInit }"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal  slds-modal_large">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 id="header43" class="slds-text-heading--medium">New Note</h2>
+            </div>
+            
+            <div class="slds-modal__content slds-p-around--medium">
+                <div>
+                    
+              <lightning:recordEditForm objectApiName="Note__c" recordTypeId="{!v.newNoteRecordTypeId}">
+                  <aura:if isTrue="{!v.reloadForm}">
+                      <div class="slds-grid slds-wrap slds-col slds-size_1-of-1"  >
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Subject__c"   value="{!v.NoteRec.Subject__c}" />
+                              </div>
+                              
+                          </div>
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Type__c"   value="{!v.NoteRec.Type__c}" />
+                              </div>
+                              
+                          </div>
+                          <div class="slds-col slds-size_1-of-1">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Description__c"  value="{!v.NoteRec.Description__c}" />
+                              </div>
+                              
+                          </div>
+                          
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <!--<lightning:inputField fieldName="Create_Task__c"   value="CreateTask" onchange="{!c.handleCheck}" name="CreateTask" aura:id="CreateTask"/>-->
+                                  <lightning:input aura:id="CreateTask" type="checkbox"
+                                                   label="Create Task" 
+                                                   name="CreateTask" value="CreateTask" onchange="{!c.handleCheck}" />
+                                  
+                                  <lightning:inputField fieldName="Due_Date__c"   value="{!v.NoteRec.Due_Date__c}" />
+                              
+                              </div>
+                              
+                          </div>
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <lightning:inputField fieldName="Task_Owner__c"   value="{!v.NoteRec.Task_Owner__c}" />
+                              </div>
+                              
+                          </div>
+                          
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  <!--<lightning:inputField fieldName="Create_Task__c"   value="CreateTask" onchange="{!c.handleCheck}" name="CreateTask" aura:id="CreateTask"/>-->
+                                  <lightning:input aura:id="ReminderSet" type="checkbox"
+                                                   label="Reminder Set" 
+                                                   name="ReminderSet" value="ReminderSet" onchange="{!c.handleCheck}" />
+                                  <lightning:input fieldName="Reminder_Time__c" type="datetime" value="{!v.NoteRec.Reminder_Time__c}"/>
+                              </div>
+                              
+                          </div>
+                          <div class="slds-col slds-size_1-of-2">
+                          </div>
+                          <div class="slds-col slds-size_1-of-2">
+                              
+                              <div class="slds-form-element__control">
+                                  
+                              </div>
+                              
+                          </div>
+                          
+                      </div>
+                  </aura:if>
+                    </lightning:recordEditForm>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <center>
+                    <lightning:button label="Cancel" onclick="{!c.onCancel}" variant="brand" class="slds-button slds-button_destructive"/>
+                    <lightning:button label="Save" onclick="{!c.handleSuccess}" variant="brand" class="slds-button slds-button_brand" />
+                </center>
+            </div>
+            
+        </div>
+    </div>
+    <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+    
+    
+    <br/>
+    <!--<div style="height:330px">
+        <lightning:datatable aura:id="dataTableID"
+                             keyField="Id"
+                             hideCheckboxColumn="true"
+                             columns="{!v.notesColumns}"
+                             data="{!v.NotesList}"
+                             enableInfiniteLoading="{!v.enableInfiniteLoading}"
+                             loadMoreOffset="{!v.loadMoreOffset}"
+                             onloadmore="{!c.handleLoadMore}" showRowNumberColumn="true"/>
+    </div> -->
+    <div>
+        <!--Table Part-->          
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" width="5%">
+                        <div class="slds-truncate">#</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-title--caps" width="15%" scope="col" onclick="{!c.sortByName}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Department">Name</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'Name') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'Name') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th>
+                    
+                    <th class="slds-is-sortable slds-text-title--caps" width="15%" scope="col" onclick="{!c.sortByDate}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Department">Created date</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'CreatedDate') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'CreatedDate') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th>
+                    <th class="slds-is-sortable slds-text-title--caps" width="20%" scope="col" onclick="{!c.sortByCreatedName}" >
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Department">Created by</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'Created_By_Name__c') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'Created_By_Name__c') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th>
+                    <!--<th scope="col" width="15%" >
+                        <div class="slds-truncate" title="Due Date">Due Date</div>
+                    </th>-->
+                   
+                    <th class="slds-is-sortable slds-text-title--caps" width="15%" scope="col" >
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Department">Type</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'Type__C') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'Type__C') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th>
+                    <!--<th class="slds-is-sortable slds-text-title-caps" width="15%" scope="col" onclick="{!c.sortByStatus}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link-reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Department">Status</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'Status__C') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'Status__C') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th> -->
+                    
+                </tr>
+            </thead>   
+            <tbody>       
+                <aura:iteration items="{!v.NotesList}" var="item" indexVar="index">
+                    <c:InnerComponent NotesInstance="{!item}" rowIndex="{!index}" />
+                </aura:iteration>
+            </tbody>
+        </table>
+    <br/>
+        </div>
+    <div class="slds-clearfix" style="z-index: 100;padding: 0.4%;background-color:whitesmoke;">
+        <div >
+            <div style="width:40%;float:left;">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-p-around_large slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12" style="padding: 0 !important;">
+                        <lightning:select name="select" label="Filter Notes" aura:id="filterNotes"  value="{!v.selectedFilterValue}">
+                            <aura:iteration items="{!v.filterList}" var="filterValue">
+                                <option value="{!filterValue.value}" text="{!filterValue.label}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    
+                    <div class="slds-p-around_large slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12" style="padding: 0 !important;">
+                        <lightning:select name="select" label="Note Type" aura:id="noteType"  value="{!v.selectedNoteTypeFilterValue}">
+                            <aura:iteration items="{!v.noteTypefilterList}" var="noteTypefilterValue">
+                                <option value="{!noteTypefilterValue}" text="{!noteTypefilterValue}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+            </div>
+            <div  style="width:60%;float:right;">
+                <div class="slds-float_right">
+                    {!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}<br/>
+                    <lightning:button disabled="{!v.PageNumber == 1}" variant="brand" aura:id="prevPage" label="Prev" onclick="{!c.handlePrev}" />            
+                    <lightning:button disabled="{!v.PageNumber == v.TotalPages}" aura:id="nextPage" variant="brand" label="Next" onclick="{!c.handleNext}"/>
+                    <!--<button class="slds-button slds-button_brand"  onclick="{!c.Cancel}">Close</button>-->
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning:button  variant="brand" aura:id="export" label="Export" onclick="{!c.ExportNotes}" />
+                    <lightning:button  variant="brand" aura:id="new" label="New" onclick="{!c.newNote}" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning:buttonIcon iconName="utility:refresh" alternativeText="Refresh" onclick="{!c.doInit }"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

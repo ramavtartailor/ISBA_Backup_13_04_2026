@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Q_Conflict_Of_Interest_System_supervisor__c</fullName>
+    <defaultValue>false</defaultValue>
+    <label>Q_Conflict_Of_Interest_System_supervisor</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

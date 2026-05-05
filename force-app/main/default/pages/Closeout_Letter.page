@@ -1,0 +1,10 @@
+<apex:page controller="RegularRenewalDoc_Ctrl" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    
+    <!---HEADER------------------------------------------------------------>
+      <div style="" class="header">
+          <c:Application_Header />    
+      </div>
+    
+    <c:CloseOutLetter recId="{!$CurrentPage.parameters.id}"/>
+  
+</apex:page>

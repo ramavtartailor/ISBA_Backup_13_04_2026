@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deductible</fullName>
+    <active>true</active>
+    <description>1) Allocate Deductible Loss/LAE. 2) Cash Received / Write-off against Deductible.</description>
+    <label>Deductible</label>
+    <picklistValues>
+        <picklist>Disposition__c</picklist>
+        <values>
+            <fullName>Abandoned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accepted %2F Covered by Another</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accepted%2FCovered by Another Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed due to Claim Repair with LAE payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with LAE payment only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed with both Indemnity and LAE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Coverage Denied</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No manner in which disposed indicated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolved through Arbitration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settled by Insured without ISBA Mutual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settled by Mediation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tried to Final Judgement with Indemnity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tried to Final Judgement without Indemni</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Handler__c</picklist>
+        <values>
+            <fullName>Alan Sue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Audit ISBA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cai Huang</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Candice Goldstein</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cinda Berry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>David Sameshima</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demi Clay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elizabeth Shaykin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jeff Strand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jessica Chu</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Joan Comfort</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Joann Woo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kyle Hoker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lisa Garbaty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Melissa Kaplan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neil Bergeron</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tectnoic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Veronique Rufus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Xu Jun Liu</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Deductible Expense</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deductible Expense New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deductible Loss</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Error__c</picklist>
+        <values>
+            <fullName>Admistrative Error</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intentional Wrong</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Substantive Error</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

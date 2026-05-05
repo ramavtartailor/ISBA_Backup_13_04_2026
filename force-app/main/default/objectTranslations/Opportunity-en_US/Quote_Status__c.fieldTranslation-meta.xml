@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Quote Status --></label>
+    <name>Quote_Status__c</name>
+    <picklistValues>
+        <masterLabel>No Quote</masterLabel>
+        <translation><!-- No Quote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Price Indication</masterLabel>
+        <translation><!-- Price Indication --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quoted</masterLabel>
+        <translation><!-- Quoted --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

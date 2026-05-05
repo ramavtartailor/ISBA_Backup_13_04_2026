@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- This is the primary vendor contact for this event, filtered by list of available contacts for this vendor account. --></help>
+    <label><!-- Primary Vendor Contact --></label>
+    <name>Primary_Vendor_Contact__c</name>
+    <relationshipLabel><!-- Events --></relationshipLabel>
+</CustomFieldTranslation>

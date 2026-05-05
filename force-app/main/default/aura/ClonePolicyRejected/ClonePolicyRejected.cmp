@@ -1,0 +1,35 @@
+<aura:component controller="ClonePolicyRejectedCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    <aura:attribute name="effectiveDate" type="Date"/>
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" variant="brand"/>
+    </aura:if>
+    
+    <div class="slds-modal__header" style="font-size: 1.3rem; font-weight: 500;">
+        Clone Policy
+    </div>
+    <div class="slds-modal__content" style="padding: 1rem 1rem 1.5rem; display: flex; justify-content: center;">
+        <div style="width:55%">
+            <lightning:input type="date" name="input5" label="Effective Date" value="{!v.effectiveDate}" />
+        </div>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button label="Close" title="Close" onclick="{! c.handleClose }"/>
+        
+        <!-- Brand variant: Identifies the primary action in a group of buttons -->
+        <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.handleSave }" disabled="{!v.effectiveDate == null}" />
+    </div>
+</aura:component>

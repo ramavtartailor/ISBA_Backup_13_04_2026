@@ -1,0 +1,129 @@
+<apex:page standardController="Related_Contacts__c" extensions="RelatedContactExtn" standardStylesheets="false" docType="HTML-5.0" >
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">  
+    <head>
+        
+        <style>
+      
+      </style>
+    </head>
+    <apex:form Styleclass="slds-form--inline" id="accountHead">
+    <body class="slds-scope">
+        <apex:pageMessages id="errMsg"></apex:pageMessages>
+        <!-- PAGE HEADER -->
+        <div class="slds-page-header" role="banner">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <!-- HEADING AREA -->
+                    <p class="slds-text-title--caps slds-line-height--reset" style="font-weight: bolder;color: blue;font-size: larger;">Contacts</p>
+                    <!-- / HEADING AREA -->
+                </div>
+            </div>
+        </div>
+        <!-- / PAGE HEADER -->
+        <div class="slds">
+            <table width="100%" style="border-bottom: 2px solid #6faade;margin-bottom: 10px;margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <td width="30%" align="center">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <label class="slds-form-element__label" for="Type"><b>Type</b></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td width="50%" align="center">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <label class="slds-form-element__label" for="Name1"><b>Name</b></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td width="20%" align="center">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <label class="slds-form-element__label" for="Action"><b>Action</b></label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            <table width="100%">
+                <thead style="border-bottom: 2px solid #6faade; margin-bottom:10px; margin-top:10px;line-height: 3em;">
+                    <apex:variable value="{!0}" var="rowNumber"/>
+                    <apex:variable value="{!0}" var="i"/>
+                        <apex:repeat value="{!relConList}" var="acc">
+                            <apex:variable var="i" value="{!i + 1}"/>
+                            <tr style="{!IF(MOD(i,2)==0,'#fff','#efefef')}">
+                                <td width="30%" align="center">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <apex:inputField styleClass="slds-input" id="type" value="{!acc.Type__c}" onchange="displayRecord('{!$Component.type}','{!$Component.contact}','{!$Component.account}')" rendered="{!If(acc.Type__c==null,true,false)}"/>
+                                            <apex:outputText styleClass="slds-input" value="{!acc.Type__c}" rendered="{!If(acc.Type__c==null,false,true)}"/>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="50%">
+                                    <apex:inputField id="contact" value="{!acc.Contact__c}" style="display:{!IF(NOT(CONTAINS(acc.Type__c,'Firm')),'inline','none')};width:70%!important;border-radius: .25rem;padding: 0 1rem 0 .75rem;line-height: 1.875rem;min-height: calc(1.875rem + (1px * 2));"/>
+                                    <apex:inputField id="account" value="{!acc.Account__c}" style="display:{!IF(CONTAINS(acc.Type__c,'Firm'),'inline','none')};width:70%!important;border-radius: .25rem;padding: 0 1rem 0 .75rem;line-height: 1.875rem;min-height: calc(1.875rem + (1px * 2));"/>
+                                </td>
+                                <td width="20%" align="center">
+                                    <center>
+                                        <div class="slds-form-element">
+                                            <apex:commandButton styleClass="slds-button slds-button--brand" value="Delete" action="{!removeContact}"  reRender="accountHead" rendered="{!If(acc.Id==null,false,true)}">
+                                                <apex:param name="rowRemove" value="{!acc.Id}" assignTo="{!rowToRemove}"/>
+                                            </apex:commandButton>
+                                            <apex:commandButton styleClass="slds-button slds-button--brand" value="Delete" action="{!deleteRow}"  reRender="accountHead" rendered="{!If(acc.Id==null,true,false)}">
+                                                <apex:param name="recordRemoveIndex" value="{!rowNumber}" assignTo="{!recordToRemove}"/>
+                                            </apex:commandButton>
+                                            <apex:variable var="rowNumber" value="{!rowNumber + 1}"/>
+                                        </div>
+                                    </center>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </thead>
+                </table>
+                <br/>
+                <br/>
+                <center>
+                    <div class="slds-form-element">
+                        <apex:commandButton Styleclass="slds-button slds-button--brand" value="Cancel" action="{!cancel}"/>
+                        <apex:commandButton Styleclass="slds-button slds-button--brand" value="Save" action="{!saveRelateObj}" reRender="errMsg"/>
+                        <apex:commandButton styleClass="slds-button slds-button--brand" value="Add" action="{!addMoreContacts}"  reRender="accountHead"/>
+                    </div>
+                </center>
+        </div>
+    </body>
+    </apex:form>
+    <script>
+        
+        function displayRecord(type,contact,account){
+            var typeVal = document.getElementById(type).value;
+            var contactlookup = contact + '_lkwgt';
+            var accountlookup = account + '_lkwgt';
+            if(typeVal){
+                if(typeVal.includes("Firm","Deductible")){
+                    document.getElementById(contact).style.display = "none";
+                    document.getElementById(account).style.display = "inline";
+                    document.getElementById(contactlookup).style.display = "none";
+                    document.getElementById(accountlookup).style.display = "inline";
+                }else{
+                    document.getElementById(contact).style.display = "inline";
+                    document.getElementById(account).style.display = "none";
+                    document.getElementById(contactlookup).style.display = "inline";
+                    document.getElementById(accountlookup).style.display = "none";
+                }
+            }else{
+                document.getElementById(contact).style.display = "none";
+                document.getElementById(account).style.display = "none";
+                document.getElementById(contactlookup).style.display = "none";
+                document.getElementById(accountlookup).style.display = "none";
+            }
+       }
+       
+        
+    </script>
+    </html>
+</apex:page>

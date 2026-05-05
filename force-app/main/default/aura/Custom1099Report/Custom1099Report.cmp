@@ -1,0 +1,330 @@
+<aura:component controller="Custom1099ReportCtrl"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+    access="global">
+
+    <aura:html tag="style">
+        .slds-template_default{
+        padding: 0 !important;
+        }
+    </aura:html>
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    <aura:attribute name="is1099ByType" type="Boolean" default="false" />
+    <aura:attribute name="is1099ByTypeModadOpen" type="Boolean" default="false" />
+
+    <aura:attribute name="wrapList" type="Object[]" />
+    <aura:attribute name="reportType" type="String" />
+    <aura:attribute name="startDate" type="Date" />
+    <aura:attribute name="endDate" type="Date" />
+
+    <!-- Pagination -->
+    <aura:attribute name="pagedData" type="Object[]" />
+    <aura:attribute name="pageOptions" type="List" />
+    <aura:attribute name="pageSize" type="Integer" default="10" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />
+    <aura:attribute name="totalPages" type="Integer" />
+    
+    <!-- Sorting -->
+    <aura:attribute name="LastSort" type="String" />
+    <aura:attribute name="isSort" type="Boolean" default="true"/>
+
+    <div class="container">
+        <aura:if isTrue="{!v.isLoading}">
+            <div class="spinner">
+                <lightning:spinner alternativeText="Loading" />
+            </div>
+        </aura:if>
+
+        <div class="header">
+            <div class="heading">
+                1099 Reports
+            </div>
+            <div class="headSection">
+                <div class="tiles" data-row="1099 by Type" onclick="{!c.handle1099ByType}">
+                    1099 by Type
+                </div>
+            </div>
+        </div>
+        <div class="body">
+            <aura:if isTrue="{!v.is1099ByType}">
+                <table class="slds-table--striped">
+                    <thead>
+                        <tr>
+                            <th width="23%">
+                                <div class="t_trunc" data-field="vendorName" onclick="{!c.handleSort}">Account Name
+                                    <aura:if isTrue="{!v.LastSort == 'vendorName'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th width="10%">
+                                <div class="t_trunc" data-field="amount" onclick="{!c.handleSort}">Amount
+                                    <aura:if isTrue="{!v.LastSort == 'amount'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th width="10%">
+                                <div class="t_trunc" data-field="vendor1099" onclick="{!c.handleSort}">1099 vendor
+                                    <aura:if isTrue="{!v.LastSort == 'vendor1099'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th width="25%">
+                                <div class="t_trunc" data-field="payeeStreet" onclick="{!c.handleSort}">Payee Street
+                                    <aura:if isTrue="{!v.LastSort == 'payeeStreet'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th width="10%">
+                                <div class="t_trunc" data-field="payeeCity" onclick="{!c.handleSort}">Payee City
+                                    <aura:if isTrue="{!v.LastSort == 'payeeCity'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th width="10%">
+                                <div class="t_trunc" data-field="payeeState" onclick="{!c.handleSort}">Payee State
+                                    <aura:if isTrue="{!v.LastSort == 'payeeState'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th width="12%">
+                                <div class="t_trunc" data-field="payeePostalCode" onclick="{!c.handleSort}">Payee Postal Code
+                                    <aura:if isTrue="{!v.LastSort == 'payeePostalCode'}">
+                                        <div class="hoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" variant="success" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="nonhoverIcon">
+                                            <aura:if isTrue="{!v.isSort}">
+                                                <lightning:icon iconName="utility:arrowdown" size="xx-small" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:arrowup" size="xx-small" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="hoverIcon">
+                                                <lightning:icon iconName="utility:arrowup" variant="success" size="xx-small" />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.wrapList}" var="wrap">
+                            <tr>
+                                <td>
+                                    <a href="{!'/'+wrap.recId}" target="_blank">{!wrap.vendorName}</a>
+                                </td>
+                                <td>
+                                    <div class="tAlignRight">
+                                        <lightning:formattedNumber value="{!wrap.amount}" style="currency"
+                                            currencyCode="USD" />
+                                    </div>
+                                </td>
+                                <td>
+                                    {!wrap.vendor1099}
+                                </td>
+                                <td>
+                                    <lightning:formattedRichText value="{!wrap.payeeStreet}" />
+                                </td>
+                                <td>
+                                    {!wrap.payeeCity}
+                                </td>
+                                <td>
+                                    {!wrap.payeeState}
+                                </td>
+                                <td>
+                                    {!wrap.payeePostalCode}
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+                <!--div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning:button label="Previous" onclick="{!c.previousPage}" disabled="{!v.currentPage == 1}" />
+
+                    <span class="slds-m-horizontal_medium">
+                        <lightning:select value="{!v.currentPage}" onchange="{!c.onPageChange}"
+                            class="slds-m-horizontal_medium">
+                            <aura:iteration items="{!v.pageOptions}" var="page">
+                                <option value="{!page}">{!page}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                        Page {!v.currentPage} of {!v.totalPages}
+                    </span>
+
+                    <lightning:button label="Next" onclick="{!c.nextPage}"
+                        disabled="{!v.currentPage == v.totalPages}" />
+                </div-->
+            </aura:if>
+        </div>
+
+        <aura:if isTrue="{!v.is1099ByTypeModadOpen}">
+            <div role="dialog" tabindex="-1" aria-labelledby="Modal"
+                class="slds-modal slds-fade-in-open slds-modal_small">
+                <div class="slds-modal__container c__modalContainer">
+                    <div class="slds-modal__header">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close"
+                            onclick="{!c.closeModal}">
+                            <lightning:icon iconName="utility:close" size="medium" />
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h1 class="slds-text-heading--medium c__fontWeightTitle">Run 1099 by Type Report</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium c__modalContent">
+                        <div class="c_tableWrapper">
+                            <div>
+                                <lightning:input type="date" name="Start Date" label="Start Date" value="{!v.startDate}"
+                                    required="true" />
+                            </div>
+                            <div>
+                                <lightning:input type="date" name="End Date" label="End Date" value="{!v.endDate}"
+                                    required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer c__modalFooter">
+                        <lightning:button class="" variant="neutral" label="Back" title="Back"
+                            onclick="{!c.closeModal}" />
+                        <lightning:button class="" variant="Brand" label="Run" title="Run"
+                            onclick="{!c.handleRun1099Report}" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-backdrop slds-backdrop_open" aura:id="modalBackground"></div>
+        </aura:if>
+
+    </div>
+</aura:component>

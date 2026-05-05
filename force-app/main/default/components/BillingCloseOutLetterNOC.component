@@ -1,0 +1,88 @@
+<apex:component controller="Billing_Policy_Ctrl" access="global">
+    <apex:attribute name="recId" type="String" assignTo="{!recordId}" description="recordId"/>
+    <!--<head>
+        <style>
+            body {
+            	font-family: 'Arial Unicode MS', sans-serif !important;
+            	font-size: 15px;
+            }
+            @page {
+            	margin-top: 30px;
+            	margin-bottom: 100px;
+            	font-family: 'Arial Unicode MS', sans-serif !important;
+            }
+            .arial {
+            	font-family: arial, sans-serif !important;
+            }
+            
+            .ibf_subtitle {
+            	font-size:18px;
+            	color:black;
+            	text-align: center;
+            }
+            
+            .isbam_primary_red {
+            	color: #89001B;
+            }
+            
+            #conditions tr td {
+            	padding-top: 2px;
+            	padding-bottom: 2px;
+            }
+            
+            .conditions {
+            	padding-top: 13px;
+            	display: inline-block
+            }
+            
+        </style>
+    </head>-->
+    
+
+<table style="width: 100%;" valign="top" border="0">
+    <tr>
+        <td>Dear {!policyRec.Firm_Contact__r.FirstName} {!policyRec.Firm_Contact__r.LastName},</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td style="text-align: justify;">On&nbsp;<apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!billingRec.Latest_Activity_Date__c}"/></apex:outputText> we sent you an invoice indicating that a premium payment for the captioned Policy {!policyRec.Name} was due ISBA Mutual on&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!policyRec.Effective_Date__c}" /></apex:outputText> for coverage to go into effect.</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td class="arial" style="text-align: justify;"><b>As of today, ISBA Mutual has not received a premium payment from you constituting a rejection of ISBA Mutual's offer of professional liability insurance.</b></td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td style="text-align: justify;"><u> If it is your intention to effect professional liability insurance coverage on&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!policyRec.Effective_Date__c}" /></apex:outputText> u<u>nder Policy</u> {!policyRec.Name}, a payment must be made <b class="arial" >immediately</b>.  Use the link below to set up a payment plan of full, quarterly or monthly payments using ACH or credit card:</u></td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+</table>
+
+<div style="padding-left: 20px; padding-bottom: 7px; font-size: 15px; font-family: 'Arial Unicode MS', sans-serif !important;">
+	<apex:outputLink value="{!billingRec.Payment_Link__c}" target="_blank" >{!billingRec.Payment_Link__c}</apex:outputLink>
+</div>
+
+<br/>
+    
+<table valign="top" border="0" style="width: 100%; font-size: 15px; font-family: 'Arial Unicode MS', sans-serif !important">
+    <tr>
+        <td style="text-align: justify;">As a payment has not been received, the Policy is not active and you do not have professional liability insurance for Legal Services rendered.</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+	<tr>
+        <td class="" style="text-align: justify;">If you have any questions or need further assistance, please do not hesitate to call our accounting team at 312-379-2005.</td>
+    </tr>
+</table>
+<br/>                  
+Sincerely,
+<br/><br/>
+Kristen Janik<br/>
+Controller<br/><br/>
+ISBA Mutual Insurance Company<br/>
+20 South Clark Street, Suite 800<br/>
+Chicago, IL  60603-1826<br/>
+<br/>
+312 379-2005 <b style="color: red;">Accounting</b><br/>
+312 379-2000 <b style="color: red;">Office</b><br/>
+312 379-2049 <b style="color: red;">Fax</b>
+</apex:component>

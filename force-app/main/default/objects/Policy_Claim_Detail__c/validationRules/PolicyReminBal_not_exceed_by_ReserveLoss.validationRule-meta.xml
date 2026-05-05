@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PolicyReminBal_not_exceed_by_ReserveLoss</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(
+ISPICKVAL( Type__c , &apos;User Reserve&apos;),
+ISPICKVAL( Type__c , &apos;Reopened Reserve&apos;)
+) &amp;&amp;
+!ISNULL(  Loss_Amount__c  ) &amp;&amp; 
+IF( ISNEW() , 
+          Loss_Amount__c &gt;    Policy_Claim__r.Policy_Remaining_By_All_Claims__c, 
+           (PRIORVALUE(Loss_Amount__c) + Policy_Claim__r.Policy_Remaining_By_All_Claims__c - Loss_Amount__c) &lt;0
+    )</errorConditionFormula>
+    <errorDisplayField>Loss_Amount__c</errorDisplayField>
+    <errorMessage>&apos;Loss Amount&apos; cannot exceed &apos;Remaining Limits&apos;of a Policy in case of &apos;User Reserve&apos;!</errorMessage>
+</ValidationRule>

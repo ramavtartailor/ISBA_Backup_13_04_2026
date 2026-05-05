@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Deductible --></label>
+    <name>Deductible__c</name>
+    <picklistValues>
+        <masterLabel>$1,000</masterLabel>
+        <translation><!-- $1,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$10,000</masterLabel>
+        <translation><!-- $10,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$100,000</masterLabel>
+        <translation><!-- $100,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$15,000</masterLabel>
+        <translation><!-- $15,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$2,000</masterLabel>
+        <translation><!-- $2,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$2,500</masterLabel>
+        <translation><!-- $2,500 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$20,000</masterLabel>
+        <translation><!-- $20,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$25,000</masterLabel>
+        <translation><!-- $25,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$3,000</masterLabel>
+        <translation><!-- $3,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$5,000</masterLabel>
+        <translation><!-- $5,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$50,000</masterLabel>
+        <translation><!-- $50,000 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>$75,000</masterLabel>
+        <translation><!-- $75,000 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Track Status --></label>
+    <name>Track_Status__c</name>
+    <picklistValues>
+        <masterLabel>Draft Sessions Submitted</masterLabel>
+        <translation><!-- Draft Sessions Submitted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Editorial Review Completed</masterLabel>
+        <translation><!-- Editorial Review Completed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Finalized</masterLabel>
+        <translation><!-- Finalized --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Leader Identified</masterLabel>
+        <translation><!-- No Leader Identified --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ready to Publish</masterLabel>
+        <translation><!-- Ready to Publish --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sent to Copy Edit</masterLabel>
+        <translation><!-- Sent to Copy Edit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sessions Pending</masterLabel>
+        <translation><!-- Sessions Pending --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Technical Review Completed</masterLabel>
+        <translation><!-- Technical Review Completed --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

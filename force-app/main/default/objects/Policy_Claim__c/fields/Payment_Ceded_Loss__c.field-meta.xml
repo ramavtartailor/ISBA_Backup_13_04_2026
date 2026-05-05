@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Ceded_Loss__c</fullName>
+    <label>Payment Ceded Loss</label>
+    <summarizedField>Policy_Claim_Detail__c.Reinsurance_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>Policy_Claim_Detail__c.Type__c</field>
+        <operation>equals</operation>
+        <value>Due from Reins. - Loss</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Policy_Claim_Detail__c.Policy_Claim__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

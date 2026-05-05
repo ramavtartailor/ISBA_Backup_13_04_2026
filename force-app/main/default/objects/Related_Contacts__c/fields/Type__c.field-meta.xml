@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Defense Firm</fullName>
+                <default>false</default>
+                <label>Defense Firm</label>
+            </value>
+            <value>
+                <fullName>Claimant Firm</fullName>
+                <default>false</default>
+                <label>Claimant Firm</label>
+            </value>
+            <value>
+                <fullName>Claimant Attorney</fullName>
+                <default>false</default>
+                <label>Claimant Attorney</label>
+            </value>
+            <value>
+                <fullName>Defense Attorney</fullName>
+                <default>false</default>
+                <label>Defense Attorney</label>
+            </value>
+            <value>
+                <fullName>Claimant Lawyer</fullName>
+                <default>false</default>
+                <label>Claimant Lawyer</label>
+            </value>
+            <value>
+                <fullName>Coverage Firm</fullName>
+                <default>false</default>
+                <label>Coverage Firm</label>
+            </value>
+            <value>
+                <fullName>Deductible</fullName>
+                <default>false</default>
+                <label>Deductible</label>
+            </value>
+            <value>
+                <fullName>Defense Expert</fullName>
+                <default>false</default>
+                <label>Defense Expert</label>
+            </value>
+            <value>
+                <fullName>Defense Lawyer</fullName>
+                <default>false</default>
+                <label>Defense Lawyer</label>
+            </value>
+            <value>
+                <fullName>Claimant</fullName>
+                <default>false</default>
+                <label>Claimant</label>
+            </value>
+            <value>
+                <fullName>Defendant</fullName>
+                <default>false</default>
+                <label>Defendant</label>
+            </value>
+            <value>
+                <fullName>Defense Expert Firm</fullName>
+                <default>false</default>
+                <label>Defense Expert Firm</label>
+            </value>
+            <value>
+                <fullName>Defense Lawyer Firm</fullName>
+                <default>false</default>
+                <label>Defense Lawyer Firm</label>
+            </value>
+            <value>
+                <fullName>Coverage Attorney</fullName>
+                <default>false</default>
+                <label>Coverage Attorney</label>
+            </value>
+            <value>
+                <fullName>Claimant Lawyer Firm</fullName>
+                <default>false</default>
+                <label>Claimant Lawyer Firm</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

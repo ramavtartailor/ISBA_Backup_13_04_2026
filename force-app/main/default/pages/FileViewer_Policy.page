@@ -1,0 +1,3 @@
+<apex:page showHeader="false" sidebar="false" standardController="Policy__c"> 
+    <apex:iframe height="900" src="https://fv-isbamutualinsurance.msappproxy.net/underwriting/file-viewer/salesforce/{!Policy__c.Related_Firm_Id__c}/{!Policy__c.Name}"/> 
+</apex:page>

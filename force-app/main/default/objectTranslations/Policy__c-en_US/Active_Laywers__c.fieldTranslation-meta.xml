@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Lawyer count without deleted --></help>
+    <label><!-- Active Lawyers --></label>
+    <name>Active_Laywers__c</name>
+</CustomFieldTranslation>

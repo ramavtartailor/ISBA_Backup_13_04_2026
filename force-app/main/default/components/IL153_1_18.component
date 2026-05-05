@@ -1,0 +1,24 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Remove a Lawyer Endorsement
+    </p>
+    <p class="normalParagraph">
+        In consideration of the return premium of &nbsp;
+        <apex:outputText value="{0, number, Currency}">
+            <apex:param value="{!endorsement.Refund_Amount__c}" />
+        </apex:outputText>
+        ,&nbsp;it is agreed that&nbsp;<apex:outputField value="{!endorsement.Lawyer_Name__c}"/>&nbsp;is removed as an<span class="normalBoldParagraph"> Insured </span>under this Policy.
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:410px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

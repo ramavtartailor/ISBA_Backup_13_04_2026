@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Application_error_on_endorsement</fullName>
+    <active>true</active>
+    <description>Error on create endorsement for 107 and 190 IF there is an open application</description>
+    <errorConditionFormula>IF( AND( NOT( ISNULL(Account__r.Recent_Application_Lookup__c)), Account__r.Recent_Application_Lookup__r.Is_Lost__c == false ,  OR( Endorsement_Number__c == &apos;IL 107&apos;, Endorsement_Number__c == &apos;IL 190&apos;)) , true, false)</errorConditionFormula>
+    <errorMessage>Cannot create endorsement due to pending application.</errorMessage>
+</ValidationRule>

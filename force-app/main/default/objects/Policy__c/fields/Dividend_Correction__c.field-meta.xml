@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dividend_Correction__c</fullName>
+    <description>Used to manually correct dividend value iof policy is a cancel/rewrite</description>
+    <externalId>false</externalId>
+    <label>Dividend Cancel/Rewrite Correction</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

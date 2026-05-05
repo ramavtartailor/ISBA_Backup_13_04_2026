@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PolicyReminBal_not_exceed_by_ReserveLoss</fullName>
+    <active>false</active>
+    <description>Loss amount not exceed from Policy Remaining balance.</description>
+    <errorConditionFormula>!ISNULL( Reserve_Loss__c ) &amp;&amp; 
+ Reserve_Loss__c &gt; Policy__r.Policy_Remaining_By_All_Claims__c</errorConditionFormula>
+    <errorDisplayField>Reserve_Loss__c</errorDisplayField>
+    <errorMessage>Loss Reserve cannot exceed Remaining limits of a Policy!</errorMessage>
+</ValidationRule>

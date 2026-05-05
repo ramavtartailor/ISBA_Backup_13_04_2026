@@ -1,0 +1,819 @@
+<!-- 
+    @Company        : Cmentor
+    @Author         : Sachin Arora
+    @Created Date   : 02/07/2017
+    @Desciption     : Override AccountPayable .
+    Standard New Button
+-->
+
+<apex:page id="pageId"
+           standardController="AcctSeed__Account_Payable__c" 
+           tabStyle="AcctSeed__Journal_Entry__c" 
+           extensions="CM_AccountPayable_new_controller" sidebar="false" showHeader="false">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>            
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <!--<apex:styleSheet value="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.css')}" />
+                <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.js')}"></script> -->
+            <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+            <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+            <script>
+                $('body').click(function(evt) {
+                $(".closeDiv :visible").each(function() {
+                    $('.closeDiv').hide();
+                });
+            });
+            
+            $(document).ready(function() {
+                
+                $("input").addClass('slds-input');
+                
+                $("svg").on("click", function() {
+                    if ($(this).attr('data') == 'msg') {
+                        $(".slds-notify_container").addClass('slds-hide');
+                    }
+                });
+                $('svg').click(function (){
+                    var lookup = $(this).attr('data');
+                    if($(this).attr('data')=='toggle'){
+                        $(this).parent().parent().parent().find('.slds-p-horizontal--small').each(function (){
+                            if($(this).css('display') == 'none'){
+                                //$(this).removeClass('slds-hide');
+                                $(this).slideDown("slow");
+                            }else{
+                                //$(this).addClass('slds-hide');
+                                $(this).slideUp("slow");
+                            }
+                        });
+                        
+                        $(this).parent().parent().parent().find('.tbtest').each(function (){
+                            if($(this).css('display') == 'none'){
+                                //$(this).removeClass('slds-hide');
+                                $(this).slideDown("slow");
+                            }else{
+                                //$(this).addClass('slds-hide');
+                                $(this).slideUp("slow");
+                            }
+                        });
+                        
+                    }else if (lookup  != '' && lookup  != null && lookup  != 'undefined' && lookup.indexOf('Lookup') != -1){
+                        
+                        $('input[id$=' + lookup + ']').val('');
+                        $('input[id$=' + lookup + 'Value]').val('');
+                        
+                        $('[id$=' + lookup + 'Label]').text('');
+                        $('[id$=' + lookup + 'Search]').removeClass('slds-hide');
+                        $('[id$=' + lookup + 'LabelDiv]').addClass('slds-hide');
+                        
+                    }
+                });
+            });
+            
+            var payeeReference ="";
+            var isbamInvoiceNum = "";
+            function colorPageBlock(pageblock, color) {
+                if (pageblock != null){
+                    pageblock.firstChild.style.cssText = "background-color: " + color + ";";
+                }    
+                
+            }
+            
+            function onPayeeReferenceChange(payRef){
+                payeeReference = payRef;
+            }
+            function onInvoiceNumChange(invNum){
+                isbamInvoiceNum = invNum;
+            }       
+            function onCompleteRerender(){
+                if(payeeReference!=""){ 
+                    document.getElementById("pageId:formId:PayeeId").value=payeeReference; 
+                }
+                if(isbamInvoiceNum != ""){
+                    document.getElementById("pageId:formId:InvoiceNum").value=isbamInvoiceNum;
+                }
+            }
+            function calculateAmount(a){
+                console.log('--a'+a);
+                //var qty = document.getElementsByClassName('quantity'+a)[0].value;
+                var price = document.getElementsByClassName('price'+a)[0].value.replace(/\,/g,"");
+                //console.log('---'+qty + price);
+                document.getElementsByClassName("total"+a)[0].innerHTML = (1*price).toFixed(2);
+                //var totalAmt = getTotal(a);
+                //var old = document.getElementById("pageId:formId:pbBlock2Id:totalAmountField").innerHTML;
+                //document.getElementById("pageId:formId:pbBlock2Id:totalAmountField").innerHTML = old+totalAmt;
+                
+                var remainingLoss = parseFloat("{!(claimObj.GL_5010__c)}");
+                var remainingLae = parseFloat("{!(claimObj.GL_5035__c)}");
+                
+                var totalAmount = 0.00;
+                $('.totalEnd').each(function(){
+                    console.log(this);
+                    console.log($(this).html());
+                    totalAmount  += parseFloat($(this).html());
+                });
+                totalAmount = totalAmount .toFixed(2);
+                console.log(totalAmount);
+                remainingLoss = parseFloat(remainingLoss - totalAmount).toFixed(2);
+                remainingLae = parseFloat(remainingLae - totalAmount).toFixed(2);
+                $('.totalClassAmount').html(totalAmount);
+                $('.remainingLossAmount').html(remainingLoss);
+                $('.remainingLaeAmount').html(remainingLae);  
+                if(remainingLoss < 0){
+                    $('.remainingLossAmount').addClass('negetiveNum');
+                }
+                else{
+                    $('.remainingLossAmount').removeClass('negetiveNum');
+                }
+                
+                if(remainingLae < 0){
+                    $('.remainingLaeAmount').addClass('negetiveNum');
+                }
+                else{
+                    $('.remainingLaeAmount').removeClass('negetiveNum');
+                }
+                
+            } 
+            function validateAndSaveAccountPayable(){
+                var flagSave = true;
+                $('.ContactRequired').each(function (){
+                    let value = $(this).val();
+                    if(value == '' || value == null || value == 'undefined'){
+                        $(this).css('border','1px solid red ');
+                        showError('** Required fields missing . ');
+                        $('[id$=spinner]').css('display','none');
+                        flagSave = false;
+                    }
+                });
+                if(flagSave){
+                    save();
+                }else{
+                    showError('** Required fields missing . ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            }
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+            function showErrorOnComplete(){
+                var error = document.getElementById('{!$Component.formId.hiddenElement}').value;
+                if(error != '' && error != null && error != 'undefined'){
+                    showError(error);
+                }
+            } 
+            function totalAmount(){
+                console.log('totalAmount');
+                var td = document.querySelectorAll('#pageId:formId:pbBlock2Id:pbBlockTableId:tb > tbody > tr > td:last-child');
+                var total = 0;
+                for (var i = 0; i < td.length; i++)
+                {
+                    total += parseFloat(td[i].innerText);
+                }
+                console.log('--total is '+total);
+                
+                var remainingLoss = parseFloat("{!(claimObj.GL_5010__c)}");
+                console.log('remainingLoss => ',remainingLoss);
+                document.getElementById('pageId:formid:totalAmountField').innerText = total;
+                document.getElementById('pageId:formid:remainingLossField').innerText = total - remainingLoss;
+                console.log('--total is '+total);
+                
+            }   
+            function getTotal(a){
+                var idField= '#pageId:formId:pbBlock2Id:pbBlockTableId:'+a+':totalId';
+                console.log('**************idField***************');
+                console.log(idField);
+                var elem = document.getElementById(idField).innerHTML;
+                console.log('**************elem***************');
+                console.log(elem);
+                return elem;
+            }
+            
+            function search(lookName, ObjectName, label) {
+                try {
+                    $('input[id$=' + lookName + ']').css('background', 'url("http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif") no-repeat right center');
+                    var key = $('input[id$=' + lookName + ']').val();
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.CM_AccountPayable_new_controller.getLookupRecord}',
+                        key,
+                        ObjectName,
+                        function(result, event) {
+                            if (result != null) {
+                                if (event.status) {
+                                    var tables = "<ul class='slds-lookup__list' role='listbox'>  ";
+                                    var check = true;
+                                    
+                                    for (var i = 0; i < result.length; i++) {
+                                        var namee = result[i].Name ;
+                                        if(namee.includes("&#39;")){
+                                            namee = namee.replace("&#39;", "\\'");
+                                        } 
+                                        tables += "<li role='presentation' onclick=\"fillRecord( '" + lookName + "','" + result[i].Id + "','" + namee + "' )\"><span class='slds-lookup__item-action slds-media' id='lookup-option-483' role='option'><div class='slds-media__body'><div class='slds-lookup__result-text'>" + result[i].Name + "</div></div></span></li>";
+                                    }
+                                    tables += "</ul>";
+                                    if (result.length > 0) {
+                                        
+                                        tables = "<div class='slds-lookup__item--label slds-text-body--small'>" + label + "</div>" + tables;
+                                    } else {
+                                        check = false;
+                                        tables = "<div class='slds-lookup__item--label slds-text-body--small'>No record found .</div>";
+                                    }
+                                    document.getElementById(lookName + "SrchDrpDwn").innerHTML = tables;
+                                    $('[id$=' + lookName + 'SrchDrpDwn]').show();
+                                    
+                                    if(check){
+                                        $('[id$=' + lookName + 'SrchDrpDwn]').focus();
+                                    }
+                                    
+                                } else if (event.type === 'exception') {
+                                    
+                                } else {
+                                    
+                                }
+                                $('input[id$=' + lookName + ']').css('background', 'none');
+                            } else {
+                                $('input[id$=' + lookName + ']').css('background', 'none');
+                            }
+                        }, {
+                            escape: true
+                        }
+                    );
+                } catch (e) {
+                    alert('An Error has Occured. Error:' + e);
+                }
+                
+            }
+            
+            function fillRecord(lookup, id, name) {
+                //  name = name.replace('\'' , '\\');
+                console.log(lookup);
+                console.log(id);
+                console.log(name);
+                $('[id$=' + lookup + 'SrchDrpDwn]').hide();
+                $('input[id$=' + lookup + 'Value]').val(id);
+                
+                $('[id$=' + lookup + 'Label]').text(name);
+                $('[id$=' + lookup + 'Search]').addClass('slds-hide');
+                $('[id$=' + lookup + 'LabelDiv]').removeClass('slds-hide');
+            }
+            </script>
+            
+            <style>
+                .pbBody{
+                margin-bottom:45px !important;
+                }
+                .detailList tr th{
+                border :none !important;
+                }
+                .detailList tr{
+                border :none !important;
+                }
+                .detailList tr td{
+                border :none !important;
+                }
+                .apexp .detailList .list .headerRow th {
+                color: #4a4a56;
+                font-weight: bold;
+                }
+                th.labelCol.vfLabelColTextWrap{
+                float: left;
+                min-width: 150px;
+                }
+                
+                .classNameForPageBlockSection
+                {
+                bgcolor: blue !important;
+                }
+                
+            </style>
+            <style>
+                .negetiveNum{
+                color : red;
+                }
+                .slds-scope .slds-grid--pull-padded {
+                margin-right:0px !important;
+                margin-left:0px !important;
+                }
+                .slds-scope .slds-form--horizontal {
+                margin-top: 1%;
+                }
+                .dateFormat {
+                padding: 0 2px;
+                display: none;
+                }
+                .slds-scope .slds-page-header {
+                padding: 1rem .75rem;
+                border-bottom: 1px solid #d8dde6 !important;
+                background-color: #337AB7 !important;
+                color: white;
+                }
+                .slds-box{
+                }
+                .slds-scope .slds-medium-size--12-of-12 {
+                margin-bottom: 10px;
+                }
+                .slds-scope .slds-medium-size--6-of-12 {
+                margin-bottom: 10px;
+                }
+                .accountRequired{
+                border-left: 4px solid red !important;
+                }
+                
+                .accountRequired1{
+                border-left: 4px solid red !important;
+                }
+                
+                .slds-scope .slds-table td, .slds-scope .slds-table th {
+                white-space: normal !important;
+                }
+                .slds-scope .slds-text-heading--label {
+                text-transform: capitalize !important; 
+                }
+                .ContactRequired{
+                border-left: 4px solid red !important;
+                }
+                .slds-scope a:focus, .slds-scope a:hover{
+                display: initial !important;
+                }
+                .lookupInput .slds-input{
+                //border:none !important;
+                }
+                .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                background-color: #fff; 
+                }
+                .lookupInput input[readonly] {
+                cursor: default;
+                color: #333;
+                background-color: #fff !important;
+                border: 1px solid #d8dde6 !important;
+                }
+                .datePicker{
+                z-index: 99999 ;
+                }
+            </style>
+        </head>
+        <apex:form id="formId"> 
+            <apex:outputPanel id="renderError">
+                <apex:inputHidden value="{!error}" id="hiddenElement"/>
+            </apex:outputPanel>
+            <apex:actionStatus id="counterStatus" startStyle="">
+                <apex:facet name="start" >
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #DCD6D6; height: 100%;opacity:0.2;padding-top:20%;width:100%;zoom:0.25;">
+                        <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                            <img class="waitingImage" src="{!$Resource.loadingGif}" />
+                            
+                        </div>
+                    </div>
+                    
+                </apex:facet>
+            </apex:actionStatus> 
+            
+            
+            <div class="slds-page-header" role="banner" style="position: fixed;width: 100%;top: 0;z-index: 1;">
+                <div class="slds-media">
+                    <div class="slds-media__body">
+                        <p class="slds-page-header__title slds-truncate" title="New Account Payable">
+                            
+                            New Account Payable
+                            <apex:outputPanel rendered="{!if(claimObj.Name != null,true,false)}">
+                                &nbsp;-&nbsp;{!claimObj.Name}
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!if(policyObj.Name != null,true,false)}">
+                                &nbsp;-&nbsp;{!policyObj.Name}
+                            </apex:outputPanel> 
+                            
+                        </p>
+                        <p class="slds-text-body--small"></p>
+                    </div>
+                    <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                        <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                            <!--<a href="javascript:void(0);" class="slds-has-blur-focus">Home</a>-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="    position: fixed;">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+            <div class="slds-notify_container slds-hide">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                        <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading--small"></h2>
+                    </div>
+                </div>
+            </div>
+            <!-- record details page start -->
+            
+            <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;margin-top: 85px;">
+                
+                <!--apex:PageMessages id="msgId" escape="false" /-->
+                <apex:actionFunction name="cancel" action="{!cancel}" />
+                <apex:actionFunction name="save" action="{!onSaveClick}" reRender="renderError" oncomplete="$('[id$=spinner]').css('display','none'); showErrorOnComplete();" />
+                
+                <legend id="" class="slds-text-heading--small slds-p-vertical--medium legend"></legend>
+                <!-- Row Start-->
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter">
+                    
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <div class="slds-size--12-of-12  slds-theme--shade">
+                                <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                    <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text"></span>
+                                </button>
+                                <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Information</h2>
+                            </div>
+                            
+                            <!-- 1 row -->
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                
+                                
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="typeId">Type</label>
+                                        <div class="slds-form-element__control">
+                                            
+                                            <apex:actionRegion >
+                                                <apex:inputField id="typeId" styleClass="slds-input ContactRequired" value="{!AcctSeed__Account_Payable__c.Type__c}" style="border-left:4px solid red;">
+                                                    
+                                                    <apex:actionSupport event="onchange" action="{!onTypeChange}" rerender="lineTable" status="counterStatus"/>
+                                                </apex:inputField>
+                                            </apex:actionRegion>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                    
+                                        <label class="slds-form-element__label" for="inputSample2"> Vendor</label>
+                                        <div class=" slds-lookup" data-select="single" id="FirmLookupSearch">
+                                            <div class="slds-form-element__control slds-grid slds-box--border">
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true">
+                                                        <!--<use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#search')}"></use>-->
+                                                    </svg>
+                                                    <input type="text" id="FirmLookup" class="slds-input ContactRequired" onkeypress="search('FirmLookup','Account','')" placeholder="Search Firms" style="border:none; border-left:4px solid red;" />
+                                                    <div class="slds-lookup__menu closeDiv" id="FirmLookupSrchDrpDwn" style="display:none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <apex:inputHidden id="FirmLookupValue" value="{!AcctSeed__Account_Payable__c.AcctSeed__Vendor__c}" />
+                                        <!-- Display window -->
+                                        <div class="slds-form-element slds-lookup slds-hide" data-select="single" id="FirmLookupLabelDiv">
+                                            <div class="slds-form-element__control slds-grid slds-box--border" style="display: inline-flex;">
+                                                <div class="slds-dropdown--trigger slds-dropdown-trigger--click slds-align-middle slds-m-left--xx-small slds-shrink-none">
+                                                    <svg class="slds-icon slds-icon-standard-account slds-icon--small" aria-hidden="true">
+                                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true" data="FirmLookup">
+                                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                                    </svg>
+                                                    <label class="slds-align-middle slds-lookup__search-input slds-input--bare" for="form-help" id="FirmLookupLabel">{!AcctSeed__Account_Payable__c.AcctSeed__Vendor__c}</label>
+                                                </div>
+                                            </div>
+                                            <script>
+                                            if($('[id$=FirmLookupValue]').val() != ''){
+                                                
+                                                $('[id$=FirmLookupSearch]').addClass('slds-hide');
+                                                $('[id$=FirmLookupLabelDiv]').removeClass('slds-hide');
+                                                
+                                            }
+                                            </script>
+                                        </div>
+                                        
+                                        <!-- end display window -->
+                                        
+                                    </div>
+                                </div>
+                                <apex:outputPanel rendered="false">
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="PayeeId">Payee Reference</label>
+                                            <div class="slds-form-element__control">
+                                                <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                                <apex:inputField id="PayeeId" styleClass="slds-input " value="{!AcctSeed__Account_Payable__c.AcctSeed__Payee_Reference__c}"
+                                                                 onchange="onPayeeReferenceChange(this.value);" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>  
+                            
+                            </div>
+                            <!-- 2 row -->
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="streetId">Street</label>
+                                        <div class="slds-form-element__control">
+                                            <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                            <apex:inputField id="streetId" styleClass="slds-input" value="{!accountObj.BillingStreet}"    /> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="cityId">City</label>
+                                        <div class="slds-form-element__control">
+                                            <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                            <apex:inputField id="cityId" styleClass="slds-input" value="{!accountObj.BillingCity}"   /> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form--horizontal">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="stateId">State</label>
+                                        <div class="slds-form-element__control">
+                                            <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                            <apex:inputField id="stateId" styleClass="slds-input" value="{!accountObj.BillingState}"   /> 
+                                        </div>
+                                    </div>
+                                </div>  
+                                
+                                
+                            </div>  
+                            
+                        </div>
+                    </div>
+                    <apex:outputPanel id="pbS2Id" style="width:100%">
+                        
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-size--12-of-12  slds-theme--shade">
+                                    <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                        <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text"></span>
+                                    </button>
+                                    <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Firm/ Claim Details</h2>
+                                </div>
+                                
+                                <!-- 1 row -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                    
+                                    
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="firmid">Firm</label>
+                                            <div class="slds-form-element__control">
+                                                <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                                <apex:outputField id="firmid" value="{!claimObj.Firm_Name__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="lawyerNameId">Lawyer Name</label>
+                                            <div class="slds-form-element__control">
+                                                <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                                <apex:outputField id="lawyerNameId" value="{!claimObj.Lawyer_Name__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="ReportedId">Reported</label>
+                                            <div class="slds-form-element__control">
+                                                <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                                <apex:outputText id="ReportedId" value="{0,date,MM/dd/yy}">
+                                                    <apex:param value="{!claimObj.Report_Date__c}" />
+                                                </apex:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>  
+                                
+                                <!-- 2 row -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                    
+                                    
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="limitforid">Limit for Selected Claim</label>
+                                            <div class="slds-form-element__control">
+                                                <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                                <apex:outputText id="limitforid" value="${0, number, ###,##0.00}" rendered="{!!ISNULL(claimObj.Aggregate_Limit__c)}">
+                                                    <apex:param value="{!claimObj.Aggregate_Limit__c}"/>
+                                                </apex:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="ClaimMadeDateId">Claim Made Date</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:outputText id="ClaimMadeDateId" value="{0,date,MM/dd/yy}">
+                                                    <apex:param value="{!claimObj.Claim_Made_Date__c}" />
+                                                </apex:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="ClosedId">Closed</label>
+                                            <div class="slds-form-element__control">
+                                                <!--<apex:inputField html-placeholder="Enter Date Signed" styleClass="slds-input" id="SignedApp" value="{!Policy__c.Date_Signed__c}" />-->
+                                                <apex:outputField id="ClosedId" value="{!claimObj.Claim_Closed__c}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>      
+                                
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel id="outputPanelPaymentId" style="width:100%">
+                        
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-size--12-of-12  slds-theme--shade">
+                                    <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                        <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text"></span>
+                                    </button>
+                                    <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Payments/ Reserves</h2>
+                                </div>
+                                
+                                <table class="tbtest" width="80%" style="margin-left:5px;">
+                                    <tr>
+                                        <th width="20%"></th>
+                                        <th width="40%">Loss</th>
+                                        <th width="40%">LAE</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Unpaid Reserves</b>
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,number,currency}" >
+                                                <apex:param value="{!(claimObj.GL_5010__c)}"/>
+                                            </apex:outputText>
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,number,currency}" >
+                                                <apex:param value="{!(claimObj.GL_5035__c)}"/>
+                                            </apex:outputText>  
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Payment</b>
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,number,currency}" >
+                                                <apex:param value="{!abs(claimObj.GL_5000__c)}"/>
+                                            </apex:outputText>
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,number,currency}" >
+                                                <apex:param value="{!abs(claimObj.GL_5030__c)}"/>
+                                            </apex:outputText> 
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Incurred Reserves</b>
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,number,currency}" >
+                                                <apex:param value="{!(claimObj.GL_5010__c) + (claimObj.GL_5000__c)}"/>
+                                            </apex:outputText>
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,number,currency}" >
+                                                <apex:param value="{!(claimObj.GL_5035__c) + (claimObj.GL_5030__c)}"/>
+                                            </apex:outputText>   
+                                        </td>
+                                        
+                                    </tr>
+                                    
+                                </table>
+                                
+                                
+                            </div> 
+                            
+                            
+                            
+                        </div>
+                    </apex:outputPanel>
+                    
+                </div> 
+                
+                <apex:outputPanel id="lineTable">                    
+                    <apex:pageBlock id="pbBlock2Id">   
+                        <apex:PageBlockSection id="pbSecLineId" columns="1" title="Account Payable Lines" collapsible="true" >
+                            <script>
+                            $("input").addClass('slds-input');
+                            colorPageBlock(document.getElementById("{!$Component.pbSecLineId}"), "#337AB7");</script>
+                            <apex:variable var="index" value="{!0}"   /> 
+                            <apex:PageBlockTable id="pbBlockTableId" value="{!accPayLineWrapList}" var="accPayLine" >
+                                <apex:column headerValue="Action">
+                                    <apex:commandLink action="{!removeLineItemRow}" status="counterStatus"  rerender="pbBlock2Id">
+                                        <apex:image width="17" height="17" value="{!$Resource.removeImage}"/>
+                                        <apex:param value="{!index}" name="testparam1" assignTo="{!indexOfLineItemToBeRemoved}" />
+                                    </apex:commandLink>
+
+                                </apex:column>
+                                <apex:column headerValue="Expense GL Account">
+                                    <apex:inputField value="{!accPayLine.accPayabaleObj.AcctSeed__Expense_GL_Account__c}" style="width:80%"/>
+                                </apex:column>
+                                
+                                <apex:column headerValue="ISBAM Invoice Number">
+                                    <apex:inputField styleClass="ContactRequired" style="border-left:4px solid red;" value="{!accPayLine.accPayabaleObj.ISBAM_Invoice_Number__c }" />
+                                </apex:column>
+                                
+                                <apex:column headerValue="Date">
+                                    <apex:inputField styleClass="ContactRequired" style="width:80%; border-left:4px solid red;" required="false" value="{!AcctSeed__Account_Payable__c.AcctSeed__Date__c}"/>
+                                </apex:column>
+                                
+                                <apex:column headerValue="Amount">
+                                    <apex:inputField value="{!accPayLine.accPayabaleObj.AcctSeed__Amount__c}"
+                                                     styleClass="price{!index}"
+                                                     onkeyup="calculateAmount({!index});"
+                                                     />
+                                </apex:column>
+                                <apex:column headerValue="Total" id="totalId" width="25%" >
+                                    <apex:outputText id="total" styleclass="total{!index} totalEnd">
+                                    </apex:outputText>
+                                    <!--increment -->
+                                    <script>
+                                    calculateAmount('{!index}');
+                                    
+                                    </script>
+                                    <apex:variable value="{!index+1}" var="index"/>
+                                </apex:column>
+                                
+                            </apex:PageBlockTable>
+                        </apex:PageBlockSection> 
+                        <apex:commandlink value="Add New Line Items" 
+                                          action="{!addAccPayNewLine}" 
+                                          rerender="pbBlock2Id,renderError" 
+                                          immediate="true"
+                                          status="counterStatus"  />
+                        <apex:outputPanel id="TotalAmountPanel" style="float: right; font-size: 1em; margin-right: 21%; color: #000; font-weight: bold; padding: 5px 2px 4px;">
+                            <apex:outputLabel value="Grand Total:  " />
+                            <apex:outputText styleclass="totalClassAmount" style="float: right; width: 40px;" id="totalAmountField" value="{0, number, 0.00}">
+                                <apex:param id="totalAmountFieldParam" value=""/>
+                            </apex:outputText> 
+                            <br/>
+                            <apex:outputLabel value="Remaining Loss:  " />&nbsp;&nbsp;
+                            <apex:outputText styleclass="remainingLossAmount" style="float: right; width: 40px;" id="remainingLossField" value="{0, number, 0.00}">
+                                <apex:param id="remainingLossFieldParam" value=""/>
+                            </apex:outputText>
+                            <br/>
+                            <apex:outputLabel value="Remaining LAE:  " />
+                            <apex:outputText styleclass="remainingLaeAmount" style="float: right; width: 40px;" id="remainingLaeField" value="{0, number, 0.00}">
+                                <apex:param id="remainingLaeFieldParam" value=""/>
+                            </apex:outputText>
+                        </apex:outputPanel>
+                        
+                    </apex:PageBlock>
+                </apex:outputPanel>
+                
+            </fieldset >
+            
+            <div class="slds-docked-form-footer">
+                <button type="button" class="slds-button slds-button--neutral" onclick="cancel()">Cancel</button> &nbsp;
+                <button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndSaveAccountPayable(); return false;">save</button>
+                
+            </div>
+            <br/><br/><br/><br/>
+        </apex:form>
+    </html>  
+</apex:page>

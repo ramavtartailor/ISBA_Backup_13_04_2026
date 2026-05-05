@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Endorsement Number --></label>
+    <name>Endorsement_Sub_Type__c</name>
+    <picklistValues>
+        <masterLabel>Adjust Premium Endorsement</masterLabel>
+        <translation><!-- Adjust Premium Endorsement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change Lawyer Endorsement</masterLabel>
+        <translation><!-- Change Lawyer Endorsement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 101A</masterLabel>
+        <translation><!-- IL 101A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 101B</masterLabel>
+        <translation><!-- IL 101B --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 102</masterLabel>
+        <translation><!-- IL 102 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 104</masterLabel>
+        <translation><!-- IL 104 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 106</masterLabel>
+        <translation><!-- IL 106 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 107</masterLabel>
+        <translation><!-- IL 107 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 107B</masterLabel>
+        <translation><!-- IL 107B --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 107C</masterLabel>
+        <translation><!-- IL 107C --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 107D</masterLabel>
+        <translation><!-- IL 107D --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 110</masterLabel>
+        <translation><!-- IL 110 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 115</masterLabel>
+        <translation><!-- IL 115 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 120</masterLabel>
+        <translation><!-- IL 120 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 130</masterLabel>
+        <translation><!-- IL 130 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 150</masterLabel>
+        <translation><!-- IL 150 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 151</masterLabel>
+        <translation><!-- IL 151 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 151A</masterLabel>
+        <translation><!-- IL 151A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 152</masterLabel>
+        <translation><!-- IL 152 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 153</masterLabel>
+        <translation><!-- IL 153 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 160</masterLabel>
+        <translation><!-- IL 160 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 161</masterLabel>
+        <translation><!-- IL 161 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 162</masterLabel>
+        <translation><!-- IL 162 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 163</masterLabel>
+        <translation><!-- IL 163 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 166</masterLabel>
+        <translation><!-- IL 166 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 167</masterLabel>
+        <translation><!-- IL 167 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 168</masterLabel>
+        <translation><!-- IL 168 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 169</masterLabel>
+        <translation><!-- IL 169 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 169A</masterLabel>
+        <translation><!-- IL 169A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 171</masterLabel>
+        <translation><!-- IL 171 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 172</masterLabel>
+        <translation><!-- IL 172 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 173</masterLabel>
+        <translation><!-- IL 173 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 174</masterLabel>
+        <translation><!-- IL 174 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 174A</masterLabel>
+        <translation><!-- IL 174A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 175</masterLabel>
+        <translation><!-- IL 175 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 176</masterLabel>
+        <translation><!-- IL 176 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 176A</masterLabel>
+        <translation><!-- IL 176A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 177</masterLabel>
+        <translation><!-- IL 177 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 178</masterLabel>
+        <translation><!-- IL 178 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 179</masterLabel>
+        <translation><!-- IL 179 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 190</masterLabel>
+        <translation><!-- IL 190 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 191</masterLabel>
+        <translation><!-- IL 191 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 200</masterLabel>
+        <translation><!-- IL 200 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 210</masterLabel>
+        <translation><!-- IL 210 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 230</masterLabel>
+        <translation><!-- IL 230 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 232</masterLabel>
+        <translation><!-- IL 232 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 234</masterLabel>
+        <translation><!-- IL 234 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 245</masterLabel>
+        <translation><!-- IL 245 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 246</masterLabel>
+        <translation><!-- IL 246 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 247</masterLabel>
+        <translation><!-- IL 247 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 248</masterLabel>
+        <translation><!-- IL 248 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 249</masterLabel>
+        <translation><!-- IL 249 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 250</masterLabel>
+        <translation><!-- IL 250 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 251</masterLabel>
+        <translation><!-- IL 251 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 252</masterLabel>
+        <translation><!-- IL 252 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 260</masterLabel>
+        <translation><!-- IL 260 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 261</masterLabel>
+        <translation><!-- IL 261 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 262</masterLabel>
+        <translation><!-- IL 262 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 301</masterLabel>
+        <translation><!-- IL 301 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 302</masterLabel>
+        <translation><!-- IL 302 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IL 303</masterLabel>
+        <translation><!-- IL 303 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

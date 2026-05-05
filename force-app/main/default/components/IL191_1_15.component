@@ -1,0 +1,24 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Reinstatement Notice
+    </p>
+    <p class="normalParagraph">
+        This Policy is reinstated as of &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!endorsement.Endorsement_Effective_Date__c}" /> </apex:outputText>&nbsp;, 12:01 a.m. Central Standard Time.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:520px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

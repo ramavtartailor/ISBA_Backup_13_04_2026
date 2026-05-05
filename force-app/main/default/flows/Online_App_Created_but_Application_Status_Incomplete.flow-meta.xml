@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Reminder_Email_2_Days</name>
+        <label>Send Reminder Email 2 Days</label>
+        <locationX>50</locationX>
+        <locationY>384</locationY>
+        <actionName>Customer_Application__c.Send_Online_NBA_Reminder_2_Day</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>Log_Task_for_Reminder_Email_2_Days</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Customer_Application__c.Send_Online_NBA_Reminder_2_Day</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Reminder_Email_7_Days</name>
+        <label>Send Reminder Email 7 Days</label>
+        <locationX>578</locationX>
+        <locationY>384</locationY>
+        <actionName>Customer_Application__c.Send_Online_NBA_Reminder_7_Days</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>Log_Task_for_Reminder_Email_7_Days</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Customer_Application__c.Send_Online_NBA_Reminder_7_Days</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Reminder_Email_for_14_Days</name>
+        <label>Send Reminder Email for 14 Days</label>
+        <locationX>1106</locationX>
+        <locationY>384</locationY>
+        <actionName>Customer_Application__c.Send_Online_NBA_Reminder_14_Days</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>Log_Task_for_Reminder_Email_14_Days</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Customer_Application__c.Send_Online_NBA_Reminder_14_Days</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_if_Application_Status_is_incomplete_for_14_Days</name>
+        <label>Check if Application Status is incomplete for 14 Days</label>
+        <locationX>1238</locationX>
+        <locationY>276</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_for_14_days</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Incomplete</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Business</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Reminder_Email_for_14_Days</targetReference>
+            </connector>
+            <label>Yes for 14 days</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_if_Application_Status_is_Incomplete_for_2_Days</name>
+        <label>Check if Application Status is Incomplete for 2 Days</label>
+        <locationX>182</locationX>
+        <locationY>276</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_for_2_Days</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Incomplete</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Business</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Reminder_Email_2_Days</targetReference>
+            </connector>
+            <label>Yes for 2 Days</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_if_Application_Status_is_Incomplete_for_7_Days</name>
+        <label>Check if Application Status is Incomplete for 7 Days</label>
+        <locationX>710</locationX>
+        <locationY>276</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_for_7_Days</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Incomplete</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Business</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Reminder_Email_7_Days</targetReference>
+            </connector>
+            <label>Yes for 7 Days</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>RecordTypeName</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.RecordType.Name}</expression>
+    </formulas>
+    <interviewLabel>Online App Created but Application Status Incomplete {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Online App Created but Application Status Incomplete</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Log_Task_for_Reminder_Email_14_Days</name>
+        <label>Log Task for Reminder Email 14 Days</label>
+        <locationX>1106</locationX>
+        <locationY>492</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Body_7_And_14_Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_7_And_14_Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Log_Task_for_Reminder_Email_2_Days</name>
+        <label>Log Task for Reminder Email 2 Days</label>
+        <locationX>50</locationX>
+        <locationY>492</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Body_2_Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_2_Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Log_Task_for_Reminder_Email_7_Days</name>
+        <label>Log Task for Reminder Email 7 Days</label>
+        <locationX>578</locationX>
+        <locationY>492</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Body_7_And_14_Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_7_And_14_Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>386</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Application_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Incomplete</stringValue>
+            </value>
+        </filters>
+        <object>Customer_Application__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <name>X2_Days_Reminder</name>
+            <connector>
+                <targetReference>Check_if_Application_Status_is_Incomplete_for_2_Days</targetReference>
+            </connector>
+            <label>2 Days Reminder</label>
+            <offsetNumber>2</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>CreatedDate</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>X7_Days_Reminder</name>
+            <connector>
+                <targetReference>Check_if_Application_Status_is_Incomplete_for_7_Days</targetReference>
+            </connector>
+            <label>7 Days Reminder</label>
+            <offsetNumber>7</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>CreatedDate</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>X14_Days_Reminder</name>
+            <connector>
+                <targetReference>Check_if_Application_Status_is_incomplete_for_14_Days</targetReference>
+            </connector>
+            <label>14 Days Reminder</label>
+            <offsetNumber>14</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>CreatedDate</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>Body_2_Days</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{!$Record.Contact_Name__c}:
+Thank you for initiating our application for lawyers’ professional liability insurance for your law firm. Your direct contact for questions, assistance, or schedule a call:
+{!$Record.PolicyId__r.Sales_User__c}
+Direct: (312) 379-2012
+Email: andrew.murray@isbamutual.com
+For quotes, you can revisit your application at: {!$Record.Form_Link__c}:
+The average time of application completion is under 10 minutes
+ISBA Mutual is an Illinois-based, policyholder owned organization providing the following features:
+Practice support services (best practices, loss prevention, &amp; risk management)
+Free webinar and in-person CLE courses
+In the event of a claim, the first $5,000 of Claim Expenses are paid by ISBA Mutual and is not subject to the policy deductible.
+In event of a disciplinary request for investigation, ISBA Mutual will assign a lawyer on your behalf and cover legal fees and expenses
+Free tail (extended reporting period) upon retirement, death, or disability
+Eligibility for dividends
+We look forward to the opportunity to work with you.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Body_7_And_14_Days</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{!$Record.Contact_Name__c}:
+Thank you for initiating our application for lawyers’ professional liability insurance for your law firm. Your direct contact for questions, assistance, or schedule a call:
+{!$Record.PolicyId__r.Sales_User__c}
+Direct: (312) 379-2012
+Email: andrew.murray@isbamutual.com
+For quotes, you can revisit your application at: {!$Record.Form_Link__c}
+The average time of application completion is under 10 minutes.
+ISBA Mutual is an Illinois-based, policyholder owned organization providing the following features:
+Practice support services (best practices, loss prevention, &amp; risk management)
+Free webinar and in-person CLE courses
+In the event of a claim, the first $5,000 of Claim Expenses are paid by ISBA Mutual and is not subject to the policy deductible.
+In event of a disciplinary request for investigation, ISBA Mutual will assign a lawyer on your behalf and cover legal fees and expenses
+Free tail (extended reporting period) upon retirement, death, or disability
+Eligibility for dividends
+We look forward to the opportunity to work with you.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Subject_2_Days</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>ISBA Mutual Application | Website Inquiry</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Subject_7_And_14_Days</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>ISBA Mutual Application | Quote Pending</text>
+    </textTemplates>
+</Flow>

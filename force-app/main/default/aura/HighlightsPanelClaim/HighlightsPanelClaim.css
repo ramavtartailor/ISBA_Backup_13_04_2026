@@ -1,0 +1,12 @@
+.THIS.normal{
+    background-color: #ffffff;
+}
+.THIS th {
+  padding-left: 15px;
+}
+.THIS td {
+  padding-left: 15px;
+}
+.THIS.activeClaim {
+    background-color: #b4ffb4;
+}

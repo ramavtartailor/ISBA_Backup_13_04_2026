@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Type__c</fullName>
+    <label>Contact Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Claimant</fullName>
+                <default>false</default>
+                <label>Claimant</label>
+            </value>
+            <value>
+                <fullName>Claimant Attorney</fullName>
+                <default>false</default>
+                <label>Claimant Attorney</label>
+            </value>
+            <value>
+                <fullName>Claimant Firm</fullName>
+                <default>false</default>
+                <label>Claimant Firm</label>
+            </value>
+            <value>
+                <fullName>Coverage Firm</fullName>
+                <default>false</default>
+                <label>Coverage Firm</label>
+            </value>
+            <value>
+                <fullName>Deductible</fullName>
+                <default>false</default>
+                <label>Deductible</label>
+            </value>
+            <value>
+                <fullName>Defendant</fullName>
+                <default>false</default>
+                <label>Defendant</label>
+            </value>
+            <value>
+                <fullName>Defense Attorney</fullName>
+                <default>false</default>
+                <label>Defense Attorney</label>
+            </value>
+            <value>
+                <fullName>Defense Expert</fullName>
+                <default>false</default>
+                <label>Defense Expert</label>
+            </value>
+            <value>
+                <fullName>Defense Firm</fullName>
+                <default>false</default>
+                <label>Defense Firm</label>
+            </value>
+            <value>
+                <fullName>Plaintiff Expert</fullName>
+                <default>false</default>
+                <label>Plaintiff Expert</label>
+            </value>
+            <value>
+                <fullName>Trial Judge</fullName>
+                <default>false</default>
+                <label>Trial Judge</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

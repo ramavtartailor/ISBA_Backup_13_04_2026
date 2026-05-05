@@ -1,0 +1,18 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        <span style="font-weight: bolder;">Predecessor Firm</span> Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the Law Firm(s) listed below is/are a<span class="normalBoldParagraph"> Predecessor Firm </span>of the<span class="normalBoldParagraph"> Named Insured: </span> <br/><br/><br/><apex:outputField value="{!endorsement.Firm_Name__c}"/>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:480px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

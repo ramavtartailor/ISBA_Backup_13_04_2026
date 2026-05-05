@@ -1,0 +1,136 @@
+<apex:component controller="Billing_Policy_Ctrl" access="global">
+    <apex:attribute name="recId" type="String" assignTo="{!recordId}" description="recordId"/>
+    <!--<head>
+        <style>
+            body {
+            	font-family: 'Arial Unicode MS', sans-serif !important;
+            	font-size: 15px;
+            }
+            @page {
+            	margin-top: 30px;
+            	margin-bottom: 100px;
+            	font-family: 'Arial Unicode MS', sans-serif !important;
+            }
+            .arial {
+            	font-family: 'Arial Unicode MS', sans-serif !important;
+            }
+            
+            .ibf_subtitle {
+            	font-size:18px;
+            	color:black;
+            	text-align: center;
+            }
+            
+            .isbam_primary_red {
+            	color: #89001B;
+            }
+            
+            #conditions tr td {
+            	padding-bottom: 8px;
+            }
+            
+            .conditions {
+            	display: inline-block;
+            }
+            
+			.body_table {
+            	display: inline-block;
+				font-size: 15px;
+				font-family: 'Arial Unicode MS', sans-serif !important;
+			}
+
+        </style>
+    </head> -->
+    
+<table style="width: 100%;" valign="top" border="0">
+    <tr>
+        <td>Dear {!billingRec.AcctSeed__Billing_Contact__r.FirstName} {!billingRec.AcctSeed__Billing_Contact__r.LastName},</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td class="arial" style="text-decoration: underline;"><b>As of today, your ISBA Mutual premium is past due.</b></td>
+    </tr>        
+    <tr><td>&nbsp;</td></tr>                                             
+        <td style="text-align: justify;">In accordance with the Cancellation provision of the Policy referenced above, your Policy will be cancelled effective&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!TODAY()+10}" /></apex:outputText>&nbsp;due to non-payment of premium. In order to avoid your ISBA Mutual Policy from being cancelled, we will need a payment prior to&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!TODAY()+10}" /></apex:outputText>.</td>
+    <tr><td>&nbsp;</td></tr>
+    <tr>                     
+        <td>Section V. of your ISBA Mutual Policy states:
+            
+            <table id="conditions" style="width: 100%;" valign="top" border="0">
+                <tr>
+                    <td style="width: 19px;">&nbsp;</td>
+                    <td style="width: 19px;"></td>
+                    <td style="width: 19px;"></td>
+                    <td style="width: 19px;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">
+<b class="arial">V.</b>                            
+                    </td>
+                    <td style="font-weight: bold;" colspan="99">
+<b class="arial">CONDITIONS</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1">&nbsp;</td>
+                    <td colspan="1">
+G.
+                    </td>
+                    <td colspan="99">
+Cancellation
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1">&nbsp;</td>
+                    <td colspan="1">&nbsp;</td>
+                    <td valign="top" colspan="1">
+2.
+                    </td>
+                    <td colspan="99">
+The <b class="arial">Company</b> may cancel this Policy by giving written notice to the <b class="arial">Named Insured</b> at least:
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1">&nbsp;</td>
+                    <td colspan="1">&nbsp;</td>
+                    <td colspan="1">&nbsp;</td>
+                    <td valign="top" colspan="1">
+a.
+                    </td>
+                    <td colspan="99" style="text-align: justify;">
+ten (10) days prior to the effective date of cancellation, if cancellation is for non-payment of premium.  However, the <b class="arial">Named Insured</b> may continue the coverage by payment in full at any time prior to the effective date of cancellation.                                                               
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>          
+    <tr>
+		<td class="arial" style="text-align: justify;"><b>To make a payment, please call 312-379-2005 immediately.</b></td>
+	</tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+    	<td class="" style="text-align: justify;">
+Section VII of your ISBA Mutual Policy details your options, rights, and the process to procure an Extended Reporting Period Endorsement.
+        </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td>If you have any questions or need further assistance, please do not hesitate to call our accounting team at 312-379-2005.</td>
+    </tr>
+</table>
+
+<br/>  
+Sincerely,
+<br/><br/>                
+Kristen Janik<br/>
+Controller<br/><br/>
+ISBA Mutual Insurance Company<br/>
+20 South Clark Street, Suite 800<br/>
+Chicago, IL  60603-1826<br/>
+<br/>
+312 379-2005 <b style="color: red;">Accounting</b><br/>
+312 379-2000 <b style="color: red;">Office</b><br/>
+312 379-2049 <b style="color: red;">Fax</b>
+</apex:component>

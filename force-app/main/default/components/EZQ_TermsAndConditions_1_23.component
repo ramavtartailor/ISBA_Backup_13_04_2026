@@ -1,0 +1,366 @@
+<apex:component controller="EZRenewal2_Ctrl">
+    
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+   
+    <head>
+  <style>
+      @page {
+            size:portrait;
+            margin-left: 0.8cm;
+            margin-right: 0.8cm;
+            margin-top: 0.8cm;
+            margin-bottom: 1cm;
+      }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);               
+            }
+            .pagenumber:before {
+                content: counter(page);            
+            }
+      
+            body {
+              font-size: 8pt;
+            }
+      		.pc { 
+      			color: #89001b;
+      			font-weight: bold;
+      		}
+      		.c { text-align: center; }
+    		.u { }
+      		.b { font-weight: bold; }
+    		
+            .div_pad {
+            	padding-top: 5px;
+                padding-bottom: 5px;
+        	}
+      
+            .table_border { border-collapse: collapse; width: 100%; }
+            .table_border, .table_border th, .table_border td { border: 2px solid #ededed; }
+            .table_spacing td {
+              padding-left: 7px;
+              padding-top: 3px;
+              padding-bottom: 3px;
+            }
+      
+      		#discipline_table_questions th, #discipline_table_questions td {
+      			border: 0px solid white;
+      			padding: 2px;
+       		}
+      
+            .table_title { 
+        		background-color: #89001b;
+        		color: white;
+        		font-weight: bold;
+      			font-size: 14px;
+      			padding-top: 3px !important;
+                padding-bottom: 3px !important;
+    		}
+            
+            .sc_header {
+            	background-color: #B7BBB6;
+                color: black;
+            }
+            .sc_header th {
+      			font-weight: bold;
+      			padding-top: 5px !important;
+                padding-bottom: 5px !important;
+                font-weight: normal !important;
+            }
+      
+      		
+      		.table_head tr th {
+                text-align: center;
+            }
+      
+            #quote_table {
+                font-size: 12px;
+            }
+            #quote_table td {
+      			padding: 6px;
+            }
+            #quote_table td:nth-child(1) {
+              text-align: center;
+            }
+            
+            #lawyer_table td {
+      			padding: 6px;
+            }
+      
+            #discipline_table {
+        		font-size: 12px;
+       		}
+      
+      		.fs-12px {
+      			font-size: 12px;
+      		}
+      
+      		.pad6 td {
+      			padding: 6px;
+      		}
+      
+      		.th_pad th {
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+      
+      		.question_table td {
+              padding: 5px;
+              padding-right: 10px !important;
+            }
+	        
+            .cb {
+                height: 9px;
+      			width: 9px;
+      			border: 1px solid black;
+      			float: left;
+                margin-top: 2px;
+      			margin-right: 4px;
+            }
+            .cb_yes {
+                padding-right: 15px;    
+		        float: left;
+            }
+            .yn_pad {
+      			padding-left: 15px !important;
+      		}
+      
+		    tr.page-break  { display: block; page-break-before: always; }
+      
+      		.no_td_border {
+      			border-left: 0px solid white !important;
+      			border-top: 0px; solid white !important;
+      			border-right: 0px solid white !important;
+      			border-bottom: 0px solid white !important;
+      		}
+      
+  </style>
+  </head>
+  <body>
+      <div class="footer" style="width:100%">
+          <table style="display:none;" width="100%">
+              <tr>
+                  <td width="20%">
+                      
+                  </td>
+                  <td width="30%" style="text-align:right;">
+                      Page&nbsp;<b><span class="pagenumber" /></b>&nbsp;of&nbsp;<b><span class="pagecount" /></b>
+                  </td>
+                  <td width="50%" style="text-align:right;">
+                      
+                  </td>
+              </tr>
+          </table>
+         
+      </div>
+  	
+    
+      <!---HEADER------------------------------------------------------------>
+    <div style="">
+    	<c:Application_Header />    
+    </div>
+      
+      
+       
+        <p style=""><middle>
+        <span class="normalBoldParagraph"> 
+            zzTerms &amp; Conditions
+         </span></middle>
+        </p>
+        <table class="normalParagraph" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%; padding-top:10px; padding-bottom: 10px;">
+               <span class="normalBoldParagraph"> Endorsements: </span><br/><br/>    
+                
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%" align="center">
+                    <tr>
+                        <td style="width:27%;" class="tableDataLeft">
+                            <span class="normalParagraph  tableDataLeft">
+                                ISBAMIC 102
+                                {!RIGHT(TEXT(VALUE(LEFT(policy.Policy_Document_Version__c , FIND('/',policy.Policy_Document_Version__c)-1 ))+100),2)}
+                                20{!RIGHT(policy.Policy_Document_Version__c , LEN(policy.Policy_Document_Version__c) - FIND('/',policy.Policy_Document_Version__c) )}
+                            </span>
+                        </td>
+                        <td style="width:73%;" class="tableDataLeft">
+                            <span class="tableDataLeft" style="">
+                                Prior Acts Exclusion Endorsement
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="{!if(Mod_230,'','display:none;')}">
+                        <td style="width:27%;" class="tableDataLeft">
+                            <span class="normalParagraph  tableDataLeft">
+                                ISBAMIC 230
+                                {!RIGHT(TEXT(VALUE(LEFT(policy.Policy_Document_Version__c , FIND('/',policy.Policy_Document_Version__c)-1 ))+100),2)}
+                                20{!RIGHT(policy.Policy_Document_Version__c , LEN(policy.Policy_Document_Version__c) - FIND('/',policy.Policy_Document_Version__c) )}
+                            </span>
+                        </td>
+                        <td style="width:73%;" class="tableDataLeft">
+                            <span class="tableDataLeft" style="">
+                                Annual Aggregate Deductible Endorsement
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="{!if(Mod_234,'','display:none;')}">
+                        <td style="width:27%;" class="tableDataLeft">
+                            <span class="normalParagraph  tableDataLeft">
+                                ISBAMIC 234
+                                {!RIGHT(TEXT(VALUE(LEFT(policy.Policy_Document_Version__c , FIND('/',policy.Policy_Document_Version__c)-1 ))+100),2)}
+                                20{!RIGHT(policy.Policy_Document_Version__c , LEN(policy.Policy_Document_Version__c) - FIND('/',policy.Policy_Document_Version__c) )}
+                            </span>
+                        </td>
+                        <td style="width:73%;" class="tableDataLeft">
+                            <span class="tableDataLeft" style="">
+                                Loss Only Deductible Endorsement
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="{!if(Mod_261,'','display:none;')}">
+                        <td style="width:27%;" class="tableDataLeft">
+                            <span class="normalParagraph  tableDataLeft">
+                                ISBAMIC 261
+                                {!RIGHT(TEXT(VALUE(LEFT(policy.Policy_Document_Version__c , FIND('/',policy.Policy_Document_Version__c)-1 ))+100),2)}
+                                20{!RIGHT(policy.Policy_Document_Version__c , LEN(policy.Policy_Document_Version__c) - FIND('/',policy.Policy_Document_Version__c) )}
+                            </span>
+                        </td>
+                        <td style="width:73%;" class="tableDataLeft">
+                            <span class="tableDataLeft" style="">
+                                Claim Expenses Outside the Policy Limits Endorsement
+                            </span>
+                        </td>
+                    </tr>
+                    <apex:repeat value="{!endorsementList}" var="endorsement">
+                        <tr>
+                            <td style="width:27%;" class="tableDataLeft">
+                                <span class="normalParagraph  tableDataLeft">
+                                    ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(endorsement.Endorsement_Number__c,'IL ','')}" />
+                                    {!RIGHT(TEXT(VALUE(LEFT(endorsement.Endorsement_Version__c , FIND('/',endorsement.Endorsement_Version__c)-1 ))+100),2)}
+                                    20{!RIGHT(endorsement.Endorsement_Version__c , LEN(endorsement.Endorsement_Version__c) - FIND('/',endorsement.Endorsement_Version__c) )}
+                                </span>
+                            </td>
+                            <td style="width:73%;" class="tableDataLeft">
+                                <span class="tableDataLeft" style="">
+                                    {!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(endorsement.Endorsement_Name__c,endorsement.Endorsement_Number__c,''),endorsement.Endorsement_Version__c , ''),'() ','')}
+                                </span>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                    <tr style="{!if(policy.Policy_Document_Version__c == '1/18','','display:none;')}">
+                        <td style="width:27%;" class="tableDataLeft">
+                            <span class="normalParagraph  tableDataLeft">
+                                ISBAMIC 302
+                                {!RIGHT(TEXT(VALUE(LEFT( $Label.IL_302_Version , FIND('/',$Label.IL_302_Version)-1 ))+100),2)}
+                                20{!RIGHT($Label.IL_302_Version , LEN($Label.IL_302_Version) - FIND('/',$Label.IL_302_Version) )}
+                            </span>
+                        </td>
+                        <td style="width:73%;" class="tableDataLeft">
+                            <span class="tableDataLeft" style="">
+                                Amendment of Unlimited Retirement Extended Reporting Period Endorsement
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+ 
+            </td>
+        </tr>
+        </table>
+        <!-- <p style= "">
+            <span class="normalBoldParagraph">It is a program requirement that all Lawyers insured by ISBA Mutual Insurance Company must be current members of the Illinois State Bar Association (ISBA).  To renew your ISBA membership, please visit: <a href="www.ISBA.org/membership/join">www.ISBA.org/membership/join</a>.</span>
+        </p> -->
+        <p style="">
+            <span class="normalBoldParagraph">TO RENEW YOUR POLICY, PLEASE FOLLOW THESE STEPS:</span>
+        </p>
+      
+        <p style="padding: 0px 10px; 30px 10px;" class="">
+      </p>
+            
+            <table padding="0" style="width: 100%; padding-left: 30px;">
+              <tr>
+                <td valign="top" style="width: 15px;">
+                    <span style="color: black; font-weight: bold;">&bull;</span>  
+                </td>  
+                <td style="text-align: justify;">
+                    Review the <b>EZ Quote and Acceptance Form</b> which provides your renewal quote(s).  If multiple limit options are available, please select the limit option desired.  Complete, sign and date this form.
+                </td>
+              </tr>
+              <tr><td colspan="99">&nbsp;</td></tr>
+            </table>
+      
+	      <table padding="0" style="width: 100%; padding-left: 30px;">
+              <tr>
+                <td valign="top" style="width: 15px;">
+                    <span style="color: black; font-weight: bold;">&bull;</span>  
+                </td>  
+                <td style="text-align: justify;">
+                    <ul>
+                    <li>Review the list of Lawyers for Lawyer accuracy and provide the number of hours worked per week for each Lawyer listed.  This list confirms the Lawyers included in the quote(s) provided.</li>
+                    	<ul>
+                        	<li>Any change to the list of Lawyers will result in a change in premium accordingly.  If the firm has added a Lawyer who is not listed, the Add Lawyer Supplement will need to be completed and is included for your convenience.</li> 
+                        	<li>Please contact me by email if there is a change in the firm’s Lawyer roster and include the Add Lawyer Supplement if applicable.</li>
+                    	</ul>
+                    </ul>
+                </td>
+              </tr>    
+              <tr><td colspan="99">&nbsp;</td></tr>
+            </table>
+      
+      		<table padding="0" style="width: 100%; padding-left: 30px;">
+              <tr>
+                <td valign="top" style="width: 15px;">
+                    <span style="color: black; font-weight: bold;">&bull;</span>  
+                </td>  
+                <td style="text-align: justify;">
+                    <ul>
+                    <li>To Bind your Policy renewal, return the following to ISBA Mutual by email, fax or mail:</li>
+                    	<ul>
+                        	<li>Completed <b>EZ Quote and Acceptance Form.</b></li> 
+                        	<li>Copy of Firm Letterhead.</li>
+                    	</ul>
+                    </ul>
+                </td>
+              </tr>    
+              <tr><td colspan="99">&nbsp;</td></tr>
+            </table>
+      
+     	 <table padding="0" style="width: 100%; padding-left: 30px;">
+              <tr>
+                <td valign="top" style="width: 15px;">
+                    <span style="color: black; font-weight: bold;">&bull;</span>  
+                </td>  
+                <td style="text-align: justify;">
+                    <ul>
+                    	<li>Premium payment instructions and invoice will be sent to the Firm by email from our Accounting Department AFTER your Policy has been bound.  The instructions on how to manage your premium payment online will be included in this email.</li>
+                    </ul>
+                </td>
+              </tr>    
+              <tr><td colspan="99">&nbsp;</td></tr>
+            </table>
+      
+      
+        <p style="">
+            <span class="normalBoldParagraph">As a reminder, Coverage is not bound until appropriate premiums have been received by ISBA Mutual Insurance Company.</span>
+        </p>
+          
+    
+</body>
+</apex:component>

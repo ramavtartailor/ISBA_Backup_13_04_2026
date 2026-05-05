@@ -1,0 +1,976 @@
+<apex:page controller="PolicyLawyersController" sidebar="false" showHeader="false">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    
+        <apex:pageMessages ></apex:pageMessages>
+        <head>
+            <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <script>
+                $( document ).ready(function() {
+                if({! $User.UIThemeDisplayed == 'Theme3' }){
+                    //parent.adjustHeightPL(numberOfRows);
+                }
+                var startYear=1940; 
+                var endYear=2034; 
+                var optionsString='';
+                if(startYear<endYear){
+                    for(i=startYear;i<endYear+1;i++){
+                        optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                    }
+                    $('#calYearPicker').html(optionsString);
+                }
+            });
+                function showError(error){
+                    $(".slds-notify_container h2").each(function() {
+                        $(this).text(error);
+                    });
+                    $(".slds-notify_container").removeClass('slds-hide');
+                    setTimeout(function() {
+                        $(".slds-notify_container").addClass('slds-hide');
+                    }, 5000);
+                }
+            function searchValidate(){
+                $('[id$=spinner]').css('display','block');
+                var flag = false;
+                $('.search').each(function (){
+                    if($(this).val() != '' && $(this).val() != null && $(this).val() != 'undefined'){
+                        flag = true;
+                    }
+                });
+                if(flag){
+                    searchContacts();
+                }else{
+                    showError('Search text empty . ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            }
+                function savePolicyLawyer(nextOrSave){
+                    var status = false;
+                    var len = document.getElementsByClassName("chkbox").length;
+                    if(len === 0){
+                        status = true;
+                    }
+                    $(".chkbox").each(function(){
+                          if($(this).prop('checked')) {
+                              status = true;
+                          }
+                    });
+                    if(nextOrSave == "save"){
+                        unsaved=false;
+                        saveData(status);
+                    }else if(nextOrSave == "next"){
+                        unsaved=false;
+                        saveAndNextData(status);
+                    }    
+                    
+                }
+                
+                function checkAllCheckBox(){
+                    var chkVal = document.getElementById("chkAction").checked;
+                    var len = document.getElementsByClassName("chkbox").length;
+                    
+                    if(chkVal === true){
+                        for(var i=0;i<len;i++){
+                            document.getElementsByClassName("chkbox")[i].checked = true;
+                        }
+                    }else{
+                        for(var i=0;i<len;i++){
+                            document.getElementsByClassName("chkbox")[i].checked = false;
+                        }
+                    }
+                }
+                function cancelLawyer(){
+                    location.href = '/{!$CurrentPage.parameters.id}';
+                }
+                function savedRedirect(nextOrSave){
+                    var error = isError;
+                    console.log('error =>',error);
+                    if(error){
+                        console.log('errorMessage =>',error);
+                    }else{
+                        if(nextOrSave == "save"){
+                            location.href = '/{!$CurrentPage.parameters.id}';
+                        }else if(nextOrSave == "next"){
+                            var policy = '{!$CurrentPage.parameters.policy}';
+                            var pageRef = '/apex/AreaofPracticeDetailPageEdit_Ltng?id={!$CurrentPage.parameters.id}&showNext=true';
+                            if(policy){
+                                pageRef+= '&policy='+policy;
+                            }
+                            location.href = pageRef;
+                        }
+                    }
+                }
+                function updateModalSize(){
+                    if({! $User.UIThemeDisplayed == 'Theme3' }){
+                        parent.adjustHeightPL(numberOfRows);
+                    }
+                }
+                function validateAndSaveContact(){
+                    var flagSave = true;
+                    $('.ContactRequired').each(function (){
+                        if($(this).val() == '' || $(this).val() == null || $(this).val() == 'undefined'){
+                            $(this).css('border','1px solid red ');
+                            showError('** Required fields missing . ');
+                            $('[id$=spinner]').css('display','none');
+                            flagSave = false;
+                        }
+                    });
+                    if(flagSave){
+                        saveContact();
+                    }    
+                }
+                function handleBack(){
+                    console.log('isSAErp => '+{!isSaErp});
+                    if({!isSaErp}){
+                        console.log('isSAErp => '+{!isSaErp});
+                        history.back();
+                    }
+                    else{
+                        window.location.href='/apex/Application_Policy_DetailPageEdit_Ltng?id={!appId}&retURL={!appId}'
+                    }
+                }
+            	function updateRowColor(index,checkboxField){
+                    if(checkboxField.checked){
+                        document.getElementById('row' + index).style.background = 'lightgreen';
+                    }else{
+                        document.getElementById('row' + index).style.background = 'white';
+                    }
+                }    
+            </script>
+            
+            <style>
+                .headerCls{
+                    background-color : #337ab7 !important;
+                }
+                .paragraphClass{
+                    color : white !important;
+                    font-size: 17px !important;
+                }
+                
+                .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                    }
+                    .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .dateFormat {
+                        padding: 0 2px;
+                        display: none;
+                    }
+                    .slds-scope .slds-page-header {
+                        padding: 1rem .75rem;
+                        border-bottom: 1px solid #d8dde6 !important;
+                        background-color: #337AB7 !important;
+                        color: white;
+                    }
+                    .slds-box{
+                    }
+                    .slds-scope .slds-medium-size--12-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .slds-scope .slds-medium-size--6-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .accountRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .ContactRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope a:focus, .slds-scope a:hover{
+                        display: initial !important;
+                    }
+                    .lookupInput .slds-input{
+                        //border:none !important;
+                    }
+                    .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                        background-color: #fff; 
+                    }
+                    .lookupInput input[readonly] {
+                        cursor: default;
+                        color: #333;
+                        background-color: #fff !important;
+                        border: 1px solid #d8dde6 !important;
+                    }
+                    .datePicker{
+                        z-index: 99999 ;
+                    }
+                
+            </style>
+         </head>
+         
+         <body>
+            <apex:form id="frm">
+                <apex:outputPanel id="errorPanel">
+                    <script>
+                    var numberOfRows = '{!modalList.size + policyLawyerList.size}';
+                    var isError = false;
+                        if('{!errorMessage}' != '' && '{!errorMessage}' != null && '{!errorMessage}' != 'undefined'){
+                            isError = true;
+                            showError('{!errorMessage}');
+                        }   
+                    </script>
+                </apex:outputPanel>
+                
+                <apex:actionFunction name="saveData" action="{!savePolicyLawyer}" oncomplete="$('[id$=spinner]').css('display','none');savedRedirect('save');" reRender="errorPanel,frm">
+                    <apex:param name="param1" value="param1" assignTo="{!status}"/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="saveAndNextData" action="{!savePolicyLawyer}" oncomplete="$('[id$=spinner]').css('display','none');savedRedirect('next');" reRender="errorPanel,frm">
+                    <apex:param name="param1" value="param1" assignTo="{!status}"/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="removePolicyLawyer" action="{!removePolicyLawyer}" oncomplete="$('[id$=spinner]').css('display','none');updateModalSize();" reRender="frm" >
+                     <apex:param name="param2" value="param2" assignTo="{!indexPolicyLawyer}"/>
+                </apex:actionFunction>
+
+                <apex:actionFunction name="insertContact" action="{!insertContact}" oncomplete="$('[id$=spinner]').css('display','none');updateModalSize();" reRender="frm"/>
+                <apex:actionFunction name="saveContact" action="{!saveContact}" oncomplete="$('[id$=spinner]').css('display','none');" reRender="frm"/>
+                <apex:actionFunction name="redirectToFirstPage" action="{!redirectToFirstPage}" oncomplete="$('[id$=spinner]').css('display','none');" reRender="frm" immediate="true"/>
+                <apex:actionFunction name="addPolicyLawyer" action="{!AddLawyer}"  oncomplete="$('[id$=spinner]').css('display','none');updateModalSize();" reRender="frm"/>
+                
+                <apex:actionFunction name="openContactSearchModalFunction" reRender="contactSearch" oncomplete="$('[id$=contactSearchModal]').removeClass('slds-hide');$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="cancel" action="{!cancelMethod}" reRender="contactSearch" oncomplete="$('[id$=contactSearchModal]').addClass('slds-hide');$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="searchContacts" action="{!searchContact}" reRender="contactSearch" oncomplete="$('[id$=contactSearchModal]').removeClass('slds-hide');$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="associateContacts" action="{!associateContacts}" reRender="frm" oncomplete="$('[id$=contactSearchModal]').removeClass('slds-hide');$('[id$=spinner]').css('display','none');">
+                    <apex:param name="selectedContactsVar" value="" assignTo="{!selectedContacts}"/>
+                </apex:actionFunction>
+                <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+                
+                <div class="slds-notify_container slds-hide">
+                   <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                       <span class="slds-assistive-text">Warning</span>
+                       <button class="slds-button slds-notify__close slds-button--icon-inverse closeSvg" id="closeBtn" title="Close">
+                         <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                           <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                         </svg>
+                         <span class="slds-assistive-text">Close</span>
+                       </button>
+                       <div class="slds-notify__content">
+                           <h2 class="slds-text-heading--small"></h2>
+                       </div>
+                   </div>
+               </div>
+                
+                <!-- Heading   -->
+                <div class="slds-page-header headerCls" role="banner">
+                  <div class="slds-media">
+                    <div class="slds-media__body">
+                      <p class="slds-truncate paragraphClass" title="Policy Lawyers">Policy Lawyers - {!applicationPolicyList[0].Account__r.Name} - {!applicationPolicyList[0].Name}</p>
+                      <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate"></h1>
+                    </div>
+                    <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                      <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                
+                <!-- Page 1 -->
+                <br/>
+                <!-- Policy Table -->
+                <apex:outputPanel rendered="{!NOT(ContactPartRender)}">
+                <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 5px;">
+                    
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <div class="slds-size--12-of-12  slds-theme--shade">
+                                <h3 style="display:inline-block;padding-bottom: 15px;" class="slds-section-title slds-theme--shade slds-p-left--small slds-m-top--small">Lawyers</h3>
+                            </div>
+                            <!-- ====================================== Table ===============================-->
+                            <div class="slds-size--12-of-12" >
+                                <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                                    <thead>
+                                        <tr class="slds-text-title--caps">
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Action">Action</div>
+                                                <apex:outputPanel rendered="{!if(modalList.size > 0,true,false)}">
+                                                    <input type="checkbox" onclick="checkAllCheckBox();" id="chkAction"/>
+                                                </apex:outputPanel>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Contact Name">Contact Name</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="ISBA #">ISBA #</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="ARDC #">ARDC #</div>
+                                            </th>
+                                            
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Email">Email/Personal Email</div>
+                                            </th>
+                                            <!-- <th scope="col">
+                                                <div class="slds-truncate" title="Email">Personal Email</div>
+                                            </th> -->
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Phone">Phone/Cell Phone</div>
+                                            </th>
+                                            <!-- <th scope="col">
+                                                <div class="slds-truncate" title="Phone">Cell Phone</div>
+                                            </th> -->
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Policy Number">Policy Number</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Rate At(%)">Rate At(%) </div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Prior Act Date"> Prior Act Date</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Contact Role"> Contact Role</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <apex:variable value="{!0}" var="newIndex"/>
+                                    <tbody>
+                                        <apex:outputPanel rendered="{!if(modalList.size > 0,false,true)}">
+                                            <tr>
+                                                <td colspan="12">No Records Found</td> 
+                                            </tr>
+                                        </apex:outputPanel>
+                                        <apex:repeat value="{!modalList}" var="modalObj">
+                                            <tr id="row{!newIndex}">
+                                                <th scope="row" data-label="Action">
+                                                    <apex:inputCheckbox value="{!modalObj.isStatus}" styleclass="chkbox" onchange="updateRowColor({!newIndex},this);"/>
+                                                </th>
+                                                <td data-label="Contact Name">
+                                                    <div class="slds-truncate" title="Contact Name">
+                                                        <a href = "/apex/ContactDetailPageEdit_Ltng?retURL={!modalObj.accountContactJObj.Contact__r.Id}&id={!modalObj.accountContactJObj.Contact__r.Id}" target="_blank">
+                                                            {!modalObj.accountContactJObj.Lawyer_Name__c} 
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td data-label="ISBA #">
+                                                    <div class="slds-truncate" title="ISBA #">{!modalObj.accountContactJObj.Contact__r.ISBA__c}</div>
+                                                </td>
+                                                <td data-label="ARDC #">
+                                                    <div class="slds-truncate" title="ARDC #">{!modalObj.accountContactJObj.Contact__r.ARDC_Number__c}</div>
+                                                </td>
+                                                <td data-label="Email">
+                                                    <div class="slds-truncate" title="Email">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Email" styleClass="slds-input" value="{!modalObj.accountContactJObj.Contact__r.Email}" />
+                                                        </div>
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Personal Email" styleClass="slds-input" value="{!modalObj.accountContactJObj.Contact__r.Personal_Email__c}" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <!-- <td data-label="Personal Email">
+                                                    <div class="slds-truncate" title="Personal Email">
+                                                        <apex:inputField html-placeholder="Personal Email" styleClass="slds-input" value="{!modalObj.accountContactJObj.Contact__r.Personal_Email__c}" />
+                                                    </div>
+                                                </td> -->
+                                                <td data-label="Phone">
+                                                    <div class="slds-truncate" title="Phone">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Phone" styleClass="slds-input" value="{!modalObj.accountContactJObj.Contact__r.Phone}" />
+                                                        </div>
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Cell Phone" styleClass="slds-input" value="{!modalObj.accountContactJObj.Contact__r.MobilePhone}" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <!-- <td data-label="Cell Phone">
+                                                    <div class="slds-truncate" title="Cell Phone">
+                                                        <apex:inputField html-placeholder="Cell Phone" styleClass="slds-input" value="{!modalObj.accountContactJObj.Contact__r.MobilePhone}" />
+                                                    </div>
+                                                </td> -->
+                                                <td data-label="Policy Number">
+                                                    <div class="slds-truncate" title="Policy Number">{!modalObj.accountContactJObj.Contact__r.Account_Number__c}</div>
+                                                </td>
+                                                <td data-label="Rate At(%)">
+                                                    <div class="slds-truncate" title="Rate At(%)">
+                                                        <apex:inputField html-placeholder="Rate At(%)" styleClass="slds-input" value="{!modalObj.policyLawyerObj.Rate_At__c}" />
+                                                    </div> 
+                                                </td>
+                                                <td data-label="Prior Act Date">
+                                                    <div class="slds-truncate" title="Prior Act Date">
+                                                        <apex:inputField html-placeholder="Prior Act Date" onkeydown="autoFormat(this)" styleClass="slds-input" value="{!modalObj.policyLawyerObj.Prior_Act_Date__c}" />
+                                                    </div>
+                                                </td>
+                                                <td data-label="Contact Role">
+                                                    <div class="slds-truncate" title="Contact Role">
+                                                        <apex:inputField html-placeholder="Contact Role" styleClass="slds-input" value="{!modalObj.policyLawyerObj.Contact_Role__c}" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <apex:variable value="{!newIndex+1}" var="newIndex"/>
+                                        </apex:repeat>             
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- ====================================== Table ===============================-->
+                        </div>
+                     </div>
+                 </div>
+                    <apex:outputPanel rendered="{!if(modalList.size > 0,true,false)}">
+                        <button type="button" style="margin-left: 5px;" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');addPolicyLawyer();return false;">Add Selected Lawyer(s)</button>
+                    </apex:outputPanel> 
+                 <apex:outputPanel >
+                    <button type="button" style="margin-left: 5px;" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');insertContact();return false;">Create New Lawyer</button>
+                     <button class="slds-button slds-button--brand" aria-live="assertive" style="margin-top:10px;margin-bottom:10px;" onclick="$('[id$=spinner]').css('display','block');openContactSearchModalFunction(); return false;">
+                         Search Lawyer
+                     </button>
+                </apex:outputPanel>
+                </fieldset>
+                
+                
+                
+                <!-- Lawyers Table -->
+                <fieldset class="slds-box slds-theme--default  slds-m-around--small" >
+                    
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <div class="slds-size--12-of-12  slds-theme--shade">
+                                <h3 style="display:inline-block;padding-bottom: 15px;" class="slds-section-title slds-theme--shade slds-p-left--small slds-m-top--small">Policy Lawyers</h3>
+                            </div>
+                            <!-- ====================================== Table ===============================-->
+                            <div class="slds-size--12-of-12" >
+                                <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                                    <thead>
+                                        <tr class="slds-text-title--caps">
+                                          <th scope="col">
+                                               <div class="slds-truncate" title="Action">Action</div>
+                                          </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Lawyer Name">Lawyer Name</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="ISBA #">ISBA #</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="ARDC #">ARDC #</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Email">Email/Personal Email</div>
+                                            </th>
+                                            <!--th scope="col">
+                                                <div class="slds-truncate" title="Personal Email">Personal Email</div>
+                                            </th-->
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Cell Phone">Phone/Cell Phone</div>
+                                            </th>
+                                            <!-- <th scope="col">
+                                                <div class="slds-truncate" title="Cell Phone">Cell Phone</div>
+                                            </th> -->
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Rate At(%)">Rate At(%)</div>
+                                            </th>
+                                          <apex:outputPanel layout="none" rendered="{!showAdvancedFields}">
+                                          <th scope="col">
+                                            <div class="slds-truncate" title="Prior Act Date">Prior Act Date</div>
+                                          </th>
+                                              <th scope="col">
+                                                  <div class="slds-truncate" title="Contact Role">Contact Role</div>
+                                              </th>
+                                          <th scope="col">
+                                            <div class="slds-truncate" title="Hire Date" width= "18%">Hire Date</div>
+                                          </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Additional Step Value" width= "18%">Addl Step</div>
+                                            </th>
+                                            </apex:outputPanel>
+                                            <!--
+                                          <th scope="col">
+                                            <div class="slds-truncate" title="10*10">10*10</div>
+                                          </th>-->
+                                            <!--
+                                          <th scope="col" width= "14%">
+                                            <div class="slds-truncate" title="Step">Step</div>
+                                          </th>-->
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <apex:variable value="{!0}" var="index"/>
+                                        <apex:outputPanel rendered="{!if(policyLawyerList.size > 0,false,true)}">
+                                            <tr>
+                                                <td colspan="13">No Records Found</td> 
+                                            </tr>
+                                        </apex:outputPanel>
+                                        <apex:repeat value="{!policyLawyerList}" var="policyObj">
+                                        
+                                            <apex:inlineEditSupport showOnEdit="saveButton, cancelButton"
+                                            hideOnEdit="editButton" event="ondblclick"
+                                            changedStyleClass="myBoldClass" resetFunction="resetInlineEdit"/>
+                                            
+                                            <tr>
+                                                <th scope="row" data-label="Action">
+                                                    <apex:commandLink value="Remove" onclick="$('[id$=spinner]').css('display','block');removePolicyLawyer('{!index}');return false;"/>
+                                                </th>
+                                                <td data-label="Lawyer Name">
+                                                    <div class="slds-truncate" title="Lawyer Name">
+                                                    <div class="slds-form-element__control">
+                                                        <a href="/apex/ContactDetailPageEdit_Ltng?Id={!policyObj.Lawyer__r.Contact__r.Id}&retURL=apex/PolicyLawyers?id={!policyObj.Policy__c}&showNext=false"> {!policyObj.Lawyer__r.Lawyer_Name__c} </a> 
+                                                            <!-- <apex:outputField styleClass="slds-input" value="{!policyObj.Lawyer__r.Lawyer_Name__c}" /> -->
+                                                    </div> 
+                                                    </div>
+                                                </td>
+                                                <td data-label="ISBA #">
+                                                    <div class="slds-truncate" title="ISBA #">
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.ISBA__c}" />
+                                                    </div> 
+                                                    </div>
+                                                </td>
+                                                <td data-label="ARDC #">
+                                                    <div class="slds-truncate" title="ARDC #">
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.ARDC_Number__c}" />
+                                                    </div> 
+                                                    </div>
+                                                </td>
+                                                <td data-label="Email">
+                                                    <div class="slds-truncate" title="Email">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Email"  styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.Email}" />
+                                                        </div> 
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Personal Email"  styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.Personal_Email__c}" />
+                                                        </div> 
+                                                    </div>
+                                                </td>
+                                                <!--td data-label="Personal Email">
+                                                    <div class="slds-truncate" title="Personal Email">
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputField styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.Personal_Email__c}" />
+                                                    </div> 
+                                                    </div>
+                                                </td-->
+                                                <td data-label="Phone">
+                                                    <div class="slds-truncate" title="Phone">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Phone"  styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.Phone}" />
+                                                        </div>
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Cell Phone"  styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.MobilePhone}" />
+                                                        </div> 
+                                                    </div>
+                                                </td>
+                                                <!-- <td data-label="Cell Phone">
+                                                    <div class="slds-truncate" title="Cell Phone">
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputField styleClass="slds-input" value="{!policyObj.Lawyer__r.Contact__r.MobilePhone}" />
+                                                    </div> 
+                                                    </div>
+                                                </td> -->
+                                                <td data-label="Rate At(%)">
+                                                    <div class="slds-truncate" title="Rate At(%)">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="" styleClass="slds-input" value="{!policyObj.Rate_At__c}" />
+                                                        </div> 
+                                                    </div>
+                                                </td>
+                                                <apex:outputPanel layout="none" rendered="{!showAdvancedFields}">
+                                                <td data-label="Prior Act Date">
+                                                    <div class="slds-truncate" title="Prior Act Date">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="Prior Act Date" onkeydown="autoFormat(this)" styleClass="slds-input" value="{!policyObj.Prior_Act_Date__c}" />
+                                                        </div> 
+                                                        <!--<apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!policyObj.Prior_Act_Date__c}" /> </apex:outputText>-->
+                                                    </div>
+                                                </td>
+                                                    <td data-label="Contact Role">
+                                                        <div class="slds-truncate" title="Contact Role">
+                                                            <div class="slds-form-element__control">
+                                                                <apex:inputField html-placeholder="Contact Role" styleClass="slds-input" value="{!policyObj.Contact_Role__c}" />
+                                                            </div> 
+                                                            <!--<apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!policyObj.Prior_Act_Date__c}" /> </apex:outputText>-->
+                                                        </div>
+                                                    </td>
+                                                <td data-label="Hire Date" width= "10%">
+                                                    <div class="slds-truncate" title="Hire Date">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="" styleClass="slds-input" value="{!policyObj.Hire_Date__c}" />
+                                                        </div> 
+                                                        <!--<apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!policyObj.Hire_Date__c}"/></apex:outputText>-->
+                                                    </div>
+                                                </td>
+                                                <td data-label="Additional Step Value" width= "12%">
+                                                    <div class="slds-truncate" title="Additional Step Value">
+                                                        <div class="slds-form-element__control">
+                                                            <apex:inputField html-placeholder="" styleClass="slds-input" value="{!policyObj.Overriding_Step_Value__c}" />
+                                                        </div> 
+                                                    </div>
+                                                </td>
+                                                </apex:outputPanel>
+                                                <!--
+                                                <td data-label="10*10">
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputField html-placeholder="" styleClass="slds-input" value="{!policyObj.X10_10__c}" />
+                                                    </div> 
+                                                    <!--<div class="slds-truncate" title="10*10"> {!policyObj.X10_10__c} </div>
+                                                </td>-->
+                                                <!--
+                                                <td data-label="Step" width= "14%">
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputText html-placeholder="" styleClass="slds-input" value="{!policyObj.Step__c}" html-readonly="readonly" />
+                                                    </div> 
+                                                    <!--<div class="slds-truncate" title="Step">{!policyObj.Step__c}</div>
+                                                </td>-->
+                                             </tr>
+                                            <apex:variable value="{!index+1}" var="index"/>
+                                        </apex:repeat>             
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- ====================================== Table ===============================-->
+                            
+                        </div>
+                        <br/><br/><br/>
+                        <!--<div class="slds-grid slds-wrap slds-theme--shade">
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--1-of-12"></div>
+                          <div class="slds-p-horizontal--small slds-size--5-of-12 slds-medium-size--3-of-12 slds-large-size--3-of-12">
+                                
+                           </div>  
+                         
+                         <div class="slds-p-horizontal--small slds-size--7-of-12 slds-medium-size--8-of-12 slds-large-size--8-of-12">
+                             <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                                 <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');savePolicyLawyer('next'); return false;">Save &amp; Next</button>
+                             </apex:outputPanel>  
+                             <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');savePolicyLawyer('save'); return false;">Save</button>
+                             <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="cancel();" style="margin-right: 10px;" >Cancel</button>
+                             <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                                 <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="window.parent.location.href='/apex/Application_Policy_DetailPageEdit_Ltng?id={!appId}&retURL={!appId}'" style="margin-right: 10px;" >Back</button>
+                             </apex:outputPanel>
+                             </div>
+                        
+                       </div>-->
+                     </div>
+                 </div>
+                </fieldset>
+                
+                <!-- Close Table -->
+                
+                <div class="slds-docked-form-footer"><apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                        <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');handleBack(); return false;" style="margin-right: 10px;" >Back</button>
+                    </apex:outputPanel>
+            
+                    <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="cancelLawyer();" style="margin-right: 10px;" >Cancel</button>
+                    <apex:outputPanel rendered="{!isSaErp}">
+                        <button type="button" disabled="true" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');savePolicyLawyer('save'); return false;">Save</button>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!!isSaErp}">
+                        <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');savePolicyLawyer('save'); return false;">Save</button>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                        <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');savePolicyLawyer('next'); return false;">Save &amp; Next</button>
+                    </apex:outputPanel>
+                </div>
+                </apex:outputPanel>
+                
+                
+                
+                <!-- page 2 -->
+                <apex:outputPanel rendered="{!ContactPartRender}">
+                    <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;">
+                    <legend id="" class="slds-text-heading--small slds-p-vertical--medium legend">
+                
+                    </legend> 
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Contact Information</h2>
+                                    </div>
+                                    
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                         <div class="slds-form--horizontal" style="display:none;">
+                                             <div class="slds-form-element">
+                                                 <label class="slds-form-element__label" for="ContactType">Contact Type</label>
+                                                 <div class="slds-form-element__control">
+                                                     <apex:inputField html-placeholder="Enter Contact Type" id="contactType" styleClass="slds-input ContactRequired" value="{!contactRec.Type__c}" />
+                                                     
+                                                 </div>
+                                             </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="FirstName">First Name  </label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter First Name" styleClass="slds-input ContactRequired" value="{!contactRec.FirstName}" />
+                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="MiddleName">Middle Name  </label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Middle Name" styleClass="slds-input" value="{!contactRec.Middle_Name__c}" />
+                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="LastName">Last Name</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Last Name" styleClass="slds-input ContactRequired" value="{!contactRec.LastName}" />
+                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Suffix">Suffix  </label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Suffix" styleClass="slds-input" value="{!contactRec.Suffix__c}" />
+                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="ISBA">ISBA #  </label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter ISBA" styleClass="slds-input" value="{!contactRec.ISBA__c}" />
+                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="ARDCNumber">ARDC Number</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter ARDC Number" styleClass="slds-input" value="{!contactRec.ARDC_Number__c}" />
+                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="ContactRole">Contact Role  </label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Contact Role" styleClass="slds-select" value="{!contactRec.Contact_Role__c}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 2 row -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Birthdate ">Birthdate</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Select Birthdate" onkeydown="autoFormat(this)" required="false" styleClass="slds-input" value="{!ContactRec.Birthdate}"  />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Phone">Phone</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Phone" styleClass="slds-input" value="{!contactRec.Phone}" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Email">Email</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Email" styleClass="slds-input" value="{!contactRec.Email}" />
+                                                </div>
+                                            </div>
+                                        </div-->
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Mobile">Mobile</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Mobile" styleClass="slds-input" value="{!contactRec.MobilePhone}" />                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Email">Business Email</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Email" id="vEmail" styleClass="slds-input" value="{!contactRec.Email}" />
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="personalEmail">Personal Email</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Email" id="personalEmail" styleClass="slds-input" value="{!contactRec.Personal_Email__c}" />
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Gender">Gender</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Gender" styleClass="slds-input" value="{!contactRec.Gender__c}" />
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="BarEntryDate">Bar Entry Date</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Select Bar Entry Date" onkeydown="autoFormat(this)" required="false" styleClass="slds-input" value="{!contactRec.Bar_entry_date__c}"  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                      </fieldset>  
+                      
+                      <div class="slds-docked-form-footer">
+                          <button type="button" class="slds-button slds-button--neutral" onclick="$('[id$=spinner]').css('display','block');redirectToFirstPage();return false;">Cancel</button> <!-- window.location.href='/{!appId}' -->
+                          <button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndSaveContact();return false;">Save</button>
+                      </div>
+                </apex:outputPanel>
+                <apex:outputPanel id="contactSearch">
+                    <!-- Search Contact -->
+                    <div id="contactSearchModal" class="slds-hide">
+                        <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal--large" aria-labelledby="header43">
+                            <div class="slds-modal__container">
+                                
+                                <div class="slds-modal__content slds-grow slds-p-around--medium">
+                                    
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%; ">
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                            <h1 style="background-color: #337AB7;color:white;/* margin-left: 10px; */padding: 5px;border-radius: 3px;"><b style="margin-left:10px" >Search</b></h1>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="inputSample2">ARDC Number:</label>
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                                                        <apex:inputText value="{!ardcNumber}" styleClass="slds-input search" onkeydown="if (event.keyCode == 13){searchValidate();return false;}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="inputSample2">First Name:</label>
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                                                        <apex:inputText value="{!firstName }" styleClass="slds-input search" onkeydown="if (event.keyCode == 13){searchValidate();return false;}"/>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <!--Row 2-->
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="inputSample2">Last Name:</label>
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                                                        <apex:inputText value="{!lastName }" styleClass="slds-input search" onkeydown="if (event.keyCode == 13){searchValidate();return false;}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Row 3 -->
+                                        </div>
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--8-of-12">
+                                            <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="searchValidate(); return false;">
+                                                <span class="slds-text-not-selected"></span>Search
+                                            </button>
+                                            <button class="slds-button slds-button--neutral slds-order--1" onclick="$('[id$=spinner]').css('display','block');cancel();return false;">Done</button>
+                                            
+                                        </div> 
+                                        
+                                    </div>
+                                    
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                            <apex:outputPanel id="tableContactSearch">
+                                                <table id="contactSearchTable" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr class="slds-text-heading--label">
+                                                            <th>&nbsp;</th>
+                                                            <th width="15%">Name</th>
+                                                            <th> Contact Type</th>
+                                                            <th>Title</th>
+                                                            <th width="15%">Email</th>
+                                                            <th>Phone</th>
+                                                            <th>ISBA #</th>
+                                                            <th>ARDC Number</th>
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody>
+                                                        <apex:repeat value="{!searchedContacts}" var="cont">
+                                                            <tr>
+                                                                
+                                                                <td>
+                                                                    <apex:outputLink value="#" onclick="$('[id$=spinner]').css('display','block');associateContacts('{!cont.Id}');" id="er">Select</apex:outputLink>
+                                                                </td>
+                                                                <td width="15%">{!cont.FirstName} {!cont.Middle_Name__c} {!cont.LastName} {!cont.Suffix__c}</td>
+                                                                <td>{!cont.Type__c}</td>
+                                                                <td>{!cont.Title}</td>
+                                                                <td width="15%">{!cont.Email}</td>
+                                                                <td>{!cont.Phone}</td>
+                                                                <td>{!cont.ISBA__c}</td>
+                                                                <td>{!cont.ARDC_Number__c}</td>
+                                                            </tr>
+                                                        </apex:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </apex:outputPanel>
+                                        </div>
+                                    </div> 
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-backdrop slds-backdrop--open"></div>
+                    </div>
+                </apex:outputPanel>
+            </apex:form>
+         </body>
+    </html>
+    <script>
+    var unsaved = false;
+            
+            $(":input").change(function(){ 
+                unsaved = true;
+            });
+            
+            function unloadPage(){ 
+                if(unsaved){
+                    return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+                }
+            }
+          window.onbeforeunload = unloadPage; 
+    </script>
+</apex:page>

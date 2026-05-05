@@ -1,0 +1,35 @@
+<apex:page standardController="Policy__c" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <body>
+        <div class="header" style="margin-top:50px;">
+            <c:PolicyHeader recordIdParam="{!Policy__c.id}"/>
+        </div>
+        <div class="footer" style="width:100%">
+            <div style="width:50%;float:left">
+                <p class="normalParagraph">
+                    <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '1/15',true,false)}">
+                        
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '1/15',false,true)}">
+                        
+                    </apex:outputPanel>
+                </p>
+            </div>
+            <div style="width:50%;float:right">
+                <!--
+                <p style="text-align:right;" class="normalParagraph">
+                    Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                </p>
+                -->
+            </div>
+        </div>  
+        <div class="content">
+            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '1/15',true,false)}">
+                <c:Policy_Letter_Template recordIdParam="{!Policy__c.id}"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '1/15',false,true)}">
+                <c:Policy_Letter_Template_1_18 recordIdParam="{!Policy__c.id}"/>
+            </apex:outputPanel>
+        </div>
+    </body>
+</apex:page>

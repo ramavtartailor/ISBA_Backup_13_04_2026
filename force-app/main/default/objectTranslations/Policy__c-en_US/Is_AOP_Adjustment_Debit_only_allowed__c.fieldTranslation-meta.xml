@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Is AOP Adjustment (Debit only allowed) --></label>
+    <name>Is_AOP_Adjustment_Debit_only_allowed__c</name>
+</CustomFieldTranslation>

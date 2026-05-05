@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Contact Type --></label>
+    <name>Contact_Type__c</name>
+    <picklistValues>
+        <masterLabel>Claimant</masterLabel>
+        <translation><!-- Claimant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claimant Attorney</masterLabel>
+        <translation><!-- Claimant Attorney --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claimant Firm</masterLabel>
+        <translation><!-- Claimant Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Coverage Firm</masterLabel>
+        <translation><!-- Coverage Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deductible</masterLabel>
+        <translation><!-- Deductible --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defendant</masterLabel>
+        <translation><!-- Defendant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Attorney</masterLabel>
+        <translation><!-- Defense Attorney --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Expert</masterLabel>
+        <translation><!-- Defense Expert --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Firm</masterLabel>
+        <translation><!-- Defense Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Plaintiff Expert</masterLabel>
+        <translation><!-- Plaintiff Expert --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Trial Judge</masterLabel>
+        <translation><!-- Trial Judge --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

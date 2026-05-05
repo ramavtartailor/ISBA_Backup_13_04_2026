@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_Coverage_Override_5X5</fullName>
+    <active>true</active>
+    <description>If the new limit does not have 5X5 coverage then 5x5 should be empty.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = &apos;CC_Change_Coverage_Transaction&apos;, Override_Rating__c = true, NOT(ISNULL(Override_5_5__c)),  New_Limits__r.Is_5X5_Coverage__c = false)</errorConditionFormula>
+    <errorDisplayField>Override_5_5__c</errorDisplayField>
+    <errorMessage>New Limit does not lie in the 5X5 range!</errorMessage>
+</ValidationRule>

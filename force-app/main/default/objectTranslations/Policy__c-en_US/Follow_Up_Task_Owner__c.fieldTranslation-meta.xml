@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Follow Up Task Owner --></label>
+    <name>Follow_Up_Task_Owner__c</name>
+    <relationshipLabel><!-- Application/Policy (Follow Up Task Owner) --></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,331 @@
+Global class CM_Fiserv_AutoPayment_Batch implements Database.Batchable<sObject>, Schedulable, Database.AllowsCallouts, Database.stateful{
+    
+    Global String paymtSchId{get;set;}
+    Global CM_Fiserv_AutoPayment_Batch(String recId){
+        this.paymtSchId = recId;
+    }
+    Global CM_Fiserv_AutoPayment_Batch(){
+        this.paymtSchId = '';
+    }
+    
+    Global Database.QueryLocator start(Database.BatchableContext BC) {
+        Date d = system.toDay();
+        String query = 'SELECT Id, Fiserv_Payment_Method__c, Service_Fee_Rate__c, Billing__c, Billing__r.AcctSeed__Customer__c, Billing__r.AcctSeed__Balance__c, Frequency__c, Due_Amount__c, Amount__c, Due_Date__c FROM Payment_Schedule__c WHERE Due_Amount__c > 0 AND Billing__r.AcctSeed__Balance__c > 0 AND Payment_Schedule_Type__c != \'Physical Check\' AND Billing__r.AcctSeed__Payment_Processor__r.Name = \'Fiserv\'';
+        if(String.isNotBlank(paymtSchId)){
+            query += ' AND Status__c IN (\'Unpaid\',\'Rejected\') AND Due_Date__c <=: d AND Id =: paymtSchId';
+        }
+        else{
+            query += ' AND Due_Date__c =: d AND Status__c IN (\'Unpaid\')'; 
+        }
+        system.debug('query => '+query);
+        return Database.getQueryLocator(query);
+    }
+    
+    Global void execute(Database.BatchableContext BC, List<Payment_Schedule__c> paymentSchedules) {
+        system.debug('execute');
+        system.debug('paymentSchedules =>'+paymentSchedules);
+        Set<String> billIds = new Set<String>();
+        Set<String> accIds = new Set<String>();
+        Set<String> payMethodIds = new Set<String>();
+        List<Messaging.SingleEmailMessage> allmsg = new List<Messaging.SingleEmailMessage>();
+        
+        AcctSeed__Payment_Processor__c fiservProcessor = [SELECT Id, Name FROM AcctSeed__Payment_Processor__c WHERE Name='Fiserv' LIMIT 1];        
+        
+        Map<String, Payment_Schedule__c> bill_Id_with_PaymentSchedule_Map = new Map<String, Payment_Schedule__c>();
+        for (Payment_Schedule__c ps : paymentSchedules) {
+            system.debug('Payment Schedule => '+ps);
+            payMethodIds.add(ps.Fiserv_Payment_Method__c);
+            billIds.add(ps.Billing__c);
+            accIds.add(ps.Billing__r.AcctSeed__Customer__c);
+            bill_Id_with_PaymentSchedule_Map.put(ps.Billing__c, ps);
+        }
+        List<AcctSeed__Billing__c> billings = new List<AcctSeed__Billing__c>([SELECT Id, Name, AcctSeed__Balance__c,Service_Fee__c , ISBAM_Error_Description__c, Billing_First_Name__c, Billing_Last_Name__c, Policy__c, Policy__r.Name, Billing_Confirmation_Email__c, Legacy_Invoice_Id__c, Legacy_Firm_Id__c, AcctSeed__Due_Date2__c, Firm_Name__c, AcctSeed__Accounting_Period__r.AcctSeed__Start_Date__c, AcctSeed__Accounting_Period__c , AcctSeed__Billing_Contact__r.FirstName, AcctSeed__Billing_Contact__r.LastName, AcctSeed__Customer__c, AcctSeed__Customer__r.Name, AcctSeed__Customer__r.AccountNumber, AcctSeed__Customer__r.Forte_Id__c, Payment_Frequency__c,(SELECT Id,AcctSeed__GL_Account_Variable_1__c FROM AcctSeed__Project_Billing_Lines__r), (SELECT Id, Amount__c, Service_Fee_Amount__c, Due_Date__c FROM Payment_Schedules__r WHERE Due_Date__c >= TODAY AND Status__c != 'Paid' order by Due_Date__c ) FROM AcctSeed__Billing__c WHERE Id IN: billIds]);
+        
+        List<Integration_Log__c> logList = new List<Integration_Log__c>();  
+        
+        List<OrgWideEmailAddress> oweaList = [select Id,DisplayName,Address from OrgWideEmailAddress Where DisplayName =: Label.OrganizationWideEmail];
+        
+        Map<String,Payment_Method__c> paymentMethodMap = new Map<String,Payment_Method__c>([SELECT Id, Payment_Method_Token__c, Masked_Account_Number__c, Name_on_Card__c, Card_Holder_Name__c, Type__c, Account_Type__c , Last_4_Account_Number__c FROM Payment_Method__c WHERE Id IN : payMethodIds]);
+        
+        Map<String, AcctSeed__Cash_Receipt__c> bill_cashReceipt_Map = new Map<String, AcctSeed__Cash_Receipt__c>(); 
+        
+        List<AcctSeed__Billing_Cash_Receipt__c> billingCashReceiptList = new List<AcctSeed__Billing_Cash_Receipt__c>();
+        
+        Id accountPeriodId = [SELECT id,name,AcctSeed__Start_Date__c,AcctSeed__End_Date__c FROM  AcctSeed__Accounting_Period__c  WHERE AcctSeed__Status__c = 'Open' and AcctSeed__Start_Date__c<=TODAY and AcctSeed__End_Date__c>=TODAY limit 1][0].id;
+        
+        List<AcctSeed__GL_Account__c> glList = [SELECT Id, Name FROM AcctSeed__GL_Account__c WHERE Name =: label.Adjustment_GL_Account LIMIT 1];
+        
+        for(AcctSeed__Billing__c bill: billings){            
+            Payment_Schedule__c paySchedule = bill_Id_with_PaymentSchedule_Map.get(bill.Id);
+            try{                
+                if(bill.AcctSeed__Balance__c >= paySchedule.Due_Amount__c){                    
+                    boolean paymentSuccess = false;
+                    boolean send = false;
+                    String payMethodToken = '';
+                    Boolean isCheck = false;
+                    // ForteUtilNew util;
+                    
+                    Payment_Method__c Paymethod = paymentMethodMap.get(paySchedule.Fiserv_Payment_Method__c);
+
+                    PaymentGatewayClass.PaymentGateway_Ctrl_Wrapper wrapperObj = new PaymentGatewayClass.PaymentGateway_Ctrl_Wrapper();
+                    wrapperObj.firstName= bill.AcctSeed__Billing_Contact__r.FirstName;
+                    wrapperObj.lastName= bill.AcctSeed__Billing_Contact__r.LastName;
+                    wrapperObj.firmId= bill.Legacy_Firm_Id__c;
+                    wrapperObj.firmName= bill.Firm_Name__c;
+                    if(paySchedule.Frequency__c == 'Quaterly'){
+                        wrapperObj.nextPaymentDate = String.valueOf(System.today().addMonths(3));
+                    }
+                    else {
+                        wrapperObj.nextPaymentDate = String.valueOf(System.today().addMonths(1));
+                    }
+                    
+                    wrapperObj.invoiceId= bill.Legacy_Invoice_Id__c;
+                    if(Paymethod.Type__c == 'Credit_Card'){
+                        wrapperObj.paymentTypeVar = 'creditCard';
+                    }
+                    else{
+                        wrapperObj.paymentTypeVar = 'check';
+                        isCheck = true;
+                    }
+                    wrapperObj.accountNumber= Paymethod.Masked_Account_Number__c;
+                    wrapperObj.payMethodToken= Paymethod.Payment_Method_Token__c;
+                    wrapperObj.cardNumber= Paymethod.Masked_Account_Number__c;
+                    wrapperObj.accountType = Paymethod.Account_Type__c;
+                    wrapperObj.accRecord = (Account) bill.getSobject('AcctSeed__Customer__r');
+                    wrapperObj.totalAmountDue = paySchedule.Due_Amount__c < paySchedule.Billing__r.AcctSeed__Balance__c ? paySchedule.Due_Amount__c : paySchedule.Billing__r.AcctSeed__Balance__c;
+                    Decimal amount = wrapperObj.totalAmountDue;
+                    wrapperObj.ccFeeRate = double.valueOf(paySchedule.Service_Fee_Rate__c == null ? 0 : paySchedule.Service_Fee_Rate__c);
+                    if(bill.Service_Fee__c == null){
+                        bill.Service_Fee__c = wrapperObj.ccFeeRate;
+                    }
+                    wrapperObj.billing = bill;
+                    string transactionGatewayResponse = '';
+                    string transactionGatewayError = '';
+                    
+                    Map<String,Object> transactionResponseMp = new Map<String,Object>();//CardknoxUtil.ProcessTransaction(wrapperObj.totalAmountDue ,wrapperObj, null);
+                    if(wrapperObj.paymentTypeVar == 'creditCard'){
+                        transactionResponseMp = Fiserv_Utils.createCreditCardCharge(wrapperObj.totalAmountDue, wrapperObj);
+                    }
+                    else{
+                        transactionResponseMp = Fiserv_Utils.createACHCharge(wrapperObj.totalAmountDue, wrapperObj);
+                    }
+
+                    system.debug('transactionResponseMp => '+transactionResponseMp);
+                    
+                    if((string)transactionResponseMp.get('respstat')=='A' && ((string)transactionResponseMp.get('resptext')=='Approval' ||(string)transactionResponseMp.get('resptext') == 'Approved')){
+                        paymentSuccess = true;
+                        transactionGatewayResponse = (String)transactionResponseMp.get('retref');
+                        
+                        AcctSeed__Cash_Receipt__c cashReceipt = new AcctSeed__Cash_Receipt__c();
+                        cashReceipt.AcctSeed__Account__c = bill.AcctSeed__Customer__c;
+                        cashReceipt.AcctSeed__Payment_Reference__c = transactionGatewayResponse;
+                        cashReceipt.AcctSeed__Amount__c = wrapperObj.totalAmountDue;
+                        cashReceipt.AcctSeed__Receipt_Date__c = System.today();
+                        cashReceipt.AcctSeed__Payment_Processor__c = fiservProcessor.Id;
+                        
+                        Decimal ServiceFeeAmount = 0.00;
+                        
+                        if(wrapperObj.paymentTypeVar =='check'){
+                            cashReceipt.Processing_Type__c='ACH';
+                        }else if(wrapperObj.paymentTypeVar =='creditCard'){
+                            cashReceipt.Processing_Type__c='Credit Card';
+                            ServiceFeeAmount = ((cashReceipt.AcctSeed__Amount__c/100) * wrapperObj.ccFeeRate).setScale(2);
+                            cashReceipt.AcctSeed__Amount__c = cashReceipt.AcctSeed__Amount__c + ServiceFeeAmount;
+                        }
+                        
+                        cashReceipt.AcctSeed__GL_Account_Variable_1__c = bill.AcctSeed__Project_Billing_Lines__r[0].AcctSeed__GL_Account_Variable_1__c;
+                        
+                        
+                        system.debug('Cash Receipt => '+cashReceipt);
+                        bill_cashReceipt_Map.put(bill.Id, cashReceipt);
+                        
+                        if(bill.Billing_Confirmation_Email__c != null){
+                            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                            mail.setSaveAsActivity(true);
+                            mail.setWhatId(bill.id);
+                            mail.setToAddresses(new String[]{bill.Billing_Confirmation_Email__c});
+                            
+                            if(oweaList!= null && oweaList.size() > 0){
+                                mail.setOrgWideEmailAddressId(oweaList[0].Id);
+                            }
+
+                            //new Mail Body
+                            Map<String,String> emailDataMap = Billing_Trigger_Handler.generateEmail(Paymethod, /*bill.Payment_Schedules__r,*/ amount, wrapperObj, transactionGatewayResponse, false);
+                            
+                            
+                            mail.setSubject(emailDataMap.get('subject'));
+                            mail.setHtmlBody(emailDataMap.get('body'));
+                            allmsg.add(mail);
+                        }
+                        
+                    }else{
+                        paymentSuccess = false;
+                        if((String)transactionResponseMp.get('resptext')!=''){
+                            transactionGatewayError = 'in Processing Transaction => '+(String)transactionResponseMp.get('resptext');
+                        }else {
+                            transactionGatewayError = 'in Processing Transaction => '+(String)transactionResponseMp.get('retref');
+                        }
+                    }
+                    
+                    if(paymentSuccess){    
+                        paySchedule.Paid_Amount__c = paymentSchedules[0].Amount__c;
+                        paySchedule.Status__c = 'Paid';
+                        paySchedule.Payment_Reference__c = transactionGatewayResponse;
+                        
+                        Integration_Log__c log = new Integration_Log__c();
+                        log.Billing__c =bill.id;
+                        log.Payment_Schedule__c = paySchedule.Id;
+                        log.Status__c='Processed Successfully';
+                        log.Transaction_Amount__c=wrapperObj.totalAmountDue;
+                        log.Description__c='Payment Processed succesfully.';
+                        log.Transaction_Id__c = transactionGatewayResponse;
+                        log.JSON_Body__c = JSON.serialize(wrapperObj);
+                        log.Response_Body__c = JSON.serialize(transactionResponseMp);
+                        logList.add(log);
+                        
+                    }else{
+                        paySchedule.Status__c = 'Rejected';
+                        
+                        Integration_Log__c log = new Integration_Log__c();
+                        log.Billing__c =bill.id;
+                        log.Payment_Schedule__c = paySchedule.Id;
+                        log.Status__c='Processed With Errors';
+                        log.Transaction_Amount__c=wrapperObj.totalAmountDue;
+                        log.Description__c='(Error : '+ transactionGatewayError+').';
+                        log.JSON_Body__c = JSON.serialize(wrapperObj);
+                        log.Response_Body__c = JSON.serialize(transactionResponseMp);
+                        logList.add(log);
+                        
+                        bill.ISBAM_Error__c='Rejected Payment';
+                        bill.ISBAM_Error_Description__c = (bill.ISBAM_Error_Description__c != null ? bill.ISBAM_Error_Description__c + '\n[' + (System.now().format('MM/dd/yyyy')) + '] Fiserv Error ' + log.Description__c :  '[' + (System.now().format('MM/dd/yyyy')) + '] Fiserv Error ' + log.Description__c);
+                        //billingList.add(new AcctSeed__Billing__c(id=billing.Id,,ISBAM_Error_Description__c = (billing.ISBAM_Error_Description__c != null ? billing.ISBAM_Error_Description__c + '\n[' + (System.now().format('MM/dd/yyyy')) + '] Forte Error ' + log.Description__c :  '[' + (System.now().format('MM/dd/yyyy')) + '] Forte Error ' + log.Description__c)));
+                    }
+                }
+                else{
+                    paySchedule.Status__c = 'Rejected';
+                    
+                    Integration_Log__c log = new Integration_Log__c();
+                    log.Billing__c =bill.id;
+                    log.Payment_Schedule__c = paySchedule.Id;
+                    log.Status__c='Processed With Errors';
+                    log.Transaction_Amount__c = bill.AcctSeed__Balance__c;
+                    log.Description__c = '(Error : Payment Schedule exceeds Billing balance).';
+                    logList.add(log);
+                    
+                    bill.ISBAM_Error__c='Rejected Payment';
+                    bill.ISBAM_Error_Description__c = (bill.ISBAM_Error_Description__c != null ? bill.ISBAM_Error_Description__c + '\n[' + (System.now().format('MM/dd/yyyy')) + '] Schedule Error ' + log.Description__c :  '[' + (System.now().format('MM/dd/yyyy')) + '] Schedule Error ' + log.Description__c);
+                }
+                //Updating  bill Record
+                bill.Online_Payment_User__c = UserInfo.getUserId();
+                
+                
+            }catch(Exception e){
+                //currentStage='contactDetails';
+                system.debug('error -> '+e.getMessage()+' Line -> '+e.getLineNumber());
+                Integration_Log__c log = new Integration_Log__c();
+                log.Billing__c =bill.id;
+                log.Status__c='Processed With Errors';
+                log.Transaction_Amount__c=paySchedule.Due_Amount__c;
+                log.Description__c='Error : '+e.getMessage() + '\n' + e.getStackTraceString() + '\n';
+                logList.add(log);
+            }
+            
+        }
+        
+        if(!bill_cashReceipt_Map.keySet().isEmpty()){
+            Set<String> cashReceiptIds = new Set<String>();
+
+            //Inserting Cash Receipts.
+            Insert bill_cashReceipt_Map.values();
+
+            for(AcctSeed__Billing__c bill: billings){  
+                if(bill_cashReceipt_Map.containsKey(bill.Id)){
+                    Payment_Schedule__c paySchedule = bill_Id_with_PaymentSchedule_Map.get(bill.Id);
+                    AcctSeed__Cash_Receipt__c cashReceipt = bill_cashReceipt_Map.get(bill.Id);
+                    paySchedule.Cash_Receipt__c = cashReceipt.Id;
+                    //paymentSchedules.add(paySchedule);
+                    
+                    Decimal totalAmountDue = paySchedule.Due_Amount__c < paySchedule.Billing__r.AcctSeed__Balance__c ? paySchedule.Due_Amount__c : paySchedule.Billing__r.AcctSeed__Balance__c;
+                    system.debug('accountPeriodId+'+accountPeriodId);
+                    
+                    AcctSeed__Billing_Cash_Receipt__c billingCashReceipt = new AcctSeed__Billing_Cash_Receipt__c();
+                    billingCashReceipt.AcctSeed__Applied_Amount__c = cashReceipt.AcctSeed__Amount__c;
+                    billingCashReceipt.AcctSeed__Billing__c= bill.id;
+                    billingCashReceipt.AcctSeed__Cash_Receipt__c=cashReceipt.Id;
+                    billingCashReceipt.AcctSeed__Accounting_Period__c=accountPeriodId;
+                    billingCashReceipt.AcctSeed__Applied_Date__c = System.today();
+                    
+                    if(cashReceipt.AcctSeed__Amount__c != totalAmountDue){
+                        billingCashReceipt.AcctSeed__Adjustment_GL_Account__c = glList[0].Id;
+                        billingCashReceipt.AcctSeed__Adjustment_Amount__c = -(cashReceipt.AcctSeed__Amount__c - totalAmountDue);
+                    }
+                    
+                    if(bill.AcctSeed__Accounting_Period__r.AcctSeed__Start_Date__c > System.today() ){
+                        billingCashReceipt.AcctSeed__Accounting_Period__c = bill.AcctSeed__Accounting_Period__c;
+                        billingCashReceipt.AcctSeed__Applied_Date__c = bill.AcctSeed__Due_Date2__c;
+                    }else{
+                        billingCashReceipt.AcctSeed__Accounting_Period__c = accountPeriodId;   
+                    }
+                    system.debug('billingCashReceipt+'+billingCashReceipt);
+                    billingCashReceiptList.add(billingCashReceipt);
+				}
+            }        
+            Insert billingCashReceiptList;//Inserting Billing_Cash_Receipts Records.
+        }
+        
+        system.debug('Billings => '+billings);
+        if(!billings.isEmpty()){
+            Update billings;
+        }
+        
+        system.debug('Log List  => '+logList);
+        if(!logList.isEmpty()){
+            String csvString = 'Invoice,Amount,Transaction Id,Status,Description\n';
+            for(Integration_Log__c logs:logList){
+                csvString = csvString + logs.Billing__c + ',' + logs.Transaction_Amount__c + ',' + logs.Transaction_Id__c + ',' + logs.Status__c + ',' + logs.Description__c + '\n';
+            }
+            Messaging.EmailFileAttachment csvAttachment = new Messaging.EmailFileAttachment();
+            Blob csvBlob = blob.valueOf(csvString);
+            String csvName = 'Scheduled_Payment_Status_'+Date.today()+'.csv';
+            csvAttachment.setFileName(csvName);
+            csvAttachment.setBody(csvBlob);
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            mail.setSaveAsActivity(false);
+            //mail.setSenderDisplayName('ISBA Mutual Insurance');
+            //List<OrgWideEmailAddress> oweaList = [select Id,DisplayName,Address from OrgWideEmailAddress Where DisplayName =: Label.OrganizationWideEmail];
+            if (!oweaList.isEmpty()) {
+                mail.setOrgWideEmailAddressId(oweaList.get(0).Id);
+            }
+            mail.setToAddresses(new String[]{Label.ISBA_Accounting_Automation_Email_Address});
+            mail.setSubject('Scheduled Payments Processing Status');
+            String body = 'Dear, <br/><br/>';
+            body += 'Please find attached file for the scheduled payment processing status.';
+            mail.setHtmlBody(body);
+            mail.setFileAttachments(new Messaging.EmailFileAttachment[]{csvAttachment});
+            allmsg.add(mail);
+            Insert logList;
+        }
+        
+        system.debug('allmsg => '+allmsg);
+        
+        if(!allmsg.isEmpty()){
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(allmsg,false);
+            
+            for(Messaging.SendEmailResult res : results){
+                system.debug('res => '+res);
+            }
+        }
+        
+        system.debug('PaymentSchedules => '+paymentSchedules);
+        if(!paymentSchedules.isEmpty()){
+            Update paymentSchedules;
+        }
+    }
+    
+    Global void finish(Database.BatchableContext BC) {
+    }
+    
+    Global void execute(SchedulableContext sc){
+        if(!test.isRunningTest()){	Database.executeBatch(new CM_Fiserv_AutoPayment_Batch(),1);	}
+    }
+}

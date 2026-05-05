@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Claim_Id__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This field holds the reference for the claim record that the transaction belongs to.</description>
+    <label>Claim Id</label>
+    <referenceTo>Policy_Claim__c</referenceTo>
+    <relationshipLabel>AS_Transactions</relationshipLabel>
+    <relationshipName>AS_Transactions</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

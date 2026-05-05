@@ -1,0 +1,1835 @@
+<apex:page showHeader="false" sidebar="false" action="{!updateStatusInitially}" controller="EZQOnlineApplicationFormCtrl" id="pg" docType="html-5.0">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-ISBA_Paymentwidth, initial-scale=1"/>
+        <title>EZQ Online Application Form</title>
+        
+        <apex:outputPanel id="dynamicCSS">
+            <!-- CSS -->
+            <style>
+                
+                /* CUSTOM */
+                .f1-step p {
+                font-size: 14px;
+                }
+                
+                .save-block {
+                	margin-top: 75px;
+                }
+                
+                .f1-step{
+                width : 16% !important;
+                }
+                
+                form {
+                max-width: 1200px;
+                }
+                
+                input {
+                color: black !important;
+                }
+                
+                #firm-info label {
+                font-weight: 400;
+                margin-top: 10px;
+                margin-bottom: 0px;
+                }
+                #firm-info input::placeholder {
+                text-transform: lowercase;
+                font-weight: 200;
+                font-size: 14px;
+                }
+                
+                #prior-insurance label {
+                font-weight: 400;
+                }
+                #prior-insurance input::placeholder {
+                text-transform: lowercase;
+                font-weight: 200;
+                font-size: 14px;
+                }
+                
+                
+                @media (min-width: 768px){
+                .deductible-padding {
+                display:none;
+                }
+                }
+                @media (max-width: 991px){
+                .deductible-padding {
+                display: block;
+                min-height: 30px;
+                }
+                }
+                .dateFormat {
+                display: none;
+                }
+                @media screen and (max-width: 600px) {
+                .f1-steps {
+                display : none;
+                }
+                .firstCol {
+                margin-bottom:15px !important;
+                }
+                }
+                @media screen and (min-width: 600px) {
+                .stepsMobile{
+                display : none;
+                }
+                }
+                .navbar-brand {
+                width: 162px;
+                background: url("{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/img/logo.png')}") left center no-repeat;
+                text-indent: -99999px;
+                }
+                
+                /* Retina-ize images/icons */
+                
+                @media
+                only screen and (-webkit-min-device-pixel-ratio: 2),
+                only screen and (   min--moz-device-pixel-ratio: 2),
+                only screen and (     -o-min-device-pixel-ratio: 2/1),
+                only screen and (        min-device-pixel-ratio: 2),
+                only screen and (                min-resolution: 192dpi),
+                only screen and (                min-resolution: 2dppx) {
+                
+                /* logo */
+                .navbar-brand {
+                background-image: url("{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/img/logo@2x.png')}") !important; background-repeat: no-repeat !important; background-size: 162px 36px !important;
+                }
+                
+                }
+                .spanRequired{
+                color: #ea2803;
+                }
+                .requiredField{
+                border-left: 2px solid #ea2803 !important;
+                }
+                .textfield{
+                border-bottom : 1px solid #ea2803 !important;
+                }
+                .selectBox{
+                padding: 0px 15px;
+                height: 44px !important;
+                margin: 0;
+                padding: 0 20px;
+                vertical-align: middle;
+                background: #fff;
+                border: 1px solid #ddd;
+                font-family: 'Roboto', sans-serif;
+                font-size: 16px;
+                font-weight: 300;
+                line-height: 44px;
+                color: #888;
+                }
+                .row{
+                margin-bottom:15px;
+                }
+                .hide{
+                visibility: hidden;
+                }
+                .show{
+                visibility: visible;
+                }
+                .slds-scope .slds-radio_button-group, .slds-scope .slds-radio--button-group {
+                display: inline-flex;
+                border: 1px solid rgb(221, 219, 218);
+                border-radius: .25rem;
+                }
+                
+                .slds-scope .slds-radio_button, .slds-scope .slds-radio--button {
+                display: flex;
+                border: 0;
+                border-radius: 0;
+                background-clip: padding-box;
+                }
+                
+                .slds-scope .slds-button {
+                position: relative;
+                display: inline-block;
+                padding: 0;
+                background: transparent;
+                background-clip: border-box;
+                border: 1px solid transparent;
+                border-radius: .25rem;
+                line-height: 1.875rem;
+                text-decoration: none;
+                color: rgba(243, 91, 63, 1.0);
+                -webkit-appearance: none;
+                white-space: normal;
+                user-select: none;
+                }
+                
+                .slds-scope .slds-radio_button [type=radio], .slds-scope .slds-radio--button [type=radio] {
+                width: 1px;
+                height: 1px;
+                border: 0;
+                clip: rect(0 0 0 0);
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                }
+                .slds-scope input[type=checkbox], .slds-scope input[type=radio] {
+                box-sizing: border-box;
+                padding: 0;
+                }
+                
+                .slds-scope .slds-radio_button [type=radio]:checked+.slds-radio_faux, .slds-scope .slds-radio_button [type=radio]:checked+.slds-radio--faux, .slds-scope .slds-radio_button [type=radio]:checked~.slds-radio_faux, .slds-scope .slds-radio_button [type=radio]:checked~.slds-radio--faux, .slds-scope .slds-radio_button [type=radio]:checked+.slds-radio_button__label, .slds-scope .slds-radio_button [type=radio]:checked+.slds-radio--button__label, .slds-scope .slds-radio--button [type=radio]:checked+.slds-radio_faux, .slds-scope .slds-radio--button [type=radio]:checked+.slds-radio--faux, .slds-scope .slds-radio--button [type=radio]:checked~.slds-radio_faux, .slds-scope .slds-radio--button [type=radio]:checked~.slds-radio--faux, .slds-scope .slds-radio--button [type=radio]:checked+.slds-radio_button__label, .slds-scope .slds-radio--button [type=radio]:checked+.slds-radio--button__label {
+                background-color: rgba(243, 91, 63, 1.0);
+                color: rgb(255, 255, 255);
+                }
+                
+                .slds-scope .slds-radio_button .slds-radio_faux, .slds-scope .slds-radio_button .slds-radio--faux, .slds-scope .slds-radio--button .slds-radio_faux, .slds-scope .slds-radio--button .slds-radio--faux {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                text-align: center;
+                vertical-align: middle;
+                }
+                .slds-scope .slds-radio_button+.slds-radio_button, .slds-scope .slds-radio_button+.slds-radio--button, .slds-scope .slds-radio--button+.slds-radio_button, .slds-scope .slds-radio--button+.slds-radio--button {
+                border-left: 1px solid rgb(221, 219, 218);
+                margin: 0;
+                }
+                .buttonLabel{
+                margin-bottom:0px;cursor: pointer;
+                }
+                .checkbox {
+                padding-left: 20px; }
+                .checkbox label {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                padding-left: 5px; }
+                .checkbox label::before {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                width: 17px;
+                height: 17px;
+                left: 0;
+                margin-left: -20px;
+                margin-top: 5px;
+                border: 1px solid #cccccc;
+                border-radius: 3px;
+                background-color: #fff;
+                -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }
+                .checkbox label::after {
+                display: inline-block;
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                left: 0;
+                top: 0;
+                margin-left: -20px;
+                padding-left: 3px;
+                padding-top: 1px;
+                font-size: 11px;
+                color: #555555; }
+                .checkbox input[type="checkbox"],
+                .checkbox input[type="radio"] {
+                opacity: 0;
+                z-index: 1; }
+                .checkbox input[type="checkbox"]:focus + label::before,
+                .checkbox input[type="radio"]:focus + label::before {
+                outline: thin dotted;
+                outline: 5px auto -webkit-focus-ring-color;
+                outline-offset: -2px; }
+                .checkbox input[type="checkbox"]:checked + label::after,
+                .checkbox input[type="radio"]:checked + label::after {
+                font-family: "FontAwesome";
+                content: "\f00c"; }
+                .checkbox input[type="checkbox"]:disabled + label,
+                .checkbox input[type="radio"]:disabled + label {
+                opacity: 0.65; }
+                .checkbox input[type="checkbox"]:disabled + label::before,
+                .checkbox input[type="radio"]:disabled + label::before {
+                background-color: #eeeeee;
+                cursor: not-allowed; }
+                .checkbox.checkbox-circle label::before {
+                border-radius: 50%; }
+                .checkbox.checkbox-inline {
+                margin-top: 0; }
+                
+                .checkbox-primary input[type="checkbox"]:checked + label::before,
+                .checkbox-primary input[type="radio"]:checked + label::before {
+                background-color: #337ab7;
+                border-color: #337ab7; }
+                .checkbox-primary input[type="checkbox"]:checked + label::after,
+                .checkbox-primary input[type="radio"]:checked + label::after {
+                color: #fff; }
+                
+                .checkbox-danger input[type="checkbox"]:checked + label::before,
+                .checkbox-danger input[type="radio"]:checked + label::before {
+                background-color: #d9534f;
+                border-color: #d9534f; }
+                .checkbox-danger input[type="checkbox"]:checked + label::after,
+                .checkbox-danger input[type="radio"]:checked + label::after {
+                color: #fff; }
+                
+                .checkbox-info input[type="checkbox"]:checked + label::before,
+                .checkbox-info input[type="radio"]:checked + label::before {
+                background-color: #5bc0de;
+                border-color: #5bc0de; }
+                .checkbox-info input[type="checkbox"]:checked + label::after,
+                .checkbox-info input[type="radio"]:checked + label::after {
+                color: #fff; }
+                
+                .checkbox-warning input[type="checkbox"]:checked + label::before,
+                .checkbox-warning input[type="radio"]:checked + label::before {
+                background-color: #f35b3f;
+                border-color: #f35b3f; }
+                .checkbox-warning input[type="checkbox"]:checked + label::after,
+                .checkbox-warning input[type="radio"]:checked + label::after {
+                color: #fff; }
+                
+                .checkbox-success input[type="checkbox"]:checked + label::before,
+                .checkbox-success input[type="radio"]:checked + label::before {
+                background-color: #5cb85c;
+                border-color: #5cb85c; }
+                .checkbox-success input[type="checkbox"]:checked + label::after,
+                .checkbox-success input[type="radio"]:checked + label::after {
+                color: #fff; }
+                .slds-scope .slds-hide {
+                display: none!important;
+                }
+                .slds-scope .slds-notify-container, .slds-scope .slds-notify_container {
+                position: fixed;
+                width: 100%;
+                left: 0;
+                top: 0;
+                z-index: 10000;
+                text-align: center;
+                }
+                .slds-scope .slds-theme_error, .slds-scope .slds-theme--error {
+                color: rgb(255, 255, 255) !important;
+                background-color: rgb(194, 57, 52);
+                }
+                .slds-scope .slds-notify_toast, .slds-scope .slds-notify--toast {
+                color: rgb(255, 255, 255) !important;
+                display: inline-flex;
+                align-items: center;
+                position: relative;
+                font-weight: 300;
+                border-radius: .25rem;
+                margin: .5rem;
+                padding: .75rem 3rem .75rem 1.5rem;
+                min-width: 30rem;
+                text-align: left;
+                justify-content: flex-start;
+                }
+                .slds-scope .slds-assistive-text {
+                position: absolute!important;
+                margin: -1px!important;
+                border: 0!important;
+                padding: 0!important;
+                width: 1px!important;
+                height: 1px!important;
+                overflow: hidden!important;
+                clip: rect(0 0 0 0)!important;
+                text-transform: none!important;
+                white-space: nowrap!important;
+                }
+                .slds-scope .slds-text-heading_small, .slds-scope .slds-text-heading--small {
+                font-size: 1.4rem;
+                line-height: 1.25;
+                }
+                
+                hr {
+                
+                margin-bottom: 8rem;
+                border: 0;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                }
+                
+                .laywertable {
+                	border-collapse: collapse; 
+                	table-layout: fixed;
+                	font-size: 14px;
+                	border: 0px; !important;
+                }
+                
+                .laywertable th {
+                	white-space: normal !important;
+                	width: 100px; 
+                	word-wrap: break-word;
+                	font-weight : bold;
+                	color: #000000;
+                	vertical-align: middle !important;
+                }
+                
+                
+                
+                .laywertable td {
+                	white-space: normal !important;
+                	width: 100px; 
+                	word-wrap: break-word;
+                	text-align: left;
+                	color: #000000;
+                	vertical-align: middle;
+                	border-top-width: 0px !important;
+                }
+                
+                .laywertable tr td:first-child{
+                	text-align: center;
+                }
+                
+                .AFI-Table1 td 
+                {
+                margin-bottom:3px;
+                padding: 4px;
+                border: 2px solid #EEEBDD;
+                }
+                
+                .AFI-Table1 td:first-child 
+                {
+                vertical-align: top;
+                }
+                
+                .AFI-Table1 td:nth-child(2) 
+                {
+                white-space: normal !important;
+                text-align: left;
+                word-wrap:break-word;
+                line-height:1.2;
+                width:75%; 
+                }
+                
+                AFI-Table2 
+                {
+                width: 100%;
+                }
+                
+                .AFI-Table2 td 
+                {
+                padding-left : 15px;
+                border: 2px solid #EEEBDD;
+                text-align: left;
+                font-size: 1.2rem;
+                line-height: .8;
+                }
+                
+                .AFI-Table2 td:nth-child(1),td:nth-child(3)  
+                {
+                font-weight : bold;
+                }
+                
+                .AFI-Table3
+                {
+                padding:2px;
+                width : 100%
+                background-color : #fff; 
+                }
+                
+                .AFI-Table3 td 
+                {
+                padding : 1px;
+                font-size: 1.2rem;
+                }
+                
+                .AFI-Table3 td:nth-child(1)
+                {
+                text-align:left;
+                }
+                
+                .AFI-Table3-Nested
+                {
+                margin-left:15px;
+                }
+                
+                .AFI-Table3-Nested td
+                {
+                line-height : 1.5;
+                font-size: 1rem;
+                text-align : left;
+                }
+                .AFI-Table3-Nested td:nth-child(1)
+                {
+                width : 6%;
+                }
+                
+                .f1 fieldset{
+                display: block
+                }
+                
+                .radioTable td{
+                margin-bottom: 0px !important; 
+                padding: 9px !important;
+                border: none !important;
+                color: #89001b;
+                }
+                
+                .radioTable td:nth-child(2){
+                width : auto !important ;
+                color: black;
+                }
+                
+                .radioError td {
+                color: red !important;
+                }
+                
+                .numberInput {
+                height: auto !important; 
+                padding: 0 !important;
+                line-height: 0px !important; 
+                -moz-border-radius: 0px !important;
+                -webkit-border-radius: 0px !important; 
+                border-radius: 0px !important;
+                margin: 0;
+                background: #fff;
+                font-family: 'Roboto', sans-serif;
+                font-size: 16px;
+                font-weight: 300;
+                color: #888;
+                -moz-box-shadow: none;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+                -o-transition: all .3s;
+                -moz-transition: all .3s;
+                -webkit-transition: all .3s;
+                -ms-transition: all .3s;
+                transition: all .3s;
+                border: none !important;
+                border-bottom: 1px solid !important;
+                }
+                
+                .readOnly{
+                background-color : #DCDCDC !important;
+                }
+                
+                .numberInput:focus {
+                outline: none;
+                box-shadow: none;
+                }
+                
+                .activePanel{
+                	display : block;
+                	
+                }
+                
+                .inactivePanel{
+                	display : none;
+                }
+                
+                .has-error{
+                border-bottom: 1px solid red !important;
+                }
+                
+                input[type=number]::-webkit-inner-spin-button, 
+                input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                margin: 0; 
+                }
+                
+            </style>
+            
+            
+            
+            
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500"/>
+            <apex:stylesheet value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/bootstrap/css/bootstrap.min.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/font-awesome/css/font-awesome.min.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/css/form-elements.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/css/style.css')}"/> 
+            
+            
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+            
+            <!-- Favicon and touch icons -->
+            <link rel="shortcut icon" href="https://azmind.com/demo/bootzard-bootstrap-wizard-template/assets/ico/favicon.png"/>
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://azmind.com/demo/bootzard-bootstrap-wizard-template/assets/ico/apple-touch-icon-144-precomposed.png"/>
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://azmind.com/demo/bootzard-bootstrap-wizard-template/assets/ico/apple-touch-icon-114-precomposed.png"/>
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://azmind.com/demo/bootzard-bootstrap-wizard-template/assets/ico/apple-touch-icon-72-precomposed.png"/>
+            <link rel="apple-touch-icon-precomposed" href="https://azmind.com/demo/bootzard-bootstrap-wizard-template/assets/ico/apple-touch-icon-57-precomposed.png"/>
+            
+            <link rel="shortcut icon" href="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/ico/favicon.png')}"/>
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/ico/apple-touch-icon-144-precomposed.png')}"/>
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/ico/apple-touch-icon-114-precomposed.png')}"/>
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/ico/apple-touch-icon-72-precomposed.png')}"/>
+            <link rel="apple-touch-icon-precomposed" href="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets,'assets/ico/apple-touch-icon-57-precomposed.png')}"/>
+            <script src="../../soap/ajax/52.0/connection.js" type="text/javascript"></script>
+            <script src="/soap/ajax/26.0/apex.js"/>
+            
+            <style>
+                @import url('http://fonts.cdnfonts.com/css/lato');
+            </style>                
+            
+            <style>
+                body div {
+                font-family: 'Lato', sans-serif !important;
+                }
+                
+                #top-content {
+                max-width: 1000px !important;
+                }
+                
+                .top-content {
+                padding-top: 0px !important;
+                padding: 0px 0px 170px 0px !important;
+                }
+                
+                body{
+                color : black !important;
+                }
+                .datePicker{
+                display:none !important;
+                }
+                
+            </style>
+        </apex:outputPanel>
+    </head>
+    
+    <body>
+        <apex:outputPanel id="dynamicJS">
+            
+            <script>
+            
+            
+            function setCurrentStep(activeId){
+            	console.log("setCurrentStep: ", activeId);
+            	$('.f1-step').removeClass('active');
+                $(activeId).addClass('active');
+            }
+         
+            
+        
+            function handlePath(inactiveStage, activeStage ){
+                
+             	console.log("handlePath activeStage: ", activeStage);
+            	console.log("handlePath inactiveStage: ", inactiveStage);
+            
+                var activeId = '#'+ activeStage;
+                var inactiveId = '#'+ inactiveStage;
+                var stepBeforeClick = '#'+'{!stepBeforeClicked}';
+                var responseMessage = '{!responseMessage}';
+               
+                if(responseMessage !== 'success'){
+                    $('.slds-notify_container').removeClass('slds-hide');
+                    $('#notifyError').text('{!responseMessage}');
+                }
+                else{
+                    $('.slds-notify_container').addClass('slds-hide');
+                    //setCurrentStep(activeId);
+                    
+                    
+                    $(`${activeId}`).addClass('active');
+                    $(`${inactiveId}`).removeClass('active');
+                    $(`${stepBeforeClick}`).removeClass('active');
+                    $('.f1-progress-line').css('width','{!width}');
+                    
+                }
+            }
+        
+            function handlePreviousPath(inactiveStage, activeStage){
+                
+                console.log("handlePreviousPath activeStage: ", activeStage);
+            	console.log("handlePreviousPath inactiveStage: ", inactiveStage);
+                
+                var activeId = '#'+ activeStage;
+                var inactiveId = '#'+ inactiveStage;
+                var responseMessage = '{!responseMessage}';
+               
+                if(responseMessage !== 'success'){
+                    $('.slds-notify_container').removeClass('slds-hide');
+                    $('#notifyError').text('{!responseMessage}');
+                }
+                else{
+                    $('.slds-notify_container').addClass('slds-hide');
+                    $(`${activeId}`).addClass('active');
+                    $(`${inactiveId}`).removeClass('active');
+                    $('.f1-progress-line').css('width','{!width}');
+                }
+            }
+        
+        
+            function handleSubmit(){
+                var responseMessage = '{!responseMessage}';
+				                
+                if(responseMessage !== 'success'){
+                    $('.slds-notify_container').removeClass('slds-hide');
+                    $('#notifyError').text('{!responseMessage}');
+                }
+                else if(responseMessage == 'success'){
+                    console.log('ssdddd', responseMessage);
+                    $('.slds-notify_container').addClass('slds-hide');
+                     rerenderMain();
+                }
+            }
+            
+            function handleContinueJs(nextStage,width){
+                
+                if(nextStage == 'firmRenewal'){
+                    $("input[name=quoteInfo][value=" + '{!policy.Stage_Quote_change__c}' + "]").prop('checked', true);
+                }
+                else if(nextStage == 'firmInfo'){
+                    $("input[name=info][value=" + '{!policy.Stage_Firm_Info_change__c}' + "]").prop('checked', true);
+                }
+                 else if(nextStage == 'listOfLawyers'){
+                    $("input[name=lawyerInfo][value=" + '{!policy.Stage_Lawyers_change__c}' + "]").prop('checked', true);
+                }
+                 else if(nextStage == 'addFirmInfo'){
+                    $("input[name=additionalInfo][value=" + '{!policy.Stage_Additional_Info_change__c}' + "]").prop('checked', true);
+                }
+                
+                
+                $('#spinnerCommon').css('display','');
+                var currentId = '#'+ '{!currentStage}';
+                var nextId = '#'+ nextStage;
+                //var previousStage = '{!currentStage}';
+                
+                
+                if(nextStage =='quoteAcceptance'){
+                    if(handleAddFirmValidation()=== 0){
+                        handleContinue(nextStage,width); 
+                        
+                    }
+                    else{
+                        $('.slds-notify_container').removeClass('slds-hide');
+                        $('#notifyError').text('Please check error!');
+                    }
+                } else if(nextStage == 'firmInfo'){
+                 if( $('.looped:checked').length>0){
+                      handleContinue(nextStage,width);
+                    
+                 }
+                 else{
+                     $('.slds-notify_container').removeClass('slds-hide');
+                     $('#notifyError').text('Please select one quote.');
+                 }     
+                }
+                else{
+                    handleContinue(nextStage,width);
+                    
+                }
+                
+            } 
+            
+           
+            
+            function handleDisplayPanel(action){
+                var stepBeforeClicked = '#'+'{!stepBeforeClicked}'+'Tab';
+                var previousId = '#'+'{!previousStage}'+'Tab';
+                var currentId = '#'+'{!currentStage}'+'Tab';
+                $(`${stepBeforeClicked}`).fadeOut();
+                $(`${stepBeforeClicked}`).removeClass('activePanel');
+                $(`${currentId}`).removeClass('activePanel');
+                $(`${previousId}`).fadeOut(400,function(){
+                    if(action == 'continue'){
+                     handlePath('{!previousStage}','{!currentStage}');
+					}
+                    else if(action == 'previous'){
+                        handlePreviousPath('{!previousStage}','{!currentStage}');
+                    }
+                     $(`${currentId}`).fadeIn();
+                    
+                });
+                //$(`${nextId}`).removeClass('inactivePanel')
+                //$(`${nextId}`).addClass('activePanel');
+                
+               
+            }
+            
+            function handlePreviousJS(previousStage,width){
+                
+                var currentId = '#'+ '{!currentStage}';
+                var previousId = '#'+ previousStage;
+                //$(`${currentId}`).removeClass('active');
+                //$(`${previousId}`).addClass('active');
+                //$('.f1-progress-line').css('width',width);
+                handlePrevious(width); 
+                $('.slds-notify_container').addClass('slds-hide');
+            }
+            
+            function submitForm(){
+                callApexSubmit(); 
+            }
+            
+            
+            function handleAddFirmValidation(){
+                var componentId = '{!$Component.frm}';
+                console.log(componentId);
+                var requiredElement =[];
+                var errorList = [];
+                $(".required").each(function(){
+                    requiredElement.push($(this)); 
+                });
+                
+                $(".radioReq").each(function(){
+                    requiredElement.push($(this)); 
+                });
+                
+                
+                requiredElement.forEach(function(ele){
+                    var dataId = ele.attr('data-id');
+                    var elementError = '#'+dataId+'Error';
+                    var Name = componentId+':'+dataId;
+                    
+                    if(ele.attr('class').includes('required')){
+                        if(ele.val().toString().trim()== ''){
+                            $(`[data-id ="${dataId}"]`).addClass('has-error');
+                            $(`${elementError}`).css('display','inline-block');
+                            errorList.push(dataId); 
+                        }
+                        else{
+                            $(`[data-id ="${dataId}"]`).removeClass('has-error');
+                            $(`${elementError}`).css('display','none');
+                        }
+                    }
+                    else if(ele.attr('class').includes('radioReq')){
+                        if($(`input[name='${Name}']:checked`).length < 1){
+                            $(`[data-id ="${dataId}"]`).addClass('radioError');
+                            errorList.push(dataId); 
+                        }
+                        else{
+                            $(`[data-id ="${dataId}"]`).removeClass('radioError');
+                        }
+                    }
+                });
+                
+                
+                
+                
+                /*
+                $(".radioRequired").each(function(){
+                    requiredElement.push($(this)); // This is the jquery object of the input, do what you will
+                });
+               */
+                return errorList.length;
+            }
+            
+            $( document ).ready(function() {
+                handleDisciplinaryYes();
+                 $("input[name=instInfo][value=" + '{!policy.Stage_Instructions_change__c}' + "]").prop('checked', true);
+            });
+            
+            
+            
+            
+            function handleDisciplinaryYes(){
+                console.log('test');
+                var arrNo = [];
+                $(".discRadio input[type=radio]:checked").each(function() {
+                    if( this.value == 'Yes'){
+                        $('#discplinaryYes').css('display','');
+                        arrNo.push(this.value);
+                        return false;
+                    }
+                });
+                console.log(arrNo)
+                var allNo = arrNo.every( (val, i, arr) => val === 'No' );
+                
+                if(allNo){
+                    $('#discplinaryYes').css('display','none');
+                }
+                
+            }
+            
+            function handlePolicyQuoteCheck(cb)
+            {    $(".looped").each(function() { 
+                $(this).prop('checked',false); 
+            });;
+             
+             $(cb).prop('checked', true);
+            }  
+            
+            
+            function handleStepClickJS(nextStage,width,stepClicked){
+                handleStepClick(nextStage,width,stepClicked);
+            }
+            
+           
+            
+            </script>
+        </apex:outputPanel>
+        <!-- Alert Start -->
+        <div class="slds-scope">
+            <div class="slds-notify_container slds-hide">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading--small" id="notifyError" style="color: white;">In order to continue, please correct errors below</h2>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        
+        
+        <!-- Alert End -->
+        <apex:form >
+        <apex:actionFunction name="rerenderMain" reRender="mainContent,dynamicJS"/>
+        </apex:form>
+        <apex:outputPanel id="mainContent">
+            
+            <apex:outputPanel rendered="{!booleanShowApplScreen}">
+                
+                <div class="top-content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 form-box">
+                                <apex:form styleclass="f1 needs-validation" id="frm">
+                                   <apex:actionStatus id="sts">
+                                        <apex:facet name="start">
+                                            
+                                            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.25; z-index: 10000; background-color: black;">
+                                               
+                                            </div>
+                                            
+                                            <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 15% 50%">
+                                                <div style="display: inline-block; padding: 2px; background-color: #fff; width: 125px;">
+                                                    <img src="/img/loading.gif" style="float: left; margin: 8px;" />
+                                                    <!--<apex:image url="{!$Resource.ApplicationSpinner}" width="50" height="50"/>-->
+                                                </div>
+                                            </div>
+                                          
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                    <apex:actionFunction name="handleContinue" action="{!handleContinue}" status="sts" oncomplete="handleDisplayPanel('continue');"   reRender="dynamicJS,dynamicCSS" >
+                                        <apex:param name="nextStage" assignTo="{!nextStage}" value="" />
+                                        <apex:param name="width" assignTo="{!width}" value="" />
+                                    </apex:actionFunction>
+                                     <apex:actionFunction name="handleStepClick" action="{!handleStepClick}" status="sts" oncomplete="handleDisplayPanel('continue');"   reRender="dynamicJS,dynamicCSS" >
+                                        <apex:param name="nextStage" assignTo="{!nextStage}" value="" />
+                                        <apex:param name="width" assignTo="{!width}" value="" />
+                                        <apex:param name="stepClicked" assignTo="{!stepClicked}" value="" />
+                                    </apex:actionFunction>
+                                    <apex:actionFunction name="handlePrevious" action="{!handlePrevious}" status="sts" oncomplete="handleDisplayPanel('previous');" reRender="dynamicJS,dynamicCSS" >
+                                     <apex:param name="width" assignTo="{!width}" value="" />
+                                    </apex:actionFunction>
+                                    <apex:actionFunction name="callApexSubmit" action="{!submit}" status="sts" oncomplete="handleSubmit()" reRender="dynamicJS" />
+                                   
+                                    
+                                    <!--------------- HEADER ---------------->
+                                    <div>
+                                        <apex:image url="{!URLFOR($Resource.ISBA_Payment,'ISBA_Payment/ISBA_Mutual_Logo.0d873c24.png')}" width="379" height="82" style="float:left;"/>
+                                    
+                                        <div style="border: 0px solid orange; float: right; margin-top: 10px;">
+                                            <table border="0" style="text-align: left;">
+                                                <tr>
+                                                    <td colspan="2" style="font-size: 24px; font-weight: bold; color: gray">EZ Quote and Acceptance Form</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding-top: 10px;">Policy Number:</td>
+                                                    <td style="padding-top: 10px; font-weight: bold;">&nbsp;{!policy.Name}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Policy Period:</td>
+                                                    <td style="font-weight: bold;">&nbsp;<apex:inputField value="{!policy.Effective_Date__c}"/> - <apex:inputField value="{!policy.Expiration_Date__c}"/></td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div style="clear:both; padding-bottom: 25px;"></div>
+                                    
+                                    <div class="f1-steps">
+                                        <div class="f1-progress">
+                                            <div class="f1-progress-line" data-now-value="10" data-number-of-steps="6" style="width: 10%;"></div>
+                                        </div>
+                                        <div class="f1-step active" id="Instructions" onclick="handleStepClickJS('Instructions','10%','');">
+                                            <div class="f1-step-icon"><i class="fa fa-book"></i></div>
+                                            <p>Instructions</p>
+                                        </div>
+                                        <div class="f1-step" id='firmRenewal' onclick="handleStepClickJS('firmRenewal','25%','Instructions');">
+                                            <div class="f1-step-icon"><i class="fa fa-tag"></i></div>
+                                            <p>Quote(s)</p>
+                                        </div>
+                                        <div class="f1-step" id='firmInfo' onclick="handleStepClickJS('firmInfo','40%','firmRenewal');">
+                                            <div class="f1-step-icon"><i class="fa fa-info"></i></div>
+                                            <p>Firm Information</p>
+                                        </div>
+                                        <div class="f1-step" id='listOfLawyers' onclick="handleStepClickJS('listOfLawyers','55%','firmInfo');">
+                                            <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                                            <p >Lawyers</p>
+                                        </div>
+                                        <div class="f1-step" id='addFirmInfo' onclick="handleStepClickJS('addFirmInfo','70%','listOfLawyers');">
+                                            <div class="f1-step-icon"><i class="fa fa-star"></i></div>
+                                            <p>Additional Info</p>
+                                        </div>
+                                        <div class="f1-step" id='quoteAcceptance' onclick="handleStepClickJS('quoteAcceptance','85%','addFirmInfo');">
+                                            <div class="f1-step-icon"><i class="fa fa-lock"></i></div>
+                                            <p>Acceptence</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <style>
+                                    	.block-header {
+                                        	background-color: #92000a;
+                                        	color: #fff;
+                                        	font-weight: bold;
+                                        	padding: 7px;
+                                        	font-size: 18pt;
+                                            /*margin-bottom: 30px;*/
+                                       	}
+                                    </style>
+                                    <div Style="margin-top: 5%">
+                                        
+                                        <apex:outputPanel id="progressSteps"> 
+                                        
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <!--------------------------- INSTRUCTIONS ------------------------------------->
+                                            <div Class="panel activePanel" id="InstructionsTab">
+                                                
+                                                
+                                                
+                                                <p class="block-header" style="">INSTRUCTIONS</p>
+                                                
+                                                <p style="text-align: justify; font-size:16pt; color:#000; padding:7px;">
+                                                    This EZ Quote and Acceptance Form is to be completed by the Named Insured (“Firm”) on 
+                                                    behalf of itself, its <b>Predecessor Firm*</b>, and all persons proposed for this insurance. 
+                                                    Answer all questions completely. Complete any Supplement(s) requested.
+                                                </p>
+                                                
+                                                 <apex:actionFunction name="instRadio" reRender="" >
+                                                       <apex:param name="instructionChange" assignTo="{!stageInstructionChanged}" value="" />
+                                                </apex:actionFunction>
+                                                <table style="width: 100%; margin-top: 30px;">
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                            <input type="radio"   onclick="instRadio(this.value)" value="false" name="instInfo" style="margin-right: 7px;">This information is correct</input>
+                                            
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                           
+                                                            <input type="radio" onclick="instRadio(this.value)"  value="true" name="instInfo" style="margin-right: 7px;">I would like to add or update quotes on this application</input>
+                                                          	
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                
+                                                <div class="f1-buttons save-block">
+                                                    <button type="button" onclick="handleContinueJs('firmRenewal','25%'); " class="btn" style="background: #f35b3f;" data-trigger="focus" title="" data-content="" >Continue</button>
+                                                </div>   
+                                                
+                                                <br/>
+                                                
+                                               
+                                                
+                                            </div>
+                                            
+                                           
+                                            
+                                            
+                                            
+                                            <!--------------------------- QUOTES ------------------------------------->
+                                            <div Class="panel inactivePanel " id="firmRenewalTab"  >
+                                                
+                                                <div>
+                                                    <p class="block-header" style="">QUOTE(S)</p>
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr style="background-color: #ededed;">
+                                                                <th scope="col" style="text-align: center !important;">Select</th>
+                                                                <th scope="col">Per Claim Limit</th>
+                                                                <th scope="col">Aggregate Limit</th>
+                                                                <th scope="col">Deductible</th>
+                                                                <th scope="col">Annual Premium</th>
+                                                                <th scope="col">Due Date</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <apex:repeat value="{!policyQuoteWrapperList}" var="quote">
+                                                                <tr>
+                                                                    <td align="center" valign="center">
+                                                                        <apex:inputCheckbox styleClass="looped"  value="{!quote.isSelected}" onclick="handlePolicyQuoteCheck(this);"  />
+                                                                    </td>
+                                                                    <td align="left" valign="center">
+                                                                        <apex:outputText value="${0, number, ###,###,###,##0}" >
+                                                                          <apex:param value="{!quote.policyQuote.Coverage_Max_Per_Claim__c}" />
+                                                                        </apex:outputText>
+                                                                    </td>
+                                                                    <td  align="left" valign="center" style="font-weight: unset !important;">
+                                                                        <apex:outputText value="${0, number, ###,###,###,##0}" >
+                                                                          <apex:param value="{!quote.policyQuote.Full_Coverage__c}" />
+                                                                        </apex:outputText>
+                                                                        
+                                                                    </td>
+                                                                    <td align="left" valign="center">
+                                                                        <apex:outputText value="${0, number, ###,###,###,##0}" >
+                                                                          <apex:param value="{!quote.policyQuote.Deductible_Amount__c  }" />
+                                                                        </apex:outputText>
+                                                                       
+                                                                    </td>
+                                                                    <td align="left" valign="center">
+                                                                         <apex:outputText value="${0, number, ###,###,###,##0}" >
+                                                                          <apex:param value="{!quote.policyQuote.Quote_Final_Premium__c}" />
+                                                                        </apex:outputText>
+                                                                                                
+                                                                    </td>
+                                                                    <td align="left" valign="center">
+                                                                        <apex:outputText value="{0,date,MM/dd/yyyy}" >  
+                                                                        	<apex:param value="{!policy.Effective_Date__c}"/>
+                                                                        </apex:outputText>
+                                                                    </td>
+                                                                </tr>
+                                                            </apex:repeat>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                    <!-------- INFO ------->
+                                                     <!--- INFO UPDATE --->
+                                                 <apex:actionFunction name="quoteInfoRadio" reRender="">
+                                                            <apex:param name="quoteInfoChange" assignTo="{!stageQuoteChange}" value="" />
+                                                  </apex:actionFunction>
+                                                <table style="width: 100%; margin-top: 30px;">
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                            <input type="radio"   onclick="quoteInfoRadio(this.value)" value="false" name="quoteInfo" style="margin-right: 7px;">This information is correct</input>
+                                            
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                           
+                                                           	 <input type="radio" onclick="quoteInfoRadio(this.value)"  value="true" name="quoteInfo" style="margin-right: 7px;">I would like to add or update quotes on this application</input>
+                                                          	
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                </div>
+                                                
+                                                <div class="f1-buttons save-block">
+                                                    <button type="button" onclick="handlePreviousJS('Instructions','10%')" class="btn "  style="background: #bbb;">Back</button>
+                                                    <button type="button" onclick="handleContinueJs('firmInfo','40%')"  class="btn" style="background: #f35b3f;" data-trigger="focus" title="" data-content="" >Continue</button>
+                                                </div>
+                                                
+                                                <br/>
+                                                
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                            <!--------------------------- FIRM INFO ------------------------------------->
+                                            <div  Class="panel inactivePanel" id="firmInfoTab" >
+                                                
+                                                <div>
+                                                    <p class="block-header" style="">FIRM INFORMATION</p>
+                                                    
+                                                    <div>
+                                                        <table class="table table-bordered" style="margin-bottom:1px !important;">
+                                                            
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th scope="row">Named Insured:</th>
+                                                                    <td align="left">{!policy.Account__r.Name}</td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Trade Name or D/B/A:</th>
+                                                                    <td align="left">{!policy.Account__r.Trade_Name_or_D_B_A__c}</td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Principal Address:</th>
+                                                                    <td align="left"> 
+                                                                        {!polWrapper.principalAddress}
+                                                                        <!--
+                                                                            <apex:inputText styleClass="billingStreet readOnly" html-readOnly="true"
+                                                                            ondblclick="$('.billingStreet').removeAttr('readOnly').removeClass('readOnly');"
+                                                                            value="{!polWrapper.principalAddress}" >
+                                                                            </apex:inputText> -->
+                                                                    </td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">City, State, Zip Code:</th>
+                                                                    <td align="left">
+                                                                        {!combineCityStateZip}
+                                                                        <!--
+                                                                            <div id="readCombineCityState">
+                                                                            <apex:inputText styleClass="readOnly" ondblclick="$('#editCombineCityState').css('display',''); $('#readCombineCityState').css('display','none');"  html-readOnly="true"  value="{!combineCityStateZip}" />
+                                                                            </div>                                              
+                                                                            <div id="editCombineCityState"  style="display:none;">
+                                                                            <apex:inputText style="width:20% !important" value="{!polWrapper.city}" /> <apex:inputText style="width:20% !important"  value="{!polWrapper.state}" /> <apex:inputText style="width:20% !important"  value="{!polWrapper.zip}" />
+                                                                            </div> -->
+                                                                    </td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">County:</th>
+                                                                    <td align="left">{!policy.County__r.Name}</td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Contact Name:</th>
+                                                                    <td align="left">{!policy.Firm_Contact__r.Name}</td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Contact Phone Number:</th>
+                                                                    <td align="left">{!policy.Firm_Contact__r.Phone}</td>
+                                                                    
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Contact E-mail Address:</th>
+                                                                    <td align="left">{!policy.Firm_Contact__r.Email}</td>
+                                                                    
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                        
+                                                        
+                                                        <!--- INFO UPDATE --->
+                                                        <apex:actionFunction name="firmInfoRadio" reRender="">
+                                                            <apex:param name="firmInfoChange" assignTo="{!stageFirmInfoChange}" value="" />
+                                                        </apex:actionFunction>
+                                                        <table style="width: 100%; margin-top: 20px;">
+                                                            
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                            	<td align="left" width="1%" style="white-space: nowrap;">
+                                                                    
+                                                                    <input type="radio" onclick="firmInfoRadio(this.value);"  value="false" name="info" style="margin-right: 7px;">This information is correct</input>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                            	<td align="left" width="1%" style="white-space: nowrap;">
+                                                                    <input type="radio"  onclick="firmInfoRadio(this.value);" value="true" name="info" style="margin-right: 7px;">I would like to update the firm information</input>
+                                                                </td>
+                                                            </tr>
+                                                            
+                                                            
+                                                            
+                                                        </table>
+                                                        
+                                                        <br/>
+                                                            
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                                
+                                                <div class="f1-buttons save-block">
+                                                    <button type="button" onclick="handlePreviousJS('firmRenewal','25%')" class="btn "  style="background: #bbb;">Back</button>
+                                                    <button type="button" onclick="handleContinueJs('listOfLawyers','55%')"  class="btn" style="background: #f35b3f;"  title="" data-content="" >Continue</button>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <style>
+                                            	.laywertable {
+                                                	border-collapse:collapse !important;
+                                                	border: 1px solid black !important;
+	                                                border-style: hidden !important;
+                                                }
+                                                .laywertable>tbody>tr>td {
+                                                	border: 0px !important;
+                                                	vertical-align: middle !important;
+                                                }
+                                                
+                                                
+                                            </style>      
+                                            <!--------------------------- LAWYER INFO ------------------------------------->
+                                            <div  Class="panel inactivePanel" id="listOfLawyersTab">
+                                                
+                                                <div>
+                                                    <p class="block-header">List of Lawyers included in above quote for whom coverage is desired</p>
+                                                    
+                                                    
+                                                    <table class="table table-bordered table-responsive laywertable">
+                                                        <thead>
+                                                            <tr style="background-color: #ededed;">
+                                                                <th style="align: left !important; text-align: left !important;">Laywer Name</th>
+                                                                <th style="align: left !important; text-align: left !important; width: 80px;">Designation</th>
+                                                                <th style="align: right !important; text-align: right !important; width: 40px;">ARDC #</th>
+                                                                <th style="align: right !important; text-align: right !important; width: 40px;">ISBA #</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <apex:variable value="{!1}" var="index"/>
+                                                            
+                                                            <apex:repeat value="{!policyLawyers}" var="pLawyer">
+                                                            	
+                                                                <tr>
+                                                                    <td style="align: left; text-align: left;">
+                                                                        <apex:outputText style="color:#92000a;font-weight:bold;" value="{0, number, ###,###,###,##0}" >
+                                                                          <apex:param value="{!index}" />
+                                                                        </apex:outputText>
+                                                                       <!-- <span style="color:#92000a;font-weight:bold;">#&nbsp;{!index}</span> -->
+                                                                        &nbsp;&nbsp;
+                                                                        {!pLawyer.policyLawyer.Lawyer__r.Name}
+                                                                    </td>
+                                                                    <!--<td>{!pLawyer.policyLawyer.Contact_Role__c}</td> -->
+                                                                    <td>
+                                                                        <apex:selectList styleClass="form-control zselectBox" value="{!pLawyer.desgination}" size="1" multiselect="false">
+                                                                            <apex:selectOptions value="{!contactRolesList}"/>
+                                                                        </apex:selectList>
+                                                                    </td>
+                                                                    <td style="align: right; text-align: right;">{!pLawyer.policyLawyer.ARDC_Number__c}</td>
+                                                                    <td style="align: right; text-align: right;">{!pLawyer.policyLawyer.ISBA_Number__c}</td>
+                                                                </tr>
+                                                                
+                                                                <tr>
+                                                                    <td>&nbsp;</td>
+                                                                    <td align="left">
+                                                                        Email:
+                                                                    </td>
+                                                                    <td colspan="2" style="align: right !important; text-align: right !important;">
+                                                                        {!pLawyer.policyLawyer.Lawyer__r.Contact__r.Email}
+                                                                    </td>
+                                                                </tr>
+                                            
+                                                                <tr>
+                                                                    <td>&nbsp;</td>
+                                                                    <td colspan="2" align="right">
+                                                                        Individual Prior Acts Exclusion Date:
+                                                                    </td>
+                                                                    <td style="align: right !important; text-align: right !important;">
+                                                                        <apex:inputField value="{!pLawyer.policyLawyer.Prior_Act_Date__c}" style="width:95%;" />
+                                                                    </td>
+                                                                </tr>
+                                            
+                                                                <tr>
+                                                                    <td>&nbsp;</td>
+                                                                    <td colspan="2" align="right">
+                                                                        Average Number of Hours Worked per Week on Behalf of the Firm:
+                                                                    </td>
+                                                                    <td align="right"  >
+                                                                        <apex:input value="{!pLawyer.avergaeHoursPerWeek}" style="width:95%;"/>
+                                                                    </td>
+                                                                </tr>
+                                            
+                                                            <apex:variable var="index" value="{!index + 1}"/>
+                                                            </apex:repeat>
+                                                        </tbody>
+                                                    </table>
+                                                   
+                                                </div>
+                                                
+                                                <!--- INFO UPDATE --->
+                                                 <apex:actionFunction name="lawyerInfoRadio" reRender="">
+                                                            <apex:param name="lawyerInfoChange" assignTo="{!stageLawyerChange}" value="" />
+                                                  </apex:actionFunction>
+                                                <table style="width: 100%; margin-top: 30px;">
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                            <input type="radio" onclick="lawyerInfoRadio(this.value)" value="false" name="lawyerInfo" style="margin-right: 7px;">This information is correct</input>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                            <input type="radio" onclick="lawyerInfoRadio(this.value)"  value="true" name="lawyerInfo" style="margin-right: 7px;">I would like to add or remove lawyers from this application</input>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                
+                                                
+                                                <div class="f1-buttons save-block">
+                                                    <button type="button" onclick="handlePreviousJS('firmInfo','40%')" class="btn "  style="background: #bbb;">Back</button>
+                                                    <button type="button" onclick="handleContinueJs('addFirmInfo','70%')" class="btn" style="background: #f35b3f;" data-trigger="focus" title="" data-content="" >Continue</button>
+                                                </div>
+                                                
+                                            </div>
+                                            <!--List of Lawyers Ends Here-->
+
+
+
+                                            
+                                            
+                                            
+                                            
+                                            <div id="addFirmInfoTab" Class="panel inactivePanel" >
+                                                
+                                                <div style="padding:2px;border:1px solid #EEEBDD;">
+                                                    <p style="background-color:#D3D3D3;margin:0px;color:#000000;">Additional Firm Information</p>
+                                                    <table style="width:100%;background-color:#fff;" class="AFI-Table1 cursive">
+                                                        <tr>
+                                                            <td style="width:5%;font-weight:bold;">1.</td>
+                                                            <td>
+                                                                Has any Lawyer(s) joined the Firm in the past twelve (12) months <b>who is not listed above or has not been reported to the Company?</b> If Yes, please complete an Add a Lawyer Supplemental Application to add the new Lawyer(s) to the Firm’s policy. The above quote(s) will be adjusted to reflect adding the new Lawyer(s) to the Firm’s policy.
+                                                                
+                                                            </td>
+                                                            <td style="width:20%;">
+                                                                <apex:selectRadio id="lawyerjoinpast12cbx" html-data-id="lawyerjoinpast12cbx" styleClass="radioTable radioReq" borderVisible="false" value="{!additionInfoWrap.lawyer_join_past_12m_cbx}">
+                                                                    
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio> 
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            
+                                                            <td style="width:5%;font-weight:bold;">2.</td>
+                                                            <td>
+                                                                After inquiry, during the past twelve (12) months, has any professional liability <b>Claim**</b> been made against the Firm, any <b>Predecessor Firm*</b>, any present Lawyers of the Firm, or to your knowledge, any former Lawyer with the Firm or <b>Predecessor Firm*</b> which has not been reported to ISBA Mutual Insurance Company in writing as a <b>Claim**?</b>
+                                                                If Yes, provide number &nbsp;<apex:outputPanel id="claimReportedNum"><apex:input type="number" styleClass="numberInput required" html-data-id="claim12mnotreportednum"   rendered="{!additionInfoWrap.pl_claim_12m_not_reported_cbx = 'Yes'}" value="{!additionInfoWrap.pl_claim_12m_not_reported_num}" /></apex:outputPanel>&nbsp;<span id="claim12mnotreportednumError" style="color:red;display:none">Input is required</span>.
+                                                            </td>
+                                                            <td style="width:20%;">
+                                                                <apex:selectRadio styleClass="radioTable radioReq" id="cliam12mnotrepocbx" html-data-id="cliam12mnotrepocbx" borderVisible="false" value="{!additionInfoWrap.pl_claim_12m_not_reported_cbx}">
+                                                                    <apex:actionSupport event="onchange" reRender="claimReportedNum" />
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio> 
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:5%;font-weight:bold;">3.</td>
+                                                            <td>
+                                                                After inquiry, is the Firm or any Lawyer in the Firm, aware of any potential <b>Claim**</b>, including but not limited to, any act, error, omission, fact, circumstance, a request for a tolling agreement, a request for a deposition, a subpoena request for any file, ARDC complaint, situation, legal work, or any allegation of negligence that might result in any professional liability <b>Claim**</b> against the Firm, or any Predecessor <b>Firm*</b>, or any past or present Lawyer in the Firm regardless whether such <b>Claim**</b> would be without merittwhich has not been reported to ISBA Mutual Insurance Company in writing as a <b>Claim**?</b>
+                                                                If Yes, provide number &nbsp;<apex:outputPanel id="awareOfClaimNum"><apex:input styleClass="numberInput required" type="number"  html-data-id="awareOfClaimNum" rendered="{!additionInfoWrap.aware_of_claim_cbx = 'Yes'}" value="{!additionInfoWrap.aware_of_claim_num}" /></apex:outputPanel>&nbsp; <span id="awareOfClaimNumError" style="color:red;display:none">Input is required</span>.
+                                                            </td>
+                                                            <td style="width:20%;">
+                                                                <apex:selectRadio styleClass="radioTable radioReq" borderVisible="false" id="awareofclaimcbx" html-data-id="awareofclaimcbx" value="{!additionInfoWrap.aware_of_claim_cbx}">
+                                                                    <apex:actionSupport event="onchange" reRender="awareOfClaimNum" />
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td colspan="2">
+                                                                If Yes, to questions 2 or 3 above, please complete a Claim Supplemental Application for each prior <b>Claim**</b> or potential <b>Claim**</b>.
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:5%;font-weight:bold;">4.</td>
+                                                            <td colspan="2">
+                                                                Have any of the Firm’s Lawyers been the subject of any of the following disciplinary actions, investigations or proceedings by any court, bar association, administrative agency or regulatory body in the past twelve (12) months, pending or concluded, which has not been reported to ISBA Mutual Insurance Company?
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    
+                                                    <table style="width:100%;background-color:#fff;" class="AFI-Table2">
+                                                        <tr>
+                                                            <td>Investigation/Proceeding</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" id="disciplinaryinvestcbx" html-data-id="disciplinaryinvestcbx" borderVisible="false" value="{!additionInfoWrap.disciplinary_investegation_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                            <td>Censured</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" id="disciplinarycensuredcbx" html-data-id="disciplinarycensuredcbx" value="{!additionInfoWrap.disciplinary_censured_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Refused Admittance to Bar or Court</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" html-data-id="disciplinarybarcbx" id="disciplinarybarcbx" value="{!additionInfoWrap.disciplinary_bar_denied_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                            <td>Suspended</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" id="disciplinarysuscbx" html-data-id="disciplinarysuscbx" value="{!additionInfoWrap.disciplinary_suspended_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Sanctioned or Fined</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" html-data-id="disciplinarysanccbx" id="disciplinarysanccbx" value="{!additionInfoWrap.disciplinary_sanctioned_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                            <td>Disbarred</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" html-data-id="disciplinarydiscbx" id="disciplinarydiscbx" value="{!additionInfoWrap.disciplinary_disbarred_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Reprimanded</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" id="disciplinaryrepricbx" html-data-id="disciplinaryrepricbx" value="{!additionInfoWrap.disciplinary_reprimanded_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                            <td>Other (specify)</td>
+                                                            <td>
+                                                                <apex:selectRadio styleClass="radioTable discRadio radioReq" borderVisible="false" id="disciplinaryOther" html-data-id="disciplinaryOther" value="{!additionInfoWrap.disciplinary_other_cbx}">
+                                                                    <apex:actionSupport event="onchange" oncomplete="handleDisciplinaryYes();"/>
+                                                                    <apex:selectOptions value="{!RadOptions}" />
+                                                                </apex:selectRadio>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div style="display:none" id="discplinaryYes">
+                                                        <table class="AFI-Table3">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <p style="font-size:17px;">If <span style="color:#92000a;">Yes</span> to any of the above:</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width:80%">
+                                                                    <table style="width:100%;background-color:#fff;" class="AFI-Table3-Nested">
+                                                                        <tr>
+                                                                            <td style="font-weight:bold;">.</td>
+                                                                            <td style="font-weight:bold;">Provide number open <apex:inputText styleClass="numberInput " html-data-id="discplinaryOpenNum" id="discplinaryOpenNum" value="{!additionInfoWrap.disciplinary_open_num}"></apex:inputText>
+                                                                                Provide number closed  <apex:inputText styleClass="numberInput " html-data-id="discplinaryClosedNum" id="discplinaryClosedNum" value="{!additionInfoWrap.disciplinary_closed_num}"></apex:inputText></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight:bold;">.</td>
+                                                                            <td>Is the Firm reporting any as a <b>Claim**</b>or potential <b>Claim**?</b></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2">If Yes, please complete a <span style="color:#92000a;">Claim Supplemental Application</span> for each prior <b>Claim**</b> or potential <b>Claim**.</b></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-weight:bold;">.</td>
+                                                                            <td>Include copies of the complaint, current disposition and/or a copy of the final opinion or decision of the court, association, administrative agency or regulatory body.</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                
+                                                <apex:actionFunction name="additionInfoRadio" reRender="">
+                                                       <apex:param name="additionalInfoChange" assignTo="{!stageAdditionalInfoChanged}" value="" />
+                                                </apex:actionFunction>
+                                                <table style="width: 100%; margin-top: 30px;">
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                            <input type="radio"   onclick="additionInfoRadio(this.value)" value="false" name="additionalInfo" style="margin-right: 7px;">This information is correct</input>
+                                            
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td align="left" width="1%" style="white-space: nowrap;">
+                                                           
+                                                           	 <input type="radio" onclick="additionInfoRadio(this.value)"  value="true" name="additionalInfo" style="margin-right: 7px;">I would like to add or update quotes on this application</input>
+                                                          	
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                
+                                                <div class="f1-buttons" style ='margin-top : 10%'>
+                                                    <button type="button" onclick="handlePreviousJS('listOfLawyers','55%')" class="btn "  style="background: #bbb;">Back</button>
+                                                    <button type="button" onclick="handleContinueJs('quoteAcceptance','85%')"  class="btn" style="background: #f35b3f;" data-trigger="focus" title="" data-content="" >Continue</button>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <div id="quoteAcceptanceTab" Class="panel inactivePanel" >
+                                                
+                                                <div>
+                                                    <!--Representation and Waranties -->
+                                                    <div>
+                                                        <div class="card" style="background-color: #89001b;color : white">
+                                                            <div class="card-body">
+                                                                Representation and Waranties
+                                                            </div>
+                                                        </div>
+                                                        <div style="text-align : left; margin-top : 2%">
+                                                            <p>
+                                                                The Firm understands and agrees that the following representations and warranties are material and 
+                                                                that the Illinois State Bar
+                                                                Association Mutual Insurance Company (“Company”) is
+                                                                relying on the truthfulness of these representations and warranties,
+                                                                which are made the basis of and a condition for the Company’s acceptance of 
+                                                                the risks covered to be insured. The Firm further understands and agrees that 
+                                                                if any of the following material representations and warranties are false, or 
+                                                                if Firm fails to comply with any of the following representations and warranties 
+                                                                at any time during the policy period, the Firm shall be deemed to have breached the insurance policy issued by the Company.
+                                                            </p>
+                                                            <p>
+                                                                The Firm hereby represents and warrants that the following are true and correct as of the inception date of the policy:
+                                                            </p>
+                                                            <p>
+                                                                <ol type="a">
+                                                                    <li>The information contained in this Application, all material and information submitted to the 
+                                                                        Company in connection with this Application, and all material that is created and 
+                                                                        submitted to the Company by the Firm in connection with this Application is a full and true exposition
+                                                                        of all the facts and circumstances with regard to the risk to be insured.</li>
+                                                                    <li>No Claim** has been made against the Firm or any person(s) proposed for this insurance 
+                                                                        nor has any person proposed for this insurance received a request for deposition 
+                                                                        in the past five (5) years and no disciplinary action, investigation or proceeding has 
+                                                                        been filed against any Lawyer proposed for this insurance other than as disclosed in the 
+                                                                        Application and/or loss runs submitted to the Company.</li>
+                                                                    <li>No person or entity for whom this insurance is intended has any knowledge of any act, 
+                                                                        error, omission, fact or circumstance, tolling agreement, request 
+                                                                        for deposition, a subpoena for any file, disciplinary action, investigation or 
+                                                                        proceeding, situation, legal work or any allegation of negligence that might 
+                                                                        result in any professional liability Claim** against the Firm, or any Predecessor Firm*,
+                                                                        or any past or present Lawyer in the Firm regardless whether such Claim** would be without 
+                                                                        merit other than as disclosed in this Application.</li>
+                                                            </ol>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <hr></hr>
+                                            <!-- Acknowledgements -->
+                                            <div>
+                                                <div class="card" style="background-color: #89001b;color : white">
+                                                    <div class="card-body">
+                                                        Acknowlegements
+                                                    </div>
+                                                </div>
+                                                <div style="text-align : left; margin-top : 2%">
+                                                    <p>
+                                                        The undersigned declares that to the best of his or her knowledge, the statements set forth 
+                                                        herein are true and accurate and that reasonable efforts have been made to obtain sufficient
+                                                        information from all persons proposed for this insurance to facilitate the proper and accurate
+                                                        completion of this Application. The signing of this Application does not bind the Company to 
+                                                        issue a policy, but it is agreed that this Application, all material and information submitted
+                                                        to the Company in connection with this Application, and all material that is created by the
+                                                        Firm and submitted to the Company in connection with this Application are the representations
+                                                        of the Firm and are material and shall be the basis of the contract should a policy be issued.
+                                                    </p>
+                                                    <p>
+                                                        The undersigned further agrees that if any significant adverse change in the condition of the Firm 
+                                                        is discovered or occurs between the date of completion of this Application and the date that 
+                                                        coverage is bound by the Company, and such change renders this Application inaccurate or 
+                                                        incomplete, notice of such change will be immediately reported in writing to the Company.
+                                                    </p>
+                                                    <p>
+                                                        This Application shall be considered attached to and part of the Policy.
+                                                        Any material submitted with the Application shall be maintained on file with the 
+                                                        Company and shall be deemed to be attached hereto as if physically attached.
+                                                    </p>
+                                                    <p>
+                                                        Coverage is NOT bound until appropriate premiums and any required supplements have been received. 
+                                                        The Company reserves the right to withdraw or amend the quoted terms at any time prior to the 
+                                                        proposed effective date of coverage if changes material to the underwriting of the Application are received. 
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr></hr>
+                                        <!-- QUOTE ACCEPTANCE AND SIGNATURE -->
+                                        <div>
+                                            <div class="card" style="background-color: #89001b;color : white">
+                                                <div class="card-body">
+                                                    Quote Acceptance and Signature
+                                                </div>
+                                            </div>
+                                            
+                                            <div style=" margin-top : 2%">
+                                                <div class="card" style="background-color: #DCDCDC; color:black">
+                                                    <div class="card-body">
+                                                        Signature of Owner, Officer, Partner, Shareholder, or Member (only one signature needed) <apex:inputCheckbox value="{!polwrapper.approvalAck}"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top : 2%;background-color: #DCDCDC; color:black">
+                                                <div class="col-md-6">
+                                                    <div class="card" >
+                                                        <div class="card-body">
+                                                            Name: <apex:inputText style="background: transparent;" styleClass="numberInput" value="{!polwrapper.approvalName}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card" >
+                                                        <div class="card-body">
+                                                            Title: <apex:inputText style="background: transparent;" styleClass="numberInput" value="{!polwrapper.approvalTitle}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="f1-buttons" style ='margin-top : 10%'>
+                                        <button type="button" onclick="handlePreviousJS('addFirmInfo','70%')" class="btn "  style="background: #bbb;">Back</button>
+                                        <button type="button" onclick="submitForm()"  class="btn finalSubmit" style="background: #f35b3f;" data-trigger="focus" title="" data-content="">Submit</button>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </apex:outputPanel>
+                         
+                        </div>
+                        
+                    </apex:form>
+                    
+                    <!-- Placeholder: ErrorDiv -->
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-5" style="text-align: left;">
+                            <h5>Contact:</h5>
+                            Name - {!polWrapper.underwriterName}<br/>
+                            Phone - {!polWrapper.underwriterPhone}<br/>
+                            Email - {!polWrapper.underwriterEmail}<br/>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1" style="text-align: left;">
+                            Test
+                        </div>
+                    </div>
+						
+                    
+                </div>
+                
+               
+                
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!AND(showThankYou == true,error == false)}">
+                <script>
+                $('#SuccessModel').modal({backdrop: 'static', keyboard: false});
+                setTimeout(function(){
+                        $('#wait').css('display','none');
+                        $('#bill').css('display','block');
+                     	getBillingPaymentLink();
+                    }, 20000);
+                </script>
+                <style>
+                    .loader {
+                    border: 16px solid #f3f3f3;
+                    border-radius: 50%;
+                    border-top: 16px solid #f35b3f;
+                    width: 60px;
+                    height: 60px;
+                    -webkit-animation: spin 2s linear infinite; /* Safari */
+                    animation: spin 2s linear infinite;
+                    }
+                    
+                    /* Safari */
+                    @-webkit-keyframes spin {
+                    0% { -webkit-transform: rotate(0deg); }
+                    100% { -webkit-transform: rotate(360deg); }
+                    }
+                    
+                    @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                    }
+                </style>
+                <apex:form >
+                <apex:actionFunction action="{!getBillingPaymentLink}" name="getBillingPaymentLink" reRender="bill" />
+                <div class="slds-scope">
+                    <div class="modal fade" id="SuccessModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content" style="margin-top : 40%">
+                                <div class="modal-header">
+                                    <h5 class="modal-title slds-text-heading_small" id="exampleModalLabel">Thank you!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div ></div>
+                                <div class="modal-body">
+                                    <center>
+                                        <span> Thank you -- invoice has been emailed.</span>
+                                        <div id="wait">
+                                            <span>Wait for billing to be created</span>
+                                            <div class="loader"></div>
+                                            
+                                        </div>
+                                        <div id="bill" style="display : none;word-break: break-all;">         
+                                            <apex:outputPanel id="bill" ><a target="_blank" href="{!billingLink}">Click here to pay online.</a></apex:outputPanel>
+                                           
+                                        </div>
+                                        
+                                    </center>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" style="background : #f35b3f !important" class="btn btn-default " data-dismiss="modal" >Close</button>
+                                    <!--<apex:commandbutton value="Exit" action="{!URLFOR($Page.CIContractManagerDashboard)}"  Styleclass="btn btn-dark"></apex:commandbutton> -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                </apex:form>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!showAfterTaskScreen}">
+                <script>
+                 $('#SuccessModel').modal({backdrop: 'static', keyboard: false});
+                </script>
+                 <div class="slds-scope">
+                    <div class="modal fade" id="SuccessModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content" style="margin-top : 40%">
+                                <div class="modal-header">
+                                    <h5 class="modal-title slds-text-heading_small" id="exampleModalLabel">Thank you!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div ></div>
+                                <div class="modal-body">
+                                    <center>
+                                       Based on your responses, changes are needed to this quote.  An underwriter will contact you shortly.
+                                    </center>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" style="background : #f35b3f !important" class="btn btn-default " data-dismiss="modal" >Close</button>
+                                    <!--<apex:commandbutton value="Exit" action="{!URLFOR($Page.CIContractManagerDashboard)}"  Styleclass="btn btn-dark"></apex:commandbutton> -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+             <apex:outputPanel rendered="{!notRecordTypeApp}">
+                  <div style="margin-top : 20%; color: red;">
+                      This policy is already in effect or has been rejected. Please contact the underwriter in case of any discrepancies.
+                 </div>
+                
+               
+            </apex:outputPanel>
+        </apex:outputPanel>
+       
+        
+    </div>
+    
+</div>
+</div>
+<apex:includeScript value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/js/jquery-1.11.1.min.js')}"/>
+
+<apex:includeScript value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/bootstrap/js/bootstrap.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/js/jquery.backstretch.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/js/retina-1.1.0.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.Customer_Application_Bootstrap_Assets, 'assets/js/scripts.js')}"/> 
+</body>
+</apex:page>

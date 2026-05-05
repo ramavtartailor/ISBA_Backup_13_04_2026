@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Memo_Claim_Type_Not_AllowFor_Detail_Rcd</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISPICKVAL(Policy_Claim__r.File_Type__c, &apos;Memo&apos;)</errorConditionFormula>
+    <errorMessage>&apos;Memo&apos; claims are only stored in the system as stand alone, details records are not created for claim type &apos;Memo&apos;!</errorMessage>
+</ValidationRule>

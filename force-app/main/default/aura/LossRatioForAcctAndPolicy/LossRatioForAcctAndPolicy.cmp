@@ -1,0 +1,144 @@
+<aura:component controller="LossRatioCtrl" implements="force:lightningQuickAction,force:hasRecordId,flexipage:availableForAllPageTypes" access="global"  >
+    
+    <aura:attribute name="wrapper" type="object" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="Record Details"> 
+        <lightning:card variant="Narrow" iconName="standard:account" title="LOSS RATIO" class="slds-size_11-of-11" >
+            <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__body" >
+                            <h2 id="header_1420:0" >
+                                <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                                    <b>Total Premium</b>&nbsp;<lightning:formattedNumber value="{!v.wrapper.totalPremium}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                </span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__body" >
+                            <h2 id="header_1420:0" >
+                                <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                                    <b>Incurred</b>
+                                </span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body" >
+                    <div class="" >
+                        <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                            <div class="">
+                                <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                    <div class="listViewContent" >
+                                        <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                            <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                                <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Expense
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.incurredExpense}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                            <th scope="row">
+                                                                Total
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.incurredTotal}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Indemnity
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.incurredIndeminty}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                            <th scope="row">
+                                                                /Premium 
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.incurredPremium}" maximumFractionDigits="2"  minimumFractionDigits="2"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__body" >
+                            <h2 id="header_1420:0" >
+                                <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                                    <b>Payment</b>
+                                </span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body" >
+                    <div class="" >
+                        <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                            <div class="">
+                                <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                    <div class="listViewContent" >
+                                        <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                            <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                                <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Expense
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.paymentExpense}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                            <th scope="row">
+                                                                Total
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.paymentTotal}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                Indemnity
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.paymentIndeminty}" maximumFractionDigits="0"  minimumFractionDigits="0" style="currency" currencyCode="USD" currencyDisplayAs="symbol"/>
+                                                            </td>
+                                                            <th scope="row">
+                                                                /Premium 
+                                                            </th>
+                                                            <td scope="row" style="white-space: normal !important;">
+                                                                <lightning:formattedNumber value="{!v.wrapper.paymentPremium}" maximumFractionDigits="2"  minimumFractionDigits="2" />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </lightning:card>
+    </div>
+</aura:component>

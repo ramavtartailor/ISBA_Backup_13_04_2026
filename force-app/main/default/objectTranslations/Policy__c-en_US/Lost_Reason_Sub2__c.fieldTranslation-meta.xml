@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Lost Reason Sub2 --></label>
+    <name>Lost_Reason_Sub2__c</name>
+    <picklistValues>
+        <masterLabel>Employment - not private practice</masterLabel>
+        <translation><!-- Employment - not private practice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Government</masterLabel>
+        <translation><!-- Government --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBA Membership cost</masterLabel>
+        <translation><!-- ISBA Membership cost --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBA Mutual Insured</masterLabel>
+        <translation><!-- ISBA Mutual Insured --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New firm - Potential Prospect</masterLabel>
+        <translation><!-- New firm - Potential Prospect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New firm - not a Prospect</masterLabel>
+        <translation><!-- New firm - not a Prospect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quitting the Practice of Law</masterLabel>
+        <translation><!-- Quitting the Practice of Law --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

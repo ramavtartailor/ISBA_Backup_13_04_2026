@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Policy_Claim__c</label>
+    <protected>false</protected>
+    <values>
+        <field>fileforcem1__Allow_initial_folder_creation__c</field>
+        <value xsi:type="xsd:string">True</value>
+    </values>
+    <values>
+        <field>fileforcem1__Community_Settings__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Custom_Flow_Actions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Disable_File_Delete__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>fileforcem1__Disable_Folder_Delete__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>fileforcem1__Disable_Rename__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>fileforcem1__Document_Library_Id__c</field>
+        <value xsi:type="xsd:string">b!ax6frSLS90263X0CrsdE1KqKXwE5LcNIk1-WxSRhZa0AjM7kX30JS6P-OMUiVxCb</value>
+    </values>
+    <values>
+        <field>fileforcem1__Folder_Custom_Field_Default_Value__c</field>
+        <value xsi:type="xsd:string">SF_record_link:[SF_record_link__c],SF_added_by:[CurrentUser.Email],SF_alert_email:[Claim_Handler_Email__c],SF_alert_subject:[SF_file_alert_subject__c]</value>
+    </values>
+    <values>
+        <field>fileforcem1__Folder_Name_Field_Override__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Folder_Name_Field__c</field>
+        <value xsi:type="xsd:string">Name</value>
+    </values>
+    <values>
+        <field>fileforcem1__Initial_Folder_Structure__c</field>
+        <value xsi:type="xsd:string">{&quot;Folders&quot;:[
+{&quot;Name&quot;:&quot;CORRESPONDENCE&quot;},
+{&quot;Name&quot;:&quot;INVOICES&quot;},
+{&quot;Name&quot;:&quot;PLEADINGS&quot;}
+]}</value>
+    </values>
+    <values>
+        <field>fileforcem1__Link_Sharing_Settings__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Named_Credential__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Permissions__c</field>
+        <value xsi:type="xsd:string">UploadFiles,RenameFiles,DownloadFiles,DeleteFiles,SetupRecord,SetupSubfolders,AutoSetup,OpenSharePoint,CreatePublicLink</value>
+    </values>
+    <values>
+        <field>fileforcem1__Root_Folder_Id__c</field>
+        <value xsi:type="xsd:string">01BLZVNJV6Y2GOVW7725BZO354PWSELRRZ</value>
+    </values>
+    <values>
+        <field>fileforcem1__Run_Custom_Security_Per_Line__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>fileforcem1__Salesforce_Key_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Salesforce_Object_Id_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Salesforce_Object__c</field>
+        <value xsi:type="xsd:string">Policy_Claim__c</value>
+    </values>
+    <values>
+        <field>fileforcem1__Security_Method_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Setup_Large_Folder_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__SharePoint_Custom_Columns__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__SharePoint_Folder_Id_Override__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__SharePoint_Folder_Url_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__SharePoint_Key_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>fileforcem1__Sharepoint_Folder_Id_Field__c</field>
+        <value xsi:type="xsd:string">sharepoint_folder_id__c</value>
+    </values>
+    <values>
+        <field>fileforcem1__Site_Id__c</field>
+        <value xsi:type="xsd:string">isbamutualinsurance.sharepoint.com,ad9f1e6b-d222-4df7-badd-7d02aec744d4,015f8aaa-2d39-48c3-935f-96c5246165ad</value>
+    </values>
+    <values>
+        <field>fileforcem1__Upload_Url_Parameters__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

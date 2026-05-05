@@ -1,0 +1,48 @@
+<apex:page standardController="Policy__c" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    
+    <head>
+         <style>
+          .pad {
+            padding-left: 5px;
+          }
+        </style>
+        
+    </head>
+    
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+
+    
+    <body>
+        <div class="header" style="margin-top:50px;">
+                <p style="text-align:center;color:#000000;font-family: sans-serif;">
+                    <span style="font-weight: bold;font-size: 20px;">
+                        e-JD® Cyber Liability Insurance Master Policy<br/>
+                        Certificate of Insurance<br/>
+                    </span>
+                </p>
+        </div>
+        <div class="footer" style="width:100%">
+            <div style="width:50%;float:left">
+                <p class="normalParagraph">
+                   ISBA Master Policy Certificate of Insurance (2023)
+                </p>
+            </div>
+            <div style="width:50%;float:right">
+                <p style="text-align:right;" class="normalParagraph">
+                    Page&nbsp;<b><span class="pagenumber" /></b>&nbsp;of&nbsp;<b><span class="pagecount" /></b>
+                </p>
+            </div>
+        </div>   
+        <div class="content" style="">
+            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == null,true,false)}">
+                <c:NAS_EOC_Template recordIdParam="{!Policy__c.id}"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '4/22',true,false)}">
+                <c:NAS_EOC_Template_4_22 recordIdParam="{!Policy__c.id}"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '4/23',true,false)}">
+                <c:NAS_EOC_Template_4_23 recordIdParam="{!Policy__c.id}"/>
+            </apex:outputPanel>
+        </div>
+    </body>
+</apex:page>

@@ -1,0 +1,129 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Amendment of <span style="font-weight: bolder;">Extended Reporting Period</span> for Solo Practitioners Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VII. EXTENDED REPORTING PERIODS, A. </span>Optional<span class="normalBoldParagraph"> Extended Reporting Period, 5. </span>is amended to include the following:
+    </p>
+    <p class="normalParagraph">
+        Notwithstanding anything herein to the contrary, if the<span class="normalBoldParagraph"> Named Insured </span>consists of only one Lawyer who is an<span class="normalBoldParagraph"> Insured </span>pursuant to<span class="normalBoldParagraph"> III. DEFINITIONS, I. Insured, 1. a., </span>such<span class="normalBoldParagraph"> Named Insured</span>, or the estate, heirs, executors or administrators of such<span class="normalBoldParagraph"> Insured </span>in the event of death, will have the right to purchase an<span class="normalBoldParagraph"> Extended Reporting Period </span>for an unlimited period of time.
+    </p>
+    <p class="normalParagraph">
+        The premium for the Unlimited Optional<span class="normalBoldParagraph"> Extended Reporting Period </span>will be:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:60%" align="center">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    Number of Years<br/>
+                    Continuously Insured<br/>
+                    <u>by ISBA Mutual</u>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    Percentage of the Full<br/>
+                    Annual Premium as Stated<br/>
+                    <u>in Item 6 of the Declarations</u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;"  class="normalParagraph ztableDataCenter">
+                    1-4 years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    250%
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;"  class="normalParagraph ztableDataCenter">
+                    5 years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    225%
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;"  class="normalParagraph ztableDataCenter">
+                    6 years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    200%
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;"  class="normalParagraph ztableDataCenter">
+                    7 years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    175%
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;" class="normalParagraph ztableDataCenter">
+                    8 years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    150%
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;"  class="normalParagraph ztableDataCenter">
+                    9 years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    125%
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%; " class="ztableDataCenter">
+                <div style="height: 8px; margin-left: 70px;"  class="normalParagraph ztableDataCenter">
+                    10 <u>or more</u> years
+                </div>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <span class="normalParagraph tableDataCenter">
+                    100%
+                </span>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both; padding-top: 15px;">
+    </div>
+    <p class="normalParagraph">
+        This endorsement does not apply if at any time the<span class="normalBoldParagraph"> Named Insured </span>was not a solo practitioner as defined in<span class="normalBoldParagraph"> III. DEFINITIONS, I. Insured, 1. a. </span>
+    </p><br/><br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

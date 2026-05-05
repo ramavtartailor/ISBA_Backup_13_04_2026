@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>O</fullName>
+        <default>false</default>
+        <label>Owner</label>
+    </customValue>
+    <customValue>
+        <fullName>P</fullName>
+        <default>false</default>
+        <label>Partner</label>
+    </customValue>
+    <customValue>
+        <fullName>A</fullName>
+        <default>false</default>
+        <label>Associate</label>
+    </customValue>
+    <customValue>
+        <fullName>SH</fullName>
+        <default>false</default>
+        <label>Shareholder</label>
+    </customValue>
+    <customValue>
+        <fullName>M</fullName>
+        <default>false</default>
+        <label>Member</label>
+    </customValue>
+    <customValue>
+        <fullName>D</fullName>
+        <default>false</default>
+        <label>Director</label>
+    </customValue>
+    <customValue>
+        <fullName>IC</fullName>
+        <default>false</default>
+        <label>Independent Contractor</label>
+    </customValue>
+    <customValue>
+        <fullName>OC</fullName>
+        <default>false</default>
+        <label>Of Counsel</label>
+    </customValue>
+    <customValue>
+        <fullName>CE</fullName>
+        <default>false</default>
+        <label>Contract Employee</label>
+    </customValue>
+    <customValue>
+        <fullName>TSL</fullName>
+        <default>false</default>
+        <label>Temporary Staff Lawyer</label>
+    </customValue>
+    <customValue>
+        <fullName>OF</fullName>
+        <default>false</default>
+        <label>Officer</label>
+    </customValue>
+    <customValue>
+        <fullName>E</fullName>
+        <default>false</default>
+        <label>Employee</label>
+    </customValue>
+    <masterLabel>Contact Role</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

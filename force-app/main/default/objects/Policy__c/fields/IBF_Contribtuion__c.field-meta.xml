@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IBF_Contribtuion__c</fullName>
+    <label>IBF Contribtuion</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No IBF Contribution</fullName>
+                <default>false</default>
+                <label>No IBF Contribution</label>
+            </value>
+            <value>
+                <fullName>Yes - IBF Contribution Requested</fullName>
+                <default>false</default>
+                <label>Yes - IBF Contribution Requested</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UnallocatedARDCFirstPaymentPolicyBal</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name = &apos;Unallocated LAE&apos; &amp;&amp;
+ ISPICKVAL(  Policy_Claim__r.File_Type__c , &apos;ARDC Complaint&apos;) &amp;&amp;
+ ISPICKVAL(  Type__c , &apos;Claim Coverage - ARDC&apos;) &amp;&amp;
+ Not(ISNULL( ISBA_First_Payment__c )) &amp;&amp;
+ ISBA_First_Payment__c &gt;  00N4A00000G9JnW.00N4A00000G9JnX.00N4A00000G9K02</errorConditionFormula>
+    <errorDisplayField>ISBA_First_Payment__c</errorDisplayField>
+    <errorMessage>ISBA First payment should not exceed from &apos;Policy ARDC Balanced&apos;!</errorMessage>
+</ValidationRule>

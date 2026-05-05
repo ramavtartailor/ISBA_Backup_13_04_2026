@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lawyer_Name__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Lawyer__c &lt;&gt; null, Lawyer__r.Lawyer_Name__c,  IF( Policy_Lawyer__c &lt;&gt; null, Policy_Lawyer__r.Lawyer__r.Lawyer_Name__c,  IL_152_First_Name__c+ IF(IL_152_Middle_Name__c &lt;&gt; null, &apos; &apos;+ IL_152_Middle_Name__c , &apos;&apos;)  +&apos; &apos;+  IL_152_Last_Name__c ) )</formula>
+    <label>Lawyer Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- EventType Name --></label>
+    <name>EventType_Name__c</name>
+    <picklistValues>
+        <masterLabel>Deductible Expense</masterLabel>
+        <translation><!-- Deductible Expense --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deductible Loss</masterLabel>
+        <translation><!-- Deductible Loss --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LAE Payment</masterLabel>
+        <translation><!-- LAE Payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Loss Payment</masterLabel>
+        <translation><!-- Loss Payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SBE</masterLabel>
+        <translation><!-- SBE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SBL</masterLabel>
+        <translation><!-- SBL --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,347 @@
+<aura:component controller = "FirmModeHelper" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="wrapObj" type="Object" />
+    <aura:attribute name="policyRecord" type="Object" />
+    <aura:attribute name="oldPolicyRecord" type="Object" />
+    <aura:attribute name="lFactor" type="Decimal" />
+    <aura:attribute name="dFactor" type="Decimal" />
+    <aura:attribute name="cpRate" type="Decimal" />
+    <aura:attribute name="c41Rate" type="Decimal" />
+    <aura:attribute name="recordError" type="String" />
+    
+    <force:recordData aura:id="recordEditor"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.policyRecord}"
+                      mode="VIEW" />
+    {!v.recordError}
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                            <b>Firm Mod Information</b>
+                        </span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">
+                                                        SCH Mod
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.policyRecord.SCH_Mod__c}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.SCH_Mod__c != v.wrapObj.oldPolicyObj.SCH_Mod__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.oldPolicyObj.SCH_Mod__c}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        GEO Mod
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.policyRecord.GEO_Mod__c}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.GEO_Mod__c != v.wrapObj.oldPolicyObj.GEO_Mod__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.oldPolicyObj.GEO_Mod__c}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Claims Factor
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.policyRecord.Claims_Factor__c}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.Claims_Factor__c != v.wrapObj.oldPolicyObj.Claims_Factor__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.oldPolicyObj.Claims_Factor__c}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        AOP Mod
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.policyRecord.AOP_Factor__c}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.AOP_Factor__c != v.wrapObj.oldPolicyObj.AOP_Factor__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.oldPolicyObj.AOP_Factor__c}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        ADJ Mod
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.policyRecord.ADJ_MOD__c}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.ADJ_MOD__c != v.wrapObj.oldPolicyObj.ADJ_MOD__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.oldPolicyObj.ADJ_MOD__c}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        <span style="font-size: medium;font-weight:bolder;">Firm Mod</span>
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        <span style="font-size: medium;">{!v.policyRecord.Firm_Mod__c}</span>
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.Firm_Mod__c != v.wrapObj.oldPolicyObj.Firm_Mod__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;<span style="font-size: medium;">{!v.wrapObj.oldPolicyObj.Firm_Mod__c}</span>      
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                                <!--aura:if isTrue="{!v.wrapObj.isSaErp}">
+                                                <tr>
+                                                    <th scope="row">
+                                                        <span style="font-size: medium;font-weight:bolder;">SA ERP Mod</span>
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        <span style="font-size: medium;">{!v.policyRecord.SA_ERP_Mod__c}</span>
+                                                    </td>
+                                                    <th scope="row">
+                                                        <span style="font-size: medium;font-weight:bolder;">Total Mod</span>
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        <span style="font-size: medium;">{!v.policyRecord.Firm_Mod__c * v.policyRecord.SA_ERP_Mod__c}</span>
+                                                    </td>
+                                                </tr>
+                                                </aura:if-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                            <b>Policy Factor Information</b>
+                        </span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Base Rate
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.policyRecord.Base_Amount__c}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.Base_Amount__c != v.wrapObj.oldPolicyObj.Base_Amount__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.oldPolicyObj.Base_Amount__c}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        Limit factor
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.wrapObj.lFactor}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.wrapObj.lFactor != v.wrapObj.lFactorPrev))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.lFactorPrev}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Deductible Factor
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.wrapObj.dFactor}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.wrapObj.dFactor != v.wrapObj.dFactorPrev))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.dFactorPrev}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        Ceded Primary Rate
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.wrapObj.cpRate}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.wrapObj.cpRate != v.wrapObj.cpRatePrev))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.cpRatePrev}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Ceded 4x1 Rate
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        {!v.wrapObj.c41Rate}
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.wrapObj.c41Rate != v.wrapObj.c41RatePrev))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp;{!v.wrapObj.c41RatePrev}        
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                            <b>Endorsement Mod Information</b>
+                        </span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Mod_230
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        <aura:if isTrue="{! v.policyRecord.Mod_230__c == null }">
+                                                            N/A
+                                                            <aura:set attribute="else">
+                                                                {!v.policyRecord.Mod_230__c}
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.Mod_230__c != v.wrapObj.oldPolicyObj.Mod_230__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp; 
+                                                                <aura:if isTrue="{! v.wrapObj.oldPolicyObj.Mod_230__c == null }">
+                                                                    N/A
+                                                                    <aura:set attribute="else">
+                                                                        {!v.wrapObj.oldPolicyObj.Mod_230__c} 
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        Mod_234
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        <aura:if isTrue="{! v.policyRecord.Mod_234__c == null }">
+                                                            N/A
+                                                            <aura:set attribute="else">
+                                                                {!v.policyRecord.Mod_234__c}
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.Mod_234__c != v.wrapObj.oldPolicyObj.Mod_234__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp; 
+                                                                <aura:if isTrue="{! v.wrapObj.oldPolicyObj.Mod_234__c == null }">
+                                                                    N/A
+                                                                    <aura:set attribute="else">
+                                                                        {!v.wrapObj.oldPolicyObj.Mod_234__c} 
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Mod_261
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        <aura:if isTrue="{! v.policyRecord.Mod_261__c == null }">
+                                                            N/A
+                                                            <aura:set attribute="else">
+                                                                {!v.policyRecord.Mod_261__c}
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!(AND(v.wrapObj.previousPolicy, v.policyRecord.Mod_261__c != v.wrapObj.oldPolicyObj.Mod_261__c))}">
+                                                            <div class="prevPolDetails">
+                                                                &nbsp;/&nbsp; 
+                                                                <aura:if isTrue="{! v.wrapObj.oldPolicyObj.Mod_261__c == null }">
+                                                                    N/A
+                                                                    <aura:set attribute="else">
+                                                                        {!v.wrapObj.oldPolicyObj.Mod_261__c} 
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </div>
+                                                        </aura:if>
+                                                    </td>
+                                                    <th scope="row">
+                                                        &nbsp;
+                                                    </th>
+                                                    <td scope="row" style="white-space: normal !important;">
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</aura:component>

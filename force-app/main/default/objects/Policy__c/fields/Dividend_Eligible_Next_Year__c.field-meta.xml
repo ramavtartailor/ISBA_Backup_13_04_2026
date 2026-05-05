@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dividend_Eligible_Next_Year__c</fullName>
+    <description>Test if policy will be eligible for a dividend next year</description>
+    <formula>(YEAR( Policy_Series_Effective_Date__c ) &lt;= (YEAR( Effective_Date__c ) - 1))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Dividend Eligible Next Year</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

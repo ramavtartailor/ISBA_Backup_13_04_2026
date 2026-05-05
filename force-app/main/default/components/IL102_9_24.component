@@ -1,0 +1,63 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Individual <span style="font-weight: bold;">Prior Acts Date</span> Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy excludes any<span class="normalBoldParagraph"> Claim </span>or<span class="normalBoldParagraph"> Disciplinary Proceeding </span>made against the<span class="normalBoldParagraph"> Insured </span>stated below for a<span class="normalBoldParagraph"> Wrongful Act </span>which occurred prior to their applicable Individual<span class="normalBoldParagraph"> Prior Acts Date </span>stated below:
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:10%">&nbsp;</td>
+            <td style="width:30%;" class="">
+                <p class="normalParagraph ">
+                    Name of <span class="b">Insured</span>
+                </p>
+            </td>
+            <td style="width:30%;" class="">
+                <p class="normalParagraph ">
+                    ARDC Number
+                </p>
+            </td>
+            <td style="width:30%;" class="">
+                <p class="normalParagraph">
+                    Individual <span class="b">Prior Acts Date</span>
+                </p>
+            </td>
+        </tr>
+        <apex:repeat value="{!policyLawyers}" var="lawyer">
+            <tr>
+                <td style="width:10%">&nbsp;</td>
+                <td style="width:30%;" class="">
+                    <p class="normalParagraph">
+                        <apex:outputText value="{!lawyer.lawyername}"/>
+                    </p>
+                </td>
+                <td style="width:30%;" class="">
+                    <p class="normalParagraph">
+                        <apex:outputText value="{!lawyer.ardcNumber}"/>
+                    </p>
+                </td>
+                <td style="width:30%;" class="">
+                    <p class="normalParagraph">
+                        <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!lawyer.priorActsDate}" /> </apex:outputText>
+                    </p>
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    <br/>
+    <br/><br/><br/><br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!--<div style="width:30%;margin-top:110px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div>-->
+    <div style="clear:both;">
+        
+    </div>
+</apex:component>

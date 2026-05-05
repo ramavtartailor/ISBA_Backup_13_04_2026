@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Step_Override_Empty</fullName>
+    <active>true</active>
+    <description>If the step override check is not true than set override value should be empty.</description>
+    <errorConditionFormula>AND(Step_Override__c = false, NOT(ISNULL(Step_Override_Value__c)))</errorConditionFormula>
+    <errorDisplayField>Step_Override_Value__c</errorDisplayField>
+    <errorMessage>Step Override Value should be empty if Step Override is not checked!</errorMessage>
+</ValidationRule>

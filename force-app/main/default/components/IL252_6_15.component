@@ -1,0 +1,76 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Three Sets of Limit of Liability Endorsement
+    </p>
+    <p class="normalParagraph">
+        The below is subject to the<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>. It is agreed that the Limit of Liability referred to in Item 6 of the Declarations is amended to read as follows:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalBoldParagraph">
+                    A.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    With respect to any<span class="normalBoldParagraph"> CLAIM </span>made during the<span class="normalBoldParagraph"> POLICY TERM </span>arising out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>which occurred prior to &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Second_Effective_Date__c}" /> </apex:outputText><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:outputField value="{!endorsement.First_Per_Claim__c}"/>&nbsp; per<span class="normalBoldParagraph"> CLAIM </span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Inclusive of damages and claim expenses)<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:outputField value="{!endorsement.First_Aggregate__c}"/>&nbsp; in the aggregate<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Inclusive of damages and claim expenses)<br/>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalBoldParagraph">
+                    B.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    With respect to any<span class="normalBoldParagraph"> CLAIM </span>made during the<span class="normalBoldParagraph"> POLICY TERM </span>arising out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>which occurred on or after &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Second_Effective_Date__c}" /> </apex:outputText>&nbsp; and prior to &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Third_Effective_Date__c}" /> </apex:outputText><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:outputField value="{!endorsement.Second_Per_Claim__c}"/>&nbsp; per<span class="normalBoldParagraph"> CLAIM </span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Inclusive of damages and claim expenses)<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:outputField value="{!endorsement.Second_Aggregate__c}"/>&nbsp; in the aggregate<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Inclusive of damages and claim expenses)<br/>
+                    It is also agreed that for a<span class="normalBoldParagraph"> CLAIM </span>arising out of<span class="normalBoldParagraph"> WRONGFUL ACT </span>s which occurred prior and subsequent to &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Second_Effective_Date__c}" /> </apex:outputText>&nbsp;, and which occurred in its entirety prior to &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Third_Effective_Date__c}" /> </apex:outputText>&nbsp;, the Limit of Liability for such<span class="normalBoldParagraph"> CLAIM </span>shall not exceed &nbsp;<apex:outputField value="{!endorsement.Second_Per_Claim__c}"/>&nbsp; per<span class="normalBoldParagraph"> CLAIM </span>and &nbsp;<apex:outputField value="{!endorsement.Second_Aggregate__c}"/>&nbsp; in the aggregate.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalBoldParagraph">
+                    C.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    With respect to any<span class="normalBoldParagraph"> CLAIM </span>made during the<span class="normalBoldParagraph"> POLICY TERM </span>arising out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>which occurred on or after &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Third_Effective_Date__c}" /> </apex:outputText><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:outputField value="{!endorsement.Third_Per_Claim__c}"/>&nbsp; per<span class="normalBoldParagraph"> CLAIM </span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Inclusive of damages and claim expenses)<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:outputField value="{!endorsement.Third_Aggregate__c}"/>&nbsp; in the aggregate<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Inclusive of damages and claim expenses)<br/>
+                    It is agreed that for a<span class="normalBoldParagraph"> CLAIM </span>arising out of<span class="normalBoldParagraph"> WRONGFUL ACT </span>s which occurred prior and subsequent to &nbsp;<apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Third_Effective_Date__c}" /> </apex:outputText>&nbsp;, the Limit of Liability for such<span class="normalBoldParagraph"> CLAIM </span>shall not exceed &nbsp;<apex:outputField value="{!endorsement.Third_Per_Claim__c}"/>&nbsp; per<span class="normalBoldParagraph"> CLAIM </span>and &nbsp;<apex:outputField value="{!endorsement.Third_Aggregate__c}"/>&nbsp; in the aggregate.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:0px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

@@ -1,0 +1,2207 @@
+.THIS * {
+    --primary-color: black;
+    color: var(--primary-color);
+    --secondary-color: red;
+    --bgcolor: rgb(244, 244, 246);
+    --padding-small: .5rem;
+    --padding-medium: 1rem;
+    --padding-large: 2rem;
+    --gap-medium: 1rem;
+    --gap-small: 0.5rem;
+    --gap-large: 2rem;
+    --border-radius: 0.4rem;
+    /* --border-radius: 12px; */
+    --box-shadow: 1px 2px 10px rgb(169 164 164 / 12%);
+    --border: 1.4px solid #c8c4c4;
+    --border-color: #c8c4c4;
+
+    /* --mainHeading_size: 1.4rem;
+    --mainHeading_family: 'TitilliumWeb-SemiBold';
+
+    --normalHeading_size: 1rem;
+    --normalHeading_family: 'TitilliumWeb-SemiBold';
+
+    --normalText_size: 1rem;
+    --normalText_family: 'TitilliumWeb-Regular';
+
+    --smallText_size: .6rem;
+    --smallText_family: 'TitilliumWeb-Light'; */
+
+    --text_bold: Arial, sans-serif;
+    --text_semibold: Arial, sans-serif;
+    --text_regular: Arial, sans-serif;
+    --text_light: Arial, sans-serif;
+
+    --card-textColor: white;
+    --card-textColor-saved: var(--primary-color);
+
+
+
+    --mainHeading_size: 1.4rem;
+    /*--mainHeading_family: 'TitilliumWeb-SemiBold';*/
+    --mainHeading_family: Arial, sans-serif;
+
+    --normalHeading_size: 1rem;
+    /*--normalHeading_family: 'TitilliumWeb-SemiBold';*/
+    --normalHeading_family: Arial, sans-serif;
+
+    --normalText_size: 1rem;
+    /*--normalText_family: 'TitilliumWeb-Regular';*/
+    --normalText_family: Arial, sans-serif;
+
+    --labelText_size: .8rem;
+    /*--labelText_family: 'TitilliumWeb-Regular';*/
+    --labelText_family: Arial, sans-serif;
+
+    --smallText_size: .6rem;
+    /*--smallText_family: 'TitilliumWeb-Light';*/
+    --smallText_family: Arial, sans-serif;
+
+
+
+    --labelText_size: .8rem;
+    /*--labelText_family: 'TitilliumWeb-Regular';*/
+    --labelText_family: Arial, sans-serif;
+
+}
+
+.THIS.wholePage {
+    background-color: rgb(244 244 244);
+    height: 100%;
+    min-height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+
+.THIS .header {
+    /* padding: var(--padding-large);
+    box-shadow: var(--box-shadow);
+    background-color: white;
+    border-radius: var(--border-radius); */
+}
+
+.THIS .isbam_primary_red {
+    color: #89001B;
+}
+.THIS .AddLawyerModal{
+    flex-wrap: wrap;
+ 	gap: 1%; 
+    justify-content: space-between; 	
+	width: 65rem;
+ 	font-size: 0.75rem;
+    overflow:auto;
+}
+
+.THIS .iframeWidth{width:45rem;}
+.THIS .DisplayMobile{display:none !important ;}
+.THIS .DisplayDesktop{display:block !important;}
+
+.THIS .container {
+    position: relative;
+    align-items: stretch;
+    padding: var(--padding-large);
+}
+
+.THIS .leftPanel {
+    background-color: white;
+    min-width: 20rem;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+}
+
+.THIS .rightPanel {
+    flex: 4
+}
+
+.THIS .bankCard {
+    min-width: 18rem !important;
+}
+
+/* .THIS .itemBox {
+    background-color: white;
+    border-radius: var(--border-radius);
+    transition: all ease-in-out;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    text-align: center;
+}
+
+.THIS .itemBox:hover {
+    transition: all ease-in-out;
+    -webkit-transition: background-color 2s ease-out;
+    -moz-transition: background-color 2s ease-out;
+    -o-transition: background-color 2s ease-out;
+    background-color: var(--primary-color);
+    color: white;
+
+} */
+
+/* ITEMBOX STYLE */
+
+.THIS .itemBox {
+    color: var(--primary-color);
+    background-color: white;
+    border-radius: var(--border-radius);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all ease-in 0.3s;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+}
+
+.THIS .ltngInput input {
+    /* padding: .4rem; */
+    border-radius: .5rem;
+    border: var(--border);
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+
+.THIS .ltngInput select {
+    /* padding: .4rem; */
+    border-radius: .5rem;
+    border: var(--border);
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .itemBox span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    /* background-color: var(--primary-color); */
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+    transform: translateY(150%);
+    border-radius: 50%;
+    left: calc((var(--n) - 1) * 25%);
+    transition: 0.5s;
+    transition-delay: calc((var(--n) - 1) * 0.1s);
+    z-index: -1;
+}
+
+.THIS .itemBox:hover {
+    color: white;
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+}
+
+.THIS .itemBox:hover span {
+    transform: translateY(0) scale(2);
+}
+
+.THIS .isActiveSpan span {
+    transform: translateY(0) scale(2);
+}
+
+.THIS .isActiveSpan {
+    transition: all ease-in 0.8s;
+    color: white !important;
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+}
+
+.THIS .itemBox span:nth-child(1) {
+    --n: 1;
+}
+
+.THIS .itemBox span:nth-child(2) {
+    --n: 2;
+}
+
+.THIS .itemBox span:nth-child(3) {
+    --n: 3;
+}
+
+.THIS .itemBox span:nth-child(4) {
+    --n: 4;
+}
+
+.THIS .isActive {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.THIS .rightBottomPanel {
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.THIS .head {
+    font-family: var(--normalHeading_family);
+    font-size: var(--normalText_size);
+}
+
+.THIS .value {
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .modalButton,
+.THIS .myButton {
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: .5rem 1rem;
+    color: white;
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .modalButton {
+    padding: .3rem 2rem;
+    text-align: center;
+}
+
+.THIS .listButton {
+    padding: 0.3rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    color: white;
+}
+
+.THIS .successBut {
+    /* background-image: linear-gradient(to bottom, #d1292c, #C8232A, #b21724); */
+    background-color: #34D39D;
+    color: white;
+    border: var(--border);
+    border-color: #34D39D;
+    text-align: center
+}
+
+.THIS .positiveBut {
+    /* background-color: #EAEAEC; */
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+    color: white;
+    border: var(--border);
+    border-color: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+    text-align: center
+}
+
+
+.THIS .negativeButt {
+    background-color: #eaeaec;
+    color: var(--primary-color);
+    border: var(--border);
+    border-color: #eaeaec;
+    background-image: none;
+    text-align: center
+}
+
+.THIS .negativeBut {
+    background-color: #EAEAEC;
+    color: var(--primary-color);
+    border: var(--border);
+    border-color: #EAEAEC;
+    text-align: center
+}
+
+.THIS .borderBut {
+    background-color: white;
+    border: var(--border);
+    color: var(--primary-color);
+}
+
+.THIS .borderBox {
+    border: var(--border);
+    border-radius: var(--border-radius);
+}
+
+.THIS .scrollableDiv {
+    overflow: auto;
+}
+
+.THIS .hoverScrollableDiv {
+    overflow: auto;
+}
+
+.THIS .hoverScrollableDiv::-webkit-scrollbar {
+    width: 4px;
+}
+
+.THIS .successScreenhelp {
+    flex: 1;
+}
+
+.THIS .hoverScrollableDiv::-webkit-scrollbar-thumb {
+    background-color: rgb(85 85 85 / 37%);
+    border-radius: var(--border-radius);
+}
+
+.THIS .hoverScrollableDiv::-webkit-scrollbar-track {
+    background-color: var(--border-color);
+}
+
+/* 
+.THIS .hoverScrollableDivOnHover:hover.hoverScrollableDiv::-webkit-scrollbar-track {
+    display: block;
+} */
+
+.THIS .textCenter {
+    text-align: center;
+}
+
+.THIS .textRight {
+    text-align: right;
+}
+
+.THIS .smallPadding {
+    padding: var(--padding-small);
+}
+
+.THIS .mediumPadding {
+    padding: var(--padding-medium);
+}
+
+.THIS .largePadding {
+    padding: var(--padding-large);
+}
+
+.THIS .borderBox {
+    border-radius: var(--border-radius);
+    width: 100%;
+    border: var(--border);
+}
+
+.THIS .hori_seperator {
+    background-color: #e8e8e8;
+    min-width: 0.1rem;
+}
+
+.THIS .vert_seperator {
+    background-color: #e8e8e8;
+    min-height: 0.1rem;
+}
+
+
+/* TEXT classes */
+
+.THIS .mainHeading {
+    font-size: var(--mainHeading_size);
+    font-family: var(--mainHeading_family);
+}
+
+.THIS .normalHeading {
+    font-size: var(--normalHeading_size);
+    font-family: var(--normalHeading_family);
+}
+
+.THIS .normalText {
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .normalTextWithNormalHeadingBold {
+    font-family: var(--normalHeading_family);
+    font-size: var(--normalText_size);
+}
+
+.THIS .smallText {
+    font-size: var(--smallText_size);
+    font-family: var(--smallText_family);
+}
+
+/* flex Property */
+.THIS .dflex {
+    display: flex;
+}
+
+.THIS .dflexcol {
+    display: flex;
+    flex-direction: column;
+}
+
+.THIS .dflexcen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .dflexcolcen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.THIS .dflexac {
+    align-items: center;
+}
+
+.THIS .dflexae {
+    align-items: flex-end;
+}
+
+.THIS .dflexje {
+    justify-content: flex-end;
+}
+
+.THIS .dflexjc {
+    justify-content: center;
+}
+
+.THIS .dflexjspace {
+    justify-content: space-between;
+}
+
+.THIS .dflexfo {
+    flex: 1;
+}
+
+.THIS .dflexft {
+    flex: 2;
+}
+
+.THIS .gap {
+    gap: var(--gap-medium);
+}
+
+.THIS .smallGap {
+    gap: var(--gap-small);
+}
+
+.THIS .largeGap {
+    gap: var(--gap-large);
+}
+
+/* font style */
+@font-face {
+    font-family: 'TitilliumWeb-Regular';
+    src: url(/EZQApplication/resource/PaymentGatewayResource/PaymentGatewayResource/fonts/TitiliumWebFonts/TitilliumWeb-Regular.ttf );
+}
+
+@font-face {
+    font-family: 'TitilliumWeb-Bold';
+    src: url(/EZQApplication/resource/PaymentGatewayResource/PaymentGatewayResource/fonts/TitiliumWebFonts/TitilliumWeb-Bold.ttf );
+}
+
+@font-face {
+    font-family: 'TitilliumWeb-SemiBold';
+    src: url(/EZQApplication/resource/PaymentGatewayResource/PaymentGatewayResource/fonts/TitiliumWebFonts/TitilliumWeb-SemiBold.ttf );
+}
+
+@font-face {
+    font-family: 'TitilliumWeb-Light';
+    src: url(/EZQApplication/resource/PaymentGatewayResource/PaymentGatewayResource/fonts/TitiliumWebFonts/TitilliumWeb-Light.ttf );
+}
+
+
+
+/* POPUP */
+.THIS.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0 0 0 / 70%);
+    z-index: 1000;
+    /* display: flex; */
+    display: none;
+    padding: 0;
+}
+
+.THIS .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0 0 0 / 70%);
+    z-index: 2000;
+    display: none;
+    /* display: flex; */
+    padding: 0;
+}
+
+.THIS.openPopup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .openPopup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .popupModal {
+    background-color: white;
+    border-radius: var(--border-radius);
+    position: relative;
+    /*width: 55rem;*/
+    /* max-height: 37.4rem; */
+    /* max-height: 42.3rem; */
+    /* height: 100%; */
+    min-width: 25rem;
+    transition: all ease-in 0.8s;
+}
+
+.THIS .smallPopupModalThree {
+    background-color: white;
+    border-radius: var(--border-radius);
+    position: relative;
+    width: fit-content !important;
+    max-height: unset !important;
+    height: fit-content !important;
+    min-width: unset !important;
+    transition: all ease-in .8s;
+}
+
+.THIS.smallPopupModal .popupModal {
+    width: 20rem;
+    padding: var(--padding-medium)
+}
+
+.THIS.smallPopupModalTwo .popupModal {
+    width: fit-content;
+    height: fit-content;
+}
+
+.THIS .popupHeader {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.THIS .popupContainer {
+    overflow: hidden;
+    padding: var(--padding-medium);
+    padding-top: 0;
+    max-height: 80vh;
+}
+
+.THIS .popupCloseButton {
+    background-color: rgb(244 244 244);
+    padding: .5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    color: white;
+}
+
+.THIS .popupFooter {
+    /* box-shadow: 1px -3px 10px rgb(169 164 164 / 12%); */
+    background-color: var(--bgcolor);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+/* TABS */
+.THIS .tab {
+    padding: 0 var(--padding-medium);
+}
+
+.THIS .tabHeading {
+    text-align: center;
+    padding: .5rem 0;
+    color: #878787;
+    border-bottom: var(--border);
+    cursor: pointer;
+    background-color: rgb(242 242 242);
+}
+
+.THIS .tabHeading:hover {}
+
+.THIS .activeTab {
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+    background-color: white;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.THIS .tabHeader {
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+    background: white;
+}
+
+.THIS .tabData {
+    display: none;
+}
+
+.THIS .tabContainer {
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.THIS .activeTabData {
+    display: flex;
+}
+
+
+/* input Fields */
+
+.THIS .inputField .label {
+    color: black !important;
+}
+
+.THIS .inputField {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+}
+
+.THIS .inputField input,
+.THIS .inputField select {
+    padding: .4rem;
+    border-radius: .5rem;
+    border: var(--border);
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .errorInput {
+    outline: var(--border);
+    outline-color: red !important;
+    outline-width: 2px;
+    background: rgb(255 0 0 / 8%);
+    border: none !important;
+}
+
+.THIS .inputField input:focus-visible,
+.THIS .inputField select:focus-visible {
+    outline: var(--border);
+    outline-width: 2px;
+}
+
+.THIS .inputField .label {
+    color: rgb(153 153 153);
+    font-size: var(--labelText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .inputField input::-webkit-outer-spin-button,
+.THIS .inputField input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.THIS .inputField input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+.THIS .paddingBottom {
+    padding-bottom: var(--padding-medium);
+}
+
+/* Dispaly Card */
+@keyframes shine {
+    10% {
+        opacity: 1;
+        top: -30%;
+        left: -30%;
+        transition-property: left, top, opacity;
+        transition-duration: 0.7s, 0.7s, 0.15s;
+        transition-timing-function: ease;
+    }
+
+    100% {
+        opacity: 0;
+        top: -30%;
+        left: -30%;
+        transition-property: left, top, opacity;
+    }
+}
+
+.THIS .displayEcheckSample {
+    width: 19rem;
+    height: 10rem;
+    margin: 0 auto;
+}
+
+.THIS .displayEcheckSample img {
+    width: 19rem;
+}
+
+.THIS .displayCard {
+    perspective: 150rem;
+    position: relative;
+    width: 19rem;
+    height: 10rem;
+    margin: 0 auto;
+}
+
+.THIS .displayCard-saved {
+    height: 9rem;
+    cursor: pointer;
+    min-width: 15rem;
+    /* background: #525252; */
+    background: rgb(146 0 0);
+    /* border-radius: var(--border-radius); */
+    /* background-image: linear-gradient(to bottom right, rgb(200 200 200 / 72%), rgba(255, 255, 255, 0.62), rgb(230 230 230 / 52%)); */
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 7px 2px rgba(141, 141, 141, 0.478);
+    transition: all ease-in-out .35s;
+    z-index: 2;
+}
+
+.THIS .displayCard-saved:hover {
+    /* background-image: linear-gradient(to bottom right, rgb(230 230 230 / 52%), rgb(200 200 200 / 72%), rgba(255, 255, 255, 0.62)); */
+    background-color: #b90000;
+}
+
+.THIS .deleteParent {
+    position: relative;
+}
+
+.THIS .displayCard-saved:hover .deleteButtonDiv {
+    right: -1rem;
+    top: -1rem;
+    opacity: 1;
+    background: #d1d1d1;
+    border-radius: 100%;
+    padding: 0.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+.THIS .deleteButtonDiv {
+    top: 0;
+    right: 0;
+    opacity: 0;
+    position: absolute;
+    transition: all ease-in-out .35s;
+    z-index: 1;
+}
+
+.THIS .card__side {
+    height: 100%;
+    width: 100%;
+    -webkit-transition: all 0.8s ease;
+    transition: all 0.8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, rgb(75 15 15 / 86%), #89011A, rgb(40 0 0));
+    /* background-image: linear-gradient(to bottom right, #1e1e1e, #2a2a2a, #505050); */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 1px 2px 10px rgb(102 102 102);
+    -webkit-box-shadow: 0 1.5rem 4rem rgba(182, 182, 182, 0.15);
+}
+
+.THIS .card__side:after {
+    animation: shine 5s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    content: "";
+    position: absolute;
+    top: -110%;
+    left: -210%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    transform: rotate(30deg);
+    background: linear-gradient(to right, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 8%) 77%, rgba(255, 255, 255, 0.5) 92%, rgba(255, 255, 255, 0.0) 100%);
+}
+
+.THIS .card__side:active:after {
+    opacity: 0;
+}
+
+/* card front side  */
+
+.THIS .displayCardInner-front {
+    height: 100%;
+    gap: .2rem;
+}
+
+.THIS .displayCard:hover .displayCardInner-front {
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+}
+
+.THIS .onFocusFlipFront {
+    -webkit-transform: rotateY(-180deg) !important;
+    transform: rotateY(-180deg) !important;
+}
+
+.THIS .imageRow .chipImage {
+    width: 2.5rem;
+    color: var(--card-textColor);
+}
+
+.THIS .imageRow .wifiImage {
+    color: var(--card-textColor);
+    width: 2rem;
+}
+
+.THIS .cardHolderName,
+.THIS .cardNumber-saved,
+.THIS .cardNumberInd {
+    font-size: var(--normalHeading_size);
+    font-family: var(--normalHeading_family);
+    color: var(--card-textColor);
+}
+
+.THIS .defaultMethod {
+    color: var(--card-textColor);
+
+}
+
+.THIS .cardNumberInd {
+    letter-spacing: .35rem;
+    margin-right: -.35rem;
+}
+
+.THIS .expiryTitle {
+    white-space: pre-wrap;
+    width: 3rem;
+    text-align: center;
+    font-size: var(--smallText_size);
+    font-family: var(--normalText_family);
+    line-height: .6rem;
+    color: var(--card-textColor);
+}
+
+.THIS .expiryValue {
+    color: var(--card-textColor);
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .expiryValue-saved {
+    color: var(--card-textColor-saved);
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .cardHolderName {
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+}
+
+.THIS .cardTypeImage {
+    width: 3rem;
+    color: var(--card-textColor);
+}
+
+.THIS .cardTypeImage-saved {
+    width: 3rem;
+    color: var(--card-textColor-saved);
+}
+
+/* card back side */
+
+.THIS .displayCardInner-back {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    padding: var(--padding-medium) 0;
+}
+
+.THIS .onFocusFlipBack {
+    -webkit-transform: rotateY(0) !important;
+    transform: rotateY(0) !important;
+
+}
+
+
+.THIS .displayCard:hover .displayCardInner-back {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+}
+
+.THIS .stripRow {
+    background-color: white;
+    min-height: 2rem;
+}
+
+.THIS .cvvRow {
+    min-height: 2rem;
+    padding: 0 1.2rem;
+    padding-top: 1rem;
+}
+
+.THIS .cvvRow .signatureLine {
+    background-color: rgb(196, 196, 196);
+    min-height: 100%;
+}
+
+.THIS .cvvRow .cvv {
+    background-color: white;
+    text-align: center;
+    padding: 0 .2rem;
+}
+
+.THIS .dummyTextRow {
+    padding: 0 1rem;
+    padding-top: .5rem;
+    font-size: 0.4rem;
+    font-family: var(--normalText_family);
+    color: var(--card-textColor);
+    text-align: justify;
+}
+
+.THIS .transactionDetails {
+    width: 22rem;
+    margin: 0 auto;
+}
+
+.THIS .transactionDetails .head {
+    font-family: var(--normalText_family);
+    font-size: var(--normalText_size);
+}
+
+.THIS .totalAmount {
+    width: 22rem;
+    margin: 0 auto;
+    background: var(--bgcolor);
+    border-radius: var(--border-radius);
+    font-size: var(--normalHeading_size);
+    font-family: var(--normalHeading_family);
+}
+
+.THIS .autoPayCheckBox {
+    width: 22rem;
+    margin: 0 auto;
+    /* background: var(--bgcolor); */
+    border-radius: var(--border-radius);
+    font-size: var(--normalHeading_size);
+    font-family: var(--normalHeading_family);
+    padding: 1rem;
+}
+
+
+.THIS.autoPayCheckBoxContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.THIS .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: var(--bgcolor);
+}
+
+.THIS .autoPayCheckBoxContainer:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.THIS .autoPayCheckBoxContainer input:checked~.checkmark {
+    /* background-color: #2196F3; */
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.THIS .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.THIS .autoPayCheckBoxContainer input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.THIS .autoPayCheckBoxContainer .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+
+
+.THIS .imageBox {
+    height: 50%;
+}
+
+.THIS .paymentMessage {
+    text-align: center;
+}
+
+.THIS.toast {
+    position: fixed;
+    z-index: 20000;
+    background-color: white;
+    width: 55rem;
+    left: 50%;
+    top: 1rem;
+    margin-left: -27.5rem;
+    box-shadow: 0 0 4px 3px rgba(52, 52, 52, 0.42);
+    border-radius: 0.4rem;
+    display: flex;
+    background: #fff4f4;
+    display: none;
+}
+
+.THIS.showToast {
+    display: block !important;
+}
+
+.THIS.toast_err {
+    background: #fff4f4;
+}
+
+.THIS.toast_suc {
+    background: #fff4f4;
+}
+
+.THIS .toastCloseBut {
+    padding-right: var(--padding-small)
+}
+
+.THIS.fullScreenSpinner {
+    position: fixed;
+    display: none;
+    color: white;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    transition: all ease-in-out 1s;
+    background-color: rgba(0, 0, 0, 0.568);
+    opacity: 0;
+    z-index: 3000;
+}
+
+.THIS .modalSpinner {
+    display: none;
+    color: white;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    transition: all ease-in-out 1s;
+    background-color: rgba(0, 0, 0, 0.568);
+    opacity: 0;
+    z-index: 3000;
+    position: absolute;
+    border-radius: var(--border-radius);
+}
+
+.THIS.showFullScreenSpinner {
+    top: 0;
+    opacity: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex !important;
+}
+
+.THIS .showModalSpinner {
+    top: 0;
+    opacity: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex !important;
+}
+
+.THIS .successImage,
+.THIS .errorImage {
+    width: 80%;
+}
+
+.THIS .savedHeader {
+    padding: var(--padding-small) var(--padding-medium);
+    background-color: #f4f4f4;
+}
+
+.THIS .savedScrollable {
+    padding: var(--padding-small) var(--padding-medium);
+    overflow: auto;
+}
+
+.THIS .overflowHidden {
+    overflow: hidden;
+}
+
+.THIS .paymentMessageOnLoad {
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    border: 3px dashed var(--border-color);
+}
+
+.THIS .errorToastMessage {
+    display: list-item;
+    margin-left: 1rem;
+    color: #ff7d7d;
+    list-style: square;
+}
+
+.THIS .successToastMessage {
+    display: list-item;
+    margin-left: 1rem;
+    color: #34D39D;
+    list-style: square;
+}
+
+.THIS .opposites {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.THIS .opposites {
+    animation: opposites 2.5s ease-out 0s infinite;
+}
+
+.THIS .tl,
+.THIS .tr,
+.THIS .br,
+.THIS .bl {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+}
+
+.THIS .tl,
+.THIS .tr {
+    top: 0;
+}
+
+.THIS .tr,
+.THIS .br {
+    left: 30px;
+}
+
+.THIS .tl,
+.THIS .br {
+    animation: tlbr 2.5s ease-out 0s infinite;
+}
+
+.THIS .br,
+.THIS .bl {
+    top: 30px;
+}
+
+.THIS .tl,
+.THIS .bl {
+    left: 0;
+}
+
+.THIS .tr,
+.THIS .bl {
+    animation: trbl 2.5s ease-out 0s infinite;
+}
+
+.THIS .tl {
+    background: white;
+    transform-origin: bottom right;
+}
+
+.THIS .tr {
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+    transform-origin: bottom left;
+}
+
+.THIS .br {
+    background: white;
+    transform-origin: top left;
+}
+
+.THIS .bl {
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+    transform-origin: top right;
+}
+
+
+@keyframes tlbr {
+    0% {
+        transform: rotate(0);
+    }
+
+    20% {
+        transform: rotate(90deg);
+    }
+
+    40% {
+        transform: rotate(90deg);
+    }
+
+    60% {
+        transform: rotate(0);
+    }
+}
+
+@keyframes trbl {
+    20% {
+        transform: rotate(0);
+    }
+
+    40% {
+        transform: rotate(90deg);
+    }
+
+    60% {
+        transform: rotate(90deg);
+    }
+
+    80% {
+        transform: rotate(0);
+    }
+}
+
+@keyframes opposites {
+    80% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
+.THIS .leftBorder {
+    border-left: var(--border);
+}
+
+.THIS .newItemBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.THIS .leftLine {
+    width: 1rem;
+    height: 1.4px;
+    background-color: #e5e5e5;
+}
+
+.THIS .newPoints {
+    /* border: var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow); */
+    padding: 0 var(--padding-medium);
+    flex: 1;
+}
+
+.THIS .newPoints .head {
+    text-align: left;
+}
+
+.THIS .newPoints .value {
+    text-align: right;
+}
+
+.THIS .close {
+    background-color: #5A5A6A;
+}
+
+.THIS .save {
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+}
+
+.THIS .replace {
+    background-color: #5A5A6A;
+}
+
+.THIS .newButton lightning-icon {
+    --sds-c-icon-color-foreground-default: white;
+}
+
+.THIS .buttonItemBox {
+    color: var(--primary-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: .5s;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+}
+
+.THIS .itemBoxDisable {
+    cursor: not-allowed !important;
+    opacity: .5;
+    color: var(--primary-color);
+    background-color: white;
+    border-radius: var(--border-radius);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: var(--box-shadow);
+}
+
+.THIS .disableBut {
+    cursor: not-allowed !important;
+    opacity: .5 !important;
+}
+
+.THIS .scheduleData table tr th {
+    background: var(--bgcolor);
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+}
+
+.THIS .scheduleData table tr th,
+.THIS .scheduleData table tr td {
+    padding: 0.5rem !important;
+    border-bottom: var(--border);
+}
+
+.THIS .scheduleData table tr th,
+.THIS .scheduleData table tr:nth-last-child(1) td {
+    border-bottom: none;
+}
+
+.THIS .textCenter {
+    text-align: center;
+}
+
+.THIS .textRight {
+    text-align: right;
+}
+
+.THIS .statusDiv {
+    text-align: center;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.2rem;
+    width: fit-content;
+    margin: auto;
+}
+
+.THIS .paid {
+    background: #1dbb4d;
+}
+
+.THIS .billStatus {
+    background: #1dbb4d;
+    padding: 0.2rem 1rem;
+
+}
+
+.THIS .unpaid {
+    background: #747474;
+}
+
+.THIS .totalAmountInModal {
+    display: none !important;
+}
+
+.THIS .emailmessage {
+    text-align: right;
+    height: 1rem;
+}
+
+.THIS .emailmessageError {
+    color: red !important;
+}
+
+.THIS .successInput {
+    outline: var(--border);
+    outline-color: #34D39D !important;
+    outline-width: 2px;
+    background: rgb(255 0 0 / 8%);
+    border: none !important;
+}
+
+.THIS table th {
+    background-color: var(--bgcolor);
+    /* border-top: var(--border); */
+    /* border-bottom: var(--border); */
+    padding: 0.8rem 0.5rem;
+}
+
+.THIS table td {
+    /* padding: 0.5rem 0.5rem; */
+    padding: 0.8rem .5rem;
+    /* border-top: 1.4px solid hwb(0 90% 10% / 0.459); */
+    border-bottom: 1.4px solid rgba(229, 229, 229, 0.459);
+
+}
+
+.THIS .myTable {
+    border-collapse: separate;
+    border-spacing: 0 .5rem;
+    border-radius: var(--border-radius);
+}
+
+.THIS .amountField {
+    text-align: right;
+    margin: auto;
+    /* width: 60%; */
+}
+
+.THIS .myTable tr .tableHeadCell:nth-child(1) {
+    /* border-left: 1.4px solid rgba(229, 229, 229, 0.459); */
+    border-top-left-radius: var(--border-radius);
+}
+
+.THIS .myTable tr .tableHeadCell:nth-last-child(1) {
+    /* border-right: 1.4px solid rgba(229, 229, 229, 0.459); */
+    border-top-right-radius: var(--border-radius);
+}
+
+.THIS .myTable tr td:nth-child(1) {
+    /* border-left: 1.4px solid rgba(229, 229, 229, 0.459); */
+}
+
+.THIS .myTable tr td:nth-last-child(1) {
+    /* border-right: 1.4px solid rgba(229, 229, 229, 0.459); */
+}
+
+.THIS .myTable tr:nth-child(1) .tableDataCell:nth-child(1) {
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.THIS .myTable tr:nth-last-child(1) .tableDataCell:nth-last-child(1) {
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.THIS .buttonCol {
+    width: 12rem !important;
+}
+
+.THIS .payButt {
+    border-radius: 4rem;
+    background-color: #ff0000;
+    background-image: none;
+    border: none;
+}
+
+.THIS .modiSchButt {
+    border-radius: 4rem;
+    background-color: #008cd2;
+    background-image: none;
+    border: none;
+}
+
+.THIS .modiPayButt {
+    border-radius: 4rem;
+    background-color: #0023ff;
+    background-image: none;
+    border: none;
+}
+
+.THIS .buttonSection {
+    display: flex;
+}
+
+.THIS .billStatusText {
+    opacity: .4;
+    text-align: center;
+    font-size: .8rem;
+}
+
+.THIS .effectiveDateRightBottom input,
+.THIS .picklistSelectPaymentMethod select {
+    padding: .4rem;
+    border-radius: .5rem;
+    border: var(--border);
+    font-size: var(--normalText_size);
+    font-family: var(--normalText_family);
+}
+
+.THIS .timerParDiv {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    z-index: 10000;
+    box-shadow: 1px -6px 20px 3px rgb(0 0 0 / 22%);
+}
+
+.THIS .timerDiv {
+    background-image: linear-gradient(to bottom right, rgb(142 28 28 / 86%), #c60024, rgb(153 2 2));
+    /* padding: 1rem 1.2rem; */
+    /* padding: .5rem; */
+    color: white;
+    text-align: center;
+
+    gap: 0.5rem;
+}
+
+.THIS .rs_tableView {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.THIS .rs_ListView {
+    display: none;
+    flex-direction: column;
+}
+
+.THIS .expandButton {
+    padding: 0.5rem 1.5rem;
+    background: var(--bgcolor);
+    box-shadow: 0 1px 14px 4px rgb(144 144 144 / 48%);
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+}
+
+.THIS .amountRow {
+    padding: var(--padding-medium);
+}
+
+.THIS .amountCol {
+    text-align: center;
+}
+
+.THIS .hiddenDetails {
+    padding: var(--padding-medium);
+    display: none;
+    flex-direction: column;
+}
+
+.THIS .showHiddenDetails {
+    display: flex !important;
+}
+
+.THIS .rs_buttons {
+    display: none;
+    flex-direction: row !important;
+    z-index: 100;
+    justify-content: center;
+}
+
+.THIS .show_rs_buttons {
+    display: flex !important;
+}
+
+.THIS .hiddenDetails table tr td {
+    /* border-bottom: none; */
+    font-size: 25px !important;
+    padding: 0.4rem;
+}
+
+.THIS .hiddenDetails .vert_seperator {
+    width: 95%;
+    margin: auto;
+}
+
+.THIS .cardSection {
+    min-height: 14rem;
+    width: 52.25rem;
+}
+
+.THIS .hiddenDetails table {
+    WIDTH: 75%;
+    MARGIN: AUTO;
+}
+
+.THIS .timerDiv lightning-icon {
+    --sds-c-icon-color-foreground-default: white;
+    animation: rotate 3s infinite;
+}
+
+.THIS .newHead {
+    text-align: center;
+    padding: var(--padding-small);
+    font-family: var(--normalHeading_family);
+    font-size: 26px !important;
+}
+
+.THIS .newUnpaidStatus,
+.THIS .newPaidStatus {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 24px !important;
+}
+
+.THIS .newPaidStatus {
+    background: #c3f4db;
+    color: #4E9A74;
+}
+
+.THIS .newUnpaidStatus {
+    background: #E9EDF4;
+    color: #646c79;
+}
+
+.THIS .boxCheckbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    scale: 3;
+}
+
+.THIS .box {
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    background-color: white;
+    padding: var(--padding-medium);
+    align-self: stretch;
+    z-index: 2;
+    position: relative;
+}
+
+
+.THIS .effectiveDateRightBottom,
+.THIS .picklistSelectPaymentMethod {
+    position: relative;
+}
+
+.THIS .absoluteLabel {
+    position: absolute;
+    bottom: 75%;
+    left: 0;
+    right: 0;
+}
+
+.THIS .pdfIconImageParent {
+    min-width: 24px;
+    width: 24px;
+}
+
+.THIS .rs_pdfIconImageParent img.pdfIconImage {
+    width: 60px;
+}
+
+.THIS .absoluteLabel .head {
+    background-color: white;
+    padding: 0 var(--padding-medium);
+    font-family: var(--normalText_family) !important;
+}
+
+.THIS .pathLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 3.5rem;
+    display: none;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    /* 
+    25% {
+        transform: rotate(90deg);
+    } */
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    /* 
+    75% {
+        transform: rotate(270deg);
+    } */
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media all and (max-device-width : 820px) and (orientation: portrait) {
+    .THIS * {
+        font-size: 40px !important;
+    }
+
+    .THIS .container {
+        padding: var(--padding-large) !important;
+        flex-direction: column !important;
+        overflow: auto !important;
+        padding-bottom: calc(2rem + 142px) !important;
+        gap: 2.5rem;
+    }
+.THIS .selectedLawyer {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 3px solid black; /* blue border */
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+}
+.THIS .DisPlayNone{display:none;}
+.THIS .DisplayMobile{display:block !important ;}
+.THIS .DisplayDesktop{display:none !important;}   
+.THIS .iframeWidth{width:100% !important;}
+.THIS .addCard{
+    height: 515px !important;
+}
+
+/* When checked, show filled inner circle */
+.THIS .selectedLawyer:checked::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+border: 3px solid #0070d2;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    background-color: #0070d2;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+}
+
+
+    .THIS .header {
+        /* flex-direction: row !important; */
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .THIS .rightPanel {
+        overflow: unset !important;
+        gap: 0rem !important;
+    }
+
+    .THIS .leftNewPanel {
+        flex: none !important;
+    }
+
+    .THIS .leftPanel {
+        flex-direction: column-reverse !important;
+        justify-content: flex-end !important;
+        flex: none !important;
+        border-radius: 24px;
+    }
+
+    .THIS .leftBottom {
+        flex: none !important;
+        justify-content: flex-end !important;
+    }
+
+    .THIS .verticalDetailLine {
+        /* flex-direction: row !important;
+        justify-content: space-between !important; */
+    }
+
+    .THIS .detailsBox {
+        flex-direction: column !important;
+    }
+
+    .THIS .responsiveBox {
+        flex-direction: column !important;
+        gap: 2rem !important;
+    }
+
+    .THIS .rightBottomPanel {
+        padding-bottom: 6rem;
+        overflow: unset !important;
+    }
+
+    .THIS .rs_buttons,
+    .THIS .buttonBox {
+        position: fixed;
+        bottom: 0rem;
+        background: white;
+        left: 0;
+        right: 0;
+        padding: var(--padding-medium);
+        flex-direction: column;
+        box-shadow: -4px 0px 11px 10px rgb(195 195 195 / 33%);
+    }
+
+    .THIS .redflexfo {
+        flex: 1;
+    }
+
+    .THIS .listButton,
+    .THIS .myButton {
+        padding: 1.5rem 3rem !important;
+    }
+
+    .THIS .fullHeightWidth select {
+        width: 100%;
+        height: 100%;
+    }
+
+    .THIS .popupModal {
+        max-height: unset !important;
+        height: unset !important;
+        position: fixed;
+        /* top: 5rem; */
+        right: 2rem;
+        left: 2rem;
+        /* bottom: 5rem; */
+        width: unset !important;
+    }
+
+    .THIS .smallPopupModalThree {
+        top: unset;
+        right: unset;
+        left: unset;
+        bottom: unset;
+        transform: scale(1.2);
+    }
+
+    .THIS .tabData {
+        
+    }
+
+    .THIS .displayCardDiv {
+        display: none !important;
+    }
+
+    .THIS input.resInputs,
+    .THIS .resInputs input {
+        height: 40px;
+        width: 40px;
+    }
+
+    /*,
+     .THIS .totalAmount  */
+    /* 
+    .THIS .totalAmountInModal {
+        display: flex !important;
+    } */
+
+    .THIS .transactionDetails,
+    .THIS .totalAmount,
+    .THIS .autoPayCheckBox {
+        margin: unset !important;
+        width: unset !important;
+    }
+
+    .THIS .displayCard-saved {
+        /* height: 12rem !important;
+        min-width: 21rem !important; */
+        height: 16rem !important;
+        width: 550px;
+    }
+
+    .THIS .hoverScrollableDivOnHover {
+        margin: unset !important;
+    }
+
+    .THIS .rs_col {
+        flex-direction: column;
+    }
+
+    .THIS .rs_orderTwo {
+        order: 2;
+    }
+
+    .THIS .rs_orderOne {
+        order: 1;
+    }
+
+    .THIS .rs_orderThree {
+        order: 3;
+    }
+
+
+
+    .THIS .deleteButtonDiv {
+        right: 2rem;
+        top: 2rem;
+        opacity: 1;
+        background: #d1d1d1;
+        border-radius: 20%;
+        padding: .5rem;
+        box-shadow: var(--box-shadow);
+        opacity: 1;
+        height: 2rem;
+        width: 2rem;
+        TRANSFORM: scale(2.2);
+    }
+
+    .THIS .cardSliderBox {
+        min-height: 20rem !important;
+        flex-direction: column;
+        padding: var(--padding-medium);
+    }
+
+    .THIS .rs_tableView {
+        display: none !important;
+    }
+
+    .THIS .rs_ListView {
+        display: flex !important;
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;
+        background: none !important;
+    }
+
+    .THIS .cardSection {
+        width: unset;
+    }
+
+    .THIS .val,
+    .THIS .rs_SmallText,
+    .THIS .rs_SmallText a {
+        font-size: 24px !important;
+    }
+
+    .THIS .boxCheckbox input[type="checkbox"]:checked+label::after {
+        content: '';
+        position: absolute;
+        width: 1.2ex;
+        height: 0.4ex;
+        background: rgba(0, 0, 0, 0);
+        top: 0.9ex;
+        left: 0.4ex;
+        border: 3px solid blue;
+        border-top: none;
+        border-right: none;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+}
+
+.THIS .lawyerButt {
+    border-radius: .4rem;
+    border: .1rem solid #cdcdcd;
+    padding: .2rem .5rem;
+    background: #e5e5e5;
+    cursor: pointer;
+}
+
+.THIS .fieldSection {
+    width: 32%;
+}
+
+.THIS .login-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.THIS .login-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+    /*background-color: #4C4C4C;*/
+}
+
+.THIS .innerContent {
+    display: flex;
+    flex-direction: column;
+    min-width: 25rem;
+    border: 1px solid #dfdfdf;
+    border-radius: var(--border-radius);
+    background: white;
+}
+
+.THIS .login-content-footer {
+    background-color: var(--bgcolor);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.THIS .login-footer {
+    padding: var(--padding-medium);
+}
+
+
+
+
+@media all and (max-width : 1180px) {
+
+    .THIS .cardNumber-saved {
+        color: #ffffff !important;
+    }
+
+    .THIS .expiryValue {
+        
+    }
+
+    .THIS .cardHolderName.rs_orderOne {
+        font-size: 42px !important;
+    }
+
+    .THIS .displayCard-saved {
+        --sds-c-icon-color-foreground-default: white;
+        gap: 0 !important;
+        
+        max-width: 600px !IMPORTANT;
+        padding: 29px;
+    }
+
+    .THIS img.cardTypeImage {
+        height: 48px;
+        width: auto;
+    }
+
+    .THIS .cardTypeImage {
+        width: unset !important;
+    }
+
+    .THIS .deleteButtonDiv {
+        background: transparent !IMPORTANT;
+
+    }
+
+
+    /* new responsive */
+    .THIS .ltngInput input,
+    .THIS .ltngInput select {
+        font-size: 38px !important;
+        padding: 18px;
+    }
+
+    .THIS .tabContainer {
+        padding: 25px 25px;
+    }
+
+    .THIS .label {
+        font-size: 29px !important;
+    }
+
+    .THIS select#checkAccountType,
+    .THIS input {
+        font-size: 31px !important;
+    }
+
+    .THIS .dflexcol.gap.inputFieldSection.dflexfo {
+        gap: 28px;
+    }
+
+    .THIS .res_gap {
+        gap: 28px;
+    }
+
+    .THIS .popupContainer {
+        padding: 4px 28px 28px;
+    }
+
+    .THIS .popupHeader.dflex.gap.dflexac.dflexjspace.mediumPadding {
+        padding: 28px;
+    }
+
+    .THIS .popupFooter.mediumPadding.dflex.dflexac.dflexjspace.gap {
+        padding: 28px;
+    }
+
+    .THIS .modalClose {
+        padding: .6rem;
+        border-radius: 6px;
+        transform: scale(2);
+        transform-origin: right;
+    }
+
+    .THIS .secline {
+        FONT-SIZE: 28PX !important;
+    }
+
+    .THIS .mainHeading img {
+        height: 170px !important;
+        width: unset !important;
+        padding-top: 20px;
+    }
+
+    .THIS .itemBox {
+        PADDING: 28PX !important;
+        border-radius: 24px;
+    }  
+
+
+}
+
+@media (max-device-width: 820px) and (orientation:portrait) {
+    .THIS .login-header img {
+        height: 170px !important;
+        width: unset !important;
+        padding-top: 20px;
+    } .THIS .AddLawyerModal{width:auto !important;}
+
+    .THIS .itemBox {
+        PADDING: 28PX !important;
+    } 
+ .THIS .lawyerMbButt {
+    color: var(--lwc-brandTextLink, rgb(1, 118, 211));
+    cursor: pointer;
+}
+.THIS .fieldSection {
+    width: 100%;
+}
+
+    .THIS .box .amountCol .head span,
+    .THIS .box .amountCol lightning-formatted-number {
+        font-size: 34px !important;
+    }
+
+    .THIS .rs_SmallText a {
+        color: #545454 !important;
+    }
+
+    .THIS .amountRow {
+        border-top: 1px solid #e8e8e8;
+    }
+
+    .THIS .resHead {
+        font-size: 40px !important;
+        background: #f2f2f2 !important;
+        border-radius: 6px;
+        padding: 6px 18px !important;
+    }
+
+    .THIS .leftPanel .value {
+        padding-left: 30px;
+    }
+
+    .THIS .leftPanel .head {
+        padding-left: 20px;
+    }
+
+    .THIS .inputField input,
+    .THIS .inputField select {
+        padding: 14px 19px;
+    }
+
+    .THIS .responsiveBox {
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    .THIS .box {
+        border-radius: 24px;
+    }
+}
+.THIS .addCard{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: 373px;
+    padding-top: 1rem;
+}
+.THIS .lol_table td {
+    /* padding: 0.5rem 0.5rem; */
+    padding: 0.4rem 0.1rem .4rem .5rem;
+    /* border-top: 1.4px solid hwb(0 90% 10% / 0.459); */
+    border-bottom: 1px solid #efefef;
+}
+
+.THIS .lol_table tr:last-child>td {
+    border-bottom: 0;
+}
+.THIS .cvrow{
+    cursor: pointer;
+}
+.THIS .cvrow:hover{
+    background: #e5e5e5;
+}

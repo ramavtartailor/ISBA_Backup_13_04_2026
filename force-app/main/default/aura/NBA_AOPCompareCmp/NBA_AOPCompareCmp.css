@@ -1,0 +1,71 @@
+.THIS.body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.THIS .Section{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #cdcdcd;
+    border-radius: .4rem;
+}
+.THIS .sectionHeader{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #89001a;
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 0 2px 0 #89001a;
+    border-top-right-radius: .3rem;
+    padding: .5rem 1rem;
+    border-top-left-radius: .3rem;
+}
+.THIS .allMatched{
+    background-color: #cdcdcd;
+    color: black;
+    box-shadow: 0 0 2px 0 #cdcdcd;
+}
+.THIS .sectionBody{
+    padding: .5rem;
+    overflow-y: scroll;
+}
+.THIS table{
+    border-radius: .4rem !important;
+    border: 1px solid #e5e5e5;
+    border-collapse: separate;
+    margin: 0 .5rem .5rem;
+    width: calc(100% - 1rem);
+}
+.THIS td{
+    padding: .25rem .5rem;
+    border-top: 1px solid #e5e5e5;
+}
+.THIS th{
+    padding: .25rem .5rem;
+    text-wrap: nowrap;
+    background: #f3f3f3;
+    border-top: 1px solid #e5e5e5;
+}
+.THIS .leftTop{
+    border-top-left-radius: .4rem;
+}
+.THIS .rightTop{
+    border-top-right-radius: .4rem;
+}
+.THIS .leftBottom{
+    border-bottom-left-radius: .4rem;
+}
+.THIS .rightBottom{
+    border-bottom-right-radius: .4rem;
+}
+.THIS .icon{
+    cursor: pointer;
+}
+
+.THIS .greenHeader{
+    background-color: #34D39D;
+    color: white;
+    box-shadow: 0 0 2px 0 #34D39D;
+}

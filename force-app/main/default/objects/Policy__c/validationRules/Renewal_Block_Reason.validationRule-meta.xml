@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Block_Reason</fullName>
+    <active>true</active>
+    <description>If Renewal is blocked then Reason should be given.</description>
+    <errorConditionFormula>OR(AND(Renew_Application__c = true, ISBLANK(Reason__c)), AND(PRIORVALUE(Renew_Application__c) = true, Renew_Application__c = false, NOT(ISCHANGED(Reason__c))))</errorConditionFormula>
+    <errorDisplayField>Renew_Application__c</errorDisplayField>
+    <errorMessage>Please provide the reason for Blocking/Unblocking &apos;Renewal Application&apos;!</errorMessage>
+</ValidationRule>

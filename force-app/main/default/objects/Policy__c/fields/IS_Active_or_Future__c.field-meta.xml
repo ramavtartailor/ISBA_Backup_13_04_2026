@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IS_Active_or_Future__c</fullName>
+    <formula>if(AND(RecordType.DeveloperName = &apos;Policy&apos; ,Expiration_Date__c &gt; TODAY(),OR(ISNULL(Cancel_Date__c),Cancel_Date__c&gt; TODAY())),true,false )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Active or Future</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

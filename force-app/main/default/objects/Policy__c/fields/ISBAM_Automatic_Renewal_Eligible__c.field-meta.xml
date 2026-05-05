@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ISBAM_Automatic_Renewal_Eligible__c</fullName>
+    <description>Policies Eligible for Automatic Renewal Invoice</description>
+    <formula>Account_Open_Claims__c = 0
+&amp;&amp; ISPICKVAL(Renewal_Type__c,&quot;Online Invoice&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>ISBAM Automatic Renewal Eligible</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

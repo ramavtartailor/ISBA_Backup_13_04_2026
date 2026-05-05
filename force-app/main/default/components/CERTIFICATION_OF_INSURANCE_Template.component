@@ -1,0 +1,84 @@
+<apex:component controller="CERTIFICATION_OF_INSURANCE_Template_Ctrl">
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> CERTIFICATE OF INSURANCE </p>
+    <p class="normalParagraph">
+        This certificate is issued as a matter of information only and confers no rights upon the certificate holder. This certificate does not amend, extend or alter the coverage afforded by the policy listed below. The Insurer accepts no responsibility for any additions or changes made hereon that are not on record with the Insurer.
+    </p>
+    <br/>
+    <table cellspacing="0" cellpadding="5" style="width:100%;border:1px solid #000">
+        <tr>
+            <td valign="top" style="width:40%; border:none">
+                <p class="normalBoldParagraph tableDataLeft b">Name and Address of Insured:</p>
+            </td>
+            <td valign="top" style="width:60%; border:none">
+                <p class="normalParagraph tableDataLeft">
+                    <apex:outputField value="{!policy.Firm_Name_History__c}"/>
+                    <br/>
+                    <pre  class="normalParagraph" style="margin-top: 0 !important;margin-bottom: 0 !important;">
+                        <apex:outputText value="{!policy.Firm_Billing_Address_History__c}" escape="false" />
+                    </pre>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <p class="normalParagraph">
+        This is to certify that the policy of insurance listed below has been issued to the Insured named above and is in force at this time.
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:30%;" class="tableDataLeft">
+                <p class="normalBoldParagraph tableDataLeft">Type of Insurance:</p>
+            </td>
+            <td style="width:70%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    Lawyers’ Professional Liability Insurance
+                </p>
+            </td>
+        </tr>
+        <tr>
+           <td style="width:30%;" class="tableDataLeft">
+                <p class="normalBoldParagraph tableDataLeft">Policy Number:</p>
+            </td>
+            <td style="width:70%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <apex:outputField value="{!policy.Policy_Number_History__c}"/>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:30%;" class="tableDataLeft">
+                <p class="normalBoldParagraph tableDataLeft">Policy Period:</p>
+            </td>
+            <td style="width:70%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    From &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Effective_Date_History__c}" /> </apex:outputText>&nbsp;
+                    To &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Expiration_Date_History__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:30%;" class="tableDataLeft">
+                <p class="normalBoldParagraph tableDataLeft">Limits of Liability:</p>
+            </td>
+            <td style="width:70%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <apex:outputField value="{!policy.Per_Claim_Limit_History__c}"/>
+                    Per Claim / &nbsp;
+                    <apex:outputField value="{!policy.Aggregate_Limit_History__c}"/> Annual Aggregate
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:30%;" class="tableDataLeft">
+                <p class="normalBoldParagraph tableDataLeft">Deductible:</p>
+            </td>
+            <td style="width:70%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <apex:outputField value="{!policy.Per_Claim_Deductible_Amount_History__c}"/>
+                </p>
+            </td>
+        </tr>
+    </table>
+</apex:component>

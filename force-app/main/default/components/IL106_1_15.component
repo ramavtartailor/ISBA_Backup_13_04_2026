@@ -1,0 +1,176 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Amendment of Extended Reporting Period for Solo Practitioners
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VII. EXTENDED REPORTING PERIOD, F., </span>is amended to include the following:
+    </p>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph"> F. </span>the premium for the<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will be:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> 4. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Notwithstanding anything herein to the contrary, at the expiration, non-renewal or cancellation of the Policy of a<span class="normalBoldParagraph"> NAMED INSURED </span>who is a Solo Practitioner (the “Solo Practitioner <span class="normalBoldParagraph"> NAMED INSURED </span>”) or upon the Solo Practitioner<span class="normalBoldParagraph"> NAMED INSURED’s </span> death or retirement, for an additional premium charge as stated below, the Solo Practitioner<span class="normalBoldParagraph"> NAMED INSURED </span>or the estate of the Solo Practitioner<span class="normalBoldParagraph"> NAMED INSURED </span>(in the event of death) shall have the right to purchase an<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>for an unlimited period of time immediately following the expiration date, the effective date of such cancellation or non-renewal, or the date of death or retirement, and reported in accordance with all other policy terms:
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:40%" align="center">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    Number of Years<br/>
+                    Continuously Insured<br/>
+                    <u>by ISBA Mutual</u>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    Percentage of<br/>
+                    <u>Annual Premium</u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    1-4 years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    250%
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    5 years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    225%
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    6 years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    200%
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    7 years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    175%
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    8 years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    150%
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    9 years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    125%
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    10 <u>or more</u> years
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    100%
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    This endorsement does not apply if at any time during the<span class="normalBoldParagraph"> POLICY TERM </span>the<span class="normalBoldParagraph"> NAMED INSURED </span>was not a Solo Practitioner as defined.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    For purposes of this endorsement, a “Solo Practitioner” is defined as a lawyer who does not practice law in conjunction with any other lawyer, whether through a partnership, employer/employee relationship or otherwise.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

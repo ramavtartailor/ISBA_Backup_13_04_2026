@@ -1,0 +1,52 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Entities Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the Policy is amended to include the following entities as an<span class="normalBoldParagraph"> Insured. </span>These entities are only insured for<span class="normalBoldParagraph"> Claim</span><span>s</span> arising out of<span class="normalBoldParagraph"> Wrongful Act</span><span>s </span>committed within the scope of their employment or contract for the<span class="normalBoldParagraph"> Named Insured </span>which occurred on or after their applicable Entity<span class="normalBoldParagraph"> Prior Acts Date </span>stated below:
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:20%;" class="tableDataCenter">
+                &nbsp;
+            </td>
+            <td style="width:40%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <u>Name of Entity</u>
+                </p>
+            </td>
+            <td style="width:40%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <u>Entity <span class="b">Prior Acts Date</span></u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:20%;" class="tableDataCenter">
+                &nbsp;
+            </td>
+            <td style="width:40%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <apex:outputField value="{!endorsement.Entity__c}"/>
+                </p>
+            </td>
+            <td style="width:40%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    <apex:outputField value="{!endorsement.Prior_Act_Date_Text__c}"/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:410px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

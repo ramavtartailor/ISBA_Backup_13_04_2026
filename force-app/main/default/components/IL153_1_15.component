@@ -1,0 +1,33 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Deleting a Lawyer Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that on the effective date of this endorsement, &nbsp;<apex:outputField value="{!endorsement.Lawyer_Name__c}"/>&nbsp; is deleted from the Policy and that this Policy is amended to exclude any<span class="normalBoldParagraph"> CLAIM </span>or<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>against &nbsp;<apex:outputField value="{!endorsement.Lawyer_Name__c}"/>&nbsp; for any<span class="normalBoldParagraph"> WRONGFUL ACT </span>or an act, error, omission, or<span class="normalBoldParagraph"> PERSONAL INJURY </span>occurring on or after the effective date of this endorsement.
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:90%;" align="center">
+        <tr>
+            <td class="tableDataLeft normalParagraph">
+                Return Premium:  &nbsp;<apex:outputField value="{!endorsement.Refund_Amount__c}"/>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:410px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

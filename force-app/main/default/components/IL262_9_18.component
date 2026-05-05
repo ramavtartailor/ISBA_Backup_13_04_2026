@@ -1,0 +1,27 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Amended Definition of <span style="font-weight: bolder;">Professional Services</span> – Arbitration and Mediation Services
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> III. DEFINITIONS, P. Professional Services </span>is deleted in its entirety and replaced with the following:
+    </p>
+    <br/><br/>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph">P. Professional Services</span>
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        Arbitration and Mediation services rendered by the Insured as a Lawyer with a license in good standing
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:280px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

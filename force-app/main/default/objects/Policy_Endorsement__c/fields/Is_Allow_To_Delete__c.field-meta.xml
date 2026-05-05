@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Allow_To_Delete__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>An endorsement can be deleted by reject button through endorsement, otherwise trigger will stop it.</description>
+    <label>Is Allow To Delete</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,54 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Add a Lawyer Endorsement
+    </p>
+    <p class="normalParagraph">
+        In consideration of the additional premium of&nbsp;
+        <apex:outputText value="{0, number, Currency}">
+            <apex:param value="{!endorsement.Premium__c}" />
+        </apex:outputText>
+        , it is agreed that the Lawyer identified below is an<span class="normalBoldParagraph"> Insured </span>under this Policy with the Individual<span class="normalBoldParagraph"> Prior Acts Date </span>shown below.
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Lawyer</u>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <u>Individual Prior Acts Date</u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputField value="{!endorsement.Lawyer_Name__c}"/>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!endorsement.Prior_Act_Date__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <p class="normalParagraph">
+        It is further agreed that this Policy excludes any<span class="normalBoldParagraph"> Claim </span>or<span class="normalBoldParagraph"> Disciplinary Proceeding </span>made against the<span class="normalBoldParagraph"> Insured </span>stated above for a<span class="normalBoldParagraph"> Wrongful Act </span>which occurred prior to their Individual<span class="normalBoldParagraph"> Prior Acts Date </span>stated above.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:400px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

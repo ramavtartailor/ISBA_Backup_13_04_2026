@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transaction_Action__c</fullName>
+    <label>Transaction Action</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>authorize</fullName>
+                <default>false</default>
+                <label>authorize</label>
+            </value>
+            <value>
+                <fullName>force</fullName>
+                <default>false</default>
+                <label>force</label>
+            </value>
+            <value>
+                <fullName>sale</fullName>
+                <default>false</default>
+                <label>sale</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

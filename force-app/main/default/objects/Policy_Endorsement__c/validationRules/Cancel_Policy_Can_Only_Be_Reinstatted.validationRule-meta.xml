@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancel_Policy_Can_Only_Be_Reinstatted</fullName>
+    <active>true</active>
+    <description>If a policy is cancelled then only reinstate policy endorsement can be created on it.</description>
+    <errorConditionFormula>AND(NOT(ISNULL(Policy__r.Cancel_Date__c)), Policy__r.Cancel_Date__c &lt;= TODAY(), RecordType.DeveloperName &lt;&gt; &apos;RP_Reinstate_Policy_Transaction&apos;,NOT(AND(OR(CONTAINS(RecordType.Name,&apos;107&apos;),CONTAINS(RecordType.Name,&apos;190&apos;)),Policy__r.Cancel_Date__c + 270 &gt; TODAY())))</errorConditionFormula>
+    <errorMessage>Cancelled Policy can only be Reinstated!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coverage_Term__c</fullName>
+    <label>Coverage Term</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1 Year</fullName>
+                <default>false</default>
+                <label>1 Year</label>
+            </value>
+            <value>
+                <fullName>3 Years</fullName>
+                <default>false</default>
+                <label>3 Years</label>
+            </value>
+            <value>
+                <fullName>1-4 Years</fullName>
+                <default>false</default>
+                <label>1-4 Years</label>
+            </value>
+            <value>
+                <fullName>5 Years</fullName>
+                <default>false</default>
+                <label>5 Years</label>
+            </value>
+            <value>
+                <fullName>6 Years</fullName>
+                <default>false</default>
+                <label>6 Years</label>
+            </value>
+            <value>
+                <fullName>7 Years</fullName>
+                <default>false</default>
+                <label>7 Years</label>
+            </value>
+            <value>
+                <fullName>8 Years</fullName>
+                <default>false</default>
+                <label>8 Years</label>
+            </value>
+            <value>
+                <fullName>9 Years</fullName>
+                <default>false</default>
+                <label>9 Years</label>
+            </value>
+            <value>
+                <fullName>10 or more years</fullName>
+                <default>false</default>
+                <label>10 or more years</label>
+            </value>
+            <value>
+                <fullName>Unlimited</fullName>
+                <default>false</default>
+                <label>Unlimited</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

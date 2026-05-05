@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
+    <authorizeUrl>https://login.microsoftonline.com/340c6dd3-8b31-4f9a-892d-7f3cde0055c0/oauth2/v2.0/authorize</authorizeUrl>
+    <consumerKey>f5c65499-1022-4b84-bab7-290627a759b6</consumerKey>
+    <consumerSecret>Placeholder_Value</consumerSecret>
+    <defaultScopes>offline_access Files.ReadWrite.All Sites.Read.All</defaultScopes>
+    <friendlyName>sFilesProvider</friendlyName>
+    <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>
+    <isPkceEnabled>false</isPkceEnabled>
+    <providerType>MicrosoftACS</providerType>
+    <requireMfa>false</requireMfa>
+    <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
+    <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
+    <sendSecretInApis>true</sendSecretInApis>
+    <tokenUrl>https://login.microsoftonline.com/340c6dd3-8b31-4f9a-892d-7f3cde0055c0/oauth2/v2.0/token</tokenUrl>
+</AuthProvider>

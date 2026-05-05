@@ -1,0 +1,548 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="DeletingAnAttorney_Ctrl" sidebar="false" showHeader="false" id="pg">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+             <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+                <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+            <!-- <apex:styleSheet value="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.css')}" />
+<script src="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.js')}"></script> -->
+<!--<script src="{!URLFOR($Resource.ALJS, '/appiphony-lightning-js-master/dist/jquery.aljs-all-with-moment.min.js')}"></script>-->
+        </head>
+        <script>
+        $('body').click(function(evt) {
+            $(".closeDiv :visible").each(function() {
+                $('.closeDiv').hide();
+            });
+        });
+        function calculatePremium(){
+            calculatePremiumMethod();
+        }
+        function validateAndEndorsement(validateType){
+            $('#endorsementInfoDiv input').each(function (){
+                $(this).css('border','1px solid #d8dde6');
+            });
+            var flagSave=true;
+            $('.endorsementRequired').each(function (){
+                if($(this).val() == '' || $(this).val() == null || $(this).val() == 'undefined'){
+                    $(this).css('border','1px solid red ');
+                    showError('** Required fields missing . ');
+                    $('[id$=spinner]').css('display','none');
+                    flagSave = false;
+                }
+            });
+            if(!(flagSave)){
+                showError('** Required fields missing . ');
+                $('[id$=spinner]').css('display','none');
+            }else{
+                if($('[id$=selectedLawyer]').val() == '' || $('[id$=selectedLawyer]').val() == null || $('[id$=selectedLawyer]').val() == 'undefined'){
+                    flagSave = false;
+                    showError('** Please select any policy lawyer first. ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            }
+            if(flagSave){
+                if(validateType =='premiumCalculation'){
+                    calculatePremium();
+                }else if(validateType =='saveEndorsement'){
+                    saveEndorsementFunction();
+                }    
+            }
+        }    
+        function showError(error) {
+            $(".slds-notify_container h2").each(function() {
+                $(this).text(error);
+            });
+            $(".slds-notify_container").removeClass('slds-hide');
+            setTimeout(function() {
+                $(".slds-notify_container").addClass('slds-hide');
+            }, 5000);
+        }
+        function setLawyerId(lawyerId){
+            $('input[id$=selectedLawyer]').val(lawyerId);
+        }    
+        $(document).ready(function() {
+             var startYear=1940; 
+                    var endYear=2034; 
+                    var optionsString='';
+                    if(startYear<endYear){
+                        for(i=startYear;i<endYear+1;i++){
+                            optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                        }
+                        $('#calYearPicker').html(optionsString);
+                    }
+            datatableReinit();
+            $("svg").on("click", function() {
+                if ($(this).attr('data') == 'msg') {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }
+            });
+            $('svg').click(function (){
+                var lookup = $(this).attr('data');
+                if($(this).attr('data')=='toggle'){
+                    $(this).parent().parent().parent().find('.slds-p-horizontal--small').each(function (){
+                        if($(this).css('display') == 'none'){
+                            //$(this).removeClass('slds-hide');
+                            $(this).slideDown("slow");
+                        }else{
+                            //$(this).addClass('slds-hide');
+                            $(this).slideUp("slow");
+                        }
+                    });
+                }
+            });
+            var selectedLawyer = "{!selectedLawyer}";
+            if(document.getElementById(selectedLawyer)){
+                document.getElementById(selectedLawyer).checked =true;
+            }
+        });
+        function datatableReinit(){
+                // Setup - add a text input to each footer cell
+                $('#example tfoot th').each( function (i) {
+                    var title = $('#example thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input type="text" placeholder="Search '+title+'" data-index="'+i+'" />' );
+                } );
+                
+                // DataTable
+                var table = $('#example').DataTable( {
+                    /*scrollY:        "300px",
+                    scrollX:        true,
+                    scrollCollapse: true,
+                    paging:         true,
+                    fixedColumns:   false*/
+                } );
+                
+                // Filter event handler
+                $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+                    table
+                    .column( $(this).data('index') )
+                    .search( this.value )
+                    .draw();
+                } );
+                $('tfoot').css('display','none');
+                $('.dataTables_length select,input').addClass('slds-input');
+                $(':radio').removeClass('slds-input');
+            }
+        </script>
+        <style>
+            .slds-scope .slds-grid--pull-padded {
+            margin-right:0px !important;
+            margin-left:0px !important;
+            }
+            .slds-scope .slds-form--horizontal {
+            margin-top: 1%;
+            }
+            .dateFormat {
+            padding: 0 2px;
+            display: none;
+            }
+            .slds-scope .slds-page-header {
+            padding: 1rem .75rem;
+            border-bottom: 1px solid #d8dde6 !important;
+            background-color: #337AB7 !important;
+            color: white;
+            }
+            .slds-box{
+            }
+            .slds-scope .slds-medium-size--12-of-12 {
+            margin-bottom: 10px;
+            }
+            .slds-scope .slds-medium-size--6-of-12 {
+            margin-bottom: 10px;
+            }
+            .accountRequired{
+            border-left: 4px solid red !important;
+            }
+            .slds-scope .slds-table td, .slds-scope .slds-table th {
+            white-space: normal !important;
+            }
+            .slds-scope .slds-text-heading--label {
+            text-transform: capitalize !important; 
+            }
+            .policy_required{
+            border-left: 4px solid red !important;
+            }
+            .ContactRequired{
+            border-left: 4px solid red !important;
+            }
+            .endorsementRequired{
+            border-left: 4px solid red !important;
+            }            
+            .application_required{
+            border-left: 4px solid red !important;
+            }
+            .slds-scope a:focus, .slds-scope a:hover{
+            display: initial !important;
+            }
+            .lookupInput .slds-input{
+            //border:none !important;
+            }
+            .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+            background-color: #fff; 
+            }
+            .lookupInput input[readonly] {
+            cursor: default;
+            color: #333;
+            background-color: #fff !important;
+            border: 1px solid #d8dde6 !important;
+            }
+            .datePicker{
+            z-index: 99999 ;
+            }
+        </style>
+        <body>
+            <apex:form id="frm">
+                <apex:actionFunction name="calculatePremium" action="{!premiumCalculator}" reRender="calculationCompletion,premiumInfo,addInfo" oncomplete="calculationCompletion();$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="saveEndorsementFunction" action="{!saveEndorsement}" reRender="calculationCompletion" oncomplete="calculationCompletion();$('[id$=spinner]').css('display','none');"/>
+                <div class="slds-page-header" role="banner" style="{!if(fromPage == 'ManageEndorsements','display:none;','')}">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-page-header__title slds-truncate" title="Application And Policy">
+                                Deleting an Attorney Endorsement - {!Policy_Endorsement__c.Account__r.Name} - {!Policy_Endorsement__c.Policy__r.Name} - <apex:outputText value="{0,date, MM/dd/yyyy}"> <apex:param value="{!Policy_Endorsement__c.Policy__r.Expiration_Date__c}" /> </apex:outputText>
+                            </p>
+                            <p class="slds-text-body--small"></p>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                            <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="    position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+                <div class="slds-notify_container slds-hide">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                            <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;">
+                    <legend id="" class="slds-text-heading--small slds-p-vertical--medium legend"></legend>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" id="endorsementInfoDiv">
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-size--12-of-12  slds-theme--shade">
+                                    <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                        <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text"></span>
+                                    </button>
+                                    <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Policy Endorsement Information</h2>
+                                </div>
+                                <!-- 1 row -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                    
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="endorsementName">Policy Endorsement Name</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-placeholder="Enter Policy Endorsement Name" styleClass="slds-input endorsementRequired" id="endorsementName" value="{!Policy_Endorsement__c.Name}" style=" border-left:4px solid red;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 2 row -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                    
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="EffectiveDate ">Endorsement Effective Date</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-placeholder="Enter Endorsement Effective Date" onkeydown="autoFormat(this)" styleClass="slds-input endorsementRequired" id="EffectiveDate" value="{!Policy_Endorsement__c.Endorsement_Effective_Date__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="GLProcessingDate ">GL Processing Date</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-placeholder="Enter GL Processing Date" onkeydown="autoFormat(this)"  id="GLProcessingDate" value="{!Policy_Endorsement__c.GL_Processing_Date__c}" rendered="{!$Profile.Name == 'System Administrator'}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <apex:outputPanel id="policyLawyer">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                            <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text"></span>
+                                        </button>
+                                        <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Policy Lawyer</h2>
+                                    </div>
+                                    <apex:inputHidden value="{!selectedLawyer}" id="selectedLawyer"/>
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                        <apex:outputPanel id="table">
+                                            <table id="example" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr class="slds-text-heading--label">
+                                                        <th>&nbsp;</th>
+                                                        <th>Name</th>
+                                                        <th>ARDC Number</th>
+                                                        <th>Prior Acts</th>
+                                                        <th>Premium</th>
+                                                        <th>Primary</th>
+                                                        <th>Rate</th>
+                                                        <th>Step</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <apex:repeat value="{!polLawyersList}" var="lawyer">
+                                                        <tr>
+                                                            <td>
+                                                                <input type="radio" name="lawyer" value="{!lawyer.Id}" id="{!lawyer.Id}" onChange="setLawyerId('{!lawyer.Id}')" />
+                                                            </td>
+                                                            <td>{!lawyer.Lawyer_Name__c} </td>
+                                                            <td>
+                                                                {!lawyer.Lawyer__r.Contact__r.ARDC_Number__c}
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputText style="" styleclass="slds-align-middle" value="{0,date,MM/dd/yy}">
+                                                                    <apex:param value="{!lawyer.Prior_Act_Date__c}" /> 
+                                                                </apex:outputText>
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputField value="{!lawyer.Premium__c}"/>
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputField value="{!lawyer.Primary__c}"/>
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputField value="{!lawyer.Rate_At__c}"/>
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputField value="{!lawyer.Step__c}"/>
+                                                            </td>
+                                                        </tr>
+                                                    </apex:repeat>
+                                                </tbody>
+                                            </table>
+                                        </apex:outputPanel>
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <apex:outputPanel id="addInfo">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                            <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text"></span>
+                                        </button>
+                                        <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Additional Information</h2>
+                                    </div>
+                                    <!-- 1 row -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="term">Term</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="term" value="{!Policy_Endorsement__c.Term__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="priorActsDate">Prior Act Date</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Prior Act Date" styleClass="slds-input endorsementRequired" id="priorActsDate" value="{!Policy_Endorsement__c.Prior_Act_Date__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                        <!--<div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="rateAt">Rate At (%)</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField html-placeholder="Enter Rate At (%)" styleClass="slds-input endorsementRequired" id="rateAt" value="{!Policy_Endorsement__c.Rate_At__c}" />
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                    <!-- 2 row -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                        
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="step ">Step</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="step" value="{!Policy_Endorsement__c.Step__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="stepOverride">Step Override</label>
+                                                <div class="slds-form-element__control">
+                                                    <span class="slds-checkbox">
+                                                        <apex:inputField html-placeholder="Enter Override Rating" styleClass="slds-input" value="{!Policy_Endorsement__c.Step_Override__c}" id="checkbox2" html-disabled="true">
+                                                            <apex:actionSupport event="onchange" reRender="addInfo"  onsubmit="$('[id$=spinner]').css('display','block');" oncomplete="$('[id$=spinner]').css('display','none');" />
+                                                        </apex:inputField>
+                                                        
+                                                        <label class="slds-checkbox__label" for="pg:frm:checkbox2">
+                                                            <span class="slds-checkbox--faux"></span>
+                                                            <span class="slds-form-element__label"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <apex:outputPanel rendered="{!Policy_Endorsement__c.Step_Override__c}">
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stepOverrideValue ">Step Override Value</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputField html-placeholder="Enter Step Override Value" styleClass="slds-input" id="stepOverrideValue" value="{!Policy_Endorsement__c.Step_Override_Value__c}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </apex:outputPanel>
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </div>
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <apex:outputPanel id="premiumInfo">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                            <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text"></span>
+                                        </button>
+                                        <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Premium Information</h2>
+                                    </div>
+                                    <!-- 1 row -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Primary">Primary</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="Primary" value="{!Policy_Endorsement__c.Primary__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Excess">Excess</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="Excess" value="{!Policy_Endorsement__c.Excess__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="OverrideRating">Override Rating</label>
+                                                <div class="slds-form-element__control">
+                                                    <span class="slds-checkbox">
+                                                        <apex:inputField html-placeholder="Enter Override Rating" styleClass="slds-input" value="{!Policy_Endorsement__c.Override_Rating__c}" id="checkbox1" html-disabled="true">
+                                                            <apex:actionSupport event="onchange"   reRender="premiumInfo"  onsubmit="$('[id$=spinner]').css('display','block');" oncomplete="$('[id$=spinner]').css('display','none');" />
+                                                        </apex:inputField>
+                                                        
+                                                        <label class="slds-checkbox__label" for="pg:frm:checkbox1">
+                                                            <span class="slds-checkbox--faux"></span>
+                                                            <span class="slds-form-element__label"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <apex:outputPanel rendered="{!Policy_Endorsement__c.Override_Rating__c}">
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="Override5x5">Override 5x5</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputField html-placeholder="Enter Override 5x5" styleClass="slds-input" id="Override5x5" value="{!Policy_Endorsement__c.Override_5_5__c}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="Override10x10">Override 10x10</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:inputField html-placeholder="Enter Override 5x5" styleClass="slds-input" id="Override10x10" value="{!Policy_Endorsement__c.Override_10_10__c}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </apex:outputPanel>
+                                    </div>
+                                    <!-- 2 row -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                        
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Premium">Premium</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="Premium" value="{!Policy_Endorsement__c.Premium__c}" html-disabled="true"/>
+                                                </div>
+                                                <a onclick="$('[id$=spinner]').css('display','block');validateAndEndorsement('premiumCalculation'); return false;">Calculate Premium</a>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Premium5x5">Premium 5x5</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="Premium5x5" value="{!Policy_Endorsement__c.Premium_5_5__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form--horizontal">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="Premium10x10">Premium 10x10</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField styleClass="slds-input" id="Premium10x10" value="{!Policy_Endorsement__c.Premium_10_10__c}" html-disabled="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="slds-docked-form-footer">
+                    <button type="button" class="slds-button slds-button--neutral" onclick="window.location.href='{!returnURL}'"  style="{!if(fromPage == 'ManageEndorsements','display:none;','')}">Cancel</button> &nbsp;
+                    <button type="button" class="slds-button slds-button--neutral" onclick="parent.removeEndorsement({!manageIndex},'{!policyEndorsement.Id}');" style="{!if(canRemoved,'','display:none;')}">Remove</button> &nbsp;
+                    <button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndEndorsement('saveEndorsement'); return false;">Save</button>
+                </div>
+                <apex:outputPanel rendered="true" id="calculationCompletion">
+                    <script>
+                    function calculationCompletion(){
+                        var error = "{!error}";
+                        if(error){
+                            $('[id$=spinner]').css('display','none');
+                            showError(error);
+                        }
+                    }    
+                    </script>
+                </apex:outputPanel>
+            </apex:form>
+        </body>
+    </html>
+</apex:page>

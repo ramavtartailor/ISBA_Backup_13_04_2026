@@ -1,0 +1,31 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Additional Exclusion Endorsement – Funds Disbursements
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VI. EXCLUSIONS </span> is amended to include the following:
+    </p>
+    
+     <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">Funds Disbursements
+                </p>
+                <p class="normalParagraph">Any improper transfer, loss, conversion, misappropriation, wrongful disbursement, improper commingling or negligent supervision by any <span class="normalBoldParagraph">Insured</span> of funds or property of any person, held or controlled at any time by any <span class="normalBoldParagraph">Insured</span> in any capacity or under any authority, including any loss or reduction in value of such funds or property.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:160px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

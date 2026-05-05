@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Primary Event Track that the contact is interested in. --></help>
+    <label><!-- Primary Track of Interest --></label>
+    <name>Primary_Track_of_Interest__c</name>
+    <relationshipLabel><!-- Event Registrations --></relationshipLabel>
+</CustomFieldTranslation>

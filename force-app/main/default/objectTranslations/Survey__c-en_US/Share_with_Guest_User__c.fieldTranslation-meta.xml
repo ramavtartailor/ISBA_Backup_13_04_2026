@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Create a sharing setting to share surveys with this field checked with Guest Users. --></help>
+    <label><!-- Publicly Available --></label>
+    <name>Share_with_Guest_User__c</name>
+</CustomFieldTranslation>

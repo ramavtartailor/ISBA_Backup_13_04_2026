@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>User Reserve</fullName>
+        <default>false</default>
+        <label>Change Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Close Reserve</fullName>
+        <default>false</default>
+        <label>Close Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Reopen Reserve</fullName>
+        <default>false</default>
+        <label>Reopen Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Loss Payment</fullName>
+        <default>false</default>
+        <label>Loss Payment</label>
+    </customValue>
+    <customValue>
+        <fullName>LAE Payment</fullName>
+        <default>false</default>
+        <label>LAE Payment</label>
+    </customValue>
+    <customValue>
+        <fullName>Deductible Loss</fullName>
+        <default>false</default>
+        <label>Deductible Loss</label>
+    </customValue>
+    <customValue>
+        <fullName>Deductible Expense</fullName>
+        <default>false</default>
+        <label>Deductible Expense</label>
+    </customValue>
+    <customValue>
+        <fullName>Change in Ceded Loss Reserve</fullName>
+        <default>false</default>
+        <label>Change in Ceded Loss Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Change in Ceded LAE Reserve</fullName>
+        <default>false</default>
+        <label>Change in Ceded LAE Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Due from Reins. - Loss</fullName>
+        <default>false</default>
+        <label>Due from Reins. - Loss</label>
+    </customValue>
+    <customValue>
+        <fullName>Due from Reins. - LAE</fullName>
+        <default>false</default>
+        <label>Due from Reins. - LAE</label>
+    </customValue>
+    <customValue>
+        <fullName>Open Reserve</fullName>
+        <default>false</default>
+        <label>Open Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Claim Coverage - ARDC</fullName>
+        <default>false</default>
+        <label>ARDC Payment</label>
+    </customValue>
+    <customValue>
+        <fullName>Unallocated LAE Payment</fullName>
+        <default>false</default>
+        <label>Unallocated LAE Payment</label>
+    </customValue>
+    <customValue>
+        <fullName>Deductible Expense New</fullName>
+        <default>false</default>
+        <label>Deductible Expense New</label>
+    </customValue>
+    <customValue>
+        <fullName>SBL</fullName>
+        <default>false</default>
+        <label>SBL</label>
+    </customValue>
+    <customValue>
+        <fullName>CPSBL</fullName>
+        <default>false</default>
+        <label>CPSBL</label>
+    </customValue>
+    <customValue>
+        <fullName>CPSBE</fullName>
+        <default>false</default>
+        <label>CPSBE</label>
+    </customValue>
+    <masterLabel>Reserve Types</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

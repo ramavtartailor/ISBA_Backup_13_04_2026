@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_Coverage_Validation</fullName>
+    <active>false</active>
+    <description>Limit can&apos;t be same as Policy in the Change Coverage Endorsement.</description>
+    <errorConditionFormula>AND(New_Limits__c = Policy__r.Limit__c,  RecordType.DeveloperName = &apos;CC_Change_Coverage_Transaction&apos;)</errorConditionFormula>
+    <errorDisplayField>New_Limits__c</errorDisplayField>
+    <errorMessage>Limit can&apos;t be same as Policy in the Change Coverage Endorsement!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expiration_greater_than_Effective_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>!ISNULL( Expiration_Date__c) &amp;&amp; !ISNULL(Effective_Date__c) &amp;&amp;
+( Expiration_Date__c &lt; Effective_Date__c )</errorConditionFormula>
+    <errorDisplayField>Expiration_Date__c</errorDisplayField>
+    <errorMessage>Expiration date must not be less than Policy Effective Date.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,382 @@
+@isTest
+public class RecalculateScheduledPaymentsTest {
+	   @TestSetup
+    static void makeData(){
+        // —— DATA PREPARATION ——
+        List<Account> accList = new List<Account>();
+        
+        // 0
+        accList.add(
+            new Account(
+                Name = 'Dummy Billing Account'
+            )
+        );
+        
+        // 0
+        accList.add(
+            new Account(
+                Name = 'Test'
+            )
+        );
+        insert accList;
+        
+        // Insert Contact
+        Contact con                   = TestDataFactory.createContact('Test Contact',accList[0].id);
+        insert con;
+        
+        //insert accR;
+        // insert 4 billing formats
+        AcctSeed__Billing_Format__c[] PDFformats = new List<AcctSeed__Billing_Format__c>();
+        PDFformats.add(
+            new AcctSeed__Billing_Format__c(
+                Name = 'Default Billing Product',
+                AcctSeed__Visualforce_PDF_Page__c = 'BillingProductPDF',
+                AcctSeed__Default_Email_Template__c = [Select Id, DeveloperName From EmailTemplate limit 1].DeveloperName,
+                AcctSeed__Type__c = 'Billing',
+                AcctSeed__Sort_Field__c = 'Name'
+            )
+        );
+        
+        PDFformats.add(
+            new AcctSeed__Billing_Format__c(
+                Name = 'Default Billing Service',
+                AcctSeed__Visualforce_PDF_Page__c = 'BillingServicePDF',
+                AcctSeed__Default_Email_Template__c = [Select Id, DeveloperName From EmailTemplate limit 1].DeveloperName,
+                AcctSeed__Type__c = 'Billing',
+                AcctSeed__Sort_Field__c = 'Name'
+            )
+        );
+        
+        PDFformats.add(
+            new AcctSeed__Billing_Format__c (
+                Name = 'Billing Outstanding Statement',
+                AcctSeed__Visualforce_PDF_Page__c = 'BillingOutstandingStatementPDF',
+                AcctSeed__Default_Email_Template__c = [Select Id, DeveloperName From EmailTemplate limit 1].DeveloperName,
+                AcctSeed__ReplyTo_Email__c = 'test3463464364646@gmail.com',
+                AcctSeed__Type__c = 'Outstanding Statement'
+            )
+        );
+        
+        PDFformats.add(
+            new AcctSeed__Billing_Format__c (
+                Name = 'Billing Activity Statement',
+                AcctSeed__Visualforce_PDF_Page__c = 'BillingActivityStatementPDF',
+                AcctSeed__Default_Email_Template__c = [Select Id, DeveloperName From EmailTemplate limit 1].DeveloperName,
+                AcctSeed__ReplyTo_Email__c = 'test3463464364646@gmail.com',
+                AcctSeed__Type__c = 'Activity Statement'
+            )
+        );
+        
+        PDFformats.add(
+            new AcctSeed__Billing_Format__c(
+                Name = 'Default Purchase Order',
+                AcctSeed__Visualforce_PDF_Page__c = 'BillingServicePDF',
+                AcctSeed__Default_Email_Template__c = [Select Id, DeveloperName From EmailTemplate limit 1].DeveloperName,
+                AcctSeed__Type__c = 'Purchase Order',
+                AcctSeed__Sort_Field__c = 'Name'
+            )
+        );
+        
+        PDFformats.add(
+            new AcctSeed__Billing_Format__c(
+                Name = 'Default Packing Slip',
+                AcctSeed__Visualforce_PDF_Page__c = 'BillingServicePDF',
+                AcctSeed__Default_Email_Template__c = [Select Id, DeveloperName From EmailTemplate limit 1].DeveloperName,
+                AcctSeed__Type__c = 'Packing Slip',
+                AcctSeed__Sort_Field__c = 'Name'
+            )
+        );
+        
+        insert PDFformats;
+        
+        // create GL Accounts
+        AcctSeed__GL_Account__c[] glAccounts = new List<AcctSeed__GL_Account__c>();
+        // 0
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '1000-Cash',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Bank__c = true,
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Cash')
+        );
+        
+        // 1
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '1205-Unapplied A/R',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Cash'
+            )
+        );
+        
+        // 2
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '1200-Accounts Receivable',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Current Assets'
+            )
+        );
+        
+        // 3
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '1600-Work In Process',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Current Assets'
+            )
+        );
+        
+        // 4
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '2000-Accounts Payable',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Liabilities',
+                AcctSeed__Sub_Type_2__c = 'Current Liabilities'
+            )
+        );
+        
+        // 5
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '2010-Vouchers Payable',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Liabilities',
+                AcctSeed__Sub_Type_2__c = 'Current Liabilities'
+            )
+        );
+        
+        // 6
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '3050-Retained Earnings',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Owners Equity',
+                AcctSeed__Sub_Type_2__c = 'Equity'
+            )
+        );
+        
+        // 7
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '3060-Current Year Earnings',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Owners Equity',
+                AcctSeed__Sub_Type_2__c = 'Equity'
+            )
+        );
+        
+        // 8
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '4000-Premium',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = ' Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Owners Equity',
+                AcctSeed__Sub_Type_2__c = 'Product Family 1'
+            )
+        );
+        
+        // 9
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '5010-Inventory Cost Variance',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = ' Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Owners Equity',
+                AcctSeed__Sub_Type_2__c = 'Materials'
+            )
+        );
+        
+        // 10
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '5040-Vendor Payment Discounts',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Expense',
+                AcctSeed__Sub_Type_1__c = 'Cost of Goods Sold',
+                AcctSeed__Sub_Type_2__c = 'Materials'
+            )
+        );
+        
+        // 11
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = 'zLabor Clearing',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Expense'
+            )
+        );
+        
+        // 12
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = 'zProject Labor',
+                AcctSeed__Active__c = true,
+                AcctSeed__Type__c = 'Expense'
+            )
+        );
+        
+        // 13
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '4900-Customer Payment Discounts',
+                AcctSeed__Active__c = true,
+                AcctSeed__Bank__c = false,
+                AcctSeed__Type__c = 'Revenue',
+                AcctSeed__Sub_Type_1__c = 'Product Revenue',
+                AcctSeed__Sub_Type_2__c = 'Product Family 1'
+            )
+        );
+        
+        // 14
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '1400-Prepaid Expenses',
+                AcctSeed__Active__c = true,
+                AcctSeed__Bank__c = true,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Current Assets'
+            )
+        );
+        
+        // 15
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '1300-Accounts Receivable',
+                AcctSeed__Active__c = true,
+                AcctSeed__Bank__c = false,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Current Assets'
+            )
+        );
+        
+        // 16
+        glAccounts.add(
+            new AcctSeed__GL_Account__c(
+                Name = '6420-Service Charges',
+                AcctSeed__Active__c = true,
+                AcctSeed__Bank__c = false,
+                AcctSeed__Type__c = 'Balance Sheet',
+                AcctSeed__Sub_Type_1__c = 'Assets',
+                AcctSeed__Sub_Type_2__c = 'Current Assets'
+            )
+        );
+        
+        insert glAccounts;
+        
+        // insert 1 Ledger records
+        AcctSeed__Ledger__c ledger = new AcctSeed__Ledger__c(
+            Name = 'Actual',
+            AcctSeed__Type__c = 'Transactional',
+            AcctSeed__Default_Bank_Account__c = glAccounts[0].id,
+            AcctSeed__Default_Billing_Format__c = PDFformats[0].Id,
+            AcctSeed__Billing_Outstanding_Statement_Format__c = PDFformats[2].Id,
+            AcctSeed__Billing_Activity_Statement_Format__c = PDFformats[3].Id,
+            AcctSeed__Default_Purchase_Order_Format__c = PDFformats[4].Id,
+            AcctSeed__Default_Packing_Slip_Format__c = PDFformats[5].Id);
+        
+        insert ledger;
+        
+        Transaction_Credit_And_Debits__c customSetting = new Transaction_Credit_And_Debits__c();
+        customSetting.Name='Billing Line';
+        customSetting.Credit_GL__c='1300-Accounts Receivable';
+        customSetting.Debit_GL__c='4000-Premium';
+        insert customSetting;
+        
+        // insert 1 Accounting Period
+        AcctSeed__Accounting_Period__c acctPeriod = new AcctSeed__Accounting_Period__c(
+            Name = '1991-10',
+            AcctSeed__Start_Date__c = System.today().toStartOfMonth(),
+            AcctSeed__End_Date__c = System.today().toStartOfMonth().addMonths(1),
+            AcctSeed__Status__c = 'Open');
+        insert acctPeriod;
+        
+        AcctSeed__Billing_Format__c pdfFormat = new AcctSeed__Billing_Format__c();
+        pdfFormat.name='Test PDF';
+        pdfFormat.AcctSeed__Type__c='Activity Statement';
+        pdfFormat.AcctSeed__Visualforce_PDF_Page__c='BillingActivityStatementPDF';
+        pdfFormat.AcctSeed__Default_Email_Template__c='Activity_Statement_Email_Template';
+        insert pdfFormat; 
+        
+         AcctSeed__Accounting_Settings__c settings = TestDataFactory.createAccountsetting(ledger.id,glAccounts[0].Id,glAccounts[1].Id,glAccounts[2].Id,glAccounts[3].Id,glAccounts[4].Id,glAccounts[5].Id,glAccounts[6].Id,PDFformats[0].Id);
+        insert settings;
+
+        // Insert Billing
+        AcctSeed__Billing__c billing = new AcctSeed__Billing__c(
+            AcctSeed__Billing_Contact__c = con.id,
+            AcctSeed__Billing_Cycle_Start_Date__c = System.today(),
+            AcctSeed__Billing_Cycle_End_Date__c = System.today() + 30,
+            AcctSeed__Date__c = System.today(),
+            AcctSeed__Customer__c = accList[0].id,
+            AcctSeed__Status__c = 'Approved',
+            AcctSeed__Due_Date2__c = System.today() + 30,
+            AcctSeed__Ledger__c = ledger.Id,
+            IsPaymentProcessed__c = false,
+            AcctSeed__Billing_Format__c = PDFformats[0].Id,
+            AcctSeed__Accounting_Period__c = [Select Id From AcctSeed__Accounting_Period__c limit 1].Id
+        );
+        insert billing;
+        
+        // Insert BL
+        AcctSeed__Billing_Line__c line = new AcctSeed__Billing_Line__c();
+        line.AcctSeed__Revenue_GL_Account__c = glAccounts[8].Id;
+        line.AcctSeed__Hours_Units__c = 10; 
+        line.AcctSeed__Rate__c = 10;
+        line.AcctSeed__Billing__c=billing.Id;
+        insert line;
+        
+        List<Payment_Schedule__c> paymentSchedules = new List<Payment_Schedule__c>();
+        Payment_Schedule__c pSch1 = new Payment_Schedule__c();
+        pSch1.Due_Date__c = system.today();
+        pSch1.Billing__c = billing.id;
+        pSch1.Amount__c =  75;
+        pSch1.Status__c = 'Unpaid';//pSch1.Status__c = 'Paid';
+        pSch1.Frequency__c = 'Month';
+        paymentSchedules.add(pSch1);
+        Insert paymentSchedules;
+    }
+    
+    @isTest
+    public static void testMethod1(){
+        test.startTest();
+        List<AcctSeed__Billing__c> bill = [SELECT Id, AcctSeed__Balance__c,(SELECT Id,Due_Amount__c FROM Payment_Schedules__r WHERE Status__c = 'Unpaid' ),(select id, AcctSeed__Rate__c from AcctSeed__Project_Billing_Lines__r) FROM AcctSeed__Billing__c];
+		RecalculateScheduledPayments.getDetails(bill[0].id);
+        RecalculateScheduledPayments.RecalculatePayments(bill[0].id);
+        test.stopTest();
+    }
+    
+    @isTest
+    public static void testMethod2(){
+        test.startTest();
+        List<AcctSeed__Billing__c> bill = [SELECT Id, AcctSeed__Balance__c,(SELECT Id,Due_Amount__c FROM Payment_Schedules__r WHERE Status__c = 'Unpaid' ),(select id, AcctSeed__Rate__c from AcctSeed__Project_Billing_Lines__r) FROM AcctSeed__Billing__c];
+        try{
+            RecalculateScheduledPayments.RecalculatePayments(null);
+        }catch (Exception e){
+            
+        }
+        
+        try{
+           RecalculateScheduledPayments.getDetails(null);
+        }catch (Exception e){
+            
+        }
+        test.stopTest();
+    }
+
+}

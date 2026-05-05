@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Which_Claim_Type_Should_only_be_recorded</fullName>
+    <active>false</active>
+    <description>Only master Claim will be create and no child record will be create.</description>
+    <errorConditionFormula>Not(Policy_Claim__r.Policy__r.Active__c) &amp;&amp;
+OR(RecordType.Name = &apos;Claim Payment&apos; ,
+   RecordType.Name = &apos;Deductible&apos; ,
+   RecordType.Name = &apos;Reserve&apos;)</errorConditionFormula>
+    <errorMessage>&apos;Reserves&apos;, &apos;Payments&apos; and &apos;Deductibles&apos; cannot be created against an Inactive Policy, Claims can only be recorded!</errorMessage>
+</ValidationRule>

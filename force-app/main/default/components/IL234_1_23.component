@@ -1,0 +1,62 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Loss Only <span class="b">Deductible</span> Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> III. DEFINITIONS, F. Deductible </span>and<span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE, E. </span>of this Policy are hereby deleted in their entirety and are replaced with the following:<br/>
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph"> III. DEFINITIONS </span>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> F.&nbsp;</span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> DEDUCTIBLE </span><br/><br/>
+                    The amount set forth in Item 8. of the Declarations and is the amount the<span class="normalBoldParagraph"> Insured </span>must pay for<span class="normalBoldParagraph"> Damages. </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br></br>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE </span>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p>
+                    <b> E.&nbsp;</b>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p style="text-align: justify;">
+                    The <b>Company</b> is liable to pay <b>Damages</b> in excess of the <b>Deductible</b>.  The <b>Named Insured</b> is responsible for the payment of the <b>Deductible</b>, and each <b>Insured</b> is individually liable for the payment of the <b>Deductible</b>.  The <b>Deductible</b> shall be payable to the <b>Company</b> as <b>Damages</b> are paid.  In the event that the <b>Company</b> expends funds for Damages on an <b>Insured’s</b> behalf, the <b>Insured</b> will reimburse the <b>Company</b> for such expenditures up to the amount of the <b>Deductible</b>.
+                </p>
+                <p style="text-align: justify;">
+                    The <b>Deductible</b> for all <b>Damages</b> and <b>Claim Expenses</b> in any <b>Policy Period</b> applies seperately to each <b>Claim</b>.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:140px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

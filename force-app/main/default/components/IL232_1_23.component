@@ -1,0 +1,87 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Annual Aggregate <span style="font-weight: bolder;">Deductible</span> and Loss Only <span style="font-weight: bolder;">Deductible</span> Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that Item 8. of the Declarations is amended to read as follows:<br/><br/>
+        <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+            <tr>
+                <td style="width:5%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        <span class="normalParagraph"> 8. </span>
+                    </p>
+                </td>
+                <td style="width:35%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        Deductible:
+                    </p>
+                </td>
+                <td style="width:30%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        Per Claim &nbsp; ${!endorsement.Policy__r.Per_Claim_Deductible_Amount__c}
+                    </p>
+                </td>
+                <td style="width:30%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        Aggregate &nbsp; ${!endorsement.Policy__r.Per_Claim_Deductible_Amount__c}
+                    </p>
+                </td>
+            </tr>
+    </table>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        It is further agreed that<span class="normalBoldParagraph"> III. DEFINITIONS, F. DEDUCTIBLE </span>and<span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE, E. </span>of this Policy are hereby deleted in their entirety and are replaced by the following:<br/><br/>
+        <span class="normalBoldParagraph"> III. DEFINITIONS </span>
+    </p>
+
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> F. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> DEDUCTIBLE </span><br/><br/>
+                    The amount set forth in Item 8. of the Declarations and is the amount the<span class="normalBoldParagraph"> Insured </span>must pay for<span class="normalBoldParagraph"> Damages. </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <p class="normalParagraph">
+        <span class="normalBoldParagraph"> IV. LIMIT OF LIABILITY AND DEDUCTIBLE </span>
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> E. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    The <span class="normalBoldParagraph">Company</span> is liable to pay <span class="normalBoldParagraph">Damages</span> in excess of the <span class="normalBoldParagraph">Deductible</span>.  The <span class="normalBoldParagraph">Named Insured</span> is responsible for the payment of the <span class="normalBoldParagraph">Deductible</span>, and each <span class="normalBoldParagraph">Insured</span> is individually liable for the payment of the <span class="normalBoldParagraph">Deductible</span>.  The <span class="normalBoldParagraph">Deductible</span> shall be payable to the <span class="normalBoldParagraph">Company</span> as <span class="normalBoldParagraph">Damages</span> are paid.  In the event that the <span class="normalBoldParagraph">Company</span> expends funds for <span class="normalBoldParagraph">Damages</span> on an <span class="normalBoldParagraph">Insured</span>’s behalf, the <span class="normalBoldParagraph">Insured</span> will reimburse the <span class="normalBoldParagraph">Company</span> for such expenditures up to the amount of the <span class="normalBoldParagraph">Deductible</span>.
+                    <br/><br/>
+                    The <span class="normalBoldParagraph">Deductible</span> is the maximum amount the <span class="normalBoldParagraph">Insured</span> will pay for all <span class="normalBoldParagraph">Damages</span> arising out of all <span class="normalBoldParagraph">Claim</span>s in a single <span class="normalBoldParagraph">Policy Period</span>.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:40px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

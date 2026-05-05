@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_Reason_Sub1__c</fullName>
+    <label>Lost Reason Sub1</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Lost_Reason__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retirement ERP (Free ERP)</fullName>
+                <default>false</default>
+                <label>Retirement ERP (Free ERP)</label>
+            </value>
+            <value>
+                <fullName>Firm Optional ERP (Bought)</fullName>
+                <default>false</default>
+                <label>Firm Optional ERP (Bought)</label>
+            </value>
+            <value>
+                <fullName>Individual Retirement ERP (Bought)</fullName>
+                <default>false</default>
+                <label>Individual Retirement ERP (Bought)</label>
+            </value>
+            <value>
+                <fullName>Deceased/Disability-ERP (Free)</fullName>
+                <default>false</default>
+                <label>Deceased/Disability-ERP (Free)</label>
+            </value>
+            <value>
+                <fullName>No Cyber</fullName>
+                <default>false</default>
+                <label>No Cyber</label>
+            </value>
+            <value>
+                <fullName>Competitor</fullName>
+                <default>false</default>
+                <label>Competitor</label>
+            </value>
+            <value>
+                <fullName>Bare (no income from business)</fullName>
+                <default>false</default>
+                <label>Bare (no income from business)</label>
+            </value>
+            <value>
+                <fullName>Bare (too expensive)</fullName>
+                <default>false</default>
+                <label>Bare (too expensive)</label>
+            </value>
+            <value>
+                <fullName>Government Position</fullName>
+                <default>false</default>
+                <label>Government Position</label>
+            </value>
+            <value>
+                <fullName>In- House</fullName>
+                <default>false</default>
+                <label>In- House</label>
+            </value>
+            <value>
+                <fullName>Employed with another Firm</fullName>
+                <default>false</default>
+                <label>Employed with another Firm</label>
+            </value>
+            <value>
+                <fullName>Formed Partnership</fullName>
+                <default>false</default>
+                <label>Formed Partnership</label>
+            </value>
+            <value>
+                <fullName>Merged with Another Firm (sold business)</fullName>
+                <default>false</default>
+                <label>Merged with Another Firm (sold business)</label>
+            </value>
+            <value>
+                <fullName>Duplicate - set up incorrectly cancelled flat</fullName>
+                <default>false</default>
+                <label>Duplicate - set up incorrectly cancelled flat</label>
+            </value>
+            <value>
+                <fullName>Cancel Flat - due to non-payment of premium</fullName>
+                <default>false</default>
+                <label>Cancel Flat - due to non-payment of premium</label>
+            </value>
+            <value>
+                <fullName>Retirement</fullName>
+                <default>false</default>
+                <label>Retirement</label>
+            </value>
+            <value>
+                <fullName>Dissolved</fullName>
+                <default>false</default>
+                <label>Dissolved</label>
+            </value>
+            <value>
+                <fullName>Merged</fullName>
+                <default>false</default>
+                <label>Merged</label>
+            </value>
+            <value>
+                <fullName>Moved Out of State</fullName>
+                <default>false</default>
+                <label>Moved Out Of State</label>
+            </value>
+            <value>
+                <fullName>COI</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>COI</label>
+            </value>
+            <value>
+                <fullName>Competition</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Competition</label>
+            </value>
+            <value>
+                <fullName>Cust-Bar membership</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cust-Bar membership</label>
+            </value>
+            <value>
+                <fullName>DDR</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DDR</label>
+            </value>
+            <value>
+                <fullName>Disbarment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Disbarment</label>
+            </value>
+            <value>
+                <fullName>Docket</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Docket</label>
+            </value>
+            <value>
+                <fullName>Firm Dissolved (multi lawyer firm)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Firm Dissolved (multi lawyer firm)</label>
+            </value>
+            <value>
+                <fullName>Increase Policy of Limits of Liability</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Increase Policy of Limits of Liability</label>
+            </value>
+            <value>
+                <fullName>Merged with/joined another Firm</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Merged with/joined another Firm</label>
+            </value>
+            <value>
+                <fullName>Military</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Military</label>
+            </value>
+            <value>
+                <fullName>New Job</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>New Job</label>
+            </value>
+            <value>
+                <fullName>No Cyber Included</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No Cyber Included</label>
+            </value>
+            <value>
+                <fullName>No Income from practice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No Income from practice</label>
+            </value>
+            <value>
+                <fullName>Non-Payment Of Premium</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-Payment Of Premium</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Suspension</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Suspension</label>
+            </value>
+            <value>
+                <fullName>Went bare - didn&apos;t want to pay for insurance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Went bare - didn&apos;t want to pay for insurance</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Premium</controllingFieldValue>
+            <valueName>Competitor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Premium</controllingFieldValue>
+            <valueName>Bare (no income from business)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Premium</controllingFieldValue>
+            <valueName>Bare (too expensive)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Employment</controllingFieldValue>
+            <valueName>Government Position</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Employment</controllingFieldValue>
+            <valueName>In- House</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Employment</controllingFieldValue>
+            <valueName>Employed with another Firm</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancelation</controllingFieldValue>
+            <valueName>Duplicate - set up incorrectly cancelled flat</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancelation</controllingFieldValue>
+            <valueName>Cancel Flat - due to non-payment of premium</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Coverage</controllingFieldValue>
+            <valueName>No Cyber</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Practice Closed</controllingFieldValue>
+            <valueName>Retirement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Practice Closed</controllingFieldValue>
+            <valueName>Dissolved</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Practice Closed</controllingFieldValue>
+            <valueName>Merged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Practice Closed</controllingFieldValue>
+            <valueName>Moved Out of State</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Renewal Type --></label>
+    <name>Renewal_Type__c</name>
+    <picklistValues>
+        <masterLabel>EZ Renewal</masterLabel>
+        <translation><!-- EZ Renewal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Online Invoice</masterLabel>
+        <translation><!-- Online Invoice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Regular Renewal</masterLabel>
+        <translation><!-- Regular Renewal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Super EZ</masterLabel>
+        <translation><!-- Super EZ --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

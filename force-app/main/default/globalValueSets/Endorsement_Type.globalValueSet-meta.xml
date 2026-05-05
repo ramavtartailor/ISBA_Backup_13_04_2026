@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Functional</fullName>
+        <default>false</default>
+        <label>Functional</label>
+    </customValue>
+    <customValue>
+        <fullName>Descriptive</fullName>
+        <default>false</default>
+        <label>Descriptive</label>
+    </customValue>
+    <masterLabel>Endorsement Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

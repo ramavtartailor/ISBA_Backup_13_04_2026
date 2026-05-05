@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Override_Validation_5x5</fullName>
+    <active>true</active>
+    <description>Check if the coverage lies under the range of 5 x 5, only allow the override ratings to be checked if it is in that range.</description>
+    <errorConditionFormula>AND(Policy__r.Limit__r.Is_5X5_Coverage__c  = false,  RecordType.DeveloperName &lt;&gt; &apos;CC_Change_Coverage_Transaction&apos;, Override_Rating__c = true, NOT(ISNULL(Override_5_5__c)))</errorConditionFormula>
+    <errorDisplayField>Override_Rating__c</errorDisplayField>
+    <errorMessage>The Policy Coverage does not lie in the 5 x 5 range!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>One_Application_Per_Account</fullName>
+    <active>false</active>
+    <description>This validation rule makes sure that there is only one Application per account with the status other than rejected or accepted.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = &apos;Application&apos;, OR(NOT(ISPICKVAL(Status__c,&apos;Accepted&apos;)), NOT(ISPICKVAL(Status__c,&apos;Rejected&apos;))), Account__r.Count_of_Application_Validation__c&gt; 0, ISNEW())</errorConditionFormula>
+    <errorMessage>Application already exists on the selected Account!</errorMessage>
+</ValidationRule>

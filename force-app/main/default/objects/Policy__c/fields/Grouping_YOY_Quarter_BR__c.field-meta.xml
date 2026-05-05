@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grouping_YOY_Quarter_BR__c</fullName>
+    <description>Grouping for Board Report YOY Quarter based on Board_Report_YOY_Quarter__c value)</description>
+    <externalId>false</externalId>
+    <formula>IF(Effective_Date__c &gt;= DATE(YEAR(Board_Report_YOY_Quarter__c)-1, MONTH(Board_Report_YOY_Quarter__c), DAY(Board_Report_YOY_Quarter__c)), TEXT(YEAR(Board_Report_YOY_Quarter__c))+&quot;-&quot;+TEXT(MONTH(Board_Report_YOY_Quarter__c)),
+IF(Effective_Date__c &gt;= DATE(YEAR(Board_Report_YOY_Quarter__c)-2, MONTH(Board_Report_YOY_Quarter__c), DAY(Board_Report_YOY_Quarter__c)), TEXT(YEAR(Board_Report_YOY_Quarter__c)-1)+&quot;-&quot;+TEXT(MONTH(Board_Report_YOY_Quarter__c)),
+IF(Effective_Date__c &gt;= DATE(YEAR(Board_Report_YOY_Quarter__c)-3, MONTH(Board_Report_YOY_Quarter__c), DAY(Board_Report_YOY_Quarter__c)), TEXT(YEAR(Board_Report_YOY_Quarter__c)-2)+&quot;-&quot;+TEXT(MONTH(Board_Report_YOY_Quarter__c)),
+IF(Effective_Date__c &gt;= DATE(YEAR(Board_Report_YOY_Quarter__c)-4, MONTH(Board_Report_YOY_Quarter__c), DAY(Board_Report_YOY_Quarter__c)), TEXT(YEAR(Board_Report_YOY_Quarter__c)-3)+&quot;-&quot;+TEXT(MONTH(Board_Report_YOY_Quarter__c)),
+TEXT(YEAR(Board_Report_YOY_Quarter__c-4))+&quot;-&quot;+TEXT(MONTH(Board_Report_YOY_Quarter__c))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Grouping - YOY Quarter (BR)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

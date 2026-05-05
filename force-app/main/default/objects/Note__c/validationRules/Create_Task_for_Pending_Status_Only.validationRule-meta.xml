@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Create_Task_for_Pending_Status_Only</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(NOT(ISPICKVAL(Status__c,&apos;Pending&apos;)),Create_Task__c,ISNEW())</errorConditionFormula>
+    <errorMessage>Task can only be created for pending note.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Allegation --></label>
+    <name>Allegation__c</name>
+    <picklistValues>
+        <masterLabel>Battery</masterLabel>
+        <translation><!-- Battery --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Conflict of Interest</masterLabel>
+        <translation><!-- Conflict of Interest --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Conspiracy</masterLabel>
+        <translation><!-- Conspiracy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Declining Employment Improperly</masterLabel>
+        <translation><!-- Declining Employment Improperly --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Error in Mathematical Calculation</masterLabel>
+        <translation><!-- Error in Mathematical Calculation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Error in Public Record Search</masterLabel>
+        <translation><!-- Error in Public Record Search --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Error in Service of Process/Give Notice</masterLabel>
+        <translation><!-- Error in Service of Process/Give Notice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Calendar Properly</masterLabel>
+        <translation><!-- Failure to Calendar Properly --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Follow Instructions or Obtain Client&apos;s Consent</masterLabel>
+        <translation><!-- Failure to Follow Instructions or Obtain Client&apos;s Consent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Know Where to File a Document/Venue</masterLabel>
+        <translation><!-- Failure to Know Where to File a Document/Venue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Know or Ascertain a Deadline</masterLabel>
+        <translation><!-- Failure to Know or Ascertain a Deadline --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Know that a Document Should be Filed</masterLabel>
+        <translation><!-- Failure to Know that a Document Should be Filed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Know, Ascertain or Properly Apply Law</masterLabel>
+        <translation><!-- Failure to Know, Ascertain or Properly Apply Law --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Name the Proper Defendant</masterLabel>
+        <translation><!-- Failure to Name the Proper Defendant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to Provide Client with Sufficient Information</masterLabel>
+        <translation><!-- Failure to Provide Client with Sufficient Information --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Failure to React to Calendar</masterLabel>
+        <translation><!-- Failure to React to Calendar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fraud/Misrepresentation</masterLabel>
+        <translation><!-- Fraud/Misrepresentation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Improper Withdrawal from Representation</masterLabel>
+        <translation><!-- Improper Withdrawal from Representation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inadequate Discovery or Investigation</masterLabel>
+        <translation><!-- Inadequate Discovery or Investigation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inadvertent Failure to File a Document</masterLabel>
+        <translation><!-- Inadvertent Failure to File a Document --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inadvertent Failure to follow Client Instructions</masterLabel>
+        <translation><!-- Inadvertent Failure to follow Client Instructions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inadvertent Filing of Document in Wrong Place</masterLabel>
+        <translation><!-- Inadvertent Filing of Document in Wrong Place --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Intentional Breach of Fiduciary Duty</masterLabel>
+        <translation><!-- Intentional Breach of Fiduciary Duty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Judgmental Error</masterLabel>
+        <translation><!-- Judgmental Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Libel, Slander, Defamation of Character</masterLabel>
+        <translation><!-- Libel, Slander, Defamation of Character --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lost file, Document or Evidence</masterLabel>
+        <translation><!-- Lost file, Document or Evidence --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Malicious Prosecution or Abuse of Process</masterLabel>
+        <translation><!-- Malicious Prosecution or Abuse of Process --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Procrastination/Failure to Follow-up</masterLabel>
+        <translation><!-- Procrastination/Failure to Follow-up --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Proofreading or other Clerical Error</masterLabel>
+        <translation><!-- Proofreading or other Clerical Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RICO</masterLabel>
+        <translation><!-- RICO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Refusing to Return File Until Fee Paid</masterLabel>
+        <translation><!-- Refusing to Return File Until Fee Paid --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sexual Assault or Harassment</masterLabel>
+        <translation><!-- Sexual Assault or Harassment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Structured Settlements</masterLabel>
+        <translation><!-- Structured Settlements --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tax Related Error</masterLabel>
+        <translation><!-- Tax Related Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Threat of Withdrawal from Repr</masterLabel>
+        <translation><!-- Threat of Withdrawal from Repr --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Violation of Civil/Constitutional Rights</masterLabel>
+        <translation><!-- Violation of Civil/Constitutional Rights --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

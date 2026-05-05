@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Object Type --></label>
+    <name>Object_Type__c</name>
+    <picklistValues>
+        <masterLabel>Account</masterLabel>
+        <translation><!-- Account --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AcctSeed__Billing__c</masterLabel>
+        <translation><!-- AcctSeed__Billing__c --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Policy_Claim__c</masterLabel>
+        <translation><!-- Policy_Claim__c --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Policy_Endorsement__c</masterLabel>
+        <translation><!-- Policy_Endorsement__c --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Policy__c</masterLabel>
+        <translation><!-- Policy__c --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,540 @@
+<aura:component controller="SendEmailExt" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction,lightning:isUrlAddressable">
+    <aura:attribute name="recordId" type="Id" /> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="spinner" type="boolean" default="true"/>
+    <aura:attribute name="wrp" type="object" />
+    <aura:attribute name="timezone" type="string" />
+    <aura:attribute name="showError" type="boolean" default="false"/>
+    <aura:attribute name="status" type="string" />
+    <aura:attribute name="typeOfButton" type="string" />
+    <aura:attribute name="SendToisOpen" type="boolean" default="false"/>
+    <aura:attribute name="AddConIsOpen" type="boolean" default="false"/>
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+ 
+    <div class="slds__container">
+        
+        <aura:if isTrue="{!v.spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container">
+                <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                    <span class="slds-assistive-text">Loading...</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.showError}">
+            <div class="slds-notify_container" style="margin-top:10%;text-align:center;">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <div class="notify__content slds-grid">
+                        <span class="slds-icon__container ">
+                            <span class="slds-assistive-text">Alert</span>
+                        </span>
+                        <div class="slds-col slds-align-middle" style="position:relative;left:99px;" >
+                            <h2 class="slds-text-heading- -small ">{!v.status}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        
+        
+        
+        
+        <div class="slds-m-around_xx-large">
+            <aura:if isTrue="{!v.SendToisOpen}">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container"  style="display:block;overflow: auto;">
+                        
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{! c.closeModel1 }"
+                                                  alternativeText="close"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"/>
+                            
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Contact</h2>
+                        </header>
+                        
+                        <table class="slds-table slds-table_cell-buffer slds-table_header-hidden">
+                            <aura:iteration  items="{!v.wrp.toAddressList}" var="attch" indexVar="index">
+                                <div class="slds-modal__content ">
+                                    
+                                    
+                                    <thead class="slds-assistive-text">
+                                        <tr class="slds-line-height_reset">
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Select">Select</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Contact Name">Contact Name</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr>
+                                            <td> 
+                                                <aura:if isTrue="{!attch.SelectedContact.Name == v.wrp.sendToContactSelected.Name}">
+                                                    <label class="slds-checkbox-button slds-checkbox-button_is-checked" for="example-unique-id-132"  data-index="{!index}" onclick="{!c.SelectContact}">
+                                                        <span class="slds-icon_container slds-icon-utility-check slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:check" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                                
+                                                <aura:if isTrue="{!attch.SelectedContact.Name != v.wrp.sendToContactSelected.Name}">
+                                                    <label class="slds-checkbox-button" for="example-unique-id-133"  data-index="{!index}" onclick="{!c.SelectContact}">
+                                                        <span class="slds-icon_container slds-icon-utility-add slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:add" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                            </td>
+                                            
+                                            <td>
+                                                <div class="slds-truncate" title="Name">{!attch.SelectedContact.Name} ({!attch.SelectedContact.Email})</div>
+                                            </td>
+                                        </tr>
+                                        
+                                        
+                                        
+                                    </tbody>
+                                    
+                                    
+                                </div>
+                            </aura:iteration>
+                        </table>
+                        
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" 
+                                              label="Cancel"
+                                              title="Cancel"
+                                              onclick="{! c.closeModel1 }"/>
+                            
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+                
+            </aura:if>
+        </div>
+        
+        
+        
+        
+        <div class="slds-m-around_xx-large">
+            <aura:if isTrue="{!v.AddConIsOpen}">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" style="display:block;overflow: auto;">
+                        
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{! c.closeModel2 }"
+                                                  alternativeText="close"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"/>
+                            
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Contacts</h2>
+                        </header>
+                        
+                        <table class="slds-table slds-table_cell-buffer slds-table_header-hidden">
+                            
+                            <div class="slds-modal__content ">
+                                
+                                
+                                <thead class="slds-assistive-text">
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Select">Select</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Contact Name">Contact Name</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <aura:iteration  items="{!v.wrp.ccAddressList}" var="attch" indexVar="index">
+                                        
+                                        <tr>
+                                            <td> 
+                                                <aura:if isTrue="{!attch.Selected}">
+                                                    <label class="slds-checkbox-button slds-checkbox-button_is-checked" for="example-unique-id-132"  data-index="{!index}" onclick="{!c.SelectCCContact}">
+                                                        <span class="slds-icon_container slds-icon-utility-check slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:check" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                                
+                                                <aura:if isTrue="{!!attch.Selected}">
+                                                    <label class="slds-checkbox-button" for="example-unique-id-133"  data-index="{!index}" onclick="{!c.SelectCCContact}">
+                                                        <span class="slds-icon_container slds-icon-utility-add slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:add" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                            </td>
+                                            
+                                            <td>
+                                                <div class="slds-truncate" title="Name">{!attch.SelectedContact.Name} ({!attch.SelectedContact.Email})</div>
+                                            </td>
+                                        </tr>
+                                        
+                                    </aura:iteration>
+                                </tbody>
+                                
+                                
+                            </div>
+                            
+                        </table>
+                        
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" 
+                                              label="Cancel"
+                                              title="Cancel"
+                                              onclick="{! c.closeModel2 }"/>
+                            <lightning:button variant="brand" 
+                                              label="Save"
+                                              title="Save"
+                                              onclick="{! c.SaveModal2 }"/>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+                
+            </aura:if>
+        </div>
+        
+        
+        <div class="slds__container">
+            <header class="slds-modal__header">
+                <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Email Sender and Recipient Information</h2>
+            </header>
+            <div class="slds-modal__content slds-grid slds-nowrap" id="modal-content-id-1">
+                <div class="slds-col slds-grid slds-grid_vertical slds-nowrap">
+                    <div class="slds-scrollable slds-grow">
+                        <div class="slds-scrollable_none" style="margin-right:10px;margin-left:10px;">
+                            <br/>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <fieldset class="slds-form-element slds-form-element_compound slds-form-element_address slds-is-required slds-is-editing slds-form-element_stacked">
+                                        
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-05">From Address</label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:select name="select1" value="{!v.wrp.fromAddressSelected}">
+                                                            <aura:iteration items="{!v.wrp.fromAddressList}" var="em">
+                                                                <option value="{!em}" selected="{!em==v.wrp.fromAddressSelected}">
+                                                                    <ui:outputText value="{!em}" />
+                                                                </option>
+                                                            </aura:iteration>
+                                                        </lightning:select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-06">Send To Contact 
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <aura:if isTrue="{!!v.wrp.noContactReference}">
+                                                            <a  onclick="{!c.ChangeSendToContact}" >Edit</a>
+                                                        </aura:if>
+                                                    </label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:input value="{!v.wrp.sendToContactSelected.Name+ ' (' + v.wrp.sendToContactSelected.Email + ')'}" disabled="true" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_9-of-12">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-07">Additional Recipients
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <aura:if isTrue="{!!v.wrp.noContactReference}">
+                                                            <a  onclick="{!c.ChangeCcContact}" >Edit</a>
+                                                        </aura:if>
+                                                    </label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:input value="{!v.wrp.CCAddressDisplay}" disabled = "true"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_3-of-12">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-07">
+                                                        <b>BCC : {!v.wrp.bccAddress}</b>
+                                                    </label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:input aura:id="bccCheckbox" name="bccCheckbox" value="bccCheckbox"  type="checkbox" onchange="{!c.handleCheck}"  style="margin-top: 13px;padding-bottom: 15px;"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-01">Folder</label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:select name="select1" value="{!v.wrp.folderName}" onchange="{!c.selectFolder}">
+                                                            <option value="">
+                                                                <ui:outputText value="--None--" />
+                                                            </option>
+                                                            <aura:iteration items="{!v.wrp.folderList}" var="em">
+                                                                <option value="{!em}"  selected="{!em==v.wrp.folderName}">
+                                                                    <ui:outputText value="{!em}" />
+                                                                </option>
+                                                            </aura:iteration>
+                                                        </lightning:select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-02">Template</label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:select name="select1" value="{!v.wrp.templateName}"  onchange="{!c.selectTemplate}">
+                                                            <option value="">
+                                                                <ui:outputText value="--None--" />
+                                                            </option>
+                                                            <aura:iteration items="{!v.wrp.templateList}" var="em">
+                                                                <option value="{!em}"   selected="{!em==v.wrp.templateName}">
+                                                                    <ui:outputText value="{!em}" />
+                                                                </option>
+                                                            </aura:iteration>
+                                                        </lightning:select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-1">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="stacked-form-element-id-07">Subject</label>
+                                                    <div class="slds-form-element__control">
+                                                        <lightning:input value="{!v.wrp.emailSubject}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-1">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="stacked-form-element-id-04">Email Body</label>
+                                                        <div class="slds-form-element__control emailBody" >
+                                                            <lightning:inputRichText value="{!v.wrp.emailBody}" class ="emailBody"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds__container">
+            <div class="slds-modal__content slds-grid slds-nowrap" id="modal-content-id-1">
+                <div class="slds-col slds-grid slds-grid_vertical slds-nowrap">
+                    <div class="slds-scrollable slds-grow">
+                        <div class="slds-scrollable_none" style="margin-left:10px;margin-right:10px;">
+                            <h3 id="id-of-modalheader-h3" class="slds-text-heading_small" style="margin-top:10px;margin-bottom:10px;">Attachments</h3>
+                            <table aria-multiselectable="true" class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="Example product list">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="slds-align_absolute-center" style="height:2rem;" scope="col">
+                                            <div class="slds-grid slds-align_absolute-center slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Attach With Email">Attach With Email</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Title" scope="col" style="width:40%">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Title">Title</span>
+                                            </div>
+                                        </th>
+                                        <!--th aria-label="Created By" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Created By">Created By</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Created Date" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Created Date">Created Date</span>
+                                            </div>
+                                        </th-->
+                                        <th aria-label="Last Modified By" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Last Modified By">Last Modified By</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Last Modified Date" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Last Modified Date">Last Modified Date</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Content Size" scope="col" width="5%">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate" style="justify-content: flex-end; padding-right: 0.5rem;">
+                                                <span class="slds-truncate" title="Created Date">Content Size</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration  items="{!v.wrp.attachments}" var="attch" indexVar="index">
+                                        <tr aria-selected="false" class="slds-hint-parent">
+                                            <td class="slds-align_absolute-center" role="gridcell">
+                                                <aura:if isTrue="{!attch.attached}">
+                                                    <label class="slds-checkbox-button slds-checkbox-button_is-checked" for="example-unique-id-132"  data-index="{!index}" onclick="{!c.unattachFile}">
+                                                        <span class="slds-icon_container slds-icon-utility-check slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:check" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                                <aura:if isTrue="{!!attch.attached}">
+                                                    <label class="slds-checkbox-button" for="example-unique-id-133"  data-index="{!index}" onclick="{!c.attachFile}">
+                                                        <span class="slds-icon_container slds-icon-utility-add slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:add" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                            </td>
+                                            <th scope="row">
+                                                <div class="slds-truncate" title="{!attch.attachment.Title}"><a data-attachid="{!attch.attachment.ContentDocumentId}" onclick="{!c.openFile}">{!attch.attachment.Title}</a></div>
+                                            </th>
+                                            <!--td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.CreatedBy.Name}"><a href="{!'/'+attch.attachment.CreatedById}" target="_blank" >{!attch.attachment.CreatedBy.Name}</a></div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.CreatedDate}"><lightning:formattedDateTime value="{!attch.attachment.CreatedDate}" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit" timeZone="{!v.timezone}" /></div>
+                                            </td-->
+                                            <td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.LastModifiedBy.Name}"><a href="{!'/'+attch.attachment.LastModifiedById}" target="_blank" >{!attch.attachment.LastModifiedBy.Name}</a></div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.LastModifiedDate}"><lightning:formattedDateTime value="{!attch.attachment.LastModifiedDate}" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit" timeZone="{!v.timezone}" /></div>
+                                            </td>
+                                            <td role="gridcell" width="5%">
+                                                <div class="slds-truncate" style="justify-content: flex-end; padding-right: 0.5rem; display: flex;" title="{!attch.attachment.ContentSize}"><lightning:formattedNumber value="{!attch.attachment.ContentSize/1024}" maximumFractionDigits="2" minimumFractionDigits="2"/>KB</div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration >
+                                </tbody>
+                            </table>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="slds__container">
+            <div class="slds-modal__content slds-grid slds-nowrap" id="modal-content-id-1">
+                <div class="slds-col slds-grid slds-grid_vertical slds-nowrap">
+                    <div class="slds-scrollable slds-grow">
+                        <div class="slds-scrollable_none" style="margin-left:10px;margin-right:10px;">
+                            <h3 id="id-of-modalheader-h3" class="slds-text-heading_small" style="margin-top:10px;margin-bottom:10px;">Resource Documents</h3>
+                            <table aria-multiselectable="true" class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="Example product list">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="slds-align_absolute-center" style="height:2rem;" scope="col">
+                                            <div class="slds-grid slds-align_absolute-center slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Attach With Email">Attach With Email</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Title" scope="col" style="width:40%">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Title">Title</span>
+                                            </div>
+                                        </th>
+                                        <!--th aria-label="Created By" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Created By">Created By</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Created Date" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Created Date">Created Date</span>
+                                            </div>
+                                        </th-->
+                                        <th aria-label="Last Modified By" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Last Modified By">Last Modified By</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Last Modified Date" scope="col">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate">
+                                                <span class="slds-truncate" title="Last Modified Date">Last Modified Date</span>
+                                            </div>
+                                        </th>
+                                        <th aria-label="Content Size" scope="col" width="5%">
+                                            <div class="slds-grid slds-align_absolute-right slds-has-flexi-truncate" style="justify-content: flex-end; padding-right: 0.5rem;">
+                                                <span class="slds-truncate" title="Created Date">Content Size</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration  items="{!v.wrp.LibraryAttachments}" var="attch" indexVar="index">
+                                        <tr aria-selected="false" class="slds-hint-parent">
+                                            <td class="slds-align_absolute-center" role="gridcell">
+                                                <aura:if isTrue="{!attch.attached}">
+                                                    <label class="slds-checkbox-button slds-checkbox-button_is-checked" for="example-unique-id-132"  data-index="{!index}" onclick="{!c.unattachFileLib}">
+                                                        <span class="slds-icon_container slds-icon-utility-check slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:check" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                                <aura:if isTrue="{!!attch.attached}">
+                                                    <label class="slds-checkbox-button" for="example-unique-id-133"  data-index="{!index}" onclick="{!c.attachFileLib}">
+                                                        <span class="slds-icon_container slds-icon-utility-add slds-current-color" title="Description of icon when needed">
+                                                            <lightning:icon iconName="utility:add" size="xx-small"/>
+                                                        </span>
+                                                    </label>
+                                                </aura:if>
+                                            </td>
+                                            <th scope="row">
+                                                <div class="slds-truncate" title="{!attch.attachment.Title}"><a data-attachid="{!attch.attachment.ContentDocumentId}" onclick="{!c.openFile}">{!attch.attachment.Title}</a></div>
+                                            </th>
+                                            <!--td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.CreatedBy.Name}"><a href="{!'/'+attch.attachment.CreatedById}" target="_blank" >{!attch.attachment.CreatedBy.Name}</a></div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.CreatedDate}"><lightning:formattedDateTime value="{!attch.attachment.CreatedDate}" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit" timeZone="{!v.timezone}" /></div>
+                                            </td-->
+                                            <td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.LastModifiedBy.Name}"><a href="{!'/'+attch.attachment.LastModifiedById}" target="_blank" >{!attch.attachment.LastModifiedBy.Name}</a></div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-truncate" title="{!attch.attachment.LastModifiedDate}"><lightning:formattedDateTime value="{!attch.attachment.LastModifiedDate}" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit" timeZone="{!v.timezone}" /></div>
+                                            </td>
+                                             <td role="gridcell" width="5%">
+                                                <div class="slds-truncate" style="justify-content: flex-end; padding-right: 0.5rem; display: flex;" title="{!attch.attachment.ContentSize}"><lightning:formattedNumber value="{!attch.attachment.ContentSize/1024}" maximumFractionDigits="2" minimumFractionDigits="2"/>KB</div>   
+                                            </td>
+                                        </tr>
+                                    </aura:iteration >
+                                </tbody>
+                            </table>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/><br/><br/>
+            <footer class="slds-modal__footer" style = "position: fixed;bottom: 40px;width: 100%;text-align:center !important;">
+                <button class="slds-button slds-button_neutral" onclick="{!c.cancel}">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick="{!c.send}">Send</button>
+            </footer>
+        </div>
+    </div>
+</aura:component>

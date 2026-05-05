@@ -1,0 +1,96 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Past Acts Coverage Endorsement
+    </p>
+    <p class="normalParagraph">
+        Notwithstanding anything to the contrary contained herein, it is agreed that:
+    </p>
+    <p class="normalParagraph">
+        Section<span class="normalBoldParagraph"> III. DEFINITIONS </span>of this Policy is amended to include the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> &nbsp; </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> Prior Professional Services </span><br/><br/>
+                    <span class="normalBoldParagraph">1.</span>&nbsp; services rendered by the <span class="normalBoldParagraph"> Insured </span> named below as a Lawyer, including services as an administrator, arbitrator, conservator, executor, guardian ad litem, mediator, notary public, personal representative, real estate title insurance agent, receiver, trustee or in any other similar fiduciary activity whether or not for a fee, including pro-bono services;<br/><br/>
+                    <span class="normalBoldParagraph">2.</span>&nbsp; services rendered by the <span class="normalBoldParagraph"> Insured </span> named below in service of a Bar Association or similar professional association related to the legal profession; and<br/><br/>
+                    <span class="normalBoldParagraph">3.</span>&nbsp; expert witness services that are directly related to the practice of law;<br/><br/>
+                    <br/><br/>
+                    but only if such services were rendered by such <span class="normalBoldParagraph"> Insured </span> on behalf of the Entity named below.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <p class="normalParagraph">
+        Nothing contained in this endorsement is intended, nor shall it be construed, to provide coverage for any<span class="normalBoldParagraph"> Vicarious Liability </span>of the<span class="normalBoldParagraph"> Insured </span>named below based upon their status as an Owner, Officer, Shareholder, Partner, Associate, Employed Lawyer, Of Counsel or Independent Contractor of the Entity named below.
+    </p>
+    <p class="normalParagraph">
+        It is further agreed that coverage for<span class="normalBoldParagraph"> Prior Professional Services </span>does not apply to any<span class="normalBoldParagraph"> Claim </span>that arises out of a<span class="normalBoldParagraph"> Wrongful Act </span>which occurred prior to the<span class="normalBoldParagraph"> Prior Professional Services Prior Acts Date </span>or after the<span class="normalBoldParagraph"> Prior Professional Services </span>End Date specified below.
+    </p><br/>
+    <table cellspacing="0" cellpadding="0" style="border: 1px solid #787878; width:100%">
+        <tr>
+            <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <span class="normalParagraph" style="text-decoration: underline;">Name of <span class="b">Insured</span></span>
+                </p>
+            </td>
+            <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <span class="normalParagraph" style="text-decoration: underline;">Name of Entity</span>
+                </p>
+            </td>
+            <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <span class="normalBoldParagraph">Prior Professional</span><br /><span class="b" style="text-decoration: underline;">Services Prior Acts Date</span>
+                </p>
+            </td>
+            <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <span class="normalParagraph"><span class="b">Prior Professional</span></span><br /><span style="text-decoration: underline;"><span class="b">Services</span> End Date</span>
+                </p>
+            </td>
+        </tr>
+        <apex:repeat value="{!termList}" var="term">
+            <tr>
+                <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                    <p class="normalParagraph tableDataCenter">
+                        <apex:outputField value="{!endorsement.Attorney__c}"/>
+                    </p>
+                </td>
+                <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                    <p class="normalParagraph tableDataCenter">
+                        <apex:outputField value="{!term.Firm_Entity__c}"/>
+                    </p>
+                </td>
+                <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                    <p class="normalParagraph tableDataCenter">
+                        <apex:outputText value="{0,date,MMMM dd, yyyy}"> <apex:param value="{!term.Term_Start_Date__c}" /> </apex:outputText>
+                    </p>
+                </td>
+                <td style="border: 1px solid #787878; width:25%;" class="tableDataCenter">
+                    <p class="normalParagraph tableDataCenter">
+                        <apex:outputText value="{0,date,MMMM dd, yyyy}"> <apex:param value="{!term.Term_End_Date__c}" /> </apex:outputText>
+                    </p>
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:130px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

@@ -1,0 +1,49 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Split Limit of Liability Endorsement
+    </p>
+    <p class="normalParagraph">
+        In consideration of an additional premium of&nbsp;<apex:outputField value="{!endorsement.Additional_Premium__c}"/>, it is agreed that Item 7 of the Declarations is amended to read as follows:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="padding-left: 30px; width:100%">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalBoldParagraph">
+                    A.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    With respect to any<span class="normalBoldParagraph"> Claim </span>first made during the<span class="normalBoldParagraph"> Policy Period </span>arising out of a<span class="normalBoldParagraph"> Wrongful Act </span>which occurred prior to&nbsp;<apex:outputText value="{!endorsement.Prior_Act_Date_Text__c}:"> </apex:outputText><br/><br/>
+                    Limit of Liability: &nbsp;Per Claim&nbsp;<apex:outputField value="{!endorsement.Old_Per_Claim__c}"/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aggregate &nbsp;<apex:outputField value="{!endorsement.Old_Aggregate__c}"/><br/>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalBoldParagraph">
+                    B.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    With respect to any<span class="normalBoldParagraph"> Claim </span>first made during the<span class="normalBoldParagraph"> Policy Period </span>arising out of a<span class="normalBoldParagraph"> Wrongful Act </span>which occurred on or after&nbsp;<apex:outputText value="{!endorsement.Prior_Act_Date_Text__c}:">  </apex:outputText><br/><br/>
+                    Limit of Liability: &nbsp;Per Claim&nbsp;<apex:outputField value="{!endorsement.New_Per_Claim__c}"/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aggregate &nbsp;<apex:outputField value="{!endorsement.New_Aggregate__c}"/><br/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:200px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

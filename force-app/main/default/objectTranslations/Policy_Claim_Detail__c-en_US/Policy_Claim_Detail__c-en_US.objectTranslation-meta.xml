@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Policy Claim Detail</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Policy Claims Detail</value>
+    </caseValues>
+    <layouts>
+        <layout>Claim Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Deductible --></label>
+            <section>Deductible</section>
+        </sections>
+        <sections>
+            <label><!-- Deductible Allocation --></label>
+            <section>Deductible Allocation</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Claim Payment</layout>
+        <sections>
+            <label><!-- Claim Payment --></label>
+            <section>Claim Payment</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Deductible</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Deductible --></label>
+            <section>Deductible</section>
+        </sections>
+        <sections>
+            <label><!-- Deductible Expense --></label>
+            <section>Deductible Expense</section>
+        </sections>
+        <sections>
+            <label><!-- Deductible Loss --></label>
+            <section>Deductible Loss</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Reinsurance</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Detail --></label>
+            <section>Detail</section>
+        </sections>
+        <sections>
+            <label><!-- Reinsurance --></label>
+            <section>Reinsurance</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Reserve</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Unallocated LAE</layout>
+        <sections>
+            <label><!-- ARDC Information --></label>
+            <section>ARDC Information</section>
+        </sections>
+        <sections>
+            <label><!-- Claim Details --></label>
+            <section>Claim Details</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Unallocated Payment --></label>
+            <section>Unallocated Payment</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Reverse Entries --></label>
+        <name>Reverse_Entries</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- LAE / Loss payment against Reserves. --></description>
+        <label><!-- Claim Payment --></label>
+        <name>Claim_Payment</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- 1) Allocate Deductible Loss/LAE. 2) Cash Received / Write-off against Deductible. --></description>
+        <label><!-- Deductible --></label>
+        <name>Deductible</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- 1) Create Due from Reinsurance Loss/LAE. 2) Change in Ceded Reserve for Loss/LAE. --></description>
+        <label><!-- Reinsurance --></label>
+        <name>Reinsurance</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- 1) Increase Reserve(User Reserve)  2) Close/Re-Open Reserve --></description>
+        <label><!-- Reserve --></label>
+        <name>Reserve</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Unallocated Payment for all Claims except Memo. --></description>
+        <label><!-- Unallocated LAE --></label>
+        <name>Unallocated_LAE</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- LAE Amount cannot exceed &apos;Deductible Allocated&apos; Remaining! --></errorMessage>
+        <name>Allocated_not_exceed_by_DeductibleLAE</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Loss Amount cannot exceed &apos;Deductible Allocated&apos; Remaining! --></errorMessage>
+        <name>Allocated_not_exceed_by_DeductibleLoss</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Loss Amount&apos; should be empty in case of &apos;LAE Payment&apos;! --></errorMessage>
+        <name>ClaimPaymentOfLAE_must_be_empty_Loss</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;LAE Amount&apos; should be empty in case of &apos;Loss Payment&apos;! --></errorMessage>
+        <name>ClaimPaymentOfLoss_must_be_empty_LAE</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;LAE Amount&apos; should be empty in case of  &apos;Cash Payment&apos;! --></errorMessage>
+        <name>Deductible_CashPayment_LAEamt_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Loss Amount&apos; should be empty in case of &apos;Cash Payment&apos;! --></errorMessage>
+        <name>Deductible_CashPayment_Lossamt_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Cheque Number&apos; should be empty in case of &apos;Deductible Expense&apos;! --></errorMessage>
+        <name>Deductible_DeductibleExp_ChequeNo_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;LAE Amount&apos; should be greater than zero in case of &apos;Deductible Expense&apos;! --></errorMessage>
+        <name>Deductible_DeductibleExp_LAEamt_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Loss Amount&apos; should be empty in case of &apos;Deductible Expense&apos;! --></errorMessage>
+        <name>Deductible_DeductibleExp_Lossamt_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Cheque Number&apos; should be empty in case of &apos;Deductible Loss&apos;! --></errorMessage>
+        <name>Deductible_DeductibleLoss_ChequeNo_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;LAE Amount&apos; should be empty in case of &apos;Deductible Loss&apos;! --></errorMessage>
+        <name>Deductible_DeductibleLoss_LAEamt_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Loss Amount&apos; should be greater than zero in case of &apos;Deductible Loss&apos;! --></errorMessage>
+        <name>Deductible_DeductibleLoss_Lossamt_Input</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Memo&apos; claims are only stored in the system as stand alone, details records are not created for claim type &apos;Memo&apos;! --></errorMessage>
+        <name>Memo_Claim_Type_Not_AllowFor_Detail_Rcd</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;Open Reserve&quot; is only allowed at the time of Claim Creation! --></errorMessage>
+        <name>Open_Reserve_entry_not_allowed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- LAE Payment should not exceed from &quot;Unpaid LAE Reserve&quot; Balance! --></errorMessage>
+        <name>Payment_do_not_have_enough_Reserve_LAE</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Loss Payment should not exceed from &quot;Unpaid Loss Reserve&quot; Balance! --></errorMessage>
+        <name>Payment_do_not_have_enough_Reserve_Loss</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Payment cannot be made if  &apos;Claim&apos; is Closed! --></errorMessage>
+        <name>PolicyClaimClosePaymentcannotbemade</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;LAE Amount&apos; cannot be Positive in case of &apos;Close Reserve&apos;! --></errorMessage>
+        <name>PolicyClaimCloseReserveNegativeLAEAmt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Loss Amount&apos; cannot Positive in case of &apos;Close Reserve&apos;! --></errorMessage>
+        <name>PolicyClaimCloseReserveNegativeLossAmt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;LAE Amount&apos; cannot exceed &apos;Remaining Limits&apos; of Policy in case of &apos;User Reserve&apos; or &apos;Re-Opened Reserve&apos;! --></errorMessage>
+        <name>PolicyReminBal_not_exceed_by_ReserveLAE</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Loss Amount&apos; cannot exceed &apos;Remaining Limits&apos;of a Policy in case of &apos;User Reserve&apos;! --></errorMessage>
+        <name>PolicyReminBal_not_exceed_by_ReserveLoss</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Reserve LAE&apos; Amount cannot exceed &apos;Policy Incurred&apos;! --></errorMessage>
+        <name>Reserve_Close_LAE_can_not_in_negative</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Reserve Loss&apos; Amount cannot exceed &apos;Claim Incurred&apos;! --></errorMessage>
+        <name>Reserve_Close_Loss_can_not_in_negative</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Full amount of &quot;ISBA First Payment&quot; should be paid first! --></errorMessage>
+        <name>UnallocatedARDCFirstPaymentLimitControl2</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISBA First payment should not exceed from &apos;Policy ARDC Balanced&apos;! --></errorMessage>
+        <name>UnallocatedARDCFirstPaymentPolicyBal</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISBA First payment should not exceed from Limit! --></errorMessage>
+        <name>UnallocatedARDC_FirstPaymentLimitControl</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISBA contribution should not exceed from Policy ARDC Balanced! --></errorMessage>
+        <name>UnallocatedARDC_ISBACont_PolicyBal</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISBA contribution should not exceed from Limit! --></errorMessage>
+        <name>UnallocatedARDC_ISBAContributionControl</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Type should be &quot;Claim Coverage - ARDC&quot; in case Claim is &quot;ARDC Complaint&quot;! --></errorMessage>
+        <name>Unallocated_ARDC_Claim_Type_Control</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Claim should be &quot;ARDC Complaint&quot;!  in case  of &quot;Claim Coverage - ARDC&quot;! --></errorMessage>
+        <name>Unallocated_ARDC_Claim_Type_Control2</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;LAE Amount&quot; should be empty in case Claim is &quot;ARDC Complaint&quot;! --></errorMessage>
+        <name>Unallocated_ARDC_Fields_Control</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;ISBA First Payment&quot; or &quot;ISBA Contribution&quot; should be in case of &quot;ARDC Complaint&quot;! --></errorMessage>
+        <name>Unallocated_ARDC_Fields_Control2</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;ISBA Contribution&quot; should be in case of No &quot;Discipline Action&quot;! --></errorMessage>
+        <name>Unallocated_ARDC_ISBA_Contribution_Cnt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;ISBA Contribution&quot; should be empty in case of &quot;Discipline Action&quot;! --></errorMessage>
+        <name>Unallocated_ARDC_ISBA_Contribution_Cnt2</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Type should be &quot;Claim Coverage - ARDC&quot; in case Claim is &quot;ARDC Complaint&quot;! --></errorMessage>
+        <name>Unallocated_Memo_Claim_Type_Control</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;User Reserve&quot; cannot be made if  &apos;Claim&apos; is Closed! --></errorMessage>
+        <name>User_Reserve_is_not_allowed_4_ClaimClose</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Vendor&apos; is required in case of &apos;Unallocated Payment&apos;! --></errorMessage>
+        <name>Vendor_is_required_when_UnallocatedLAE</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Vendor&apos; is required in case of &apos;Payment&apos;! --></errorMessage>
+        <name>Vendor_is_required_when_payment</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Claim Payment&apos; cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; claim types! --></errorMessage>
+        <name>Which_Claim_Type_Not_AllowFor_ClmPayment</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Deductible&apos; cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; claim types! --></errorMessage>
+        <name>Which_Claim_Type_Not_AllowFor_Deductible</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Reinsurance&apos; cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; claim types! --></errorMessage>
+        <name>Which_Claim_Type_Not_AllowFor_ReInsuranc</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Reserve&apos; cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; claim types! --></errorMessage>
+        <name>Which_Claim_Type_Not_AllowFor_Reserve</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Reserves&apos;, &apos;Payments&apos; and &apos;Deductibles&apos; cannot be created against an Inactive Policy, Claims can only be recorded! --></errorMessage>
+        <name>Which_Claim_Type_Should_only_be_recorded</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Write-Off&apos; Amount should be empty in case of &apos;Deductible Expense&apos;! --></errorMessage>
+        <name>XXXDeductible_DeductibleExp_WriteOffAmt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Write-Off&apos; Amount should be empty in case of &apos;Deductible Loss&apos;! --></errorMessage>
+        <name>XXXDeductible_DeductibleLoss_WriteOffAmt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISBA Contribution should be First in case of &apos;Discipline Action&apos; than Lawyer Contribution! --></errorMessage>
+        <name>XXXUnallocatedARDC_DisciplineNo</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;ARDC Information&apos; Section should be empty in case of &apos;Memo&apos;! --></errorMessage>
+        <name>XXXUnallocated_Memo_Fields_Control</name>
+    </validationRules>
+</CustomObjectTranslation>

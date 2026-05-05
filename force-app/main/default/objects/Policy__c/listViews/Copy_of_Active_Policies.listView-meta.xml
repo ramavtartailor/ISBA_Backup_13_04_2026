@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_Active_Policies</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Effective_Date__c</columns>
+    <columns>Cancel_Date__c</columns>
+    <columns>Bound_Date__c</columns>
+    <columns>Next_Policy__c</columns>
+    <columns>Expiration_Date__c</columns>
+    <columns>Factor_Premium__c</columns>
+    <columns>Policy_ID__c</columns>
+    <columns>Policy_Number__c</columns>
+    <columns>Premium__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Renewal_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Policy</value>
+    </filters>
+    <filters>
+        <field>Active__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Renewal_Type__c</field>
+        <operation>equals</operation>
+        <value>Regular Renewal</value>
+    </filters>
+    <label>Active Policies - Regular Renewal</label>
+</ListView>

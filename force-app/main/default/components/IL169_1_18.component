@@ -1,0 +1,25 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Securities Work Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> IV. EXCLUSIONS </span>is amended to include the following:
+    </p>
+    <p class="normalParagraph">
+        Securities Work
+    </p>
+    <p class="normalParagraph">
+        The sale, purchase, offer to sell or purchase, or the solicitation of an offer to sell or purchase, a security covered by, or claimed to be covered, in whole or in part by the Securities Act of 1933, the Securities Exchange Act of 1934, the Investment Advisors Act of 1940, or any other Federal or State Blue-Sky or Securities Law, or any rules or regulations issued pursuant to any of the referenced Acts, or any amendments thereto.
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!--  <div style="width:30%;margin-top:390px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

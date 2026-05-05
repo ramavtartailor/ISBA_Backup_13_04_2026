@@ -1,0 +1,26 @@
+<apex:page renderAs="pdf" applyBodyTag="false" readOnly="true" contentType="application/pdf">
+    <head>
+  		<style>
+            
+            body {
+            	font-family: 'Arial', sans-serif !important;
+            	font-size: 11pt;
+        	}
+            
+      		@page {
+            	size:portrait;
+            	margin-left: 0.8cm;
+            	margin-right: 0.8cm;
+            	margin-top: 0.8cm;
+            	margin-bottom: 1cm;
+      		}
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+        </style>
+    </head>
+    <c:EZRenewal2 recordIdParam="{!$CurrentPage.parameters.Id}" />
+</apex:page>

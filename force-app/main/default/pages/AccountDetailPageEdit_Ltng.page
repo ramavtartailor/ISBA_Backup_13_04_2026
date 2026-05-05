@@ -1,0 +1,1828 @@
+<apex:page standardController="Account" extensions="AccountDetailPageEdit_LtngController" sidebar="false" showHeader="false" id="pg">
+    <apex:slds />
+    <apex:pagemessages id="pMesg" />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+             <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}"></script>  
+            <!--<apex:styleSheet value="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.css')}" />
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.dataTables.min.js')}"></script> -->
+             <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+             <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+            <!--<script src="{!URLFOR($Resource.ALJS, '/appiphony-lightning-js-master/dist/jquery.aljs-all-with-moment.min.js')}"></script>-->
+            <style>
+                    .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                    }
+                    .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .dateFormat {
+                        padding: 0 2px;
+                        display: none;
+                    }
+                    .slds-scope .slds-page-header {
+                        padding: 1rem .75rem;
+                        border-bottom: 1px solid #d8dde6 !important;
+                        background-color: #337AB7 !important;
+                        color: white;
+                    }
+                    .slds-box{
+                    }
+                    .slds-scope .slds-medium-size--12-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .slds-scope .slds-medium-size--6-of-12 {
+                        margin-bottom: 10px;
+                    }
+                    .accountRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .ContactRequired{
+                        border-left: 4px solid red !important;
+                    }
+                    .slds-scope a:focus, .slds-scope a:hover{
+                        display: initial !important;
+                    }
+                    .lookupInput .slds-input{
+                        //border:none !important;
+                    }
+                    .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                        background-color: #fff; 
+                    }
+                    .lookupInput input[readonly] {
+                        cursor: default;
+                        color: #333;
+                        background-color: #fff !important;
+                        border: 1px solid #d8dde6 !important;
+                    }
+                    .datePicker{
+                        z-index: 99999 ;
+                    }
+            </style>
+            <script>
+                $('body').click(function(evt) {
+                    $(".closeDiv :visible").each(function() {
+                        $('.closeDiv').hide();
+                    });
+                });
+                function search( lookName ,ObjectName,label){
+                    try{ 
+                        $('input[id$='+lookName+']').css('background', 'url("http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif") no-repeat right center');
+                        var key=$('input[id$='+lookName+']').val();
+                        Visualforce.remoting.Manager.invokeAction(
+                            '{!$RemoteAction.AccountDetailPageEdit_LtngController.getLookupRecord}',
+                            key, 
+                            ObjectName,
+                            function(result, event){
+                                if(result != null){
+                                    if (event.status) {
+                                        var  tables ="<ul class='slds-lookup__list' role='listbox'>  ";
+                                        for(var i=0;i<result.length;i++){ 
+                                            tables += "<li role='presentation' onclick=\"fillRecord( '" +lookName+"','" +result[i].Id+"','"+result[i].Name+"' )\"><span class='slds-lookup__item-action slds-media' id='lookup-option-483' role='option'><div class='slds-media__body'><div class='slds-lookup__result-text'>"+result[i].Name+"</div></div></span></li>"; 
+                                        } 
+                                        tables +="</ul>";
+                                        if(result.length > 0){
+                                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>"+label+"</div>"+tables; 
+                                        }else{
+                                            tables = "<div class='slds-lookup__item--label slds-text-body--small'>No record found .</div>"; 
+                                        }
+                                        document.getElementById(lookName+"SrchDrpDwn").innerHTML =tables;
+                                        $('[id$='+lookName+'SrchDrpDwn]').show(); 
+                                    } else if (event.type === 'exception') {
+                                        
+                                    } else {
+                                        
+                                    }
+                                    $('input[id$='+lookName+']').css('background', 'none'); 
+                                }else{
+                                    $('input[id$='+lookName+']').css('background', 'none');
+                                }
+                            }, 
+                            {escape: true}
+                        );
+                    }catch(e){ 
+                        alert('An Error has Occured. Error:' +e); 
+                    }
+                    
+                }
+                function fillRecord(lookup,id,name){
+                    $('[id$='+lookup+'SrchDrpDwn]').hide();
+                    $('input[id$='+lookup+'Value]').val(id);
+                    
+                    $('[id$='+lookup+'Label]').text(name);
+                    $('[id$='+lookup+'Search]').addClass('slds-hide');
+                    $('[id$='+lookup+'LabelDiv]').removeClass('slds-hide');
+                } 
+                
+                function showError(error){
+                    $(".slds-notify_container h2").each(function() {
+                        $(this).text(error);
+                    });
+                    $(".slds-notify_container").removeClass('slds-hide');
+                    setTimeout(function() {
+                        $(".slds-notify_container").addClass('slds-hide');
+                    }, 5000);
+                }
+            function searchValidate(){
+                $('[id$=spinner]').css('display','block');
+                var flag = false;
+                $('.search').each(function (){
+                    if($(this).val() != '' && $(this).val() != null && $(this).val() != 'undefined'){
+                        flag = true;
+                    }
+                });
+                if(flag){
+                    searchContacts();
+                }else{
+                    showError('Search text empty . ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            } 
+            function cancel(){
+                $('[id$=spinner]').css('display','block');
+                cancelMethod();
+            }
+            function selectContacts(){
+                var str='';
+                $("input:checkbox[name=options]:checked").each(function(){
+                    if(str==''){
+                        str = $(this).attr("data-id") ;
+                    }else{
+                        str= str + ',' + $(this).attr("data-id"); 
+                    }    
+                });
+                if(str==''){
+                    showError('Select atleast one contact.');
+                    $('[id$=spinner]').css('display','none');
+                }else{
+                    associateContacts(str);
+                }    
+                
+            }
+                 /*$.aljsInit({
+                    assetsLocation: assetsLocation,
+                    scoped: true,
+                    scopingClass: 'slds-scope'
+                });*/
+                $(document).ready(function() {
+                    
+                    //$('#date').datepicker();
+                    $('#radio-24').prop('checked','checked');
+                    fltrContact('All');
+                    $('table ,td,img').removeClass('slds-input');
+                    $('a').each(function(){
+                        $(this).removeClass('slds-input');
+                        $(this).removeClass('ContactRequired');
+                    });
+                    $('.lookupInput input').each(function(){
+                        //$(this).attr('readonly', true);
+                    });
+                    $('#radio-26').change(function (){
+                        var type = $(this).attr('data');
+                        if(type != null && type != '' && type != 'undefined'){
+                            $('[id$=spinner]').css('display','block');
+                            fltrContact(type);
+                        }
+                    });
+                    $('#radio-25').change(function (){
+                        var type = $(this).attr('data');
+                        if(type != null && type != '' && type != 'undefined'){
+                            $('[id$=spinner]').css('display','block');
+                            fltrContact(type);
+                        }
+                    });
+                    $('#radio-24').change(function (){
+                        var type = $(this).attr('data');
+                        if(type != null && type != '' && type != 'undefined'){
+                            $('[id$=spinner]').css('display','block');
+                            fltrContact(type);
+                        }
+                    });
+                    $('[id$=spinner]').css('height',$(document).height());
+                    $("svg").on("click", function() {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        }
+                    });
+                    $("svg").on("click", function() {
+                        var lookup = $(this).attr('data');
+                        if($(this).attr('data')=='toggle'){
+                            $(this).parent().parent().parent().find('.slds-p-horizontal--small').each(function (){
+                                if($(this).css('display') == 'none'){
+                                    //$(this).removeClass('slds-hide');
+                                    $(this).slideDown("slow");
+                                }else{
+                                    //$(this).addClass('slds-hide');
+                                    $(this).slideUp("slow");
+                                }
+                            });
+                        }else if (lookup  != '' && lookup  != null && lookup  != 'undefined' && lookup.indexOf('Lookup') != -1) {
+                            $('input[id$=' + lookup + ']').val('');
+                            $('input[id$=' + lookup + 'Value]').val('');
+                            
+                            $('[id$=' + lookup + 'Label]').text('');
+                            $('[id$=' + lookup + 'Search]').removeClass('slds-hide');
+                            $('[id$=' + lookup + 'LabelDiv]').addClass('slds-hide');
+                        }
+                    });
+                    
+                    $('svg').click(function (){
+                        if($(this).attr('data')=='toggle'){
+                            $(this).parent().parent().parent().find('.slds-p-horizontal--small').each(function (){
+                                if($(this).css('display') == 'none'){
+                                    //$(this).removeClass('slds-hide');
+                                    $(this).slideDown("slow");
+                                }
+                            });
+                        }
+                    });
+                    datatableReinit();
+                    datatableReinitContactSearch();
+                    var startYear=1940; 
+                    var endYear=2034; 
+                    var optionsString='';
+                    if(startYear<endYear){
+                        for(i=startYear;i<endYear+1;i++){
+                            optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                        }
+                        $('#calYearPicker').html(optionsString);
+                    }
+                });
+                function openContactModal(){
+                    $('#contactLookupModal input').each(function (){
+                        $(this).val('');
+                    });
+                    openModal();
+                }
+                function openContactSearchModal(){
+                    openContactSearchModalFunction();
+                }
+                function validateAndSaveContact(){
+                    $('#contactLookupModal input').each(function (){
+                         $(this).css('border','1px solid #d8dde6');
+                    });
+                    var flagSave = true;
+                    var contactType  = $('[id$=contactType]').val();
+                    var ardcNumber  = $('[id$=ardcNumber]').val();
+                    /*if(contactType!='' && contactType!=null && contactType!='undefined' && contactType=='Lawyer' && !(ardcNumber && trim(ardcNumber))){
+                        $('[id$=ardcNumber]').css('border','1px solid red ');
+                        showError('** ARDC Number is required when Contact type is Lawer.');
+                        flagSave = false;
+                        $('[id$=spinner]').css('display','none');
+                        return false;
+                    }*/
+                    var sEmail  = $('[id$=vEmail]').val();
+                    var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                    if (!filter.test(sEmail) && sEmail  != '' && sEmail  != null && sEmail  !=  'undefined') {
+                        $('[id$=vEmail]').css('border','1px solid red ');
+                        showError('** Email is not valid . ');
+                        flagSave = false;
+                        $('[id$=spinner]').css('display','none');
+                        return false;
+                    }else{
+                        $('[id$=vEmail]').css('border','1px solid #d8dde6');
+                    }
+                    $('.ContactRequired').each(function (){
+                        if($(this).val() == '' || $(this).val() == null || $(this).val() == 'undefined'){
+                            $(this).css('border','1px solid red ');
+                            showError('** Required fields missing . ');
+                            $('[id$=spinner]').css('display','none');
+                            flagSave = false;
+                        }else if($('[id$=ContactType]').val() == ''){
+                            $('[id$=ContactType]').css('border','1px solid red ');
+                            showError('** Required fields missing . ');
+                            $('[id$=spinner]').css('display','none');
+                            flagSave = false;
+                        }
+                    });
+                    if(flagSave){
+                        newContact();
+                    }else{
+                        showError('** Required fields missing . ');
+                        $('[id$=spinner]').css('display','none');
+                    }
+                }
+                function validateAndSaveAccount(){
+                    $('#contactLookupModal input').each(function (){
+                         $(this).css('border','1px solid #d8dde6');
+                    });
+                    var sEmail  = $('[id$=aEmail]').val();
+                    var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                    if (!filter.test(sEmail) && sEmail  != '' && sEmail  != null && sEmail  !=  'undefined') {
+                        $('[id$=aEmail]').css('border','1px solid red ');
+                        showError('** Email is not valid . ');
+                        flagSave = false;
+                        $('[id$=spinner]').css('display','none');
+                        return false;
+                    }else{
+                        $('[id$=aEmail]').css('border','1px solid #d8dde6');
+                    }
+                    var flagSave = true;
+                    $('.accountRequired').each(function (){
+                        if($(this).val() == '' || $(this).val() == null || $(this).val() == 'undefined'){
+                            $(this).css('border','1px solid red ');
+                            showError('** Required fields missing . ');
+                            $('[id$=spinner]').css('display','none');
+                            flagSave = false;
+                        }
+                    });
+                    if(flagSave){
+                        saveAccRecord();
+                    }
+                }
+                function datatableReinit(){
+                    // Setup - add a text input to each footer cell
+                    $('#example tfoot th').each( function (i) {
+                        var title = $('#example thead th').eq( $(this).index() ).text();
+                        $(this).html( '<input type="text" placeholder="Search '+title+'" data-index="'+i+'" />' );
+                    } );
+                  
+                    // DataTable
+                    var table = $('#example').DataTable( {
+                        /*scrollY:        "300px",
+                        scrollX:        true,
+                        scrollCollapse: true,
+                        paging:         true,
+                        fixedColumns:   false*/
+                    } );
+                 
+                    // Filter event handler
+                    $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+                        table
+                            .column( $(this).data('index') )
+                            .search( this.value )
+                            .draw();
+                    } );
+                    $('tfoot').css('display','none');
+                    $('.dataTables_length select,input').addClass('slds-input');
+                }
+            function datatableReinitContactSearch(){
+                    // Setup - add a text input to each footer cell
+                    $('#contactSearchTable tfoot th').each( function (i) {
+                        var title = $('#contactSearchTable thead th').eq( $(this).index() ).text();
+                        $(this).html( '<input type="text" placeholder="Search '+title+'" data-index="'+i+'" />' );
+                    } );
+                  
+                    // DataTable
+                    var table = $('#contactSearchTable').DataTable( {
+                        scrollY:        "400px",
+                        scrollX:        true,
+                        scrollCollapse: true,
+                        paging:         true,
+                        fixedColumns:   false
+                    } );
+                 
+                    // Filter event handler
+                    $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+                        table
+                            .column( $(this).data('index') )
+                            .search( this.value )
+                            .draw();
+                    } );
+                    $('tfoot').css('display','none');
+                    $('.dataTables_length select,input').addClass('slds-input');
+                }
+                function renderAfterDeletion(){
+                    showErrorOnComplete();
+                    datatableReinit();
+                }
+                function showErrorOnComplete(){
+                    var error = document.getElementById('{!$Component.frm.hiddenElement}').value;
+                    if(error != '' && error != null && error != 'undefined'){
+                        showError(error);
+                    }
+                }    
+            </script>
+        </head>
+        <body>
+            <apex:form id="frm">
+            <apex:outputPanel id="renderError">
+                <apex:inputHidden value="{!error}" id="hiddenElement"/>
+            </apex:outputPanel>
+            <apex:actionFunction name="fltrContact" action="{!filterContactByType}" reRender="table" oncomplete="datatableReinit();$('[id$=contactLookupModal]').addClass('slds-hide');$('[id$=spinner]').css('display','none');">
+            </apex:actionFunction>
+            <apex:actionFunction name="editContact" action="{!editRecordModalContact}" reRender="contactpnl" oncomplete="openModal();">
+                <apex:param name="index" value="" assignTo="{!edIndex}"/>
+            </apex:actionFunction>
+            <apex:actionFunction name="deleteContact" action="{!deleteRecordContact}" reRender="renderError,table" oncomplete="renderAfterDeletion();$('[id$=spinner]').css('display','none');return false;">
+                <apex:param name="index2" value="" assignTo="{!edIndex}"/>
+            </apex:actionFunction>
+            <apex:actionFunction name="newContact" action="{!createContact}" reRender="table" oncomplete="datatableReinit();$('[id$=contactLookupModal]').addClass('slds-hide');$('[id$=spinner]').css('display','none');"/>
+            <apex:actionFunction name="saveAccRecord" action="{!saveAccount}" reRender="pMesg,renderError" oncomplete="$('[id$=spinner]').css('display','none');showErrorOnComplete();"/>
+            <apex:actionFunction name="openModal" reRender="contactpnl" oncomplete="$('[id$=contactLookupModal]').removeClass('slds-hide');$('[id$=spinner]').css('display','none');"/>
+            <apex:actionFunction name="openContactSearchModalFunction" reRender="contactSearch" oncomplete="$('[id$=contactSearchModal]').removeClass('slds-hide');datatableReinitContactSearch();$('[id$=spinner]').css('display','none');"/>
+            <apex:actionFunction name="searchContacts" action="{!searchContact}" reRender="contactSearch" oncomplete="$('[id$=contactSearchModal]').removeClass('slds-hide');datatableReinitContactSearch();$('[id$=spinner]').css('display','none');"/>
+            <apex:actionFunction name="cancelMethod" action="{!cancelMethod}" reRender="table,contactSearch" oncomplete="datatableReinit();$('[id$=contactSearchModal]').addClass('slds-hide');$('[id$=spinner]').css('display','none');"/>
+            <apex:actionFunction name="associateContacts" action="{!associateContacts}" reRender="table,contactSearch" oncomplete="datatableReinit();$('[id$=contactSearchModal]').removeClass('slds-hide');$('[id$=spinner]').css('display','none');">
+                <apex:param name="selectedContactsVar" value="" assignTo="{!selectedContacts}"/>
+            </apex:actionFunction>    
+                <div class="slds-page-header" role="banner">
+              <div class="slds-media">
+                <div class="slds-media__body">
+                  <p class="slds-page-header__title slds-truncate" title="Account">Account</p>
+                  <p class="slds-text-body--small"></p>
+                </div>
+                <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                  <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                    <!--<a href="javascript:void(0);" class="slds-has-blur-focus">Home</a>-->
+                  </li>
+                </ul>
+              </div>
+            </div>
+             <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="    position: fixed;">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+             </div>
+             <div class="slds-notify_container slds-hide">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                      <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading--small"></h2>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- record details page start -->
+            
+            <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;">
+            <legend id="" class="slds-text-heading--small slds-p-vertical--medium legend">
+                
+            </legend> 
+             <!-- Row Start-->
+             <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Account Information</h2>
+                        </div>
+                        <!-- 1 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="AccountName">Account Name</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Account Name" required="false" styleClass="slds-input accountRequired" value="{!Account.Name}"  />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="EstablishDate">Establish Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Date" styleClass="slds-input" value="{!Account.Establish_Date__c}" />
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Type">Type</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Type" styleClass="slds-input" value="{!Account.Type}" />
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="AccountingType">Accounting Type</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Type" styleClass="slds-input" value="{!Account.AcctSeed__Accounting_Type__c}" />
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="VendorAccount">1099 Vendor</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                            <apex:inputCheckbox id="VendorAccount" value="{!Account.AcctSeed__X1099_Vendor__c}">
+                                                <apex:actionSupport event="onclick" reRender="pickListFieldSection"/>
+                                            </apex:inputCheckbox>
+                                                        <label class="slds-checkbox__label" for="pg:frm:VendorAccount">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <apex:outputPanel id="pickListFieldSection">
+                                <apex:outputPanel rendered="{!IF(Account.AcctSeed__X1099_Vendor__c == true , true,false)}">
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="X1099_Vendor__c">1099 Vendor</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-placeholder="Enter Preferred 1099 Vendor" styleClass="slds-input" value="{!Account.X1099_Vendor__c }" />
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Preferred_Payment_Type__c">Preferred Payment Type</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Preferred Payment Type" styleClass="slds-input" value="{!Account.Preferred_Payment_Type__c }" />
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <!--<div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="FirmID">Firm ID</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Firm ID" styleClass="slds-input" value="{!Account.Account_Auto_Number__c}" />
+                                    </div>
+                                </div>
+                            </div>-->
+                            
+                        </div>
+                        <!-- 2 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="TaxpayerIdentificationNumber">Taxpayer Identification Number</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Taxpayer Identification Number" styleClass="slds-input" value="{!Account.AcctSeed__Taxpayer_Identification_Number__c}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ExDate">Ex-Date</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Ex-Date" styleClass="slds-input" value="{!Account.Ex_Date__c}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="phyisicalDocumentDelivery">Phyisical document delivery</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="phyisicalDocumentDelivery" value="{!Account.Physical_document_delivery__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:phyisicalDocumentDelivery">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ISBAM_Billing_Frequency_Policy_Full_Payment_Only">ISBAM Billing Frequency Policy Full Payment Only</label>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                                        <apex:inputCheckbox id="ISBAM_Billing_Frequency_Policy_Full_Payment_Only" value="{!Account.ISBAM_Billing_Freq_Policy_Full_Pay_Only__c}"/>
+                                                        <label class="slds-checkbox__label" for="pg:frm:ISBAM_Billing_Frequency_Policy_Full_Payment_Only">
+                                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                        </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                 </div>
+                 <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Additional Information</h2>
+                        </div>
+                        <!-- 1 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="email">E-Mail</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter E-Mail" id="aEmail" styleClass="slds-input " value="{!Account.email__c}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Website">Website</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Website" styleClass="slds-input" value="{!Account.Website__c}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="FirmSize">Estimated Firm Size </label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Firm Size" styleClass="slds-input" value="{!Account.Firm_Size__c}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingStreet">Primary Street</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputTextarea rows="3" html-placeholder="Enter Billing Street" styleClass="slds-input" value="{!Account.BillingStreet}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingCity">Primary City</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Billing City" styleClass="slds-input" value="{!Account.BillingCity}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingState">Primary State/Province </label>
+                                    <div class="slds-form-element__control">
+                                        <!--<apex:inputField html-placeholder="Enter State/Province" styleClass="slds-input" value="{!Account.BillingState}" />-->
+                                        <apex:selectList styleClass="slds-input" value="{!Account.BillingState}"  multiselect="false" size="1">
+                                            <apex:selectOptions value="{!state}"></apex:selectOptions>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingPostalCode">Primary Zip/Postal Code</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Billing Zip/Postal Code" styleClass="slds-input" value="{!Account.BillingPostalCode}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--<div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingCountry">Country</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Billing Country" styleClass="slds-input" value="{!Account.BillingCountry}" />
+                                    </div>
+                                </div>
+                            </div>-->
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingAddressCounty">County</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:selectList value="{!Account.Billing_Address_County__c}" multiselect="false" size="1" styleClass="slds-input">
+                                            <apex:selectOptions value="{!County}"/>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="BillingContact">Billing Contact</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Select Billing Contact" styleClass="slds-input" value="{!Account.AcctSeed__Billing_Contact__c}"/>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="slds-form--horizontal">
+                                    <div class="slds-form-element" style="display:none;">
+                                        <label class="slds-form-element__label" for="BillingContact">Primary Contact</label>
+                                        <div class=" slds-lookup" data-select="single" id="BillingContactLookupSearch">
+                                            <div class="slds-form-element__control slds-grid slds-box--border">
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true">
+                                                      <!--<use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#search')}"></use>-->
+                                                    </svg>
+                                                    <input type="text" id="BillingContactLookup" class="slds-input" onkeypress="search('BillingContactLookup','Contact','Search Contacts')" placeholder="Search Billing Contact" style="border:none;" />
+                                                    <div class="slds-lookup__menu closeDiv" id="BillingContactLookupSrchDrpDwn" style="display:none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <apex:inputHidden id="BillingContactLookupValue" value="{!Account.AcctSeed__Billing_Contact__c}" />
+                                        <!-- Display window -->
+                                        <div class="slds-form-element slds-lookup slds-hide" data-select="single" id="BillingContactLookupLabelDiv">
+                                            <div class="slds-form-element__control slds-grid slds-box--border" style="display: inline-flex;">
+                                                <div class="slds-dropdown--trigger slds-dropdown-trigger--click slds-align-middle slds-m-left--xx-small slds-shrink-none">
+                                                    <svg class="slds-icon slds-icon-standard-account slds-icon--small" aria-hidden="true">
+                                                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                                    <svg class="slds-input__icon" aria-hidden="true" data="BillingContactLookup">
+                                                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                                    </svg>
+                                                    <label class="slds-align-middle slds-lookup__search-input slds-input--bare" for="form-help" id="BillingContactLookupLabel">{!Account.AcctSeed__Billing_Contact__r.Name}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            if($('[id$=BillingContactLookupValue]').val() != ''){
+                                                $('[id$=BillingContactLookupSearch]').addClass('slds-hide');
+                                                $('[id$=BillingContactLookupLabelDiv]').removeClass('slds-hide');
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            <!--<div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ParentAccount">Parent Account</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Select Parent Account" styleClass="slds-input" value="{!Account.ParentId}"/>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                        <!-- 2 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Phone">Phone</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Phone Number" styleClass="slds-input" value="{!Account.Phone}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Fax">Fax</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Fax Number" styleClass="slds-input" value="{!Account.Fax}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="Carrier">Carrier</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Carrier" styleClass="slds-input" value="{!Account.Carrier__c}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ShippingStreet">Alternate Street</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Shipping Street" styleClass="slds-input" value="{!Account.ShippingStreet}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ShippingCity">Alternate City</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Shipping City" styleClass="slds-input" value="{!Account.ShippingCity}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ShippingState">Alternate State/Province </label>
+                                    <div class="slds-form-element__control">
+                                        <!--<apex:inputField html-placeholder="Enter State/Province" styleClass="slds-input" value="{!Account.BillingState}" />-->
+                                        <apex:selectList styleClass="slds-input" value="{!Account.ShippingState}"  multiselect="false" size="1">
+                                            <apex:selectOptions value="{!state}"></apex:selectOptions>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="ShippingPostalCode">Alternate Zip/Postal Code</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField html-placeholder="Enter Shipping Zip/Postal Code" styleClass="slds-input" value="{!Account.ShippingPostalCode}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-size--12-of-12  slds-theme--shade">
+                            <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Contacts</h2>
+                        </div>
+                                <apex:outputPanel rendered="{!IF(Account.Id != null , true,false)}">
+                                <fieldset class="slds-form-element">
+                                  <!--<legend class="slds-form-element__legend slds-form-element__label">Contact is</legend>-->
+                                  <div class="slds-form-element__control" style="display:none;">
+                                    <span class="slds-radio">
+                                      <input type="radio" id="radio-24" name="optionsContact" checked="" data="All"/>
+                                      <label class="slds-radio__label" for="radio-24">
+                                        <span class="slds-radio--faux" data="All"></span>
+                                        <span class="slds-form-element__label">All Contacts</span>
+                                      </label>
+                                    </span>  
+                                    <span class="slds-radio">
+                                      <input type="radio" id="radio-25" name="optionsContact" data="Lawyer"/>
+                                      <label class="slds-radio__label" for="radio-25">
+                                        <span class="slds-radio--faux" data="Lawyer"></span>
+                                        <span class="slds-form-element__label">Lawyers</span>
+                                      </label>
+                                    </span>
+                                    <span class="slds-radio">
+                                      <input type="radio" id="radio-26" name="optionsContact" data="Non-Lawyer" />
+                                      <label class="slds-radio__label" for="radio-26">
+                                        <span class="slds-radio--faux" data="Non-Lawyer"></span>
+                                        <span class="slds-form-element__label">Non-Lawyers</span>
+                                      </label>
+                                    </span>
+                                  </div>
+                                </fieldset>
+                                </apex:outputPanel>
+                        <apex:outputPanel rendered="{!IF(Account.Id != null , true,false)}" styleClass="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--2-of-12 slds-large-size--2-of-12">
+                                <div class="slds-form">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <apex:selectList value="{!type}" size="1" styleClass="slds-input" rendered="{!IF(Account.Id != null , true,false)}" style="margin-top:10px;margin-bottom:10px;" onchange="$('[id$=spinner]').css('display','block');fltrContact();">
+                                                <apex:selectOption itemValue="All" itemLabel="All Contacts" ></apex:selectOption>
+                                                <apex:selectOption itemValue="Lawyer" itemLabel="Lawyers"></apex:selectOption>
+                                                <apex:selectOption itemValue="Non-Lawyer" itemLabel="Non-Lawyers"></apex:selectOption>
+                                            </apex:selectList>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </apex:outputPanel>
+                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                            <div class="slds-form">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" style="margin-top:10px;margin-bottom:10px;" onclick="$('[id$=spinner]').css('display','block');openContactModal(); return false;">
+                                            Create Non Lawyer
+                                        </button>
+                                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" style="margin-top:10px;margin-bottom:10px;" onclick="$('[id$=spinner]').css('display','block');openContactSearchModal(); return false;">
+                                            Search Lawyer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                        <!-- 1 row -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                            
+                            <apex:outputPanel id="table">
+                                <table id="example" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr class="slds-text-heading--label">
+                                            <th>&nbsp;</th>
+                                            <th width="15%">Name</th>
+                                            <th> Contact Type</th>
+                                            <th>Title</th>
+                                            <th width="15%">Email</th>
+                                            <th>Phone</th>
+                                            <th>ISBA #</th>
+                                            <th>ARDC #</th>
+                                            <th>Policy Number</th>
+                                            <th>Contact Role</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <apex:repeat value="{!Account.Contacts}" var="contact" rendered="false">
+                                            <tr>
+                                                <td>
+                                                    
+                                            </td>
+                                            <td width="15%">{!contact.FirstName} {!contact.Middle_Name__c} {!contact.LastName} {!contact.Suffix__c}</td>
+                                            <td>{!contact.Type__c}</td>
+                                            <td>{!contact.Title}</td>
+                                            <td width="15%">{!contact.Email}</td>
+                                            <td>{!contact.Phone}</td>
+                                            <td>{!contact.ISBA__c}</td>
+                                            <td>{!contact.ARDC_Number__c}</td>
+                                            <td>{!contact.Account_Number__c}</td>
+                                            <td>{!contact.Contact_Role__c}</td>
+                                        </tr>
+                                    </apex:repeat>
+                                    <apex:variable var="ind" value="{!0}"/>
+                                    <apex:repeat value="{!contactList}" var="contact2">
+                                        <tr>
+                                            <td>
+                                                <apex:outputPanel rendered="{!Not(contact2.isDirect)}">
+                                                    <apex:commandLink value="Edit" Onclick="$('[id$=spinner]').css('display','block');editContact('{!contact2.index}'); return false;" /> |&nbsp; 
+                                                    <apex:commandLink value="Remove" Onclick="$('[id$=spinner]').css('display','block');deleteContact('{!contact2.index}'); return false;" />
+                                                    <!--<apex:commandLink value="Edit" action="{!URLFOR($Action.Contact.Edit, contact2.contactRecord.Id)}" target="_blank"/> |&nbsp; 
+                                                    <apex:commandLink value="Delete" action="{!URLFOR($Action.Contact.Delete,contact2.contactRecord.Id,[retURL=Account.Id],true)}" target="_blank"/> -->
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!(contact2.isDirect)}">
+                                                    <apex:commandLink value="Edit" Onclick="$('[id$=spinner]').css('display','block');editContact('{!contact2.index}'); return false;" /> |&nbsp; 
+                                                    <apex:commandLink value="Delete" Onclick="$('[id$=spinner]').css('display','block');deleteContact('{!contact2.index}'); return false;" />
+                                                    <apex:variable var="ind" value="{!ind+1}"/>
+                                                </apex:outputPanel>
+                                            </td>
+                                            <td width="15%">{!contact2.contactRecord.FirstName} {!contact2.contactRecord.Middle_Name__c} {!contact2.contactRecord.LastName} {!contact2.contactRecord.Suffix__c}</td>
+                                            <td>{!contact2.contactRecord.Type__c}</td>
+                                            <td>{!contact2.contactRecord.Title}</td>
+                                            <td width="15%">{!contact2.contactRecord.Email}</td>
+                                            <td>{!contact2.contactRecord.Phone}</td>
+                                            <td>{!contact2.contactRecord.ISBA__c}</td>
+                                            <td>{!contact2.contactRecord.ARDC_Number__c}</td>
+                                            <td>{!contact2.contactRecord.Account_Number__c}</td>
+                                            <td>{!contact2.contactRecord.Contact_Role__c}</td>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                 </div> 
+                 
+               </div>  
+             </fieldset >
+                <apex:outputPanel id="contactSearch">
+                    <!-- Search Contact -->
+                    <div id="contactSearchModal" class="slds-hide">
+                        <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal--large" aria-labelledby="header43">
+                            <div class="slds-modal__container">
+                                
+                                <div class="slds-modal__content slds-grow slds-p-around--medium">
+                                    
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%; ">
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                            <h1 style="background-color: #337AB7;color:white;/* margin-left: 10px; */padding: 5px;border-radius: 3px;"><b style="margin-left:10px" >Search</b></h1>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                 
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="inputSample2">ARDC Number:</label>
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                                                        <apex:inputText value="{!ardcNumber}" styleClass="slds-input search" onkeydown="if (event.keyCode == 13){searchValidate();return false;}"/>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="inputSample2">First Name:</label>
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                                                        <apex:inputText value="{!firstName }" styleClass="slds-input search" onkeydown="if (event.keyCode == 13){searchValidate();return false;}"/>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <!--Row 2-->
+                                            <div class="slds-form--horizontal">
+                                                <div class="slds-form-element">
+                                                    <label class="slds-form-element__label" for="inputSample2">Last Name:</label>
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="text" id="inputSample2" class="slds-input"  />-->
+                                                        <apex:inputText value="{!lastName }" styleClass="slds-input search" onkeydown="if (event.keyCode == 13){searchValidate();return false;}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Row 3 -->
+                                        </div>
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--8-of-12">
+                                            <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="searchValidate(); return false;">
+                                                <span class="slds-text-not-selected"></span>Search
+                                            </button>
+                                            <!--
+                                            <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="$('[id$=spinner]').css('display','block');selectContacts(); return false;">
+                                                <span class="slds-text-not-selected"></span>Select
+                                            </button>
+                                            -->
+                                            <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="$('[id$=spinner]').css('display','block');cancel();openContactModal(); return false;">
+                                                <span class="slds-text-not-selected"></span>Create Lawyer
+                                            </button>
+                                            <button class="slds-button slds-button--neutral slds-order--1" onclick="cancel();return false;">Done</button>
+                                            <!--
+                                            <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="$('[id$=spinner]').css('display','block');redirectToEdit('New'); return false;">
+                                                <span class="slds-text-not-selected"></span>New
+                                            </button>-->
+                                        </div> 
+                                        
+                                    </div>
+                                    
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                            <apex:outputPanel id="tableContactSearch">
+                                                <table id="contactSearchTable" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr class="slds-text-heading--label">
+                                                            <th>&nbsp;</th>
+                                                            <th width="15%">Name</th>
+                                                            <th> Contact Type</th>
+                                                            <th>Title</th>
+                                                            <th width="15%">Email</th>
+                                                            <th>Phone</th>
+                                                            <th>ISBA #</th>
+                                                            <th>ARDC Number</th>
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody>
+                                                        <apex:repeat value="{!searchedContacts}" var="cont">
+                                                            <tr>
+                                                                <!--<td>
+                                                                    <span class="slds-checkbox">
+                                                                        <input type="checkbox" name="options" id="{!cont.Id}" checked="" data-id="{!cont.Id}"/>
+                                                                        <label class="slds-checkbox__label" for="{!cont.Id}">
+                                                                            <span class="slds-checkbox_faux"></span>
+                                                                        </label>
+                                                                    </span>
+                                                                </td>-->
+                                                                <td>
+                                                                    <apex:outputLink value="#" onclick="$('[id$=spinner]').css('display','block');associateContacts('{!cont.Id}');" id="er">Select</apex:outputLink>
+                                                                </td>
+                                                                <td width="15%">{!cont.FirstName} {!cont.Middle_Name__c} {!cont.LastName} {!cont.Suffix__c}</td>
+                                                                <td>{!cont.Type__c}</td>
+                                                                <td>{!cont.Title}</td>
+                                                                <td width="15%">{!cont.Email}</td>
+                                                                <td>{!cont.Phone}</td>
+                                                                <td>{!cont.ISBA__c}</td>
+                                                                <td>{!cont.ARDC_Number__c}</td>
+                                                            </tr>
+                                                        </apex:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </apex:outputPanel>
+                                        </div>
+                                    </div> 
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-backdrop slds-backdrop--open"></div>
+                    </div>
+                </apex:outputPanel>
+             <apex:outputPanel id="contactpnl">
+                    <!-- Contact Lookup -->
+                    <div id="contactLookupModal" class=" slds-hide">
+                        <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal--large" aria-labelledby="header43">
+                            <div class="slds-modal__container">
+            
+                                <div class="slds-modal__content slds-grow slds-p-around--medium">
+            
+                                    
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                                        
+                                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;" onclick="return false;">
+                                                          <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="return false;">
+                                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}"></use>
+                                                          </svg>
+                                                          <span class="slds-assistive-text"></span>
+                                                        </button>
+                                                        
+                                                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Contact  Information</h2>
+                                                    </div>
+                                                    
+                                                    <!-- 1 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ContactType">Contact Type</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Contact Type" id="contactType" styleClass="slds-input ContactRequired" value="{!contactRecord .Type__c}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="FirstName">First Name  </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter First Name" required="false" styleClass="slds-input ContactRequired" value="{!contactRecord .FirstName}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="MiddleName">Middle Name</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Middle Name" styleClass="slds-input" value="{!contactRecord .Middle_Name__c}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="LastName">Last Name</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Last Name" required="false" styleClass="slds-input ContactRequired" value="{!contactRecord .LastName}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Suffix">Suffix</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Suffix" required="false" styleClass="slds-input" value="{!contactRecord .Suffix__c}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="PrimaryContact">Primary Contact</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                        <apex:inputField html-placeholder="Enter Primary Contact" styleClass="slds-input" value="{!contactRecord .Primary_Contact__c}" id="checkbox" />
+                                                                        
+                                                                        <label class="slds-checkbox__label" for="pg:frm:checkbox">
+                                                                            <span class="slds-checkbox--faux"></span>
+                                                                            <span class="slds-form-element__label"></span>
+                                                                        </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ISBA">ISBA #   </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter ISBA" styleClass="slds-input" value="{!contactRecord .ISBA__c }" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ARDCNumber">ARDC Number    </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter ARDC Number" id="ardcNumber" styleClass="slds-input" value="{!contactRecord .ARDC_Number__c}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ContactRole">Contact Role  </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Contact Role" styleClass="slds-select" value="{!contactRecord .Contact_Role__c}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <!-- 2 row -->
+                                                    
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Birthdate">Birthdate</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Birthdate" required="false" onkeydown="autoFormat(this)" styleClass="slds-input" value="{!contactRecord .Birthdate}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Phone">Phone</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Phone" styleClass="slds-input" value="{!contactRecord .Phone}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="PhoneExt">Phone Ext</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Phone Ext" styleClass="slds-input" value="{!contactRecord .Phone_Ext__c}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Mobile">Mobile</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Mobile" styleClass="slds-input" value="{!contactRecord.MobilePhone}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Email">Business Email</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Email" id="vEmail" styleClass="slds-input" value="{!contactRecord .Email}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="personalEmail">Personal Email</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Email" id="personalEmail" styleClass="slds-input" value="{!contactRecord.Personal_Email__c}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Gender">Gender</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Gender" styleClass="slds-input" value="{!contactRecord .Gender__c}" />
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="BarEntryDate">Bar Entry Date</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Bar Entry Date" required="false" styleClass="slds-input" value="{!contactRecord.Bar_entry_date__c}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                                            <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down"  ></use>
+                                                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}" style="display:none" class="up"></use>
+                                                            </svg>
+                                                            
+                                                            <span class="slds-assistive-text"></span>
+                                                        </button>
+                                                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Contact Address information</h2>
+                                                    </div>
+                                                    
+                                                    <!-- 1 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Street">Street</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Street" required="false" styleClass="slds-input" value="{!contactRecord .MailingStreet}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="City">City</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter City" styleClass="slds-input" value="{!contactRecord .MailingCity}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="StateProvince">State/Province</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <!--<apex:inputField html-placeholder="Enter State/Province" styleClass="slds-input" value="{!contactRecord .MailingState}" />-->
+                                                                    <apex:selectList styleClass="slds-input" value="{!contactRecord .MailingState}"  multiselect="false" size="1">
+                                                                        <apex:selectOptions value="{!state}"></apex:selectOptions>
+                                                                    </apex:selectList>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ZipPostalCode">Zip/Postal Code</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Zip/Postal Code" styleClass="slds-input" value="{!contactRecord .MailingPostalCode}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Country">Country</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Country" styleClass="slds-input" value="{!contactRecord .MailingCountry}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <!-- 2 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;" onclick="return false;">
+                                                          <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="return false;">
+                                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}"></use>
+                                                          </svg>
+                                                          <span class="slds-assistive-text"></span>
+                                                        </button>
+                                                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Additional Detail</h2>
+                                                    </div>
+                                                    
+                                                    <!-- 1 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="RequestNoContact">Request No Contact </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Request No Contact " required="false" styleClass="slds-input" value="{!contactRecord .Request_No_Contact__c}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="BarStatus">Bar Status</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Bar Status" styleClass="slds-input" value="{!contactRecord .Bar_Status__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="BarMembershipGeo">Bar Membership – Geo</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Bar Membership – Geo" styleClass="slds-input" value="{!contactRecord .Bar_Membership_Geo__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="SpecialtyBarAssociation">Specialty Bar Association</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Specialty Bar Association" styleClass="slds-input" value="{!contactRecord .Specialty_Bar_Association__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="FullLicensedName">Full Licensed Name (ARDC)    </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Full Licensed Name (ARDC) " styleClass="slds-input" value="{!contactRecord .Full_licensed_name_ARDC__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="AOP">AOP</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <input type="text" id="text-input-01" class="slds-input" placeholder="" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ARDCInsuranceReport">ARDC Insurance Report </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter ARDC Insurance Report" styleClass="slds-input" value="{!contactRecord .ARDC_Insurance_Report__c    }" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="AuthorizedToPractice">Authorized To Practice</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Authorized To Practice" styleClass="slds-input" value="{!contactRecord .Authorized_To_Practice__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="DoNotMail">Do Not Mail</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                      <apex:inputField html-placeholder="Enter Do Not Mail" styleClass="slds-input" value="{!contactRecord .Do_not_mail__c}" id="DoNotMail"/>
+                                                                      <label class="slds-checkbox__label" for="pg:frm:DoNotMail">
+                                                                        <span class="slds-checkbox--faux"></span>
+                                                                        <span class="slds-form-element__label"></span>
+                                                                      </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="DoNotCall">Do Not Call </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                      <apex:inputField html-placeholder="Enter Type" styleClass="slds-input" value="{!contactRecord .DoNotCall}" id="DoNotCall"/>
+                                                                      <label class="slds-checkbox__label" for="pg:frm:DoNotCall">
+                                                                        <span class="slds-checkbox--faux"></span>
+                                                                        <span class="slds-form-element__label"></span>
+                                                                      </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="chkVendor">1099 Vendor</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                      <apex:inputField html-placeholder="Enter Type" styleClass="slds-input" value="{!contactRecord .AcctSeed__X1099_Vendor__c}" id="chkVendor"/>
+                                                                      <label class="slds-checkbox__label" for="pg:frm:chkVendor">
+                                                                        <span class="slds-checkbox--faux"></span>
+                                                                        <span class="slds-form-element__label"></span>
+                                                                      </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="FullLicensedName">Default 1099 Box</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Default 1099 Box" styleClass="slds-input" value="{!contactRecord .AcctSeed__Default_1099_Box__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="FullLicensedName">Full Licensed Name (ARDC)    </label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Full Licensed Name (ARDC)" styleClass="slds-input" value="{!contactRecord .MailingCountry}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <!-- 2 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="BarEntryDate">Bar Entry Date</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Bar Entry Date" onkeydown="autoFormat(this)" required="false" styleClass="slds-input" value="{!contactRecord .Bar_entry_date__c}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="FirmID">Firm ID</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Firm ID" styleClass="slds-input" value="{!contactRecord .Firm_ID__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="JoinedFirm">Joined Firm</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Joined Firm" styleClass="slds-input" value="{!contactRecord .Joined_Firm__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="PriorActsDate">Prior Acts Date</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Prior Acts Date" onkeydown="autoFormat(this)" styleClass="slds-input" value="{!contactRecord .Prior_Acts_Date__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ConvertedFromLead">Converted From Lead</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Converted From Lead" styleClass="slds-input" value="{!contactRecord .Converted_from_lead__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="BestTimesToReach">Best Times To Reach</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Best Times To Reach" styleClass="slds-input" value="{!contactRecord .Best_times_to_reach__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ContactedUs">Contacted Us</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Contacted Us" styleClass="slds-input" value="{!contactRecord .Contacted_us__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="PolicyExpirationDate">Policy Expiration Date</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Policy Expiration Date" onkeydown="autoFormat(this)" styleClass="slds-input" value="{!contactRecord .Policy_Expiration_Date__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="PaidThrough">Paid Through</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Type" styleClass="slds-input" value="{!contactRecord .Paid_Through__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ISBAPaidThrough">ISBA Paid Through</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select ISBA Paid Through" styleClass="slds-input" value="{!contactRecord .ISBA_Paid_through__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="LastTelemarketingListSubmitted">Last Telemarketing List Submitted</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select ISBA Paid Through" styleClass="slds-input" value="{!contactRecord .Last_telemarketing_list_submitted__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="LastEmailed">Last Emailed</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Last Emailed" styleClass="slds-input" value="{!contactRecord .Last_emailed__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="CompletedForm">Completed Form</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Completed Form" styleClass="slds-input" value="{!contactRecord .Completed_form__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="LeadReturned ByQCSS">Lead Returned By QCSS</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select Lead Returned By QCSS" styleClass="slds-input" value="{!contactRecord .Lead_returned_by_QCSS__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="QCSSDate">QCSS Date</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Select QCSS Date" onkeydown="autoFormat(this)" styleClass="slds-input" value="{!contactRecord .QCSS_Date__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="DoNotMail">Do Not Email</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                      <apex:inputField html-placeholder="Enter Type" styleClass="slds-input" value="{!contactRecord .Do_Not_Email__c}" id="DoNotEMail"/>
+                                                                      <label class="slds-checkbox__label" for="pg:frm:DoNotEMail">
+                                                                        <span class="slds-checkbox--faux"></span>
+                                                                        <span class="slds-form-element__label"></span>
+                                                                      </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;" onclick="return false;">
+                                                          <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="return false;">
+                                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}"></use>
+                                                          </svg>
+                                                          <span class="slds-assistive-text"></span>
+                                                        </button>
+                                                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Description Information</h2>
+                                                    </div>
+                                                    
+                                                    <!-- 1 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Category">Category</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Category" required="false" styleClass="slds-input" value="{!contactRecord .Category__c}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="AdmittedinIllinois">Admitted in Illinois</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Admitted in Illinois" styleClass="slds-input" value="{!contactRecord .Admitted_in_Illinois__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="BarAssociationMembership">Bar Association Membership</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Bar Association Membership" styleClass="slds-input" value="{!contactRecord .Joined_Firm__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Description">Description</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Description" styleClass="slds-input" value="{!contactRecord .Description}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 2 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="AOP1">AOP 1</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter AOP 1" required="false" styleClass="slds-input" value="{!contactRecord .AOP_1__c}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="AOP2">AOP 2</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter AOP 2" styleClass="slds-input" value="{!contactRecord .AOP_2__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Court">Court</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Court" styleClass="slds-input" value="{!contactRecord .Court__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="AddressPurpose">Address Purpose</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Address Purpose" styleClass="slds-input" value="{!contactRecord .Address_Purpose__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="ActOnLeadScore">Act-On Lead Score</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Enter Act-On Lead Score" styleClass="slds-input" value="{!contactRecord .Act_On_Lead_Score__c}" />
+                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                                        <button class="slds-button slds-button--icon" title="Toggle" style="float:right;" onclick="return false;">
+                                                          <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="return false;">
+                                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}"></use>
+                                                          </svg>
+                                                          <span class="slds-assistive-text"></span>
+                                                        </button>
+                                                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Marketing Section</h2>
+                                                    </div>
+                                                    
+                                                    <!-- 1 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                        <div class="slds-form--horizontal">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="Street">Lead Week</label>
+                                                                <div class="slds-form-element__control">
+                                                                    <apex:inputField html-placeholder="Slect Lead Week" required="false" styleClass="slds-input" value="{!contactRecord .Lead_Week__c}"  />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 2 row -->
+                                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="slds-modal__footer slds-grid" style="justify-content: center;">
+                                    <button class="slds-button slds-button--neutral slds-order--1" onclick="$('[id$=contactLookupModal]').addClass('slds-hide');return false;">Cancel</button>
+                                    <button class="slds-button slds-button--brand slds-order--3" onclick="$('[id$=spinner]').css('display','block');validateAndSaveContact(); return false;">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-backdrop slds-backdrop--open"></div>
+                    </div>
+                    <!-- end contact lookup -->
+                    </apeX:outputPanel>
+             <div class="slds-docked-form-footer">
+              <button type="button" class="slds-button slds-button--neutral" onclick="window.location.href='{!returnURL}'">Cancel</button>
+              <button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndSaveAccount(); return false;">Save</button>
+            </div>
+            <!-- record details end -->
+            </apex:form>
+        </body>
+     </html>
+</apex:page>

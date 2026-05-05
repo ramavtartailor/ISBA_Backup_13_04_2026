@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Account preferred payment type --></help>
+    <label><!-- Preferred Payment Method --></label>
+    <name>Preferred_Payment_Method__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,177 @@
+<apex:component controller="Declaration_Page_Template_Ctrl">
+<apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading_new" style="font-size: 20pt;">
+        Illinois State Bar Association Mutual Insurance Company
+        <span class="heading_new_small">(An Illinois Mutual Insurance Company)</span><br/><br/>
+        Lawyers’ Professional Liability Policy Declarations
+    </p>
+    <br/> 
+    
+    <table border="0" cellspacing="0" cellpadding="3" style="width:100%; padding-left: 10px;">
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                1.&nbsp;&nbsp;Policy Number:
+            </td>
+            <td style="width:60%;" class=" normalBoldParagraph tableDataLeft">
+                <apex:outputText value="{!policy.Policy_Number_History}"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                    2.&nbsp;&nbsp;Named Insured:
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                    <apex:outputText value="{!policy.Firm_Name_History}"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class=" normalParagraph tableDataLeft">
+                    3.&nbsp;&nbsp;Principal Address:
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                <pre  class="normalBoldParagraph" style="margin-top: 0 !important;margin-bottom: 0 !important;">
+                    <apex:outputText value="{!policy.Firm_Billing_Address_History}" escape="false" />
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class=" normalParagraph tableDataLeft">
+                    4.&nbsp;&nbsp;Prior Acts Date:
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                <apex:outputText value="{0,date,MM/dd/yyyy}"  rendered="{!NOT(policy.Full_Prior_Acts)}"> <apex:param value="{!policy.Policy_Retroactive_Date_History}" /> </apex:outputText>
+                <apex:outputText rendered="{!(policy.Full_Prior_Acts)}"> Full prior acts </apex:outputText>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                    5.&nbsp;&nbsp;Policy Term:
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                    From &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Effective_Date_History}" /> </apex:outputText>&nbsp;
+                    To &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Expiration_Date_History}" /> </apex:outputText><br/>
+                    At 12:01AM CST at address in item 3 of Insured named in Item 2
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                    6.&nbsp;&nbsp;Annual Premium:
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                    <!--apex:outputField value="{!policy.Premium_History}"/--><apex:outputText value="{!'$' + '{0,number, ###,###,###}'}"> <apex:param value="{!policy.Premium_History}" /> </apex:outputText>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                    7.&nbsp;&nbsp;Limit of Liability:<br/>
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                    Per Claim &nbsp;<!--apex:outputField value="{!policy.Per_Claim_Limit_History}"/--><apex:outputText value="{!'$' + '{0,number, ###,###,###}'}"> <apex:param value="{!policy.Per_Claim_Limit_History}" /> </apex:outputText>&nbsp;
+                    Aggregate &nbsp;<!--apex:outputField value="{!policy.Aggregate_Limit_History}"/--><apex:outputText value="{!'$' + '{0,number, ###,###,###}'}"> <apex:param value="{!policy.Aggregate_Limit_History}" /> </apex:outputText>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                    8.&nbsp;&nbsp;Deductible: PerClaim<br/>
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                	<apex:outputText value="{!'$' + '{0,number, ###,###,###}'}"> <apex:param value="{!policy.Per_Claim_Deductible_Amount_History}" /> </apex:outputText>
+                    <!--apex:outputField value="{!policy.Per_Claim_Deductible_Amount_History}"/-->
+            </td>
+        </tr>
+        <tr>
+            <td style="width:40%;" class="normalParagraph tableDataLeft">
+                    9.&nbsp;&nbsp;Date of Application:
+            </td>
+            <td style="width:60%;" class="normalBoldParagraph tableDataLeft">
+                	<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!policy.Date_Signed}" /> </apex:outputText>
+                    <!--apex:outputField value="{!policy.Date_Signed}"/-->
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <p class="normalParagraph">
+        Attached Forms and Endorsements:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:97%" align="right">
+        <tr>
+            <td style="width:27%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft" style="margin-left:1px !important;">
+                    ISBAMIC LPL Policy 06 2018
+                </p>
+            </td>
+            <td style="width:73%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft" style="margin-left:1px !important;">
+                    Policy
+                </p>
+            </td>
+        </tr>
+        <apex:repeat value="{!endorsements}" var="endorsement">
+            <tr>
+                <td style="width:30%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft" style="margin:1px !important;">
+                    <!--<apex:outputPanel rendered="{!IF(endorsement.Endorsement_Version__c == '1/15',true,false)}">
+                        <apex:outputField value="{!endorsement.Endorsement_Number__c}"/> &nbsp;
+                        <apex:outputField value="{!endorsement.Endorsement_Version__c}"/>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!IF(endorsement.Endorsement_Version__c == '1/18',true,false)}">
+                        ISBAMIC&nbsp;<apex:outputField value="{!endorsement.Endorsement_Number__c}"/>&nbsp;01 2018
+                    </apex:outputPanel>-->
+                    ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(endorsement.Endorsement_Number__c,'IL ','')}" />
+                    {!RIGHT(TEXT(VALUE(LEFT(endorsement.Endorsement_Version__c , FIND('/',endorsement.Endorsement_Version__c)-1 ))+100),2)}
+                    20{!RIGHT(endorsement.Endorsement_Version__c , LEN(endorsement.Endorsement_Version__c) - FIND('/',endorsement.Endorsement_Version__c) )}
+                    </p>
+                </td>
+                <td style="width:70%;" class="tableDataLeft">
+                    <p class="normalParagraph  tableDataLeft"  style="text-capitalize: uppercase !important;margin:1px !important;">
+                        {!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(endorsement.Endorsement_Name__c,endorsement.Endorsement_Number__c,''),endorsement.Endorsement_Version__c , ''),'() ','')}
+                        <!-- <apex:outputText value="{!endorsement.Name}"/> -->
+                    </p>
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    <div style="clear:both;"/>
+    <p class="normalParagraph">
+        This schedule including all endorsements listed herein, is incorporated in and made part of the policy to which it applies.
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:90%;page-break-inside:avoid;page-break-after:auto" align="center">
+        <tr>
+            <td style="width:60%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    Illinois State Bar Association Mutual Insurance Company
+                </p>
+            </td>
+            <td style="width:40%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    All claims to be reported to:
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:60%;" class="tableDataLeft">
+                <p class="normalParagraph tableDataLeft">
+                    By:
+                    <br/>
+                    <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                    <br/>
+                    Its Authorized Representative
+                </p>
+            </td>
+            <td style="width:40%;" class="tableDataLeft">
+                <p class="normalParagraph  tableDataLeft">
+                    ISBA Mutual Insurance Company <br/>
+                    Claims Manager<br/>
+                    20 S. Clark St., Suite 800 <br/>
+                    Chicago, Il 60603-1826<br/>
+                    <br />
+                    (800) 473-4722<br/>
+                    (312) 379-2000<br/>
+                    Fax: (312) 379-2049<br/>
+                </p>
+            </td>
+        </tr>
+    </table>
+</apex:component>

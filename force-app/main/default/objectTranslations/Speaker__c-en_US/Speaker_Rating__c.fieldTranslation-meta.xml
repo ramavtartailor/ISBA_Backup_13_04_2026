@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter speaker evaluation score (1-5, with 5 as the highest) --></help>
+    <label><!-- Speaker Rating --></label>
+    <name>Speaker_Rating__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reserve_Close_Loss_can_not_in_negative</fullName>
+    <active>false</active>
+    <description>On Claim--&gt; Claim Incurred can not be in negative!</description>
+    <errorConditionFormula>ISPICKVAL( Type__c , &apos;Close Reserve&apos;) &amp;&amp;
+!ISNULL(Loss_Amount__c) &amp;&amp; 
+Loss_Amount__c*-1&gt;  
+  Policy_Claim__r.Claim_Incurred__c</errorConditionFormula>
+    <errorDisplayField>Loss_Amount__c</errorDisplayField>
+    <errorMessage>&apos;Reserve Loss&apos; Amount cannot exceed &apos;Claim Incurred&apos;!</errorMessage>
+</ValidationRule>

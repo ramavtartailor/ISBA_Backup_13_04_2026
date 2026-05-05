@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Application Source --></label>
+    <name>Application_Source__c</name>
+    <picklistValues>
+        <masterLabel>Advertisement</masterLabel>
+        <translation><!-- Advertisement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>BOD Referral</masterLabel>
+        <translation><!-- BOD Referral --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Event</masterLabel>
+        <translation><!-- Event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flyer</masterLabel>
+        <translation><!-- Flyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Former insured</masterLabel>
+        <translation><!-- Former insured --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBA</masterLabel>
+        <translation><!-- ISBA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Solicitation</masterLabel>
+        <translation><!-- Solicitation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unknown</masterLabel>
+        <translation><!-- Unknown --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Web search</masterLabel>
+        <translation><!-- Web search --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Word of mouth</masterLabel>
+        <translation><!-- Word of mouth --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

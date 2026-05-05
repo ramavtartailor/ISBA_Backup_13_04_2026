@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Loss Run Request --></label>
+    <name>Loss_Run_Request__c</name>
+    <picklistValues>
+        <masterLabel>10-Year</masterLabel>
+        <translation><!-- 10-Year --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>3-Year</masterLabel>
+        <translation><!-- 3-Year --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>5-Year</masterLabel>
+        <translation><!-- 5-Year --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>7-Year</masterLabel>
+        <translation><!-- 7-Year --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

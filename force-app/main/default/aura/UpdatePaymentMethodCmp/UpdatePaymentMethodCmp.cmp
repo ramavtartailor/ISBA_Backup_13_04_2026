@@ -1,0 +1,346 @@
+<aura:component controller="UpdatePaymentMethodCtrl" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden  ;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-modal__container {
+        margin: 0 auto;
+        width: 70% !important;
+        max-width: 50rem !important;
+        min-width: 20rem !important;
+        }
+    </aura:html>
+    
+    <aura:attribute name="showSpinner" type="boolean" default="false"/>
+    <aura:attribute name="isUpdateModal" type="boolean" default="true"/>
+    <aura:attribute name="isConfirmationModal" type="boolean" default="false"/>
+    <aura:attribute name="isAddModal" type="boolean" default="false"/>
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="selectedId" type="String"/>	
+    <aura:attribute name="activeTabId" type="String" default="tab-1"/>
+    <aura:attribute name="YearList" type="Object[]"/>
+    <aura:attribute name="wrap" type="Object" default="{}"/>
+    <aura:attribute name="message" type="String" default="Are you sure?" />
+    <aura:attribute name="dataType" type="String" default="number" />
+    <aura:attribute name="dataTypeCvv" type="String" default="number" />
+    <aura:attribute name="from" type="String" default="" />
+    <aura:attribute name="currSelectedId" type="String" default="" />
+    
+    <aura:registerEvent name="submitEvent" type="c:creditCardHostedPayEvent" />
+    <aura:registerEvent name="errorEvent" type="c:creditCardHostedPayEvent" />
+    <aura:handler name="submitEvent" event="c:creditCardHostedPayEvent" action="{!c.handleSubmitEvent}" />
+    <aura:registerEvent name="backEvent" type="c:creditCardHostedPayEvent" />
+    <aura:handler name="backEvent" event="c:creditCardHostedPayEvent" action="{!c.handleBack}" />
+    <aura:attribute name="paymentMethodData" type="Object" />
+    
+    <aura:attribute name="customerId" type="String" default="" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!--Spinner-->
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand" />
+    </aura:if>
+    
+    <div class="dflexc_col">
+        <aura:if isTrue="{!v.isUpdateModal}">            
+            <div class="slds-modal__header">
+                <div class="header" >Update Payment Method</div>
+            </div>
+            <div class=" slds-modal__content container_body dflexc_col">
+                <div class="tableContainer">
+                    <table class="rwd-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Last 4</th>
+                                <th>Created Date</th>
+                                <th>Created By</th>
+                                <!--th>Status</th-->
+                                <th>Default</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:if isTrue="{!v.data.length > 0}">
+                                <aura:iteration items="{!v.data}" var="obj" >
+                                    <tr>
+                                        <td>
+                                            <div class="alCen">
+                                                <lightning:input class="cursor" type="checkbox" variant="label-hidden" label="" name="{!obj.Id}" checked="{!obj.Id == v.selectedId}" onchange="{!c.onSelect}"/>
+                                            </div>
+                                        </td>
+                                        <td>{!obj.Name}</td>
+                                        <td>{!obj.Type__c}</td>
+                                        <td>{!obj.Last_4_Account_Number__c}</td>
+                                        <td><lightning:formattedDateTime value="{!obj.CreatedDate}" year="numeric" month="2-digit" day="2-digit"/></td>
+                                        <td>{!obj.CreatedBy.Name}</td>
+                                        <!--td>{!obj.AcctSeed__Status__c}</td-->
+                                        <td>
+                                            <div class="alCen">
+                                                <lightning:input class="cursor" type="checkbox" variant="label-hidden" label="" name="{!obj.Id}" checked="{!obj.Default__c}" disabled="true"/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div onclick="{!c.handleDeletePaymentMethod}" class="cursor" data-Id ="{!obj.Id}">
+                                                <lightning:icon iconName="utility:delete" alternativeText="Delete!" title="Delete" size="small" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <tr>
+                                        <td colspan="9" style="text-align: center;"> 
+                                            No records were found.
+                                        </td>
+                                    </tr>
+                                </aura:set>
+                            </aura:if>
+                        </tbody>
+                    </table>
+                </div>
+                <!--div class="addPaymentMethodLink dflex">
+                    <div onclick="{! c.handleAdd }">
+                        <a href="">Add Payment Method</a>
+                    </div>
+                </div-->
+                <div class="popupFooter mediumPadding dflex dflexac dflexjspace gap"  style="width:100%">
+                    <div class="dflex dflexfo dflexjsb">
+                        <div>
+                            <div class="modalButton negativeBut" onclick="{!c.handleAdd}">
+                                Add Payment Method
+                            </div>
+                        </div>
+                        <div class="dflex gap">
+                            <div class="modalButton negativeBut" onclick="{!c.handleNo}">
+                                No
+                            </div>
+                            <div class="modalButton negativeBut" data-type="save" onclick="{!c.handleYes}">
+                                Yes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--div class="slds-modal__footer modal_footer">
+                <div class="dflex dflexfo dflexjsb">                    
+                    <div>
+                        <lightning:button variant="neutral" label="Add Payment Method" title="Add Payment Method" onclick="{! c.handleAdd}" />
+                    </div>
+                    
+                    <div class="dflex gap">
+                        <div>
+                            <lightning:button variant="neutral" label="No" title="No" onclick="{! c.handleNo }" />
+                        </div>
+                        <div>
+                            <lightning:button class="btnColor" variant="brand" label="Yes" title="Yes" onclick="{! c.handleYes }" />
+                        </div>
+                    </div>
+                </div>
+            </div-->
+        </aura:if>
+        <aura:if isTrue="{!v.isAddModal}">
+            <div class="slds-modal__header">
+                <div class="header" >Update Payment Method</div>
+            </div>
+            <div class=" slds-modal__content container_body tabContainer dflexc_col gap">
+                <div class="tabHeader dflex">
+                    <div aura:id="tab-1" id="tab-1" data-tabvalue="check" onclick="{!c.tabSwitchHandle}"
+                         class="tabHeading normalHeading dflexfo activeTab">
+                        eCheck/ACH
+                    </div>
+                    <div aura:id="tab-2" id="tab-2" data-tabvalue="creditCard"
+                         onclick="{!c.tabSwitchHandle}" class="tabHeading normalHeading dflexfo ">
+                        Credit Card
+                    </div>                        
+                </div>
+                <aura:if isTrue="{!v.activeTabId == 'tab-1'}">
+                    <div class="dflexc_col tabBody gap">
+                        <div class="dflexc_col tabBody gap" style="width:100%">
+                        <div class="dflex fieldSection gap">
+                            <div class="inputField dflexfo">
+                                <div class="label">Routing Number</div>
+                                <input type="text"
+                                       value="{!v.wrap.routingNumber}"
+                                       onblur="{!c.routingNumberHandle}" id="checkRoutingNumber"
+                                       name="Routing Number" />
+                            </div>
+                            <div class="inputField dflexfo">
+                                <div class="label">Account Number</div>
+                                <input type="text"
+                                       value="{!v.wrap.accountNumber}"
+                                       onblur="{!c.accountNumberHandle}" id="checkAccountNumber"
+                                       name="Account Number" />
+                            </div>
+                        </div>
+                        <div class="dflex fieldSection gap" style="padding-bottom: 2rem;">
+                            <div class="inputField dflexfo">
+                                <div class="label">Account Type</div>
+                                <select name="Account Type"
+                                        value="{!v.wrap.accountType}" onchange="{!c.accountTypeHandle}"
+                                        id="checkAccountType">
+                                    <option selected="{!v.wrap.accountType == ''}" value="">
+                                        Please select</option>
+                                    <option selected="{!v.wrap.accountType == 'checking'}"
+                                            value="checking">Checking</option>
+                                    <option selected="{!v.wrap.accountType == 'savings'}"
+                                            value="savings">Savings</option>
+                                </select>
+                            </div>
+                            <div class="inputField dflexfo">
+                                <div class="label">Account Holder Name</div>
+                                <input type="text"
+                                       value="{!v.wrap.accountHolderName}" onblur="{!c.fieldEmptyHandle}"
+                                       id="checkAccountHolderName" name="Account Holder Name" />
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="popupFooter mediumPadding dflex dflexac dflexjspace gap"  style="width:100%">
+                            <div class="dflex dflexfo dflexjsb">
+                                <div class="modalButton negativeBut" onclick="{!c.handleBack}">
+                                    Back
+                                </div>
+                                <div class="modalButton negativeBut" data-type="save" onclick="{!c.handleSave}">
+                                    Save
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!v.activeTabId == 'tab-2'}">
+                    <div class="dflexc_col tabBody gap">
+                        <!--div class="dflex fieldSection gap">
+                            <div class="inputField dflexfo">
+                                <div class="label">Card Type</div>
+                                <select name="Card Type" value="{!v.wrap.cardTypeVar}"
+                                        onchange="{!c.cardTypeHandle}" id="cardType">
+                                    <option selected="{!v.wrap.cardTypeVar == ''}" value="">
+                                        Please select</option>
+                                    <option selected="{!v.wrap.cardTypeVar == 'amex'}" value="amex">
+                                        American Express</option>
+                                    <option selected="{!v.wrap.cardTypeVar == 'Discover'}" value="Discover">
+                                        Discover Card</option>
+                                    <option selected="{!v.wrap.cardTypeVar == 'MasterCard'}" value="MasterCard">
+                                        Mastercard</option>
+                                    <option selected="{!v.wrap.cardTypeVar == 'visa'}" value="visa">
+                                        Visa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="dflex fieldSection gap">
+                            <div class="inputField dflexfo">
+                                <div class="label">Card Number</div>
+                                <input type="text"
+                                       value="{!v.wrap.cardNumber}"
+                                       onkeyup="{!c.keyUpCardNumberHandle}"  
+                                       onblur="{!c.cardNumberHandle}"
+                                       id="cardNumber" name="Card Number" />
+                            </div>
+                            <div class="inputField dflexfo">
+                                <div class="label">Security Code</div>
+                                <input type="{!v.dataTypeCvv}" value="{!v.wrap.verificationNumber}"
+                                       onblur="{!c.cvvValidHandle}"
+                                       id="cardCVV" name="Security Code" />
+                            </div>
+                        </div>
+                        <div class="dflex fieldSection gap">
+                            <div class="inputField dflexfo">
+                                <div class="label">Expiration Month</div>
+                                <select name="Expiry Date" onchange="{!c.expiryChangeHandle}"
+                                        id="cardExpiryMonth" value="{!v.wrap.expireMonth}">
+                                    <option selected="{!v.wrap.expireMonth == ''}" value="">Please select</option>
+                                    <option selected="{!v.wrap.expireMonth == '01'}" value="01">01 - January</option>
+                                    <option selected="{!v.wrap.expireMonth == '02'}" value="02">02 - February</option>
+                                    <option selected="{!v.wrap.expireMonth == '03'}" value="03">03 - March</option>
+                                    <option selected="{!v.wrap.expireMonth == '04'}" value="04">04 - April</option>
+                                    <option selected="{!v.wrap.expireMonth == '05'}" value="05">05 - May</option>
+                                    <option selected="{!v.wrap.expireMonth == '06'}" value="06">06 - June</option>
+                                    <option selected="{!v.wrap.expireMonth == '07'}" value="07">07 - July</option>
+                                    <option selected="{!v.wrap.expireMonth == '08'}" value="08">08 - August</option>
+                                    <option selected="{!v.wrap.expireMonth == '09'}" value="09">09 - September</option>
+                                    <option selected="{!v.wrap.expireMonth == '10'}" value="10">10 - October</option>
+                                    <option selected="{!v.wrap.expireMonth == '11'}" value="11">11 - November</option>
+                                    <option selected="{!v.wrap.expireMonth == '12'}" value="12">12 - December</option>
+                                </select>
+                            </div>
+                            <div class="inputField dflexfo">
+                                <div class="label">Expiration Year</div>
+                                <select name="Expiry Date" value="{!v.wrap.expireYear}"
+                                        onchange="{!c.expiryChangeHandle}" id="cardExpiryYear">
+                                    <option selected="{!v.wrap.expireYear == ''}" value="">Please select</option>
+                                    <aura:iteration items="{!v.YearList}" var="item">
+                                        <aura:if isTrue="{!item.value == v.wrap.expireYear}">
+                                            <option selected="true" value="{!item.value}">{!item.label}
+                                            </option>
+                                            <aura:set attribute="else">
+                                                <option value="{!item.value}">{!item.label}</option>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </select>
+                            </div>
+                        </div>                        
+                        <div class="dflex fieldSection gap" style="padding-bottom: 2rem;">
+                            <div class="inputField">
+                                <div class="label">Name on Card</div>
+                                <input type="text"
+                                       value="{!v.wrap.nameOnCard}" onblur="{!c.fieldEmptyHandle}"
+                                       id="cardNameOnCard" name="Name On Card" />
+                            </div>
+                        </div-->
+                        <iframe class="addCard" style = "height:362px !important;" src="/apex/PaymentGatewayFiservHostedVfp?showDummyCard=No&amp;UpdatePaymentMethod=Yes" frameborder="0"></iframe>
+                    </div>
+                </aura:if>
+            </div>
+            <!--div class="slds-modal__footer modal_footer">
+                <div class="dflex dflexfo dflexjsb">
+                    
+                    <div>
+                        <lightning:button variant="neutral" label="Back" title="Back" onclick="{! c.handleBack}" />
+                    </div>
+                    
+                    <div class="dflex gap">
+                        <div>
+                            <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{! c.handleNo}" />
+                        </div>
+                        <div>
+                            <lightning:button class="btnColor" variant="brand" label="Save" title="Save" onclick="{! c.handleSave }" />
+                        </div>
+                    </div>
+                </div>
+            </div-->
+        </aura:if>
+        <aura:if isTrue="{!v.isConfirmationModal}">
+            <div class="slds-modal__header">
+                <div class="header" >Confirmation</div>
+            </div>
+            <div class=" slds-modal__content container_body dflexc_col gap">
+                <div style="padding:2rem;font-size: medium; font-weight: 600;">
+                    {!v.message}
+                </div>
+            </div>
+            <div class="slds-modal__footer modal_footer">
+                <div class="dflex dflexjsb">                    
+                    <div class="dflex gap">
+                        <div>
+                            <lightning:button variant="neutral" label="No" title="No" onclick="{! c.handleConfClose}" />
+                        </div>
+                        <div>
+                            <lightning:button class="btnColor" variant="brand" label="Yes" title="Yes" onclick="{! c.handleConfOk }" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,38 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Limit of Liability Change Endorsement
+    </p>
+    <p class="normalParagraph">
+        In consideration of an additional premium of &nbsp;<apex:outputField value="{!endorsement.Premium__c}"/>, it is agreed that Item 7 of the Declarations is amended to read as follows: 
+        <br/><br/>
+        <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+            <tr>
+                <td style="width:30%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        Limit of Liability:
+                    </p>
+                </td>
+                <td style="width:30%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        Per Claim&nbsp;<apex:outputField value="{!endorsement.New_Limits__r.Coverage_Max_Per_Claim__c}"/><br/>
+                    </p>
+                </td>
+                <td style="width:40%;" class="tableDataLeft">
+                    <p class="normalParagraph">
+                        Aggregate&nbsp;<apex:outputField value="{!endorsement.New_Limits__r.Full_Coverage__c}"/><br/>
+                    </p>
+                </td>
+            </tr>
+    </table>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:420px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

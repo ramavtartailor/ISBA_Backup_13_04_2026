@@ -1,0 +1,25 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Policy Endorsement
+    </p>
+    <p class="normalParagraph">
+        <apex:outputField value="{!endorsement.Enter_Manuscript_Language__c}"/><br/>
+        <div style="font-size: 15px !important;margin:6px;font-family: Arial Unicode MS;text-align:justify;color:#000000;text-align:left;"><apex:outputField value="{!endorsement.Manuscript__c}"/></div>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:560px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

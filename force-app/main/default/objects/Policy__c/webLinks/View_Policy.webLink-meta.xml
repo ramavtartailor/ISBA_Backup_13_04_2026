@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>View_Policy</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>View Policy</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>/apex/Application_Policy_DetailPageEdit_Ltng?id={!Policy__c.Id}</url>
+</WebLink>

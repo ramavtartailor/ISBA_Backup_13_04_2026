@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IL_260</fullName>
+    <description>EndorsementEditVF</description>
+    <displayedFields>
+        <field>Attorney__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>true</isRequired>
+    </displayedFields>
+    <label>IL 260</label>
+</FieldSet>

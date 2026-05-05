@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Firm_Id__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>This field holds the reference to the Firm that transaction belongs to.</description>
+    <label>Firm Id</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>AS_Transactions</relationshipLabel>
+    <relationshipName>AS_Transactions</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

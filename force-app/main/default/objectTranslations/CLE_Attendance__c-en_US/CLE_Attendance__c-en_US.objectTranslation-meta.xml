@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>CLE Attendance</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>CLE Attendances</value>
+    </caseValues>
+    <layouts>
+        <layout>CLE Attendance Layout</layout>
+        <sections>
+            <label><!-- Credits --></label>
+            <section>Credits</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Generate_Certificate --></label>
+        <name>Generate_Certificate</name>
+    </webLinks>
+</CustomObjectTranslation>

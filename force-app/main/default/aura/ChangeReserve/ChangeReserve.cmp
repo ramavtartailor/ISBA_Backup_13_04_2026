@@ -1,0 +1,74 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes" controller="QuickClaimController">
+	<aura:attribute name="recordId" type="String" />
+    <aura:attribute name="msg" type="String" />
+    <aura:attribute name="claim" type="Policy_Claim__c" />
+    <aura:attribute name="transactionDate" type="Date" default=""/>
+    <aura:attribute name="isClosed" type="boolean" default="false"/>
+    
+    <aura:attribute name="lossReserve" type="Decimal" default="0"/>
+    <aura:attribute name="laeReserve" type="Decimal" default="0"/>
+    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <!--<aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>-->
+    <p style="color:red;"><b>{!v.msg}</b></p>
+    
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+        <div class=""  style="{!v.isClosed ? 'display:none;' : '' }">
+            <c:ClaimPaymentReserveInfo recordId = "{!v.recordId}" />
+            <br/><br/>
+            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                    <div class="slds-size--12-of-12  slds-theme--shade">
+                        <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Change Incurred Reserve</h2>
+                    </div>
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="OpenReserveLoss">Set Reserve Loss</label>
+                                <div class="slds-form-element__control">
+                                    <ui:inputNumber aura:id="client"
+                                                  class="form-control"
+                                                  value="{!v.lossReserve}"
+                                                  />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <lightning:input label="Transaction Date" type="date" value="{!v.transactionDate}"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-1">
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="OpenReserveLAE">Set Reserve LAE</label>
+                                <div class="slds-form-element__control">
+                                    <ui:inputNumber aura:id="client"
+                                                  class="form-control"
+                                                  value="{!v.laeReserve}"
+                                                  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <ui:button class="form-control saveButton" aura:id="button" label="Save" press="{!c.saveRecord}"/>
+        </div>
+</aura:component>

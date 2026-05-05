@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>x5X5_override_can_input_when_it_is_5x5</fullName>
+    <active>true</active>
+    <description>5x5 override can only be set when the per claim limit is greater than 5 million.</description>
+    <errorConditionFormula>X5X5_Override__c &lt;&gt;0 &amp;&amp;
+ Not(Coverage__r.Is_5X5_Coverage__c)</errorConditionFormula>
+    <errorDisplayField>X5X5_Override__c</errorDisplayField>
+    <errorMessage>5x5 override can only be set when the per claim limit is greater than 5 million.</errorMessage>
+</ValidationRule>

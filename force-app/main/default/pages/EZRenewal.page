@@ -1,0 +1,610 @@
+<apex:page controller="EZRenewalCtrl" applyBodyTag="false" readOnly="true" renderAs="pdf" contentType="application/pdf">
+  
+  <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+  <head>
+  <style>
+      
+      body {
+      		font-family: 'Arial', sans-serif !important;
+    		font-size: 8pt;
+      }
+      
+      @page {
+      
+      		font-family: 'Arial', sans-serif !important;
+    		font-size: 8pt;
+      
+            size:portrait;
+            margin-left: 0.8cm;
+            margin-right: 0.8cm;
+            margin-top: 2cm;
+            margin-bottom: 1cm;
+      		
+      }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);
+            }
+      		div.header {
+                position: running(header);
+      			padding-right:100px;
+      			padding-top:30px;
+            }
+            .pagenumber:before {
+                content: counter(page);            
+            }
+			.pagecount:before {
+			    content: counter(pages);
+			}
+            body {
+              font-size: 8pt;
+            }
+      		.pc { 
+      			color: #89001b;
+      			font-weight: bold;
+      		}
+      		.c { text-align: center; }
+    		.u { }
+      		.b { font-weight: bold; }
+    		
+            .div_pad {
+            	padding-top: 3px;
+                padding-bottom: 3px;
+        	}
+      
+            .table_border { border-collapse: collapse; width: 100%; }
+            .table_border, .table_border th, .table_border td { border: 1px solid #ededed; }
+            .table_spacing td {
+              padding-left: 7px;
+              padding-top: 3px;
+              padding-bottom: 3px;
+            }
+      		
+	        .table_border_dark td {
+              border: 0.5px solid #cccccc;
+            }
+      
+      		#discipline_table_questions th, #discipline_table_questions td {
+      			border: 0px solid white;
+      			padding: 2px;
+       		}
+      
+            .table_title { 
+        		background-color: #89001b;
+        		color: white;
+        		font-weight: bold;
+      			font-size: 9pt;
+      			padding-top: 2px !important;
+                padding-bottom: 2px !important;
+    		}
+            
+            .sc_header {
+            	background-color: #B7BBB6;
+                color: black;
+            }
+            .sc_header th {
+      			padding-top: 3px !important;
+                padding-bottom: 3px !important;
+                font-weight: normal !important;
+            }
+      
+      		
+      		.table_head tr th {
+                text-align: center;
+            }
+      
+      		.quote_table_head tr th {
+                text-align: left;
+      			padding-left: 5px;
+		        padding-right: 5px;
+            }
+      
+            #quote_table {
+                font-size: 8pt;
+            }
+            #quote_table td {
+      			padding: 6px;
+            }
+            #quote_table td:nth-child(1) {
+              text-align: center;
+            }
+            
+            #lawyer_table td {
+      			padding: 6px;
+            }
+      
+            #discipline_table {
+        		font-size: 8pt;
+       		}
+      
+      		.pad6 td {
+      			padding: 6px;
+      		}
+      
+      		.th_pad th {
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+      
+      		.question_table td {
+              padding: 5px;
+              padding-right: 10px !important;
+            }
+	        
+            .cb {
+                height: 9px;
+      			width: 9px;
+      			border: 1px solid black;
+      			float: left;
+                margin-top: 2px;
+      			margin-right: 4px;
+            }
+            .cb_yes {
+                padding-right: 15px;    
+		        float: left;
+            }
+            .yn_pad {
+      			padding-left: 15px !important;
+      		}
+      
+		    tr.page-break  { display: block; page-break-before: always; }
+      
+      		.no_td_border {
+      			border-left: 0px solid white !important;
+      			border-top: 0px; solid white !important;
+      			border-right: 0px solid white !important;
+      			border-bottom: 0px solid white !important;
+      		}
+      		
+           .noedit {
+      	       background-color: #ededed;
+           }
+	       .lawyer_blank {
+      			background-color: #ededed;
+      			width: 80px;
+     		}
+      
+      	   .lawyer_count_3_pad { height: 30px; }
+      	   .lawyer_count_6_pad { height; 20px; }
+           .lawyer_count_9_pad { height: 20px; }
+           
+      
+  </style>
+  </head>
+  <body>
+      <div class="footer" style="width:100%">
+          <table width="100%">
+              <tr>
+                  <td width="20%">
+                      ISBAMIC RQAAAF 05 23
+                  </td>
+                  <td width="20%" style="text-align:right;">
+                      Page&nbsp;<b><span class="pagenumber" /></b>&nbsp;of&nbsp;<b><span class="pagecount" /></b>
+                  </td>
+                  <td width="60%" style="text-align:right; padding-right: 15px;">
+                      LAWYERS PROFESSIONAL LIABILITY RENEWAL QUOTE APPLICATION
+                  </td>
+              </tr>
+          </table>
+         
+      </div>
+
+
+      <!---HEADER------------------------------------------------------------>
+      <div class="header" style="width:100%">
+          <c:Application_Header />  
+      </div> 
+            
+
+          
+                                    
+      <div class="c" style="
+        color: #89001b;
+        font-size: 14pt;
+        font-weight: bold;
+        padding-top: 10px;
+        padding-bottom: 4px;
+        border-bottom: 2px solid #ededed;"
+      >RENEWAL QUOTE APPLICATION AND ACCEPTANCE FORM</div>
+                    
+      <div class="div_pad" style="font-weight: bold; text-align: center;">
+        Note: THIS APPLICATION IS FOR A CLAIMS-MADE AND REPORTED POLICY
+      </div>
+                
+                
+                
+                <!---QUOTE------------------------------------------------------------>
+                <table id="quote_table" class="quote_table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99" style="text-align: center;">RENEWAL QUOTE(S)</th>
+                        </tr>
+                        <tr >
+                        	<th align="center" style="width: 10%; text-align: center;">
+                          		Select<br/>Quote 
+                        	</th>
+                        	<th style="width: 13%; white-space: nowrap; text-align: center;">
+                          		Per Claim Limit
+                        	</th>
+                        	<th style="width: 17%; text-align: center;">
+                                Annual<br/>
+                                Aggregate Limit
+                        	</th>
+                        	<th style="width: 10%; text-align: center;">
+                          		Deductible    
+                        	</th>
+                            <th style="width: 15%; white-space: nowrap; text-align: center;">
+                          		Annual Premium
+                        	</th>
+                            <th style="width: 10%; text-align: center; {!if(policy.Total_CLE_Credit__c > 0,'','display:none;')}">
+                          		CLE Credit    
+                        	</th>
+                        	<th style="width: 10%; text-align: center; {!if(policy.ISBAM_policy_dividend__c > 0,'','display:none;')}">
+                          		Dividend Credit
+                        	</th>
+                        	<th style="width: 99%; text-align: right;">
+                          		Amount Due
+                        	</th>
+                      	</tr>
+                    </thead>
+                    <apex:repeat value="{!quoteList}" var="quoteVar">
+                      <tr>
+	                        <td align="center" valign="center" style="padding-left: 0px;">
+    	                        <div class="cb" style="margin-left: 23px;"></div>                          
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                <apex:param value="{!quoteVar.Coverage_Max_Per_Claim__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                <apex:param value="{!quoteVar.Full_Coverage__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td>
+                                <apex:outputField value="{!quoteVar.Deductible_Amount__c}"/> 
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                    <apex:param value="{!(quoteVar.Quote_Final_Premium__c)}" />
+                                </apex:outputText>
+                            </td>    
+	                        <td style="font-weight: bold; color: blue; {!if(policy.Total_CLE_Credit__c > 0,'','display:none;')}">
+                                <apex:outputText value="-${0, number,###,###,###,##0}">
+                                    <apex:param value="{!policy.Total_CLE_Credit__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="font-weight: bold; color: blue; {!if(policy.ISBAM_policy_dividend__c > 0,'','display:none;')}">
+                                <apex:outputText value="-${0, number,###,###,###,##0}">
+                                    <apex:param value="{!policy.ISBAM_policy_dividend__c}" />
+                                </apex:outputText>
+                            </td>                            
+                          	<td style="text-align: right;">
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                    <apex:param value="{!(quoteVar.Quote_Final_Premium__c - policy.Total_Credit__c)}" />
+                             	</apex:outputText>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+                
+      
+      			<!---PAD LAWYER 4+ ------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 3, true, false)}"><div class="lawyer_count_3_pad">&nbsp;</div></apex:outputPanel>
+      
+      
+                <!---FIRM INFORMATION------------------------------------------------------------>
+                <table id="quote_table" class="table_head table_border table_spacing ">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">FIRM INFORMATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        	<td colspan="2" style="font-weight: bold; border-bottom: 5px solid #BFC3BF;">
+                            	Policy Number:&nbsp;<b>{!policy.Name}</b>
+                            </td>
+                            <td colspan="3" style="font-weight: bold; border-bottom: 5px solid #BFC3BF;">
+                                Policy Period:&nbsp;
+                                <apex:outputText style="font-weight: bold;" value="{0,date,MM/dd/yyyy}" ><apex:param value="{!policy.Effective_Date__c}" /> </apex:outputText>&nbsp;-&nbsp;<apex:outputText style="font-weight: bold;" value="{0,date,MM/dd/yyyy}" > <apex:param value="{!expirationDate}" /></apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%" class="b noedit">Named<br/>Insured:</td>
+                            <td style="width: 30%">{!policy.Account__r.Name}</td>
+                            <td style="width: 20%" class="b noedit">Main Contact Name:</td>
+                            <td style="width: 10%" class="b noedit">Phone:</td>
+                            <td style="width: 25%" class="b noedit">E-mail:</td>
+                        </tr>
+                        <tr>
+                        	<td style="" class="b noedit">Principal Address:</td>
+                            <td style="">{!policy.Account__r.BillingStreet}</td>
+                            <td style="">{!policy.Firm_Contact__r.Name}</td>
+                            <td style="">
+                                <span style="{!IF(policy.Account__r.Phone != '' ,'' , 'display:none')}">{!policy.Account__r.Phone}</span>
+                                <span style="{!IF(policy.Account__r.Phone = '' ,'' , 'display:none')}">{!policy.Firm_Contact__r.Phone}</span>
+							</td>
+                            <td style="">{!policy.Firm_Contact__r.Email}</td>
+                        </tr>
+                        <tr>
+                        	<td style="" class="b noedit">City, State, Zip:</td>
+                            <td style="">{!policy.Account__r.BillingCity} {!policy.Account__r.BillingState} {!policy.Account__r.BillingPostalCode}</td>
+                            <td style="" class="b noedit">Accounting Contact<br/>Name<span style="font-weight: normal;">(if different):</span></td>
+                            <td style="" class="b noedit">Phone:</td>
+                            <td style="" class="b noedit">E-mail:</td>
+                        </tr>
+                        <tr>
+                        	<td style="" class="b noedit">County:</td>
+                            <td style="">{!policy.County__r.Name}</td>
+                            <td style="">&nbsp;</td>
+                            <td style="">&nbsp;</td>
+                            <td style="">&nbsp;</td>
+                        </tr> 
+                    </tbody>
+                </table>
+
+                <div class="b div_pad" style="padding-left: 10px;">
+                    If any changes to the above information please provide in writing on your letterhead.
+                </div>
+				<!------------------------------------------------------------------------->
+                
+                
+                
+                
+
+                
+                <!---PAD LAWYER 4+ ------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 3, true, false)}"><div class="lawyer_count_3_pad">&nbsp;</div></apex:outputPanel>
+      
+                
+                
+                
+                
+                <!---LAWYER INFO #1------------------------------------------------------------>
+                <table id="lawyer_table" class="table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">LIST OF LAWYERS (included in above quote for whom coverage is desired)</th>
+                        </tr>
+                        <tr class="th_pad">
+                            <th style="width: 25%;">Laywer Name</th>
+                            <th style="width: 17%;">E-mail</th>
+                            <th style="width: 10%;">ARDC #</th>
+                            <th style="width: 8%;">Active<br/>ISBA #</th>
+                            <th style="width: 15%;">Avg. # of Hours Worked per Week on Behalf of the Firm</th>
+                            <th style="width: 10%;">Still with Firm? Yes or <span class="pc">No</span></th>
+                            <th style="width: 30%;">If <span class="pc">No,</span>last date of employment with Firm <span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable var="lawyerCount" value="{!1}"   />                      <!-- Initialise-->
+                        <apex:repeat value="{!policyLawyers}" var="pLawyer">
+                                <tr style="{!IF(lawyerCount > 15, 'display:none;', '')}">		<!-- hide lawyer rows OVER 15-->
+                                    <td>{!pLawyer.Lawyer__r.Lawyer_Name__c}</td>
+                                    <td>{!pLawyer.Lawyer__r.Contact__r.Email}</td>
+                                    <td>{!pLawyer.Lawyer__r.Contact__r.ARDC_Number__c}</td>
+                                    <td>{!pLawyer.Lawyer__r.Contact__r.ISBA__c}</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            <apex:variable value="{!lawyerCount + 1}" var="lawyerCount"/>       <!--increment-->
+                        </apex:repeat>
+                    </tbody>
+                </table>
+      			<!---LAWYER INFO #2------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 15,true,false)}">
+                    <div style="page-break-after: always;"></div>
+                    <table id="lawyer_table" class="table_head table_border table_spacing">
+                        <thead>
+                            <tr class="table_title">
+                                <th colspan="99">LIST OF LAWYERS (included in above quote for whom coverage is desired)</th>
+                            </tr>
+                            <tr class="th_pad">
+                                <th style="width: 25%;">Laywer Name</th>
+                                <th style="width: 17%;">E-mail</th>
+                                <th style="width: 10%;">ARDC #</th>
+                                <th style="width: 8%;">Active<br/>ISBA #</th>
+                                <th style="width: 15%;">Avg. # of Hours Worked per Week on Behalf of the Firm</th>
+                                <th style="width: 10%;">Still with Firm? Yes or <span class="pc">No</span></th>
+                                <th style="width: 30%;">If <span class="pc">No,</span>last date of employment with Firm <span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:variable var="lawyerCount" value="{!1}"   />                      <!-- Initialise-->
+                            <apex:repeat value="{!policyLawyers}" var="pLawyer">
+                                    <tr style="{!IF(lawyerCount < 16, 'display:none;', '')}">		<!-- hide lawyers rows UNDER 15-->
+                                        <td>{!pLawyer.Lawyer__r.Lawyer_Name__c}</td>
+                                        <td>{!pLawyer.Lawyer__r.Contact__r.Email}</td>
+                                        <td>{!pLawyer.Lawyer__r.Contact__r.ARDC_Number__c}</td>
+                                        <td>{!pLawyer.Lawyer__r.Contact__r.ISBA__c}</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                <apex:variable value="{!lawyerCount + 1}" var="lawyerCount"/>       <!--increment-->
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </apex:outputPanel>
+                <!-------------------------------------------------------------------------> 
+                
+                
+      
+      
+      			<!---LAWYER BREAK 8-14------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 8 && policy.Total_Lawyers__c < 15, true, false)}">
+                  <div style="page-break-after: always;"></div>
+                </apex:outputPanel>
+      
+      
+      
+      			<!---PAD LAWYER 4+ ------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 3, true, false)}"><div class="lawyer_count_3_pad">&nbsp;</div></apex:outputPanel>
+      
+      
+      
+                <!---ADDITIONAL INFORMATION------------------------------------------------------------>
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">ADDITIONAL FIRM INFORMATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <!---------- 1 ----------->
+						<tr>
+                        	<td style="width: 3%; border-right: 0px solid white;" valign="top">1.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                After inquiry of all insureds, is the firm or any Lawyer in the firm, aware of any potential <b>Claim</b>, including but not limited to, any act, error, omission, fact, circumstance, a request for a tolling agreement, a request for a deposition, a subpoena request for any file, ARDC complaint, situation, legal work, or any allegation of negligence that might result in any professional liability <b>Claim</b> against the firm, or any <b>Predecessor Firm</b>, or any past or present Lawyer in the firm regardless whether such <b>Claim</b> would be without merit <u>which has not been reported to ISBA Mutual in writing as a <b>Claim</b></u>?
+                            </td>
+                			<td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        <!---------- 2 ----------->
+                        <tr>
+                        	<td style="width: 3%; border-right: 0px solid white;" valign="top">2.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                After inquiry of all insureds, have any of the firm’s Lawyers been the subject of any disciplinary actions, investigations or proceedings by any court, bar association, administrative agency or regulatory body in the past twelve (12) months, pending or concluded, <b>which has</b> not been reported to ISBA Mutual?
+                                <div style="padding-top: 6px;">
+                                    <b>If <span class="pc">Yes</span>, provide a copy of the complaint, your response (No Exhibits) and a close out letter if the matter is closed.</b>
+                                </div>
+                            </td>
+                			<td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        <!---------- 3 ----------->
+                        <tr>
+                        	<td style="width: 3%; border-right: 0px solid white;" valign="top">3.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+								Does your firm, or any Lawyers in your firm, render legal services in any state other than Illinois? 
+                                <div style="padding-top: 6px;">
+                                    <b>If <span class="pc">Yes</span> please complete the <span class="pc">Out of State Supplemental Application</span></b>.
+                                </div>
+                            </td>
+                			<td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!------------------------------------------------------------------------->
+                
+      
+      
+      
+      			<!---LAWYER BREAK 4-8 ------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 3 && policy.Total_Lawyers__c < 9, true, false)}">
+                  <div style="page-break-after: always;"></div>
+                </apex:outputPanel>
+      
+      
+      			<!---PAD LAWYER 4+ ------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 3, true, false)}"><div class="lawyer_count_3_pad">&nbsp;</div></apex:outputPanel>
+      
+      
+      
+      			<!---ACKNOWLEDGMENTS------------------------------------------------------------>
+                <table class="pad6 table_head table_spacing ">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">ACKNOWLEDGMENTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        	<td style="text-align: justify;">
+								The undersigned declares that to the best of his or her knowledge, the statements set forth herein are true and accurate and that reasonable efforts have been made to obtain sufficient information from all persons proposed for this insurance to facilitate the proper and accurate completion of this application. The signing of this application does not bind ISBA Mutual (the Company) to issue a policy. It is agreed that this application, and all material and information submitted to the Company in connection with this application are the representations of the firm and are material and shall be the basis of the contract should a policy be issued.
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                
+      			
+      			<!---PAD LAWYER 4+ ------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 3, true, false)}"><div class="lawyer_count_3_pad">&nbsp;</div></apex:outputPanel>
+      
+                
+                <!---SIGNATURE------------------------------------------------------------>
+                <table id="signature_table" class="table_head table_border table_spacing table_border_dark" style="font-size: 9pt; font-weight: bold;">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">SIGNATURE</th>
+                        </tr>
+                        <tr class="sc_header">
+                            <th colspan="99">Owner, Officer, Partner, Shareholder, or Member (only one signature needed)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="sc_header" style="">
+                            <td colspan="2" align="left">Name:</td>
+                            <td colspan="2" align="left">Title:</td>
+                        </tr>
+                        <tr>
+                        	<td colspan="2">
+                            	<div style="height: 15px;">    
+                                	&nbsp;
+                                </div>
+                            </td>
+                            <td colspan="2">
+                            	<div style="height: 15px;">    
+                                	&nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td class="sc_header" width="15%" style="font-size: 8pt; height: 15px;">
+                            	SIGNATURE>
+                            </td>
+                            <td width="55%">
+                            	<div style="height: 15px;">    
+                                	&nbsp;
+                                </div>
+                            </td>
+                            <td class="sc_header" width="15%" style="font-size: 8pt; height: 15px;">
+                            	DATE>
+                            </td>
+                            <td>
+                            	<div style="height: 15px;">    
+                                	&nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+    </body>
+</apex:page>

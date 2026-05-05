@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LAE_Reserv_Stop_for_Inactive_Policy</fullName>
+    <active>false</active>
+    <description>If Policy is inactive and claim report date greater than (ERE/Minitail date) then stop set reserve for LAE.</description>
+    <errorConditionFormula>Not(Policy__r.Active__c) &amp;&amp;
+!ISBLANK(Reserve_LAE__c)</errorConditionFormula>
+    <errorDisplayField>Reserve_LAE__c</errorDisplayField>
+    <errorMessage>LAE Reserve cannot be set for an Inactive Policy!</errorMessage>
+</ValidationRule>

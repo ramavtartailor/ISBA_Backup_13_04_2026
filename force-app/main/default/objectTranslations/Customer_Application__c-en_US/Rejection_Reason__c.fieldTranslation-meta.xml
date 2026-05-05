@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Rejection Reason --></label>
+    <name>Rejection_Reason__c</name>
+    <picklistValues>
+        <masterLabel>--------------------------------------------</masterLabel>
+        <translation><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CUSTOMER - Complaint</masterLabel>
+        <translation><!-- CUSTOMER - Complaint --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CUSTOMER - Coverage</masterLabel>
+        <translation><!-- CUSTOMER - Coverage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CUSTOMER - ERE</masterLabel>
+        <translation><!-- CUSTOMER - ERE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CUSTOMER - Other</masterLabel>
+        <translation><!-- CUSTOMER - Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CUSTOMER - Practice Closed</masterLabel>
+        <translation><!-- CUSTOMER - Practice Closed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CUSTOMER - Price</masterLabel>
+        <translation><!-- CUSTOMER - Price --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - Claims</masterLabel>
+        <translation><!-- ISBAM - Claims --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - Disciplinary Issues</masterLabel>
+        <translation><!-- ISBAM - Disciplinary Issues --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - IMPORT</masterLabel>
+        <translation><!-- ISBAM - IMPORT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - Internal Procedures</masterLabel>
+        <translation><!-- ISBAM - Internal Procedures --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - No Response</masterLabel>
+        <translation><!-- ISBAM - No Response --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ISBAM - Other</masterLabel>
+        <translation><!-- ISBAM - Other --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

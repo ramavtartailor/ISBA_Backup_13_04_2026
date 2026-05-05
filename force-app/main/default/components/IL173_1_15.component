@@ -1,0 +1,24 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Territory Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        This Policy is amended to exclude any<span class="normalBoldParagraph"> CLAIM </span>for a<span class="normalBoldParagraph"> WRONGFUL ACT </span>in connection with<span class="normalBoldParagraph"> PROFESSIONAL SERVICES </span>rendered or which should have been rendered in &nbsp;<apex:outputField value="{!endorsement.Territory__c}"/>&nbsp;, or any suit or arbitration filed or<span class="normalBoldParagraph"> DISCIPLINARY PROCEEDINGS </span>brought in &nbsp;<apex:outputField value="{!endorsement.Territory__c}"/>.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:500px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

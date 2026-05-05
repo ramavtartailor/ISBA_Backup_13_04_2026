@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Step_Override_Value_Required</fullName>
+    <active>true</active>
+    <description>If Step Override is checked then the Step Override Value is required.</description>
+    <errorConditionFormula>AND(Step_Override__c = true, ISNULL(Step_Override_Value__c))</errorConditionFormula>
+    <errorDisplayField>Step_Override_Value__c</errorDisplayField>
+    <errorMessage>Please provide Step Override Value!</errorMessage>
+</ValidationRule>

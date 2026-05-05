@@ -1,0 +1,31 @@
+<apex:component controller="Physical_Check_7_Day_ReminderCtrl" access="global">
+<apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+<html>
+<body style="">
+<p>Dear {!ps.Billing_Contact_Name__c},</p>
+
+<p>Thank you for insuring your law firm with ISBA Mutual.</p>
+
+<p>As a reminder, your next scheduled premium payment in the amount of &nbsp; <apex:outputText value="{0,number,Currency}"> <apex:param value="{!ps.Due_Amount__c}" /></apex:outputText> is due on &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!ps.Due_Date__c}" /> </apex:outputText>.</p>
+
+<p>To change your payment method to credit card or ACH, please use this link: <a href="{!ps.Billing__r.Payment_Link__c}" style="color: #0070d2; text-decoration: none;">{!ps.Billing__r.Payment_Link__c}</a>.</p>
+
+<p>If you have any questions or need further assistance, please contact our accounting team at 312-379-2005 or <a href="mailto:accounting@isbamutual.com" style="color: #0070d2; text-decoration: none;">accounting@isbamutual.com</a>.</p>
+
+<p>Thank you,<br/>
+Ashley Rosado<br/>
+Accountant<br/>
+312-379-2005<br/>
+<a href="mailto:Accounting@isbamutual.com" style="color: #0070d2; text-decoration: none;">Accounting@isbamutual.com</a></p>
+
+
+<p style="">
+ISBA Mutual Insurance<br/>
+20 South Clark Street, Suite 800<br/>
+Chicago, IL 60603-1826<br/>
+312 379-2000<br/>
+<a href="https://www.ISBAMutual.com" style="color: #0070d2; text-decoration: none;">www.ISBAMutual.com</a>
+</p>
+</body>
+</html>
+</apex:component>

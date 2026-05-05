@@ -1,0 +1,1707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Policy Endorsement</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Policy Endorsements</value>
+    </caseValues>
+    <fieldSets>
+        <label><!-- IL 101A --></label>
+        <name>IL_101A</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 101B --></label>
+        <name>IL_101B</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 104 --></label>
+        <name>IL_104</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 106 --></label>
+        <name>IL_106</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 107 --></label>
+        <name>IL_107</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 107B --></label>
+        <name>IL_107B</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 107C --></label>
+        <name>IL_107C</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 107D --></label>
+        <name>IL_107D</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 110 --></label>
+        <name>IL_110</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 120 --></label>
+        <name>IL_120</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 130 --></label>
+        <name>IL_130</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 150 --></label>
+        <name>IL_150</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 151 --></label>
+        <name>IL_151</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 151A --></label>
+        <name>IL_151A</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 160 --></label>
+        <name>IL_160</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 162 --></label>
+        <name>IL_162</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 169 --></label>
+        <name>IL_169</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 174A --></label>
+        <name>IL_174A</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 175 --></label>
+        <name>IL_175</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 176A --></label>
+        <name>IL_176A</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 177 --></label>
+        <name>IL_177</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 190 --></label>
+        <name>IL_190</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 191 --></label>
+        <name>IL_191</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 200 --></label>
+        <name>IL_200</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 210 --></label>
+        <name>IL_210</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 230 --></label>
+        <name>IL_230</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 232 --></label>
+        <name>IL_232</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 234 --></label>
+        <name>IL_234</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 260 --></label>
+        <name>IL_260</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 261 --></label>
+        <name>IL_261</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 262 --></label>
+        <name>IL_262</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 301 --></label>
+        <name>IL_301</name>
+    </fieldSets>
+    <fieldSets>
+        <label><!-- IL 302 --></label>
+        <name>IL_302</name>
+    </fieldSets>
+    <layouts>
+        <layout>AL Add Lawyer Endorsement</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>AL Add Lawyer Transaction</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>AP Adjust Premium Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>AP Adjust Premium Transaction</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>CC Change Coverage Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>CC Change Coverage Transaction</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>CL Change Lawyer Endorsement</layout>
+        <sections>
+            <label><!-- Additional Details --></label>
+            <section>Additional Details</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>CL Change Lawyer Transaction</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>CP Cancel Policy Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>CP Cancel Policy Transaction</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DL Delete Lawyer Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DL Delete Lawyer Transaction</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ERE</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ERE Extended Reporting Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 101 SPECIFIC ATTORNEY(S) EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 102 PRIOR ACTS EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 104 SPECIFIC ENTITY EXCLUSIONS ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 106 AMENDMENT OF EXTENDED REPORTING PERIOD</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 107 B,C,D</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 107 PURCHASE EXTENDED REPORTING ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 110 SECURITIES, BOND AND LIMITED PARTNERSHIP EXCLUSION</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 115 UNLIMITED PURCHASED EXTENDED</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 120 LIMIT OF LIABILITY ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 130 LIMIT OF LIABILITY ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 150 Name Change and  Address Change Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 150 POLICY ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 151 Name Change and  Address Change Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 151A Address Change Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 152 ADDING AN ATTORNEY ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Commission --></label>
+            <section>Commission</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Premium --></label>
+            <section>Premium</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 153 DELETING AN ATTORNEY ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Commission --></label>
+            <section>Commission</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Information --></label>
+            <section>Information</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Premium --></label>
+            <section>Premium</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 160 CONTRACTUAL LIABILITY EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 161 SPECIFIC AREA OF PRACTICE EXCLUSION ENDORSMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 162 FDCPA ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 163 PRIOR ACTS DATE ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 166 Definition Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 167 DISCIPLINARY/PRACTICE ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 168 EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 169 SECURITIES EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 171 CLAIM EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 172 INDIVIDUAL DISCIPLINARY PROCEEDINGS EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 173 TERRITORY EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 174 CLAIM AND DISCIPLINARY PROCEEDINGS EXCLUSION ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 175 PREDECESSOR FIRM ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 176 ENTITY ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 177 DISCIPLINARY PROCEEDINGS COVERAGE ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 178 DEDUCTIBLE AND DEFENSE ENDORSEMENT EVENTTYPEDESC</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 179 CLAIM EXPENSE ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 190 CANCELLATION OF COVERAGE</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 191 REINSTATE</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 191 Reinstatement Notice</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 200 PAST ACTS COVERAGE BUYBACK ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 210 SEPARATELY OWNED TITLE AGENCY</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 230 ANNUAL AGGREGATE DEDUCTIBLE ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 232 ANNUAL AGGREGATE DEDUCTIBLE</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 234 LOSS ONLY DEDUCTIBLE ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 245 Disciplinary Exclusion Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 246 Claim Expense Exclusion</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 247 Incident/Circumstance Claim Expense Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 248 Death, Total And Permanent Disability, Or Military Exclusion For Insureds</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Temp --></label>
+            <section>Temp</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 248 Death,TotalAndPermanentDisability,OrU.SActiveDutyMilitaryServiceExclusion</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 249 Death, Total And Permanent Disability, Or Military Exclusion For Insureds</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 249 Death,TotalAndPermanentDisability,OrU.SActiveDutyMilitaryServiceExclus</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 250 Disciplinary Limit Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 251 Past Acts Coverage Buyback Direct Liability Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 252 Three Sets of Limit of Liability Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 260 Past Acts Coverage Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 261 Claim Expenses Outside the Policy Limits Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 262 Amended Definition of Professional Services - Arbitration and Mediation</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 301 Amendment of EXTENDED REPORTING PERIOD Options Endorsement</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IL 302 AMENDMENT OF EXTENDED REPORTING PERIOD OPTIONS ENDORSEMENT</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Policy Endorsement Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Legacy Details --></label>
+            <section>Legacy Details</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Information --></label>
+            <section>Policy Information</section>
+        </sections>
+        <sections>
+            <label><!-- Premium Information --></label>
+            <section>Premium Information</section>
+        </sections>
+        <sections>
+            <label><!-- Systemn Details --></label>
+            <section>Systemn Details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>RP Reinstate Policy Transaction</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Dates --></label>
+            <section>Policy Dates</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Approve --></label>
+        <name>Approve</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Cancel Endorsement --></label>
+        <name>Cancel_Endorsement</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Process Accounting --></label>
+        <name>Process_Accounting</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Regenerate Document --></label>
+        <name>Regenerate_Document</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reject --></label>
+        <name>Reject</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reverse Endorsement --></label>
+        <name>Reverse_Endorsement</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Set to Pending --></label>
+        <name>Set_to_Pending</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- View PDF --></label>
+        <name>View_PDF_Lightning</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 152 Adding an Attorney Endorsement --></label>
+        <name>AL_Add_Lawyer_Transaction</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- AP Adjust Premium Endorsement --></label>
+        <name>AP_Adjust_Premium_Transaction</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 120 Limit of Liability Endorsement --></label>
+        <name>CC_Change_Coverage_Transaction</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- CL Change Lawyer Endorsement --></label>
+        <name>CL_Change_Lawyer_Transaction</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 190 Cancellation of Coverage --></label>
+        <name>CP_Cancel_Policy_Transaction</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 153 Deleting an Attorney Endorsement --></label>
+        <name>DL_Delete_Lawyer_Transaction</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 107 PURCHASE EXTENDED REPORTING ENDORSEMENT --></label>
+        <name>ERE</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- General --></label>
+        <name>General</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 101B SPECIFIC ATTORNEY(S) EXCLUSION ENDORSEMENT --></label>
+        <name>IL_101B_SPECIFIC_ATTORNEY_S_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 101A SPECIFIC ATTORNEY(S) EXCLUSION ENDORSEMENT --></label>
+        <name>IL_101_SPECIFIC_ATTORNEY_S_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 102 PRIOR ACTS EXCLUSION ENDORSEMENT --></label>
+        <name>IL_102_PRIOR_ACTS_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 104 SPECIFIC ENTITY EXCLUSIONS ENDORSEMENT --></label>
+        <name>IL_104_SPECIFIC_ENTITY_EXCLUSIONS_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 106 AMENDMENT OF EXTENDED REPORTING PERIOD --></label>
+        <name>IL_106_AMENDMENT_OF_EXTENDED_REPORTING_PERIOD</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 107B U.S. Active Duty Military Service Extended Reporting Period Election --></label>
+        <name>IL_107B_U_S_Active_Duty_Military_Service_Extended_Reporting_Period_Election</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 107C Unlimited Death or Disability Extended Reporting Period Election --></label>
+        <name>IL_107C_Unlimited_Death_or_Disability_Extended_Reporting_Period_Election</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 107D Unlimited Retirement Extended Reporting Period Election Endorsement --></label>
+        <name>IL_107D_Unlimited_Retirement_Extended_Reporting_Period_Election_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 110 SECURITIES, BOND AND LIMITED PARTNERSHIP EXCLUSION --></label>
+        <name>IL_110_SECURITIES_BOND_AND_LIMITED_PARTNERSHIP_EXCLUSION</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 115 UNLIMITED PURCHASED EXTENDED --></label>
+        <name>IL_115_UNLIMITED_PURCHASED_EXTENDED</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 130 LIMIT OF LIABILITY ENDORSEMENT --></label>
+        <name>IL_130_LIMIT_OF_LIABILITY_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 150 POLICY ENDORSEMENT --></label>
+        <name>IL_150_POLICY_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 151A Address Change Endorsement --></label>
+        <name>IL_151A_Address_Change_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 151 Name Change Endorsement --></label>
+        <name>IL_151_Name_Change_and_Address_Change_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 160 CONTRACTUAL LIABILITY EXCLUSION ENDORSEMENT --></label>
+        <name>IL_160_CONTRACTUAL_LIABILITY_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 161 SPECIFIC AREA OF PRACTICE EXCLUSION ENDORSEMENT --></label>
+        <name>IL_161_SPECIFIC_AREA_OF_PRACTICE_EXCLUSION_ENDORSMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 162 FDCPA ENDORSEMENT --></label>
+        <name>IL_162_FDCPA_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 163 PRIOR ACTS DATE ENDORSEMENT --></label>
+        <name>IL_163_PRIOR_ACTS_DATE_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 166 Definition Endorsement --></label>
+        <name>IL_166_Definition_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 167 DISCIPLINARY/PRACTICE ENDORSEMENT --></label>
+        <name>IL_167_DISCIPLINARY_PRACTICE_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 168 EXCLUSION ENDORSEMENT --></label>
+        <name>IL_168_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 169A SECURITIES EXCLUSION ENDORSEMENT --></label>
+        <name>IL_169A_SECURITIES_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 169 SECURITIES EXCLUSION ENDORSEMENT --></label>
+        <name>IL_169_SECURITIES_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 171 CLAIM EXCLUSION ENDORSEMENT --></label>
+        <name>IL_171_CLAIM_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 172 INDIVIDUAL DISCIPLINARY PROCEEDINGS EXCLUSION ENDORSEMENT --></label>
+        <name>IL_172_INDIVIDUAL_DISCIPLINARY_PROCEEDINGS_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 173 TERRITORY EXCLUSION ENDORSEMENT --></label>
+        <name>IL_173_TERRITORY_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 174A CLAIM AND DISCIPLINARY PROCEEDINGS EXCLUSION ENDORSEMENT --></label>
+        <name>IL_174A_CLAIM_AND_DISCIPLINARY_PROCEEDINGS_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 174 CLAIM AND DISCIPLINARY PROCEEDINGS EXCLUSION ENDORSEMENT --></label>
+        <name>IL_174_CLAIM_AND_DISCIPLINARY_PROCEEDINGS_EXCLUSION_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 175 PREDECESSOR FIRM ENDORSEMENT --></label>
+        <name>IL_175_PREDECESSOR_FIRM_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 176A ENTITY ENDORSEMENT --></label>
+        <name>IL_176A_ENTITY_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 176 ENTITY ENDORSEMENT --></label>
+        <name>IL_176_ENTITY_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 177 DISCIPLINARY PROCEEDINGS COVERAGE ENDORSEMENT --></label>
+        <name>IL_177_DISCIPLINARY_PROCEEDINGS_COVERAGE_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 178 DEDUCTIBLE AND DEFENSE ENDORSEMENT EVENTTYPEDESC --></label>
+        <name>IL_178_DEDUCTIBLE_AND_DEFENSE_ENDORSEMENT_EVENTTYPEDESC</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 179 CLAIM EXPENSE ENDORSEMENT --></label>
+        <name>IL_179_CLAIM_EXPENSE_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 200 PAST ACTS COVERAGE BUYBACK ENDORSEMENT --></label>
+        <name>IL_200_PAST_ACTS_COVERAGE_BUYBACK_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 210 SEPARATELY OWNED TITLE AGENCY --></label>
+        <name>IL_210_SEPARATELY_OWNED_TITLE_AGENCY</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 230 ANNUAL AGGREGATE DEDUCTIBLE ENDORSEMENT --></label>
+        <name>IL_230_ANNUAL_AGGREGATE_DEDUCTIBLE_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 232 ANNUAL AGGREGATE DEDUCTIBLE --></label>
+        <name>IL_232_ANNUAL_AGGREGATE_DEDUCTIBLE</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 234 LOSS ONLY DEDUCTIBLE ENDORSEMENT --></label>
+        <name>IL_234_LOSS_ONLY_DEDUCTIBLE_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 245 Disciplinary Exclusion Endorsement --></label>
+        <name>IL_245_Disciplinary_Exclusion_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 246 Claim Expense Exclusion --></label>
+        <name>IL_246_Claim_Expense_Exclusion</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 247 Incident/Circumstance Claim Expense Endorsement --></label>
+        <name>IL_247_Incident_Circumstance_Claim_Expense_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 248 Death, Total And Permanent Disability, Or Military Exclusion For Insureds --></label>
+        <name>IL_248_Death_Total_And_Permanent_Disability_Or_U_S_Active_Duty_MilitaryService</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 249 Death,Total And Permanent Disability, Or U.S Active Duty Military Service --></label>
+        <name>IL_249_Death_Total_And_Permanent_Disability_Or_US_Active_Duty_Military_Service</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 250 Disciplinary Limit Endorsement --></label>
+        <name>IL_250_Disciplinary_Limit_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 251 Past Acts Coverage Buyback Direct Liability Endorsement --></label>
+        <name>IL_251_Past_Acts_Coverage_Buyback_Direct_Liability_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 252 Three Sets of Limit of Liability Endorsement --></label>
+        <name>IL_252_Three_Sets_of_Limit_of_Liability_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 260 Past Acts Coverage Endorsement --></label>
+        <name>IL_260_Past_Acts_Coverage_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- IL 261 Claim Expenses Outside the Policy Limits Endorsement --></label>
+        <name>IL_261_Claim_Expenses_Outside_the_Policy_Limits_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 262 Amended Definition of Professional Services - Arbitration and Mediation --></label>
+        <name>IL_262_Amended_Definition_of_Professional_Services_Arbitration_and_Mediation</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 301 Amendment of EXTENDED REPORTING PERIOD Options Endorsement --></label>
+        <name>IL_301_Amendment_of_EXTENDED_REPORTING_PERIOD_Options_Endorsement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Descriptive --></description>
+        <label><!-- IL 302 AMENDMENT OF EXTENDED REPORTING PERIOD OPTIONS ENDORSEMENT --></label>
+        <name>IL_302_AMENDMENT_OF_EXTENDED_REPORTING_PERIOD_OPTIONS_ENDORSEMENT</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- IL 303 Additional Exclusion Endorsement - Funds Disbursements --></label>
+        <name>IL_303_Additional_Exclusion_Endorsement_Funds_Disbursements</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Functional --></description>
+        <label><!-- IL 191 Reinstatement Notice --></label>
+        <name>RP_Reinstate_Policy_Transaction</name>
+    </recordTypes>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage><!-- Account should be same as that on Policy! --></errorMessage>
+        <name>Account_Should_Be_Same_As_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Cancel Date cannot be greater than Policy Expiration Date! --></errorMessage>
+        <name>Cancel_Date_Cannot_Exceed_Expire_Date</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Cancelled Policy can only be Reinstated! --></errorMessage>
+        <name>Cancel_Policy_Can_Only_Be_Reinstatted</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- New Limit does not lie in the 10X10 range! --></errorMessage>
+        <name>Change_Coverage_Override_10X10</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- New Limit does not lie in the 5X5 range! --></errorMessage>
+        <name>Change_Coverage_Override_5X5</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Limit can&apos;t be same as Policy in the Change Coverage Endorsement! --></errorMessage>
+        <name>Change_Coverage_Validation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Endorsement Effective Date cannot be greater than Policy Expiration Date! --></errorMessage>
+        <name>Effective_Date_Cannot_Exceed_Expire_Date</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- 106 endorsement invalid on policies with multiple lawyers --></errorMessage>
+        <name>IL106_Should_have_1_Lawer</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Reinstate Endorsement can only be applied on a Cancelled policy! --></errorMessage>
+        <name>Need_Cancel_Policy_For_Reinstate_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Policy is already expired. --></errorMessage>
+        <name>No_Endorsements_For_Expired_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Cannot create endorsement due to pending application. --></errorMessage>
+        <name>Open_Application_error_on_endorsement</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The Policy Coverage does not lie in the 10 x 10 range! --></errorMessage>
+        <name>Override_Validation_10x10</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The Policy Coverage does not lie in the 5 x 5 range! --></errorMessage>
+        <name>Override_Validation_5x5</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Override Rating Values should be empty if Override Rating is not checked! --></errorMessage>
+        <name>Override_Values_Empty</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Endorsement effective date cannot be before policy effective date. --></errorMessage>
+        <name>PolicyEffectiveExceedEffectiveDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Override Rating must be checked to fill the values in 5x5 and 10x10! --></errorMessage>
+        <name>Premium_5_5_10_10_Must_Be_Empty</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If the Override Rating check is true then 5x5 and 10x10 fields cannot be empty! --></errorMessage>
+        <name>Premium_5_5_10_10_Must_Have_Values</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Account Name Can&apos;t Contain Characters : / ? &lt; &gt; \ : * “ ^ --></errorMessage>
+        <name>Prohibit_characters_Account_Name</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Rate At&apos; must be between 0-100! --></errorMessage>
+        <name>Rate_At_Must_not_Exceed_100</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Endorsement Effective Date cannot exceed Policy Cancellation Date! --></errorMessage>
+        <name>Reinstate_Endorsement_Effective_Date</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Step Override Value should be empty if Step Override is not checked! --></errorMessage>
+        <name>Step_Override_Empty</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Step Override Value should be between 0 and 7! --></errorMessage>
+        <name>Step_Override_Value_Limit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please provide Step Override Value! --></errorMessage>
+        <name>Step_Override_Value_Required</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Edit_260 --></label>
+        <name>Edit_260</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Edit_Add_Attorney_Endorsement --></label>
+        <name>Edit_Add_Attorney_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Edit_Delete_Attorney_Endorsement --></label>
+        <name>Edit_Delete_Attorney_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Edit_Endorsement --></label>
+        <name>Edit_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GL_Report --></label>
+        <name>GL_Report</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- New_Application_Endorsement --></label>
+        <name>New_Application_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- New_Policy_Endorsement --></label>
+        <name>New_Policy_Endorsement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Email_Invoice --></label>
+        <name>Send_Email_Invoice</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Invoice --></label>
+        <name>Send_Invoice</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_Pdf --></label>
+        <name>View_Pdf</name>
+    </webLinks>
+</CustomObjectTranslation>

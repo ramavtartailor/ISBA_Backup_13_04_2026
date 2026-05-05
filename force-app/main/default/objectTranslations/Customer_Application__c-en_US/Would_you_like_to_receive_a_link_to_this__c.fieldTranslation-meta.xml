@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Would you like to receive a link to this --></label>
+    <name>Would_you_like_to_receive_a_link_to_this__c</name>
+</CustomFieldTranslation>

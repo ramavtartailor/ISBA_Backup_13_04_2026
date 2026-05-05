@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SA_ERP</fullName>
+    <availability>online</availability>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>SA-ERP</masterLabel>
+    <openType>noSidebar</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>/apex/New_SA_ERP?policyId={!Policy__c.Id}&amp;fromPolicyLawyerRelatedList={!NOT( OR( ISBLANK( Policy__c.Id ) , ISNULL(Policy__c.Id) ) )}</url>
+</WebLink>

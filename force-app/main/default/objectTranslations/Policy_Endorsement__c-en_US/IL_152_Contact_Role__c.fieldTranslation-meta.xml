@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- IL 152 Contact Role --></label>
+    <name>IL_152_Contact_Role__c</name>
+    <picklistValues>
+        <masterLabel>Associate</masterLabel>
+        <translation><!-- Associate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Contract Employee</masterLabel>
+        <translation><!-- Contract Employee --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Director</masterLabel>
+        <translation><!-- Director --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Employee</masterLabel>
+        <translation><!-- Employee --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Independent Contractor</masterLabel>
+        <translation><!-- Independent Contractor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Member</masterLabel>
+        <translation><!-- Member --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Of Counsel</masterLabel>
+        <translation><!-- Of Counsel --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Officer</masterLabel>
+        <translation><!-- Officer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Owner</masterLabel>
+        <translation><!-- Owner --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner</masterLabel>
+        <translation><!-- Partner --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Shareholder</masterLabel>
+        <translation><!-- Shareholder --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Temporary Staff Lawyer</masterLabel>
+        <translation><!-- Temporary Staff Lawyer --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Claim</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Claims</value>
+    </caseValues>
+    <layouts>
+        <layout>Claim Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Policy Claim Layout</layout>
+        <sections>
+            <label><!-- Accounting Values --></label>
+            <section>Accounting Values</section>
+        </sections>
+        <sections>
+            <label><!-- Claim Dates --></label>
+            <section>Claim Dates</section>
+        </sections>
+        <sections>
+            <label><!-- Claim Information --></label>
+            <section>Claim Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Deductible Applied --></label>
+            <section>Deductible Applied</section>
+        </sections>
+        <sections>
+            <label><!-- Incurred --></label>
+            <section>Incurred</section>
+        </sections>
+        <sections>
+            <label><!-- Payment --></label>
+            <section>Payment</section>
+        </sections>
+        <sections>
+            <label><!-- Payment  / Reserve For Direct --></label>
+            <section>Payment  / Reserve For Direct</section>
+        </sections>
+        <sections>
+            <label><!-- Payment / Reserve For Ceded --></label>
+            <section>Payment / Reserve For Ceded</section>
+        </sections>
+        <sections>
+            <label><!-- Policy Information --></label>
+            <section>Policy Information</section>
+        </sections>
+        <sections>
+            <label><!-- Reference --></label>
+            <section>Reference</section>
+        </sections>
+        <sections>
+            <label><!-- Remaining Limits - All Claims On Policy --></label>
+            <section>Remaining Limits - All Claims On Policy</section>
+        </sections>
+        <sections>
+            <label><!-- Remaining Limits - Per Claim --></label>
+            <section>Remaining Limits - Per Claim</section>
+        </sections>
+        <sections>
+            <label><!-- Reserve --></label>
+            <section>Reserve</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Change Reserve --></label>
+        <name>ChangeReserveNEW</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Claim Payable --></label>
+        <name>Claim_Payable</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Close Claim --></label>
+        <name>Close_Claim</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Note --></label>
+        <name>New_Note</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Related Claim --></label>
+        <name>New_Related_Claim</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Recalculate Claim Summary --></label>
+        <name>Recalculate_Claim_Summary</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Request Delete --></label>
+        <name>Request_Delete</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Run Claim Loss Report --></label>
+        <name>Run_Claim_Loss_Report</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Incident --></label>
+        <name>Incident</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- &apos;Discipline Action&apos; should be [Yes/No] in case of &apos;ARDC Complaint&apos;! --></errorMessage>
+        <name>ARDCComplaint_Discipline_Action_Control1</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Discipline Action&apos;  should be only in case of &apos;ARDC Complaint&apos;! --></errorMessage>
+        <name>ARDCComplaint_Discipline_Action_Control2</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Claim Made Date&apos; should not be Greater than today. --></errorMessage>
+        <name>Claim_Made_Date_Cant_greater_than_today</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- LAE Reserve cannot be Negative! --></errorMessage>
+        <name>Claim_ReserveLAE_must_be_possitive</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Loss Reserve cannot be Negative! --></errorMessage>
+        <name>Claim_ReserveLoss_must_be_possitive</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Either Venue or State needs to be selected. --></errorMessage>
+        <name>Either_County_or_State_should_selected</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- LAE Reserve cannot be set for an Inactive Policy! --></errorMessage>
+        <name>LAE_Reserv_Stop_for_Inactive_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Loss Reserve cannot be set for an Inactive Policy! --></errorMessage>
+        <name>Loss_Reserve_Stop_for_Inactive_Policy</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Occurrence Date&apos; should not be Greater than today. --></errorMessage>
+        <name>Occur_Date_Cant_be_greater_than_today</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Occur Date&apos; should not be greater than &apos;Current Date&apos;! --></errorMessage>
+        <name>Occur_Date_VR_notgreater_than_currect_Dt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- LAE Reserve cannot exceed Remaining limits of a Policy! --></errorMessage>
+        <name>PolicyReminBal_not_exceed_by_ReserveLAE</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Loss Reserve cannot exceed Remaining limits of a Policy! --></errorMessage>
+        <name>PolicyReminBal_not_exceed_by_ReserveLoss</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can&apos;t switch the file type from ARDC or to ARDC. --></errorMessage>
+        <name>Prevent_file_type_switch_to_or_from_ARDC</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Report Date shouldn&apos;t be previous year, if Today is not between the first 10 days of this year. --></errorMessage>
+        <name>ReportDateCannotBePreviousYear</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Less than Policy&apos;s &apos;Effective Date&apos;! --></errorMessage>
+        <name>ReportDateShouldnotLTPolicyEffectiveDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Greater than today. --></errorMessage>
+        <name>Report_Date_Cant_be_greater_than_today</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Less than Policy&apos;s &apos;Prior Act Date&apos;! --></errorMessage>
+        <name>Report_Date_VR_Effective_PriorActnotnull</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Less than Policy&apos;s &apos;Effective Date&apos;! --></errorMessage>
+        <name>Report_Date_VR_Effective_PriorActnull</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Greater than Policy&apos;s &apos;Expiration Date&apos;! --></errorMessage>
+        <name>Report_Date_VR_ExpireDt_Mininull_EREnull</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Greater than Policy&apos;s &apos;Mini Tail Date&apos;! --></errorMessage>
+        <name>Report_Date_VR_Expire_Mininonull_EREnull</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Greater than Policy&apos;s &apos;ERE Date&apos;! --></errorMessage>
+        <name>Report_Date_VR_Expire_Mininull_EREnonull</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Report Date should not be greater than related Policy&apos;s &apos;ERE&apos; Date&apos; or Policy&apos;s &apos;Mini Tail Date&apos;! --></errorMessage>
+        <name>Report_Date_Validation_4_ERE_MiniTaildt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Report Date&apos; should not be Less than Policy&apos;s &apos;Effective Date&apos; and Greater than Policy&apos;s &apos;Expiry Date&apos;! --></errorMessage>
+        <name>Report_Date_Validation_Rule_Eff_Exp_Dt</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Report Date cannot be less than related Policy&apos;s Prior Acts Date! --></errorMessage>
+        <name>Report_Date_not_less_than_Prior_Acts</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Open Reserve LAE&apos; amount cannot be changed! --></errorMessage>
+        <name>Reserve_LAE_could_not_changed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &apos;Open Reserve Loss&apos; amount cannot be changed! --></errorMessage>
+        <name>Reserve_Loss_could_not_changed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Reserve cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; types! --></errorMessage>
+        <name>Which_Claim_Type_Not_AllowForReserveLoss</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Reserve cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; types! --></errorMessage>
+        <name>Which_Claim_Type_Not_AllowFor_ReserveLAE</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- GL_Claim_Transactions --></label>
+        <name>GL_Claim_Transactions</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GL_Report --></label>
+        <name>GL_Report</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Loss_Memo --></label>
+        <name>Loss_Memo</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_Notes --></label>
+        <name>View_Notes</name>
+    </webLinks>
+</CustomObjectTranslation>

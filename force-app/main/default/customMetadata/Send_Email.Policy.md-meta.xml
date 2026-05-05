@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Policy</label>
+    <protected>false</protected>
+    <values>
+        <field>Attachment_Library_Name__c</field>
+        <value xsi:type="xsd:string">Send Email Resource Documents</value>
+    </values>
+    <values>
+        <field>Email_Template_Name__c</field>
+        <value xsi:type="xsd:string">0% Interest Advantage</value>
+    </values>
+    <values>
+        <field>Fields_To_Query__c</field>
+        <value xsi:type="xsd:string">id,Account__c,Renewal_Type__c,Policy_Document_Version__c, Firm_Name__c,Name, Total_Lawyers__c,Total_Lawyers_For_Step_7__c,Customer_Application__c, Customer_Application__r.Application_Status__c,Application_Type__c</value>
+    </values>
+    <values>
+        <field>Object_API_Name__c</field>
+        <value xsi:type="xsd:string">Policy__c</value>
+    </values>
+    <values>
+        <field>Send_To_Contact_Field_API_Name__c</field>
+        <value xsi:type="xsd:string">Firm_Contact__c</value>
+    </values>
+</CustomMetadata>

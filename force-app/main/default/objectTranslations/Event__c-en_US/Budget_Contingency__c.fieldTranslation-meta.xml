@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Depending on the size or complexity of this event, you may want to add as much as up to 20% as a contingency. --></help>
+    <label><!-- Contingency Budget --></label>
+    <name>Budget_Contingency__c</name>
+</CustomFieldTranslation>

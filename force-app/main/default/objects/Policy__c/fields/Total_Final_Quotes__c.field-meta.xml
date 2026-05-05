@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Final_Quotes__c</fullName>
+    <description>How many total Quotes as Final in Policy Quotes.</description>
+    <label>Total Final Quotes</label>
+    <summaryFilterItems>
+        <field>Policy_Quote__c.Final_Quote__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Policy_Quote__c.Policy__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

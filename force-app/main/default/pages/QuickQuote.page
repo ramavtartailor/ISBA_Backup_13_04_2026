@@ -1,0 +1,574 @@
+<apex:page showHeader="false" controller="QuickQuoteCtrl" id="pg">
+      <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+               <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>  
+         <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script> 
+          
+            <style>
+                .slds-scope .slds-grid--pull-padded {
+                       margin-right:0px !important;
+                       margin-left:0px !important;
+                   }
+                   .slds-scope .slds-form--horizontal {
+                        margin-top: 1%;
+                    }
+                    .slds-scope .slds-page-header {
+                        background-color: #337AB7 !important;
+                        color: white !important;
+                    }
+                    .slds-scope .slds-text-heading--label {
+                        text-transform: capitalize !important; 
+                    }
+                    .slds-scope .slds-table td, .slds-scope .slds-table th {
+                        white-space: normal !important;
+                    }
+                .dateFormat{
+                display:none;
+                }
+            </style>
+            <script>
+            function search( lookName ,ObjectName,label){
+                try{ 
+                    $('input[id$='+lookName+']').css('background', 'url("http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif") no-repeat right center');
+                    var key=$('input[id$='+lookName+']').val();
+                    var compareId = $('[id$=PolicyLookupValue]').val();
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.QuickQuoteCtrl.getLookupRecord}',
+                        key, 
+                        ObjectName,
+                        compareId,
+                        function(result, event){
+                            if(result != null){
+                                if (event.status) {
+                                    var  tables ="<ul class='slds-lookup__list' role='listbox'>  ";
+                                    for(var i=0;i<result.length;i++){ 
+                                        tables += "<li role='presentation' onclick=\"fillRecord( '" +lookName+"','" +result[i].Id+"','"+result[i].Name+"' )\"><span class='slds-lookup__item-action slds-media' id='lookup-option-483' role='option'><div class='slds-media__body'><div class='slds-lookup__result-text'>"+result[i].Name + '-' + result[i].Account__r.Name +"</div></div></span></li>"; 
+                                    } 
+                                    tables +="</ul>";
+                                    if(result.length > 0){
+                                        tables = "<div class='slds-lookup__item--label slds-text-body--small'>"+label+"</div>"+tables; 
+                                    }else{
+                                        tables = "<div class='slds-lookup__item--label slds-text-body--small'>No record found .</div>"; 
+                                    }
+                                    document.getElementById(lookName+"SrchDrpDwn").innerHTML =tables;
+                                    $('[id$='+lookName+'SrchDrpDwn]').show(); 
+                                } else if (event.type === 'exception') {
+                                    
+                                } else {
+                                    
+                                }
+                                $('input[id$='+lookName+']').css('background', 'none'); 
+                            }else{
+                                $('input[id$='+lookName+']').css('background', 'none');
+                            }
+                        }, 
+                        {escape: true}
+                    );
+                }catch(e){ 
+                    alert('An Error has Occured. Error:' +e); 
+                }
+                
+            }
+            function fillRecord(lookup,id,name){
+                //$('[id$='+lookup+'SrchDrpDwn]').hide();
+                //$('input[id$='+lookup+'Value]').val(id);
+                
+                //$('[id$='+lookup+'Label]').text(name);
+                //$('[id$='+lookup+'Search]').addClass('slds-hide');
+                //$('[id$='+lookup+'LabelDiv]').removeClass('slds-hide');
+                
+                if(lookup == 'PolicyLookup'){
+                    $('[id$=spinner]').css('display','block');
+                    renderPolicyData(id);
+                }
+            }
+            $(document).ready(function() {
+                // svg icon click event
+                $("svg").on("click", function() {
+                    if (typeof $(this).attr('data') != 'undefined') {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        } 
+                    }
+                });
+            } );
+            function addLimit(){
+                $('[id$=spinner]').css('display','block');
+                var flag = true;
+                if(flag){
+                    addLimits();
+                }else{
+                    showError('');
+                    $('[id$=spinner]').css('display','none');
+                }
+            }    
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+        </script>
+        </head>
+        <body>
+            <apex:form id="frm1">
+                <apex:outputPanel id="errorPanel">
+                    <script>
+                    if('{!errorString}' != '' && '{!errorString}' != null && '{!errorString}' != 'undefined'){
+                        showError('{!errorString}');
+                    } 
+                    
+                    </script>
+                </apex:outputPanel>
+                <apex:actionFunction name="addLimits" action="{!addQuickQuote}" reRender="table1,table2,table3,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="preSetPolicyData" action="{!preSetPolicyDataFunc}" reRender="quotePanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="renderPolicyData" action="{!renderPolicyDataFunc}" reRender="policyPanel,errorPanel,quotePanel" oncomplete="$('[id$=spinner]').css('display','none');">
+                	<apex:param name="policyId"  value="" assignTo="{!existingPolicyId}"/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="updateCounty" action="{!updateCountyFunc}" reRender="table1,table2,table3,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="updateEffectiveDate" action="{!updateEffectiveDateFunc}" reRender="quotePanel" oncomplete="$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="removeTableRow" action="{!removeRow}" reRender="table3,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+                <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+             
+             <div class="slds-notify_container slds-hide">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                      <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                        <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading--small"></h2>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%; ">
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                        <h1 style="background-color: #337AB7;color:white;/* margin-left: 10px; */padding: 5px;border-radius: 3px;"><b style="margin-left:10px" >Policy Search</b></h1>
+                    </div>
+                    
+                </div>   
+                
+                <apex:outputPanel id="policyPanel" styleclass="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        
+                        
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="Policy">Policy</label>
+                                <div class=" slds-lookup" data-select="single" id="PolicyLookupSearch">
+                                    <div class="slds-form-element__control slds-grid slds-box--border">
+                                        <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                            <svg class="slds-input__icon" aria-hidden="true">
+                                                <!--<use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#search')}"></use>-->
+                                            </svg>
+                                            <input type="text" id="PolicyLookup" class="slds-input accountRequired1" onkeyup="search('PolicyLookup','Policy__c','Search Policy')" placeholder="Search Policy" style="border:none;" />
+                                            <div class="slds-lookup__menu closeDiv" id="PolicyLookupSrchDrpDwn" style="display:none"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <apex:inputHidden id="PolicyLookupValue"  value="{!existingPolicyId}"  />
+                                <!-- Display window -->
+                                <div class="slds-form-element slds-lookup slds-hide" data-select="single" id="PolicyLookupLabelDiv">
+                                    <div class="slds-form-element__control slds-grid slds-box--border">
+                                        <div class="slds-dropdown--trigger slds-dropdown-trigger--click slds-align-middle slds-m-left--xx-small slds-shrink-none">
+                                            <svg class="slds-icon slds-icon-standard-account slds-icon--small" aria-hidden="true">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                            </svg>
+                                        </div>
+                                        <div class="slds-input-has-icon slds-input-has-icon--right slds-grow">
+                                            <svg class="slds-input__icon" aria-hidden="true" data="PolicyLookup">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                            </svg>
+                                            <label class="slds-align-middle slds-lookup__search-input slds-input--bare" for="form-help" id="PolicyLookupLabel">{!existingPolicyName}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<script>
+                                if($('[id$=PolicyLookupValue]').val() != ''){
+                                    $('[id$=PolicyLookupSearch]').addClass('slds-hide');
+                                    $('[id$=PolicyLookupLabelDiv]').removeClass('slds-hide');
+                                }
+                                </script>-->
+                            </div>
+                        </div>  
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Policy #</label>
+                                <div class="slds-form-element__control">
+                                    <apex:outputText value="{!existing_policy.Name}">
+                                    </apex:outputText>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Limits</label>
+                                <div class="slds-form-element__control">
+                                    <apex:outputText value="{!existing_policy.Limit__r.Name}">
+                                    </apex:outputText>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Deductible</label>
+                                <div class="slds-form-element__control">
+                                    <apex:outputText value="{!existing_policy.Deductible_ID__r.Name}">
+                                    </apex:outputText>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element" style="min-height: 50px;">
+                                <label class="slds-form-element__label" for="inputSample2"></label>
+                                <div class="slds-form-element__control">
+                                    <!-- <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="$('[id$=spinner]').css('display','block');preSetPolicyData(); return false;" style="margin-top: 18px;">
+                                        <span class="slds-text-not-selected"></span>Preset Policy Data
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Effective</label>
+                                <div class="slds-form-element__control">
+                                    <apex:outputField value="{!existing_policy.Effective_Date__c}">
+                                    </apex:outputField>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Premium</label>
+                                <div class="slds-form-element__control">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{!existing_policy.Premium__c}" />
+                                    </apex:outputText>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">County</label>
+                                <div class="slds-form-element__control">
+                                    <apex:outputText value="{!existing_policy.County__r.Name}">
+                                    </apex:outputText>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%; ">
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                        <h1 style="background-color: #337AB7;color:white;/* margin-left: 10px; */padding: 5px;border-radius: 3px;"><b style="margin-left:10px" >Quote</b></h1>
+                    </div>
+                    
+                </div>   
+                
+                <apex:outputPanel id="quotePanel" styleClass="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--8-of-12 slds-large-size--8-of-12">
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="inputSample2">Effective Date:</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputField value="{!application_policy.Effective_Date__c}"  onchange="$('[id$=spinner]').css('display','block');updateEffectiveDate();return false;" onkeydown="autoFormat(this)" styleClass="slds-input search txtDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="inputSample2">County:</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:selectList value="{!application_policy.County__c}" onchange="$('[id$=spinner]').css('display','block');updateCounty();return false;" multiselect="false" size="1" styleClass="slds-input" > 
+                                            <apex:selectOptions value="{!PolicyCounty}" />
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <b style="padding-left: 0.75em;">Lawyers Step</b>
+                        
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                            
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                <apex:outputPanel id="table1">
+                                    <table id="example1" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr class="slds-text-heading--label">
+                                                <th>7</th>
+                                                <th>6</th>
+                                                <th>5</th>
+                                                <th>4</th>
+                                                <th>3</th>
+                                                <th>2</th>
+                                                <th>1</th>
+                                                <th>0</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <apex:inputText value="{!step7}" styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step6}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step5}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step4}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step3}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step2}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step1}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                                <td>
+                                                    <apex:inputText value="{!step0}"  styleClass="slds-input">
+                                                    </apex:inputText>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </apex:outputPanel>
+                            </div>
+                        </div>   
+                        
+                    </div>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        <b style="padding-left: 0.75em;">Factors</b><br/>
+                        <apex:outputPanel id="table2">
+                            <table id="example1" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="slds-text-heading--label">
+                                        <th>Factor</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Geographic
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{!geoMod}">
+                                            </apex:outputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            AOP
+                                        </td>
+                                        <td>
+                                            <apex:inputText value="{!aopMod}"  styleClass="slds-input" style="width:30%">
+                                            </apex:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Claims
+                                        </td>
+                                        <td>
+                                            <apex:inputText value="{!claimsMod}"  styleClass="slds-input" style="width:30%">
+                                            </apex:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Schedule
+                                        </td>
+                                        <td>
+                                            <apex:inputText value="{!schMod}"  styleClass="slds-input" style="width:30%">
+                                            </apex:inputText>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr >
+                                        <th style="color: #337AB7;font-weight: bolder;">
+                                            Firm Mod
+                                        </th>
+                                        <th style="color: #337AB7;font-weight: bolder;">
+                                            <apex:outputText value="{!firmMod}">
+                                            </apex:outputText>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </apex:outputPanel>
+                    </div>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                        <br/><b>Limits / Quotes </b> <br/><br/>
+                    </div>
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        
+                            <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="inputSample2">Limits:</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:selectList value="{!selectedLimit}"  multiselect="false" size="1" styleClass="slds-input quoteRequired">
+                                            <apex:selectOptions value="{!Limit}"/>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                        	<div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="inputSample2">5x5 override:</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputText value="{!x5x5}"  styleClass="slds-input">
+                                        </apex:inputText>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="inputSample2">Deductible:</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:selectList value="{!selectedDeductible}" multiselect="false" size="1" styleClass="slds-input quoteRequired">
+                                            <apex:selectOptions value="{!Deductible}"/>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="slds-form--horizontal">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="inputSample2">10x10:</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputText value="{!x10x10}"  styleClass="slds-input">
+                                        </apex:inputText>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="addLimit(); return false;" style="margin-top: 90px;">
+                            <span class="slds-text-not-selected"></span>Add Limits
+                        </button>
+                    </div>
+                    <br/><br/>
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12" style="padding-top: 20px;">
+                        <apex:outputPanel id="table3">
+                            <table id="example1" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="slds-text-heading--label">
+                                        <th>Limit</th>
+                                        <th>Deductible</th>
+                                        <th>Primary</th>
+                                        <th>Excess</th>
+                                        <th>5x5</th>
+                                        <th>10x10</th>
+                                        <th>Premium</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <apex:variable value="{!0}" var="index"/>
+                                    <apex:repeat value="{!quoteWrapper}" var="quote">
+                                        <tr>
+                                            <td>
+                                                <apex:outputText value="{!quote.limits}">
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="{!quote.deductible}">
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="{0, Number, Currency}">
+                                                    <apex:param value="{!quote.primary}" />
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="{0, Number, Currency}">
+                                                    <apex:param value="{!quote.excess}" />
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="{0, Number, Currency}">
+                                                    <apex:param value="{!quote.x5x5}" />
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="{0, Number, Currency}">
+                                                    <apex:param value="{!quote.x10x10}" />
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="{0, Number, Currency}">
+                                                    <apex:param value="{!quote.premium}" />
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:commandLink onclick="$('[id$=spinner]').css('display','block');removeTableRow({!index});return false;" value="Delete"/>
+                                            </td>
+                                        </tr>
+                                        <apex:variable value="{!index+1}" var="index"/>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                        </apex:outputPanel>
+                    </div>
+                </apex:outputPanel>
+             
+              </apex:form> 
+        </body>
+    </html>
+    <script>
+    /*var unsaved = false;
+            
+            $(":input").change(function(){ 
+                unsaved = true;
+            });
+            
+            function unloadPage(){ 
+                if(unsaved){
+                    return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+                }
+            }
+          window.onbeforeunload = unloadPage; */
+    </script>
+</apex:page>

@@ -1,0 +1,193 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Amendment of Unlimited Retirement <span style="font-weight: bolder;">Extended Reporting Period</span> Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that<span class="normalBoldParagraph"> VII. EXTENDED REPORTING PERIODS, D. </span>Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>is deleted in its entirety and replaced with the following:
+    </p>
+    
+     <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph">D.</span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>
+                </p>
+                <p>
+                    &nbsp;If during the<span class="normalBoldParagraph"> Policy Period, </span>any Lawyer who qualifies as an<span class="normalBoldParagraph"> Insured </span>pursuant to<span class="normalBoldParagraph"> III. DEFINITIONS, I.
+                    &nbsp;Insured, 1. a or 2. a </span>and who has been identified as such on the<span class="normalBoldParagraph"> Application </span>immediately preceding the
+                    &nbsp;issuance of this Policy, or added by endorsement during the<span class="normalBoldParagraph"> Policy Period </span>as such, retires or otherwise
+                    &nbsp;voluntarily ceases, permanently and totally, the<span class="normalBoldParagraph"> Private Practice of Law, </span>will be entitled to an
+                    Unlimited &nbsp;Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>for an unlimited period of time if the following
+                    conditions are met:
+                    
+                </p>
+                <br></br>
+                <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                1.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                such<span class="normalBoldParagraph"> Insured </span>has reached the age of 59½ years of age; and
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                2.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                has been insured with the<span class="normalBoldParagraph"> Company </span>for twelve (12) consecutive months.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <div style="clear:both;">
+                </div>
+                <p class="normalParagraph">
+                    The Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>will provide coverage for a<span class="normalBoldParagraph"> Claim </span>first made
+                    against such<span class="normalBoldParagraph"> Insured </span>for an amount up to, but not to exceed, the lesser of the following:
+                </p>
+                <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                1.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                $1,000,000 per<span class="normalBoldParagraph"> Claim, </span>$1,000,000 Policy aggregate;
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                2.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                the Limit of Liability in effect on the date such<span class="normalBoldParagraph"> Insured </span>retires or otherwise voluntarily ceases,
+                                permanently and totally, the<span class="normalBoldParagraph"> Private Practice of Law </span>as stated in Item 7 of the Declarations; or
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                3.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                an endorsement in effect on the date such<span class="normalBoldParagraph"> Insured </span>retires or otherwise voluntarily ceases,
+                                permanently and totally, the<span class="normalBoldParagraph"> Private Practice of Law </span>amending the Limit of Liability.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <div style="clear:both;">
+                </div>
+                <p class="normalParagraph">
+                    Limits will be provided separately to each such<span class="normalBoldParagraph"> Insured </span>who elects an Unlimited Retirement<span class="normalBoldParagraph"> Extended
+                    Reporting Period. </span>No<span class="normalBoldParagraph"> Deductible </span>shall apply to<span class="normalBoldParagraph"> Claims </span>made against the<span class="normalBoldParagraph"> Insured </span>and reported to the
+                    <span class="normalBoldParagraph">Company </span>during the Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period.</span>
+                    
+                </p>
+                <p class="normalParagraph">
+                    The Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>applies only if the<span class="normalBoldParagraph"> Claim </span>arises out of a
+                    <span class="normalBoldParagraph">Wrongful Act </span>committed by such<span class="normalBoldParagraph"> Insured </span>on or after such<span class="normalBoldParagraph"> Insured’s </span>Individual<span class="normalBoldParagraph"> Prior Acts Date </span>and
+                    prior to the date such<span class="normalBoldParagraph"> Insured </span>retires or otherwise voluntarily ceases, permanently and totally, the
+                    <span class="normalBoldParagraph">Private Practice of Law, </span>and not for<span class="normalBoldParagraph"> Vicarious Liability. </span>The<span class="normalBoldParagraph"> Claim </span>must be reported to the<span class="normalBoldParagraph"> Company </span>in
+                    writing during the Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>in accordance with<span class="normalBoldParagraph"> V. CONDITIONS, Q. </span>Notice of<span class="normalBoldParagraph"> Claim. </span>All terms and conditions of the Policy apply to the Unlimited
+                    Retirement<span class="normalBoldParagraph"> Extended Reporting Period.</span>
+                    
+                </p>
+      
+                <br/>
+                <br/>
+                <br/>
+                
+                <p class="normalParagraph">
+                    The Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>is effective on the date such<span class="normalBoldParagraph"> Insured </span>retired or
+                    otherwise voluntarily ceased, permanently and totally, the<span class="normalBoldParagraph"> Private Practice of Law </span>and is conditioned
+                    upon the<span class="normalBoldParagraph"> Company’s </span>receipt of:
+
+                    
+                </p>
+                <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                1.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                Written notice from such<span class="normalBoldParagraph"> Insured </span>of the date he or she retired or otherwise voluntarily ceased,
+                                permanently and totally, the<span class="normalBoldParagraph"> Private Practice of Law; </span>and
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                2.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                Written notice of intent to exercise the Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>no later
+                                than sixty (60) days after the end of the<span class="normalBoldParagraph"> Policy Period.</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <div style="clear:both;">
+                </div>
+                <p class="normalParagraph">
+                    If the<span class="normalBoldParagraph"> Named Insured </span>consists of only one Lawyer who is an<span class="normalBoldParagraph"> Insured </span>pursuant to<span class="normalBoldParagraph"> III. DEFINITIONS,
+                    Insured, 1. a </span>of this Policy, then cancellation of this Policy must coincide with the date of retirement
+                    from, permanently and totally, or voluntarily ceases the<span class="normalBoldParagraph"> Private Practice of Law</span>
+                </p>
+                <p class="normalParagraph">
+                    Nothing contained in VII. <span style="font-weight: bold;">EXTENDED REPORTING PERIODS</span>, D. Unlimited Retirement<span class="normalBoldParagraph"> Extended
+                    Reporting Period </span>will increase, reinstate or is in addition to the Limit of Liability stated in Item 7 of the
+                    Declarations or any endorsement amending the Limit of Liability of this Policy.
+                </p>
+                <p class="normalParagraph">
+                    The Unlimited Retirement<span class="normalBoldParagraph"> Extended Reporting Period </span>is not a new policy. The Unlimited Retirement<span class="normalBoldParagraph">
+                    Extended Reporting Period </span>will be endorsed hereto.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <br/> 
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <br/>
+    <br/>
+    <!-- <div style="width:30%;margin-top:0px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+    <div style="clear:both">
+    </div>
+</apex:component>

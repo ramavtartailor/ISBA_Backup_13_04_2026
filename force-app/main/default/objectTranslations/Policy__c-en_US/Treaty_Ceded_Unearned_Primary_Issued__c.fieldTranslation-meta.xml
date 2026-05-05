@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Treaty Ceded Unearned Primary (Issued) --></label>
+    <name>Treaty_Ceded_Unearned_Primary_Issued__c</name>
+</CustomFieldTranslation>

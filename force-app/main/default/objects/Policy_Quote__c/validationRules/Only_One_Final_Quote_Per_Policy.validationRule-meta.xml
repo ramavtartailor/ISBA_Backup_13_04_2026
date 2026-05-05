@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Only_One_Final_Quote_Per_Policy</fullName>
+    <active>true</active>
+    <description>There can be only one final quote at a time per policy.</description>
+    <errorConditionFormula>Policy__r.Total_Final_Quotes__c &gt; 0 &amp;&amp; 
+ISCHANGED(Final_Quote__c) &amp;&amp;
+PRIORVALUE(Final_Quote__c) &lt;&gt; true</errorConditionFormula>
+    <errorDisplayField>Final_Quote__c</errorDisplayField>
+    <errorMessage>Only one Quote can be marked as Final.</errorMessage>
+</ValidationRule>

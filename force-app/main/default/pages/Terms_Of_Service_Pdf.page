@@ -1,0 +1,53 @@
+<apex:page standardController="Policy__c" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    <head>
+        <style>
+            
+            body {
+                font-family: 'Arial', sans-serif !important;
+                font-size: 11pt;
+            }
+            
+            @page {
+                size:portrait;
+                margin-left: 0.8cm;
+                margin-right: 0.8cm;
+                margin-top: 0.8cm;
+                margin-bottom: 1cm;
+            }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);               
+            }
+            .pagenumber:before {
+                content: counter(page);            
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+        <div class="footer" style="width:100%">
+            <div style="width:50%;float:left">
+                <p class="normalParagraph">
+                    &nbsp;
+                </p>
+            </div>
+            <div style="width:50%;float:right">
+                <p style="text-align:right;" class="normalParagraph">
+                    Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                </p>
+            </div>
+        </div>  
+        <div class="content">
+            <c:Terms_Of_Service_Template recordIdParam="{!Policy__c.Id}" rendered="{!IF(Policy__c.Is_New_Business__c, false, true)}"/>
+            <c:NBA_Terms_Of_Service_Template recordIdParam="{!Policy__c.Id}" rendered="{!IF(Policy__c.Is_New_Business__c, true, false)}"/>
+        </div>
+    </body>
+</apex:page>

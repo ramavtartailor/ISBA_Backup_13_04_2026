@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Projected rental fees for the event and function space, housekeeping, baggage handling, and related expenses. --></help>
+    <label><!-- Site Rental Budget --></label>
+    <name>Budget_Site_Rental__c</name>
+</CustomFieldTranslation>

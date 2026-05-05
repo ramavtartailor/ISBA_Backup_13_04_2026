@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Quote_Premium_AllStep_For_5X5__c</fullName>
+    <formula>Quote_Premium_Step0_For_5X5__c +
+Quote_Premium_Step1_For_5X5__c +
+Quote_Premium_Step2_For_5X5__c +
+Quote_Premium_Step3_For_5X5__c +
+Quote_Premium_Step4_For_5X5__c +
+Quote_Premium_Step5_For_5X5__c +
+Quote_Premium_Step6_For_5X5__c +
+Quote_Premium_Step7_For_5X5__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>5X5 Premium For All Step</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

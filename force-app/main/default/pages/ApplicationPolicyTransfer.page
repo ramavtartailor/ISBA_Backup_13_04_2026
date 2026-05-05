@@ -1,0 +1,493 @@
+<apex:page showHeader="false" controller="ApplicationPolicyTransferController" docType="html-5.0">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>  
+            <apex:styleSheet value="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+                <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script> 
+            
+            <style>
+                .switch {
+                    position: relative;
+                    display: inline-block;
+                    width: 60px;
+                    height: 34px;
+                }
+                .switch input {
+                    opacity: 0;
+                    width: 0;
+                    height: 0;
+                }
+
+                .slider {
+                    position: absolute;
+                    cursor: pointer;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: #ccc;
+                    transition: .4s;
+                    border-radius: 34px;
+                }
+
+                .slider:before {
+                    position: absolute;
+                    content: "";
+                    height: 26px;
+                    width: 26px;
+                    left: 4px;
+                    bottom: 4px;
+                    background-color: white;
+                    transition: .4s;
+                    border-radius: 50%;
+                }
+
+                input:checked + .slider {
+                    background-color: #2196F3;
+                }
+
+                input:checked + .slider:before {
+                    transform: translateX(26px);
+                }
+                .slds-scope .slds-grid--pull-padded {
+                margin-right:0px !important;
+                margin-left:0px !important;
+                }
+                .slds-scope .slds-form--horizontal {
+                margin-top: 1%;
+                }
+                .slds-scope .slds-page-header {
+                background-color: #337AB7 !important;
+                color: white !important;
+                }
+                .slds-scope .slds-text-heading--label {
+                text-transform: capitalize !important; 
+                }
+                .slds-scope .slds-table td, .slds-scope .slds-table th {
+                white-space: normal !important;
+                }
+                .dateFormat{
+                display:none;
+                }
+            </style>
+            <script>
+            $(document).ready(function() {
+                var startYear=1940; 
+                var endYear=2034; 
+                var optionsString='';
+                if(startYear<endYear){
+                    for(i=startYear;i<endYear+1;i++){
+                        optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                    }
+                    $('#calYearPicker').html(optionsString);
+                }
+                datatableReinit();
+                // svg icon click event
+                $("svg").on("click", function() {
+                    if (typeof $(this).attr('data') != 'undefined') {
+                        if ($(this).attr('data') == 'msg') {
+                            $(".slds-notify_container").addClass('slds-hide');
+                        } 
+                    }
+                });
+                $("body").keypress(function(e) {
+                    if(e.which == 13) {
+                        searchValidate();
+                        return false;
+                    }
+                    return true;
+                });
+                $(".txtDate").keyup(function(){
+                    if ($(this).val().length == 2){
+                        $(this).val($(this).val() + "/");
+                    }else if ($(this).val().length == 5){
+                        $(this).val($(this).val() + "/");
+                    }
+                });
+            } );
+            
+            function datatableReinit(){
+                // Setup - add a text input to each footer cell
+                $('#example tfoot th').each( function (i) {
+                    var title = $('#example thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input type="text" placeholder="Search '+title+'" data-index="'+i+'" />' );
+                } );
+                
+                // DataTable
+                var table = $('#example').DataTable( {
+                    //scrollY:        "300px",
+                    //scrollX:        true,
+                    //scrollCollapse: true,
+                    //paging:         true,
+                    //fixedColumns:   false,
+                    pageLength: 25
+                } );
+                
+                // Filter event handler
+                $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+                    table
+                    .column( $(this).data('index') )
+                    .search( this.value )
+                    .draw();
+                } );
+                $('tfoot').css('display','none');
+                $('.dataTables_length select,input').addClass('slds-input');
+            }
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+            
+            function searchValidate(){
+                $('[id$=spinner]').css('display','block');
+                var flag = false;
+                $('.search').each(function (){
+                    if($(this).val() != '' && $(this).val() != null && $(this).val() != 'undefined'){
+                        flag = true;
+                    }
+                });
+                if(flag){
+                    searchPolicy();
+                }else{
+                    showError('Search text empty . ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            }
+            function renewPolicies(){
+                $('[id$=spinner]').css('display','block');
+                var isChecked;
+                var inputElements = document.getElementsByClassName('wrapperCheckboxes');
+                for(var i=0; inputElements[i]; ++i){
+                    if(inputElements[i].checked){
+                        isChecked = true;
+                        break;
+                    }
+                }
+                if(!isChecked){
+                    showError('Please select atleast one Policy.');
+                    $('[id$=spinner]').css('display','none');
+                }else{
+                    renewMassPolicies();
+                }    
+            }   
+            function selectAllCheckBoxes(ele){
+                var checkboxes = document.getElementsByTagName('input');
+                if (ele.checked) {
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].type == 'checkbox') {
+                            checkboxes[i].checked = true;
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        console.log(i)
+                        if (checkboxes[i].type == 'checkbox') {
+                            checkboxes[i].checked = false;
+                        }
+                    }
+                }
+            }    
+            </script>
+        </head>
+        <body>
+            <apex:form >
+                <apex:actionFunction name="searchPolicy" action="{!fetchPolicy}" reRender="table" oncomplete="datatableReinit();$('[id$=spinner]').css('display','none');"/>
+                
+                <apex:actionFunction name="renewMassPolicies" action="{!renewMassPoliciesFunc}" reRender="table" oncomplete="datatableReinit();$('[id$=spinner]').css('display','none');"/>
+                <div class="slds-page-header" role="banner">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-page-header__title slds-truncate" title="SearchPolicy">Search Application/Policy</p>
+                            <p class="slds-text-body--small"></p>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                        </ul>
+                    </div>
+                </div>
+                <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+                
+                <div class="slds-notify_container slds-hide">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                            <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%; ">
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                        <h1 style="background-color: #337AB7;color:white;/* margin-left: 10px; */padding: 5px;border-radius: 3px;"><b style="margin-left:10px" >Search</b></h1>
+                    </div>
+                    
+                </div>   
+                <!-- Row Start-->
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Firm Name / Number:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:inputText value="{!searchFirmName }" styleClass="slds-input search"/>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Expiration Starting:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:inputField value="{!samplePolicy.ERE_Date__c}" onkeydown="autoFormat(this)" styleClass="slds-input search txtDate"/>
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Expiration Ending:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:inputField value="{!samplePolicy.Expiration_Date__c}" onkeydown="autoFormat(this)" styleClass="slds-input search txtDate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Limits</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList value="{!limits}"  multiselect="true" size="5" styleClass="slds-input">
+                                        <apex:selectOptions value="{!Limit}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Renewal type:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList styleClass="slds-input search" value="{!searchRenewalType}"  multiselect="false" size="1">
+                                        <apex:selectOptions value="{!RenewalType}"></apex:selectOptions>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">UnderWriter User:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList styleClass="slds-input search" value="{!selectedUnderWriter}"  multiselect="false" size="1">
+                                        <apex:selectOptions value="{!Underwriter}"></apex:selectOptions>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Premium Under:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:inputText value="{!premium}" styleClass="slds-input search"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Application type:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList styleClass="slds-input search" value="{!searchApplicationType}"  multiselect="false" size="1">
+                                        <apex:selectOptions value="{!ApplicationType}"></apex:selectOptions>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Show Lost Application:</label>
+                                <div class="slds-form-element__control">
+                                    <label class="switch">
+                                        <apex:inputCheckbox value="{!lostApp}" id="toggleBox" styleClass="slds-input search" />
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Show Canceled Application:</label>
+                                <div class="slds-form-element__control">
+                                    <label class="switch">
+                                        <apex:inputCheckbox value="{!canceledApp}" id="toggleBox1" styleClass="slds-input search" />
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-12 slds-large-size--4-of-12">
+                        
+                    </div>
+                    <br/>
+                    <div class="slds-p-horizontal--small slds-p-vertical--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--4-of-12" style="display: inherit;float: none;margin: auto;">
+                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="searchValidate(); return false;">
+                            <span class="slds-text-not-selected"></span>Search
+                        </button>
+                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="window.location.href='/home/home.jsp';return false;">
+                            <span class="slds-text-not-selected"></span>Cancel
+                        </button>
+                    </div> 
+                    
+                </div>  
+                <!-- Row End Start--> 
+                
+                <!-- 2 Row -->
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                        <apex:outputPanel id="table">
+                            <table id="example" class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="slds-text-heading--label">
+                                        <th><apex:inputCheckbox style="width: unset;-webkit-appearance: checkbox !important;" styleClass="wrapperCheckboxes" onClick="selectAllCheckBoxes(this);"/></th>
+                                        <th style="min-width: 70px;">Policy</th>
+                                        <th>Firm</th>
+                                        <th>Expiration</th>
+                                        <th>Cancel Date</th>
+                                        <th>Renewal Type</th>
+                                        <th>Limits</th>
+                                        <th>Premium</th>
+                                        <th>Renewed By</th>
+                                        <th>Policy Renew Status</th>
+                                        <th>
+                                            <apex:outputText value="AL" title="Active Lawyers"/>
+                                            
+                                            <!--span class="slds-icon_container slds-icon-utility-info"  title="Active Lawyers">
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                            <use style="fill: gray;" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#info')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text"></span>
+                                            </span-->
+                                        </th>
+                                        <th>
+                                            <apex:outputText value="OC" title="Open Claims"/>
+                                            <!--span class="slds-icon_container slds-icon-utility-info"  title="Open Claims">
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                            <use style="fill: gray;" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#info')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text"></span>
+                                            </span-->
+                                        </th>
+                                        <th>
+                                            <apex:outputText value="CC" title="Closed Claims Past 5 Years"/>	
+                                            <!--span class="slds-icon_container slds-icon-utility-info"  title="Closed Claims Past 5 Years">
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                            <use style="fill: gray;" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#info')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text"></span>
+                                            </span-->                                   
+                                        </th>
+                                        <th>Assigned</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <apex:repeat value="{!searchedResults}" var="wrapper">
+                                        <tr>
+                                            <td>
+                                                <apex:inputCheckbox value="{!wrapper.isSelected}" style="width: unset;-webkit-appearance: checkbox !important;" styleClass="wrapperCheckboxes"/>
+                                            </td>
+                                            <td  style="min-width: 110px;">
+                                                <a href="/{!wrapper.policy.Id}" target="_blank">{!wrapper.policy.Name}</a>
+                                            </td>
+                                            <td>
+                                                <a href="/{!wrapper.policy.Account__c}" target="_blank">{!wrapper.policy.Account__r.Name}</a>
+                                            </td>
+                                            <td>
+                                                <apex:outputText style="" styleclass="slds-align-middle" value="{0,date,MM/dd/yy}">
+                                                    <apex:param value="{!wrapper.policy.Expiration_Date__c}" /> 
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                <apex:outputText style="" styleclass="slds-align-middle" value="{0,date,MM/dd/yy}">
+                                                    <apex:param value="{!wrapper.policy.Cancel_Date__c}" /> 
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.Renewal_Type__c}
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.Limits__c}
+                                            </td>
+                                            <td>
+                                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                                    <apex:param value="{!wrapper.policy.Premium__c}" />
+                                                </apex:outputText>
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.ClonedBy__c}
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.Policy_Renew_Status__c}
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.Active_Laywers__c}
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.Account__r.Open_Claims__c}
+                                            </td>
+                                            <td>
+                                                {!wrapper.policy.Account__r.Closed_Claims_Past_5_Years__c}
+                                            </td>
+                                            <td>
+                                                <a href="/{!wrapper.policy.Underwriter_User__c}" target="_blank">{!wrapper.policy.Underwriter_User__r.Name}</a>
+                                            </td>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                        </apex:outputPanel>
+                    </div>
+                </div>   
+                <div class="slds-grid slds-wrap slds-grid--pull-padded filter" style="padding:1%">
+                    <div class="slds-size--1-of-2 slds-medium-size--1-of-4 slds-large-size--1-of-6" >
+                        <div class="slds-form--horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="inputSample2">Transfer To:</label>
+                                <div class="slds-form-element__control">
+                                    <apex:selectList styleClass="slds-input search" value="{!selectedTransferTo}"  multiselect="false" size="1">
+                                        <apex:selectOptions value="{!TransferTo}"></apex:selectOptions>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-4 slds-large-size--1-of-6" style="padding-top:26px;" >
+                        <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="renewPolicies(); return false;">
+                            <span class="slds-text-not-selected"></span>Mass Transfer
+                        </button>
+                    </div>
+                </div> 
+            </apex:form> 
+        </body>
+    </html>
+</apex:page>

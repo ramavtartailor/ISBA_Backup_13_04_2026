@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Treaty_Pro_Rata__c</fullName>
+    <description>Treaty Pro Rata Value</description>
+    <externalId>false</externalId>
+    <formula>IF ((TODAY() - Treaty_Version__r.Start_Date__c &gt; 365),
+	IF (
+		(YEAR(Effective_Date__c) == YEAR(Treaty_Version__r.Start_Date__c)),
+		1,
+		ROUND( (DATE(YEAR(Effective_Date__c),12,31) - Effective_Date__c)/365, 2)
+	),
+	IF (
+		(YEAR(Effective_Date__c) == YEAR(Treaty_Version__r.Start_Date__c)),
+		ROUND( ((DATE(YEAR(Effective_Date__c)+1,1,1)) - Effective_Date__c)/365, 2),
+		ROUND( (DATE(YEAR(Effective_Date__c),12,31) - Effective_Date__c)/365, 2)
+	)	
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Treaty Pro-rata</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Claim Close Payment Resolutions --></label>
+    <name>Claim_Close_Payment_Resolutions__c</name>
+    <picklistValues>
+        <masterLabel>Close with ULAE payment –disciplinary</masterLabel>
+        <translation><!-- Close with ULAE payment –disciplinary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with both lae and indemnity payment</masterLabel>
+        <translation><!-- Closed with both lae and indemnity payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with indemnity payment only</masterLabel>
+        <translation><!-- Closed with indemnity payment only --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with lae payment only</masterLabel>
+        <translation><!-- Closed with lae payment only --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with no payment:  coverage denied</masterLabel>
+        <translation><!-- Closed with no payment:  coverage denied --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with no payment:  only potential; claim never advanced</masterLabel>
+        <translation><!-- Closed with no payment:  only potential; claim never advanced --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed with no payment: no tender</masterLabel>
+        <translation><!-- Closed with no payment: no tender --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

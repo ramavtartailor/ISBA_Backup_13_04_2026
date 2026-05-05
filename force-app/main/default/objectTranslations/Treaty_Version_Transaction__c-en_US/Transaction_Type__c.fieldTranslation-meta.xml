@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Transaction Type --></label>
+    <name>Transaction_Type__c</name>
+    <picklistValues>
+        <masterLabel>10x10</masterLabel>
+        <translation><!-- 10x10 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>5x5</masterLabel>
+        <translation><!-- 5x5 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

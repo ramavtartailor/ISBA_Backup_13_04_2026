@@ -1,0 +1,10 @@
+.THIS .modal-container .slds-modal__container{
+    max-width: 70rem !important;
+    width:90% !important;
+}
+.THIS .modal-body{
+    padding-top:0px !important;
+}
+.THIS .slds-rich-text-area__content{
+    height: 240px !important;
+}

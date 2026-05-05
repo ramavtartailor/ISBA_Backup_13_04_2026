@@ -1,0 +1,28 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Entities Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that the Policy is amended to include&nbsp;<apex:outputField value="{!endorsement.Entity__c}"/> as an<span class="normalBoldParagraph"> INSURED. </span>This entity has a<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>of
+        &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!endorsement.Prior_Act_Date__c}" /> </apex:outputText>.&nbsp;{!endorsement.Entity__c} is only insured for<span class="normalBoldParagraph"> CLAIMS </span>arising out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed within the scope of its
+        employment for the<span class="normalBoldParagraph"> NAMED INSURED. </span>
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:450px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

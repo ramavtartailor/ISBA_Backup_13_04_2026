@@ -1,0 +1,6 @@
+<apex:page standardController="Policy_Lawyer__c" extensions="PolicyLawyerEditErrorExt" action="{!getRedir}">
+<apex:form ><br/>
+ <span style="color:red"><b>You can not edit Policy Lawyer if Application is converted to a Policy.</b></span><br/><br/>
+ <apex:commandButton value="Back" action="{!cancel}"/>
+ </apex:form>
+</apex:page>

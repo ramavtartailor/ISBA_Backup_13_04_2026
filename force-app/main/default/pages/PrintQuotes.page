@@ -1,0 +1,2 @@
+<apex:page controller="DocumentBundleVF_Ctrl" action="{!printQuotes}" renderAs="pdf" applyBodyTag="false"  contentType="application/pdf">
+</apex:page>

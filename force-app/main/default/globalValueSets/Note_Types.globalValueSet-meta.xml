@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>AAAF/RAAF</fullName>
+        <default>false</default>
+        <label>AAAF/RAAF</label>
+    </customValue>
+    <customValue>
+        <fullName>Accounting</fullName>
+        <default>false</default>
+        <label>Accounting</label>
+    </customValue>
+    <customValue>
+        <fullName>Address / Name Change</fullName>
+        <default>false</default>
+        <label>Address / Name Change</label>
+    </customValue>
+    <customValue>
+        <fullName>Amend Complaint</fullName>
+        <default>false</default>
+        <label>Amend Complaint</label>
+    </customValue>
+    <customValue>
+        <fullName>Cancellation</fullName>
+        <default>false</default>
+        <label>Cancellation</label>
+    </customValue>
+    <customValue>
+        <fullName>Reinstatement</fullName>
+        <default>false</default>
+        <label>Reinstatement</label>
+    </customValue>
+    <customValue>
+        <fullName>Certificate of Insurance Request</fullName>
+        <default>false</default>
+        <label>Certificate of Insurance Request</label>
+    </customValue>
+    <customValue>
+        <fullName>Chrono</fullName>
+        <default>false</default>
+        <label>Chrono</label>
+    </customValue>
+    <customValue>
+        <fullName>Close</fullName>
+        <default>false</default>
+        <label>Close</label>
+    </customValue>
+    <customValue>
+        <fullName>Coverage</fullName>
+        <default>false</default>
+        <label>Coverage</label>
+    </customValue>
+    <customValue>
+        <fullName>ERE / Tail</fullName>
+        <default>false</default>
+        <label>ERE / Tail</label>
+    </customValue>
+    <customValue>
+        <fullName>Follow-up</fullName>
+        <default>false</default>
+        <label>Follow-up</label>
+    </customValue>
+    <customValue>
+        <fullName>Handler Change</fullName>
+        <default>false</default>
+        <label>Handler Change</label>
+    </customValue>
+    <customValue>
+        <fullName>Lien</fullName>
+        <default>false</default>
+        <label>Lien</label>
+    </customValue>
+    <customValue>
+        <fullName>Loss Run Request</fullName>
+        <default>false</default>
+        <label>Loss Run Request</label>
+    </customValue>
+    <customValue>
+        <fullName>Medicare</fullName>
+        <default>false</default>
+        <label>Medicare</label>
+    </customValue>
+    <customValue>
+        <fullName>Negotiation</fullName>
+        <default>false</default>
+        <label>Negotiation</label>
+    </customValue>
+    <customValue>
+        <fullName>New Business</fullName>
+        <default>false</default>
+        <label>New Business</label>
+    </customValue>
+    <customValue>
+        <fullName>Payment</fullName>
+        <default>false</default>
+        <label>Payment</label>
+    </customValue>
+    <customValue>
+        <fullName>Phone Call</fullName>
+        <default>false</default>
+        <label>Phone Call</label>
+    </customValue>
+    <customValue>
+        <fullName>Policy Bound and Emailed</fullName>
+        <default>false</default>
+        <label>Policy Bound and Emailed</label>
+    </customValue>
+    <customValue>
+        <fullName>Pre-Renewal Review</fullName>
+        <default>false</default>
+        <label>Pre-Renewal Review</label>
+    </customValue>
+    <customValue>
+        <fullName>QA / Premium Received</fullName>
+        <default>false</default>
+        <label>QA / Premium Received</label>
+    </customValue>
+    <customValue>
+        <fullName>Quote Release</fullName>
+        <default>false</default>
+        <label>Quote Release</label>
+    </customValue>
+    <customValue>
+        <fullName>Reinsurance</fullName>
+        <default>false</default>
+        <label>Reinsurance</label>
+    </customValue>
+    <customValue>
+        <fullName>Reinsurance Treaty</fullName>
+        <default>false</default>
+        <label>Reinsurance Treaty</label>
+    </customValue>
+    <customValue>
+        <fullName>Renewal</fullName>
+        <default>false</default>
+        <label>Renewal</label>
+    </customValue>
+    <customValue>
+        <fullName>Reopen</fullName>
+        <default>false</default>
+        <label>Reopen</label>
+    </customValue>
+    <customValue>
+        <fullName>Reserve</fullName>
+        <default>false</default>
+        <label>Reserve</label>
+    </customValue>
+    <customValue>
+        <fullName>Risk Management Hotline</fullName>
+        <default>false</default>
+        <label>Risk Management Hotline</label>
+    </customValue>
+    <customValue>
+        <fullName>Sent Application</fullName>
+        <default>false</default>
+        <label>Sent Application</label>
+    </customValue>
+    <customValue>
+        <fullName>Sent EZ</fullName>
+        <default>false</default>
+        <label>Sent EZ</label>
+    </customValue>
+    <customValue>
+        <fullName>Settlement</fullName>
+        <default>false</default>
+        <label>Settlement</label>
+    </customValue>
+    <customValue>
+        <fullName>Special Handling</fullName>
+        <default>false</default>
+        <label>Special Handling</label>
+    </customValue>
+    <customValue>
+        <fullName>Summary</fullName>
+        <default>false</default>
+        <label>Summary</label>
+    </customValue>
+    <customValue>
+        <fullName>Underwriting</fullName>
+        <default>false</default>
+        <label>Underwriting</label>
+    </customValue>
+    <customValue>
+        <fullName>EZ Received</fullName>
+        <default>false</default>
+        <label>EZ Received</label>
+    </customValue>
+    <customValue>
+        <fullName>Trial</fullName>
+        <default>false</default>
+        <label>Trial</label>
+    </customValue>
+    <customValue>
+        <fullName>Evaluation</fullName>
+        <default>false</default>
+        <label>Evaluation</label>
+    </customValue>
+    <customValue>
+        <fullName>Damages</fullName>
+        <default>false</default>
+        <label>Damages</label>
+    </customValue>
+    <customValue>
+        <fullName>Prior Carrier Open Claim</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Prior Carrier Open Claim</label>
+    </customValue>
+    <customValue>
+        <fullName>Pleading</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Pleading</label>
+    </customValue>
+    <customValue>
+        <fullName>Limits / Deductibles</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Limits / Deductibles</label>
+    </customValue>
+    <customValue>
+        <fullName>Letters</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Letters</label>
+    </customValue>
+    <customValue>
+        <fullName>UW Action</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>UW Action</label>
+    </customValue>
+    <customValue>
+        <fullName>Dissolving</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Dissolving</label>
+    </customValue>
+    <customValue>
+        <fullName>Death</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Death</label>
+    </customValue>
+    <customValue>
+        <fullName>Deductible</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Deductible</label>
+    </customValue>
+    <customValue>
+        <fullName>File Location</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>File Location</label>
+    </customValue>
+    <customValue>
+        <fullName>Unblocked File</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Unblocked File</label>
+    </customValue>
+    <customValue>
+        <fullName>Seminar/Conference Credit</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Seminar/Conference Credit</label>
+    </customValue>
+    <customValue>
+        <fullName>RenewalBlocked</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>RenewalBlocked</label>
+    </customValue>
+    <customValue>
+        <fullName>Reinsurance Facultative</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Reinsurance Facultative</label>
+    </customValue>
+    <masterLabel>Note Types</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

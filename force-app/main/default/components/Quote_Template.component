@@ -1,0 +1,514 @@
+<apex:component controller="QuoteTemplate_Ctrl" >
+
+    
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+    <p class="heading" style="margin-top: 0px;"> 
+        Quote and Acceptance Form
+    </p>
+    
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%">
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <!--<tr>
+                        <td width="50%">
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Quote Number:
+                            </span>
+                        </td>
+                        <td width="50%">
+                            <span class="normalParagraph  tableDataLeft"  style="margin-left: 0px; !important">
+                                <apex:outputField value="{!quote.NAME}"/>
+                            </span>
+                        </td>
+                    </tr>-->
+                    <tr>
+                        <td width="50%">
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Proposed Effective Date:
+                            </span>
+                        </td>
+                        <td  width="50%">
+                            <span class="normalParagraph  tableDataLeft" style="margin-left: 0px; !important" >
+                                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.Policy_Effective_Date__c}" /> </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td valign="top" width="25%">
+                                        <span class="normalBoldParagraph  tableDataLeft">
+                                            Firm Name:
+                                        </span>
+                                    </td>
+                                    <td valign="top"  width="75%">
+                                        <span class="normalParagraph  tableDataLeft" style="margin-left: 0px; !important">
+                                            <apex:outputField value="{!quote.Policy_Firm__c}"/> <br/>
+                                            <apex:outputField value="{!quote.Firm_BillingStreet__c}"/><br/>
+                                            <apex:outputField value="{!quote.Firm_BillingCity__c}"/>,&nbsp;<apex:outputField value="{!quote.Firm_BillingState__c}"/> &nbsp; <apex:outputField value="{!quote.Firm_BillingZIP__c}"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width:50%" valign="top">
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td>
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Date of Quote:
+                            </span>
+                        </td>
+                        <td>
+                            <span class="normalParagraph  tableDataLeft">
+                                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!Today()}" /> </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Quote Expiration Date:
+                            </span>
+                        </td>
+                        <td>
+                            <span class="normalParagraph  tableDataLeft">
+                                <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!quote.Quote_Expire_Date__c}" /> </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Coverage:
+                            </span>
+                        </td>
+                        <td>
+                            <span class="normalParagraph  tableDataLeft">
+                                Lawyers’ Professional Liability
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Firm Prior Acts Date:
+                            </span>
+                        </td>
+                        <td>
+                            <span class="normalParagraph  tableDataLeft">
+                                <apex:outputText value="{0,date,MM/dd/yyyy}" rendered="{!NOT(quote.Policy__r.Full_Prior_Acts__c)}"> <apex:param value="{!quote.Firm_Prior_Acts_Date__c}" /> </apex:outputText>
+                                <apex:outputText rendered="{!(quote.Policy__r.Full_Prior_Acts__c)}"> Full Prior Acts </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Policy #:
+                            </span>
+                        </td>
+                        <td>
+                            <span class="normalParagraph  tableDataLeft">
+                               <apex:outputField value="{!quote.Policy__r.Name}"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--<tr>
+            <td colspan="2">
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td width="25%" valign="top" >
+                            <span class="normalBoldParagraph  tableDataLeft">
+                                Firm Name:
+                            </span>
+                        </td>
+                        <td>
+                            <span class="normalParagraph  tableDataLeft" style="margin-left: 0px; !important">
+                                <apex:outputField value="{!quote.Policy_Firm__c}"/> <br/>
+                                <apex:outputField value="{!quote.Firm_BillingStreet__c}"/><br/>
+                                <apex:outputField value="{!quote.Firm_BillingCity__c}"/> ,&nbsp;<apex:outputField value="{!quote.Firm_BillingState__c}"/> &nbsp; <apex:outputField value="{!quote.Firm_BillingZIP__c}"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>-->
+    </table><br/>
+    <!--<p class="normalParagraph">
+        All lawyers insured by ISBA Mutual Insurance Company must be members of the Illinois State Bar Association (ISBA). This Quote and Acceptance Form will not be mailed to you. All required forms, documents, and payment must be received by ISBA Mutual by the Quote Expiration Date.
+    </p>
+    <br/>-->
+    
+    
+ 
+    <div style="padding-top: 2px;">&nbsp;</div>
+    
+    <!---NBA QUOTE TABLE------------------------------------------------------------ Is_New_Business__c  -->
+    <table border="0" cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse; display: {!if(quote.Policy__r.Is_New_Business__c,'','none')}">
+        <tr style="page-break-inside:avoid;">
+            <td width="52%" colspan="{!if(quote.Policy__r.Total_Credit__c > 0,'5','4')}" valign="top" style="border:none;border-right:solid #00000 1.0pt;">
+                &nbsp;
+            </td>
+            <td width="48%" colspan="3" valign="top" style="border:1px solid #000000; border-left:none; background:red;">
+                <p class="normalParagraph" align="center" style="margin-top:6.0pt; text-align:center">
+                    <span style="color:white; font-weight:bold;">
+                        <span class="b" style="color:white; font-weight:bold;"> Payment Options </span>
+                    </span>
+                </p>
+            </td>
+        </tr>
+        <tr style="page-break-inside:avoid;">
+            <td width="12%" valign="bottom" style="border:none; border-bottom:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Per Claim Limit
+                </p>
+            </td>
+            <td width="12%"  valign="bottom" style="border:none; border-bottom:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Aggregate Limit
+                </p>
+            </td>
+            <td width="12%"  valign="bottom" style="border:none; border-bottom:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Deductible
+                </p>
+            </td>
+            <td width="12%"  valign="bottom" style="border:none;border-bottom:1px solid #000000; border-left:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Premium
+                </p>
+            </td>
+            <td width="12%"  valign="bottom" style="border: none;border-bottom:1px solid #000000;{!if(quote.Policy__r.Total_Credit__c > 0,'','display:none;')}">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    Credit
+                </p>
+            </td>
+            <td width="12%"  style="border-top: none;border-bottom:1px solid #000000;border-right:1px solid #000000;border-left:1px solid #000000;">
+                <p class="normalBoldParagraph tableDataCenter" align="left" style="margin-top:6.0pt;text-align:center">
+                    Full
+                </p>
+            </td>
+            <td width="12%"  style="border-top: none; border-left:none; border-bottom: 1px solid #000000;border-right: 1px solid #000000;">
+                <p class="normalBoldParagraph tableDataCenter" align="left" style="margin-top:6.0pt;text-align:center">
+                    Quarterly
+                </p>
+            </td>
+            <td width="12%"  style="border-top: none; border-left:none; border-bottom:1px solid #000000; border-right: 1px solid #000000;">
+                <p class="normalBoldParagraph tableDataCenter" align="left" style="margin-top:6.0pt;text-align:center">
+                    Monthly
+                </p>
+            </td>
+        </tr>
+        <tr style="page-break-inside:avoid;">
+            <td width="15%" valign="top" style="border:none;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    $<apex:outputText value="{0, Number}">
+                        <apex:param value="{!quote.Coverage_Max_Per_Claim__c}"/>
+                    </apex:outputText>
+                </p>
+            </td>
+            <td width="15%" valign="top" style="border:none;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    $<apex:outputText value="{0, Number}">
+                        <apex:param value="{!quote.Full_Coverage__c}"/>
+                    </apex:outputText>
+                </p>
+            </td>
+            <td width="10%" valign="top" style="border:none;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    <apex:outputField value="{!quote.Deductible_Amount__c}"/>
+                </p>
+            </td>
+            <td width="12%" valign="top" style="border:none;border-left:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    $<apex:outputText value="{0, number,###,###,###,###}">
+                        <apex:param value="{!quote.Quote_Final_Premium__c}"/>
+                    </apex:outputText>
+                </p>
+            </td>
+            <td width="12%" valign="top" style="color: blue; border:none;{!if(quote.Policy__r.Total_Credit__c > 0,'','display:none;')}">
+                <p class="normalParagraph" style="color: blue; font-weight: bold; margin-top:6.0pt;">
+                    <apex:outputText value="-${0, number,###,###,###,###}">
+                        <apex:param value="{!quote.Policy__r.Total_Credit__c}" />
+                    </apex:outputText>
+                </p>
+            </td>
+            <td width="12%" valign="top" style="border:none;border-left:1px solid #000000;border-right:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    <apex:outputText value="${0, number,###,###,###,###}" rendered="{!if(quote.Policy__r.Total_Credit__c>0,'','display:none;')}">
+                        <apex:param value="{!(quote.Quote_Final_Premium__c - quote.Policy__r.Total_Credit__c )}" />
+                    </apex:outputText>
+                    <apex:outputText value="${0, number,###,###,###,###}" rendered="{!if(quote.Policy__r.Total_Credit__c>0,'display:none;','')}">
+                        <apex:param value="{!(quote.Quote_Final_Premium__c)}" />
+                    </apex:outputText>
+                </p>
+            </td>
+            <td width="12%" valign="top" style="border:none;border-right:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(quote.Policy__r.Total_Credit__c>0,'','display:none;')}">
+                        <apex:param value="{!(quote.Quote_Final_Premium_Qrtly__c - (quote.Policy__r.Total_Credit__c/4) )}" />
+                    </apex:outputText> 
+                    <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(quote.Policy__r.Total_Credit__c>0,'display:none;','')}">
+                        <apex:param value="{!(quote.Quote_Final_Premium_Qrtly__c)}" />
+                    </apex:outputText>
+                </p>
+            </td>
+            <td width="12%" valign="top" style="border:none;border-right:1px solid #000000;">
+                <p class="normalParagraph" style="margin-top:6.0pt">
+                    <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(quote.Policy__r.Total_Credit__c>0,'','display:none;')}">
+                        <apex:param value="{!(quote.Quote_Final_Premium_Monthly__c - (quote.Policy__r.Total_Credit__c/12) )}" />
+                    </apex:outputText>
+                    <apex:outputText value="${0, number,###,###,###,###.00}" rendered="{!if(quote.Policy__r.Total_Credit__c>0,'display:none;','')}">
+                        <apex:param value="{!(quote.Quote_Final_Premium_Monthly__c)}" />
+                    </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+
+    <!---RENEWAL QUOTE TABLE------------------------------------------------------------>
+                <table id="quote_table" class="quote_table_head table_border table_spacing" style="display: {!if(quote.Policy__r.Is_New_Business__c,'none','')}">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99" style="text-align: center;">RENEWAL QUOTE</th>
+                        </tr>
+                        <tr >
+                            <th align="center" style="display: none; width: 10%; text-align: center;">
+                                Select<br/>Quote 
+                            </th>
+                            <th style="width: 13%; white-space: nowrap; text-align: center;">
+                                Per Claim Limit
+                            </th>
+                            <th style="width: 25%; text-align: center;">
+                                Annual<br/>
+                                Aggregate Limit
+                            </th>
+                            <th style="width: 10%; text-align: center;">
+                                Deductible    
+                            </th>
+                            <th style="width: 15%; white-space: nowrap; text-align: center;">
+                                Annual Premium
+                            </th>
+                            <th style="width: 10%; text-align: center; {!if(quote.Policy__r.Total_CLE_Credit__c > 0,'','display:none;')}">
+                                CLE Credit    
+                            </th>
+                            <th style="width: 10%; text-align: center; {!if(quote.Policy__r.ISBAM_policy_dividend__c > 0,'','display:none;')}">
+                                Dividend Credit
+                            </th>
+                            <th style="width: 99%; text-align: right;">
+                                Amount Due
+                            </th>
+                        </tr>
+                    </thead>
+                    
+                      <tr>
+                            <td align="center" valign="center" style="display: none; padding-left: 0px;">
+                                <div class="cb" style="margin-left: 23px;"></div>                          
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                <apex:param value="{!quote.Coverage_Max_Per_Claim__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                <apex:param value="{!quote.Full_Coverage__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td>
+                                <apex:outputField value="{!quote.Deductible_Amount__c}"/> 
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                    <apex:param value="{!(quote.Quote_Final_Premium__c)}" />
+                                </apex:outputText>
+                            </td>    
+                            <td style="font-weight: bold; color: blue; {!if(quote.Policy__r.Total_CLE_Credit__c > 0,'','display:none;')}">
+                                <apex:outputText value="-${0, number,###,###,###,##0}">
+                                    <apex:param value="{!quote.Policy__r.Total_CLE_Credit__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="font-weight: bold; color: blue; {!if(quote.Policy__r.ISBAM_policy_dividend__c > 0,'','display:none;')}">
+                                <apex:outputText value="-${0, number,###,###,###,##0}">
+                                    <apex:param value="{!quote.Policy__r.ISBAM_policy_dividend__c}" />
+                                </apex:outputText>
+                            </td>                            
+                            <td style="text-align: right;">
+                                <apex:outputText value="${0, number,###,###,###,##0}">
+                                    <apex:param value="{!(quote.Quote_Final_Premium__c - quote.Policy__r.Total_Credit__c)}" />
+                                </apex:outputText>
+                            </td>
+                        </tr>
+              
+                </table>
+    
+    
+        
+    
+    
+    <br/>
+    <p class="largerParagraph" style="color:#8b2332;">
+        Endorsements : 
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%" align="center">
+        <tr style="{!if(!quote.Policy__r.Remove_102_Endorsement__c,'','display:none;')}">
+            <td style="width:27%;" class="tableDataLeft">
+                <span class="normalParagraph  tableDataLeft">
+                    ISBAMIC 102 01 2018
+                </span>
+            </td>
+            <td style="width:73%;" class="tableDataLeft">
+                <span class="tableDataLeft" style="text-transform: uppercase !important;">
+                    Prior Acts Exclusion Endorsement
+                </span>
+            </td>
+        </tr>
+        <tr style="{!if(quote.Mod_230__c!=null,'','display:none;')}">
+            <td style="width:27%;" class="tableDataLeft">
+                <span class="normalParagraph  tableDataLeft">
+                    ISBAMIC 230
+                    {!RIGHT(TEXT(VALUE(LEFT(quote.Policy__r.Policy_Document_Version__c , FIND('/',quote.Policy__r.Policy_Document_Version__c)-1 ))+100),2)}
+                    20{!RIGHT(quote.Policy__r.Policy_Document_Version__c , LEN(quote.Policy__r.Policy_Document_Version__c) - FIND('/',quote.Policy__r.Policy_Document_Version__c) )}
+                </span>
+            </td>
+            <td style="width:73%;" class="tableDataLeft">
+                <span class="tableDataLeft" style="text-transform: uppercase !important;">
+                    Annual Aggregate Deductible Endorsement
+                </span>
+            </td>
+        </tr>
+        <tr style="{!if(quote.Mod_234__c!=null,'','display:none;')}">
+            <td style="width:27%;" class="tableDataLeft">
+                <span class="normalParagraph  tableDataLeft">
+                    ISBAMIC 234
+                    {!RIGHT(TEXT(VALUE(LEFT(quote.Policy__r.Policy_Document_Version__c , FIND('/',quote.Policy__r.Policy_Document_Version__c)-1 ))+100),2)}
+                    20{!RIGHT(quote.Policy__r.Policy_Document_Version__c , LEN(quote.Policy__r.Policy_Document_Version__c) - FIND('/',quote.Policy__r.Policy_Document_Version__c) )}
+                </span>
+            </td>
+            <td style="width:73%;" class="tableDataLeft">
+                <span class="tableDataLeft" style="text-transform: uppercase !important;">
+                    Loss Only Deductible Endorsement
+                </span>
+            </td>
+        </tr>
+        <tr style="{!if(quote.Mod_261__c!=null,'','display:none;')}">
+            <td style="width:27%;" class="tableDataLeft">
+                <span class="normalParagraph  tableDataLeft">
+                    ISBAMIC 261 01 2018
+                </span>
+            </td>
+            <td style="width:73%;" class="tableDataLeft">
+                <span class="tableDataLeft" style="text-transform: uppercase !important;">
+                    Claim Expenses Outside the Policy Limits Endorsement
+                </span>
+            </td>
+        </tr>
+        <apex:repeat value="{!endorsements}" var="endorsement">
+            <tr>
+                <td style="width:27%;" class="tableDataLeft">
+                    <span class="normalParagraph  tableDataLeft">
+                        ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(endorsement.Endorsement_Number__c,'IL ','')}" />
+                        {!RIGHT(TEXT(VALUE(LEFT(endorsement.Endorsement_Version__c , FIND('/',endorsement.Endorsement_Version__c)-1 ))+100),2)}
+                        20{!RIGHT(endorsement.Endorsement_Version__c , LEN(endorsement.Endorsement_Version__c) - FIND('/',endorsement.Endorsement_Version__c) )}
+                    </span>
+                </td>
+                <td style="width:73%;" class="tableDataLeft">
+                    <span class="tableDataLeft" style="text-transform: uppercase !important;">
+                        {!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(endorsement.Endorsement_Name__c,endorsement.Endorsement_Number__c,''),endorsement.Endorsement_Version__c , ''),'() ','')}
+                    </span>
+                </td>
+            </tr>
+        </apex:repeat>
+        <tr style="{!if(quote.Policy__r.Policy_Document_Version__c == '1/18','','display:none;')}">
+            <td style="width:27%;" class="tableDataLeft">
+                <span class="normalParagraph  tableDataLeft">
+                    ISBAMIC 302
+                    {!RIGHT(TEXT(VALUE(LEFT( $Label.IL_302_Version , FIND('/',$Label.IL_302_Version)-1 ))+100),2)}
+                    20{!RIGHT($Label.IL_302_Version , LEN($Label.IL_302_Version) - FIND('/',$Label.IL_302_Version) )}
+                </span>
+            </td>
+            <td style="width:73%;" class="tableDataLeft">
+                <span class="tableDataLeft" style="text-transform: uppercase !important;">
+                    Amendment of Unlimited Retirement Extended Reporting Period Endorsement
+                </span>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <p class="b">
+        THE UNDERSIGNED ACCEPTS THE TERMS SELECTED ABOVE AND HEREBY CERTIFIES THAT
+        THERE HAS BEEN NO CHANGE IN THE INFORMATION PREVIOUSLY PROVIDED ON THE
+        APPLICATION FOR THIS COVERAGE:    
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" width="100%" style="border-collapse:collapse">
+        <tr>
+            <td width="27%" valign="bottom" style="width:27.7%;padding:0in 5.75pt 0in 5.75pt">
+                <span class="normalParagraph" style="margin-top:6.0pt;page-break-after:avoid;margin-left: 0px !important; ">
+                    Signature of Partner, Owner <br/>or Officer (Lawyer Only)
+                </span>
+            </td>
+            <td width="43%" valign="bottom" style="width:43.22%;padding:0in 5.75pt 0in 5.75pt">
+                <div style="border:none;border-bottom:solid #000 1.0pt;padding:0in 0in 1.0pt 0in;margin-bottom: 4px;">
+                    <p class="normalParagraph" style="margin-top:6.0pt;border:none;padding:0in">
+                        &nbsp;
+                    </p>
+                </div>
+            </td>
+            <td width="5%" valign="bottom" style="width:5.98%;padding:0in 5.75pt 0in 5.75pt">
+                <span class="normalParagraph" style="margin-top:6.0pt;margin-right:-5.7pt;margin-bottom:0in;margin-left:0in;margin-bottom:.0001pt">
+                    Date
+                </span>
+            </td>
+            <td width="24%" valign="bottom" style="width:24.12%;padding:0in 5.75pt 0in 5.75pt">
+                <div style="border:none;border-bottom:solid #000 1.0pt;padding:0in 0in 1.0pt 0in;margin-bottom: 4px;">
+                    <p class="normalParagraph" style="margin-top:6.0pt;border:none;padding:0in">
+                        &nbsp;
+                    </p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="27%" valign="bottom" style="width:27.7%;padding:0in 5.75pt 0in 5.75pt">
+                <span class="normalParagraph" style="margin-top:6.0pt;page-break-after:avoid;margin-left: 0px !important;">
+                    Print name:
+                </span>
+            </td>
+            <td width="43%"  valign="bottom" style="width:43.22%;padding:0in 5.75pt 0in 5.75pt">
+                <div style="border:none;border-bottom:solid #000 1.0pt;padding:0in 0in 1.0pt 0in;margin-bottom: 4px;">
+                    <p class="normalParagraph" style="margin-top:6.0pt;border:none;padding:0in">
+                        &nbsp;
+                    </p>
+                </div>
+            </td>
+            <td width="5%" valign="bottom" style="width:5.98%;padding:0in 5.75pt 0in 5.75pt">
+                <span class="normalParagraph" style="margin-top:6.0pt;margin-right:-9.65pt;margin-bottom:0in;margin-left:0in;margin-bottom:.0001pt">
+                    Title
+                </span>
+            </td>
+            <td width="24%"  valign="bottom" style="width:24.12%;padding:0in 5.75pt 0in 5.75pt">
+                <div style="border:none;border-bottom:solid #000 1.0pt;padding:0in 0in 1.0pt 0in;margin-bottom: 4px;">
+                    <p class="normalParagraph" style="margin-top:6.0pt;border:none;padding:0in">
+                        &nbsp;
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        Coverage is not in force until premium has been received and all conditions of the quote have been met. The company reserves the right to withdraw or amend the quoted terms at any time prior to policy issuance if changes material to the underwriting of the application are received.
+    </p>
+</apex:component>

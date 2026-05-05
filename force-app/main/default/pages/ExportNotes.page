@@ -1,0 +1,95 @@
+<apex:page controller="ExportNotesCtrl" readOnly="true" applyBodyTag="false" renderAs="pdf">
+    <head>
+        <style>
+            @page{
+            size: A4 landscape !important;
+            margin: 85px 25px 65px 25px;
+            }
+        </style>
+    </head>
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <body>
+        <div class="header" style="">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:50%;" class="tableDataLeft">
+                        <apex:image url="{!$Resource.ISBA_Logo_125x70 }" width="125" height="70"/>
+                    </td>
+                    <td style="width:50%;" class="tableDataRight">
+                        
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer" style="width:100%">
+            <div style="width:50%;float:right">
+                <p style="text-align:right;" class="normalParagraph">
+                    Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                </p>
+            </div>
+        </div>
+        <apex:variable value="{!1}" var="rowCount"/>
+        <div class="">
+            <table width="100%"> 
+                <thead style="font-size: 16px; color:maroon;">
+                    <tr >
+                        <th scope="col" width="1%">
+                            <div >#</div>
+                        </th>
+                        <th scope="col"  width="40%">
+                            <div style="border-bottom: 2px solid black;" title="Subject">Subject</div>
+                        </th>
+                        <th scope="col"  width="20%">
+                            <div  style="border-bottom: 2px solid black;" title="Date">Created Date</div>
+                        </th>
+                        <th scope="col"  width="20%">
+                            <div  style="border-bottom: 2px solid black;" title="Created By">Created By</div>
+                        </th>
+                        <th scope="col"  width="20%">
+                            <div  style="border-bottom: 2px solid black;" title="Type">Type</div>
+                        </th>
+                    </tr>
+                </thead>   
+                <tbody>
+                    <tr><td colspan="99">
+                        <div style="height: 4px;">
+                          &nbsp;
+                        </div>
+                    </td></tr>
+                    <apex:repeat value="{!notesList}" var="note">
+                        <tr style="background-color: #eaeaea;">
+                            <td> 
+                                {!rowCount}
+                            </td>
+                            <td>
+                                <div style="border: 0px;" class="b zslds-cell-wrap">
+                                    <apex:outputField value="{!note.Subject__c}"/>
+                                </div>
+                            </td>
+                            <td class="b">
+                                <apex:outputField value="{!note.CreatedDate}"/>
+                            </td>
+                            <td class="b">
+                                <apex:outputField value="{!note.Created_By_Name__c}"/>
+                            </td>
+                            <td class="b">
+                                <apex:outputField value="{!note.Type__c}"/>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td style="padding-bottom: 10px;">
+                                &nbsp;
+                            </td>
+                            <td colspan="99" style="padding: 10px; border-bottom:">
+                                <div class="zslds-cell-wrap">
+                                    <apex:outputField value="{!note.Description__c}"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <apex:variable value="{!rowCount+1}" var="rowCount"/>
+                    </apex:repeat>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</apex:page>

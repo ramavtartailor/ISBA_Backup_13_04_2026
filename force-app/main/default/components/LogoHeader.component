@@ -1,0 +1,10 @@
+<apex:component controller="Policy_Header_Ctrl" >
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <table style="width:100%;">
+        <tr>
+            <td style="width:99%;" class="tableDataLeft">
+                <apex:image url="{!$Resource.ISBAM_info_logo}" width="293" height="75"/>
+            </td>
+        </tr>
+    </table>
+</apex:component>

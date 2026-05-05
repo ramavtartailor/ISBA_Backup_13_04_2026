@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Bound premium + add, delete, cancel and ERP --></help>
+    <label><!-- Premium: Cumulative --></label>
+    <name>Premium_Cumulative__c</name>
+</CustomFieldTranslation>

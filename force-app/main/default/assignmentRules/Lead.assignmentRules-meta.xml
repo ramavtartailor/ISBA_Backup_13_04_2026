@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>Sales Lead Assignments</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>andrew.murray@isbamutual.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.Firm_Size__c</field>
+                <operation>greaterOrEqual</operation>
+                <value>3</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>andrew.murray@isbamutual.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.County__c</field>
+                <operation>contains</operation>
+                <value>Sangamon,Macon,Logan</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>andrew.murray@isbamutual.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.County__c</field>
+                <operation>notEqual</operation>
+                <value>Sangamon,Macon,Logan</value>
+            </criteriaItems>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

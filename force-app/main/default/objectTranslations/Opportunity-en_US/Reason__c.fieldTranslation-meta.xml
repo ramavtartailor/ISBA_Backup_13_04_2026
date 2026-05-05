@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Reason --></label>
+    <name>Reason__c</name>
+    <picklistValues>
+        <masterLabel>Coverage Concerns</masterLabel>
+        <translation><!-- Coverage Concerns --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Decline to Quote - Underwriting Guidelines</masterLabel>
+        <translation><!-- Decline to Quote - Underwriting Guidelines --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Declined to Quote - Claims</masterLabel>
+        <translation><!-- Declined to Quote - Claims --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Midterm Cancellation due to non-payment</masterLabel>
+        <translation><!-- Midterm Cancellation due to non-payment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Free Retirement Tail Option</masterLabel>
+        <translation><!-- No Free Retirement Tail Option --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Response to Quote</masterLabel>
+        <translation><!-- No Response to Quote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Response to RAI</masterLabel>
+        <translation><!-- No Response to RAI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non-Renewed by ISBAMIC</masterLabel>
+        <translation><!-- Non-Renewed by ISBAMIC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Price</masterLabel>
+        <translation><!-- Price --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ran Out of Time</masterLabel>
+        <translation><!-- Ran Out of Time --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Stayed with Current Broker / Carrier</masterLabel>
+        <translation><!-- Stayed with Current Broker / Carrier --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Went with another Carrier/Broker</masterLabel>
+        <translation><!-- Went with another Carrier/Broker --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

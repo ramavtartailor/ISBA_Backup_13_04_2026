@@ -1,0 +1,22 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Unlimited Death or Disability Extended Reporting Period Election Endorsement
+    </p>
+    <br/><br/>
+    <p class="normalParagraph">
+        It is agreed that the<span class="normalBoldParagraph"> Insured </span>listed below is granted an Unlimited Death or Disability Extended Reporting Period in accordance with<span class="normalBoldParagraph"> VII. EXTENDED REPORTING PERIODS, C. </span>Unlimited Death or Disability Extended Reporting Period.
+        <br/>
+        <br/><br/>
+        <apex:outputField value="{!endorsement.Name_Of_Insured__c}"/>
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:330px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

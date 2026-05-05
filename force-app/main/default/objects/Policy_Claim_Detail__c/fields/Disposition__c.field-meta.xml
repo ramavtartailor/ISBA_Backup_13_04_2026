@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disposition__c</fullName>
+    <label>Disposition</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Abandoned</fullName>
+                <default>false</default>
+                <label>Abandoned</label>
+            </value>
+            <value>
+                <fullName>Accepted / Covered by Another</fullName>
+                <default>false</default>
+                <label>Accepted / Covered by Another</label>
+            </value>
+            <value>
+                <fullName>Accepted/Covered by Another Insurance</fullName>
+                <default>false</default>
+                <label>Accepted/Covered by Another Insurance</label>
+            </value>
+            <value>
+                <fullName>Closed due to Claim Repair with LAE payment</fullName>
+                <default>false</default>
+                <label>Closed due to Claim Repair with LAE payment</label>
+            </value>
+            <value>
+                <fullName>Closed with LAE payment only</fullName>
+                <default>false</default>
+                <label>Closed with LAE payment only</label>
+            </value>
+            <value>
+                <fullName>Closed with both Indemnity and LAE</fullName>
+                <default>false</default>
+                <label>Closed with both Indemnity and LAE</label>
+            </value>
+            <value>
+                <fullName>Coverage Denied</fullName>
+                <default>false</default>
+                <label>Coverage Denied</label>
+            </value>
+            <value>
+                <fullName>No manner in which disposed indicated</fullName>
+                <default>false</default>
+                <label>No manner in which disposed indicated</label>
+            </value>
+            <value>
+                <fullName>Resolved through Arbitration</fullName>
+                <default>false</default>
+                <label>Resolved through Arbitration</label>
+            </value>
+            <value>
+                <fullName>Settled by Insured without ISBA Mutual</fullName>
+                <default>false</default>
+                <label>Settled by Insured without ISBA Mutual</label>
+            </value>
+            <value>
+                <fullName>Settled by Mediation</fullName>
+                <default>false</default>
+                <label>Settled by Mediation</label>
+            </value>
+            <value>
+                <fullName>Tried to Final Judgement with Indemnity</fullName>
+                <default>false</default>
+                <label>Tried to Final Judgement with Indemnity</label>
+            </value>
+            <value>
+                <fullName>Tried to Final Judgement without Indemni</fullName>
+                <default>false</default>
+                <label>Tried to Final Judgement without Indemni</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

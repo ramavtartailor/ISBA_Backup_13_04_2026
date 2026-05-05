@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ARDC_Sublimit_Per_Lawyer__c</fullName>
+    <description>It is using in Claim for ARDC as Seprate sub limit</description>
+    <label>ARDC Sublimit Per Lawyer</label>
+    <precision>16</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

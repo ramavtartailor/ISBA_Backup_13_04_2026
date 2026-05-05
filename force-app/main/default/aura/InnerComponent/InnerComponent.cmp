@@ -1,0 +1,43 @@
+<aura:component >
+    <aura:attribute name="NotesInstance" type="Note__c"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    
+     <aura:registerEvent name="NavigateToNoteRecord" type="c:NavigateToNoteRecord"/> 
+    <!-- Table Row -->  
+    <tr class="slds-text-title_caps" style="background-color: #efefef;">
+        <td> 
+            {!v.rowIndex + 1}
+        </td>
+        <td>
+            <a onclick="{!c.goToRecord}">{!v.NotesInstance.Name}</a>
+        </td>
+        <td>
+            <ui:outputDate  value="{!v.NotesInstance.CreatedDate}"/>
+        </td>
+        <td>
+            <ui:outputText  value="{!v.NotesInstance.Created_By_Name__c}"/>
+        </td>
+        <!--<td>
+            <ui:outputDate  value="{!v.NotesInstance.Due_Date__c}"/>
+        </td>-->
+        <td>
+            <ui:outputText  value="{!v.NotesInstance.Type__c}"/>
+        </td>
+        <!--<td>
+            <ui:outputText value="{!v.NotesInstance.Status__c}"/>
+        </td>-->
+        
+    </tr>
+    <tr>
+        <td>
+        	&nbsp;
+        </td>
+        <td colspan="6">
+            <div class="slds-cell-wrap" style="font-size:15px;padding: 15px;">
+                <b><ui:outputText value="{!v.NotesInstance.Subject__c}"/></b><br/><br/>
+                <ui:outputRichText value="{!v.NotesInstance.Description__c}"/>
+            </div>
+        </td>
+    </tr>
+</aura:component>

@@ -1,0 +1,60 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Past Acts Coverage Buyback Direct Liability Endorsement
+    </p>
+    <p class="normalParagraph">
+        This endorsement amends this Policy. Such coverage as is afforded by this Policy is extended to include a <span class="boldSpan">CLAIM</span> for a <span class="boldSpan">WRONGFUL ACT</span> committed directly by {!endorsement.Attorney_Name__c} during the following term(s) at 12:01 a.m. Central Standard Time:
+    </p>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <u>Name of Entity</u>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <u>Term</u>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <apex:outputField value="{!endorsement.Firm_Entity__c}"/>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                   <!-- <apex:outputField value="{!endorsement.Term__c}"/>-->
+                   <apex:outputText value="{0,date,MM/dd/yyyy}" > <apex:param value="{!endorsement.Term_Start_Date__c}" /> </apex:outputText> <apex:outputText value=" to " rendered="{!if(endorsement.Term_Start_Date__c!=null,true,false)}"></apex:outputText>  <apex:outputText value="{0,date,MM/dd/yyyy}" > <apex:param value="{!endorsement.Term_End_Date__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <p class="normalParagraph">
+        The above extension of coverage does not include any <span class="boldSpan">CLAIM</span> for a <span class="boldSpan">WRONGFUL ACT</span> alleging vicarious liability or negligent supervision.
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        The extension of coverage does not include any <span class="boldSpan">CLAIM</span> that is based on a <span class="boldSpan">WRONGFUL ACT</span> which occurred prior to the date when the lawyer named above joined the Firm/Entity identified above.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:240px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

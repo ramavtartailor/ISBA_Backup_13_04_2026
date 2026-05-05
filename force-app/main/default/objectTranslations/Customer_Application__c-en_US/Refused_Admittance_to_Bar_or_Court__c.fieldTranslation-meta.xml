@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Refused Admittance to Bar or Court --></label>
+    <name>Refused_Admittance_to_Bar_or_Court__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reinstate_Endorsement_Effective_Date</fullName>
+    <active>false</active>
+    <description>This validation rule compare the Reinstate Policy Endorsement Effective Date and Cancel Date of Policy, If the Cancel Date is smaller it gives and error.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = &apos;RP_Reinstate_Policy_Transaction&apos;,  Endorsement_Effective_Date__c &lt;&gt; Policy__r.Cancel_Date__c)</errorConditionFormula>
+    <errorDisplayField>Endorsement_Effective_Date__c</errorDisplayField>
+    <errorMessage>Endorsement Effective Date cannot exceed Policy Cancellation Date!</errorMessage>
+</ValidationRule>

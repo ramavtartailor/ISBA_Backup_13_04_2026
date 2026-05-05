@@ -1,0 +1,1242 @@
+<apex:page controller="RegularRenewalPDFCtrl"  renderAs="pdf" applyBodyTag="false" readOnly="true" contentType="application/pdf">
+  
+  <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+  <head>
+  <style>
+      @page {
+            size:portrait;
+            margin-left: 0.8cm;
+            margin-right: 0.8cm;
+            margin-top: 0.8cm;
+            margin-bottom: 1cm;
+      }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);               
+            }
+            .pagenumber:before {
+                content: counter(page);            
+            }
+      
+            body {
+              font-size: 8pt;
+            }
+            .pc { 
+                color: #89001b;
+                font-weight: bold;
+            }
+            .c { text-align: center; }
+            .u { }
+            .b { font-weight: bold; }
+            
+            .div_pad {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+      
+            .table_border { border-collapse: collapse; width: 100%; }
+            .table_border, .table_border th, .table_border td { border: 2px solid #ededed; }
+            .table_spacing td {
+              padding-left: 7px;
+              padding-top: 3px;
+              padding-bottom: 3px;
+            }
+      
+            #discipline_table_questions th, #discipline_table_questions td {
+                border: 0px solid white;
+                padding: 2px;
+            }
+      
+            .table_title { 
+                background-color: #89001b;
+                color: white;
+                font-weight: bold;
+                font-size: 14px;
+                padding-top: 3px !important;
+                padding-bottom: 3px !important;
+            }
+            
+            .sc_header {
+                background-color: #B7BBB6;
+                color: black;
+            }
+            .sc_header th {
+                font-weight: bold;
+                padding-top: 5px !important;
+                padding-bottom: 5px !important;
+                font-weight: normal !important;
+            }
+      
+            
+            .table_head tr th {
+                text-align: center;
+            }
+      
+            #quote_table {
+                font-size: 12px;
+            }
+            #quote_table td {
+                padding: 6px;
+            }
+            #quote_table td:nth-child(1) {
+              text-align: center;
+            }
+            
+            #lawyer_table td {
+                padding: 6px;
+            }
+      
+            #discipline_table {
+                font-size: 12px;
+            }
+      
+            .fs-12px {
+                font-size: 12px;
+            }
+      
+            .pad6 td {
+                padding: 6px;
+            }
+      
+            .th_pad th {
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+      
+            .question_table td {
+              padding: 5px;
+              padding-right: 10px !important;
+            }
+            
+            .cb {
+                height: 9px;
+                width: 9px;
+                border: 1px solid black;
+                float: left;
+                margin-top: 2px;
+                margin-right: 4px;
+            }
+            .cb_yes {
+                padding-right: 15px;    
+                float: left;
+            }
+            .yn_pad {
+                padding-left: 15px !important;
+            }
+      
+            tr.page-break  { display: block; page-break-before: always; }
+      
+            .no_td_border {
+                border-left: 0px solid white !important;
+                border-top: 0px; solid white !important;
+                border-right: 0px solid white !important;
+                border-bottom: 0px solid white !important;
+            }
+      
+            .lawyer_blank {
+                background-color: #ededed;
+                width: 80px;
+            }
+      
+  </style>
+  </head>
+  <body>
+      <div class="footer" style="width:100%">
+          <table width="100%">
+              <tr>
+                  <td width="20%">
+                      ISBAMIC REN 07 2020
+                  </td>
+                  <td width="30%" style="text-align:right;">
+                      Page&nbsp;<b><span class="pagenumber" /></b>&nbsp;of&nbsp;<b><span class="pagecount" /></b>
+                  </td>
+                  <td width="50%" style="text-align:right;">
+                      LAWYERS PROFESSIONAL LIABILITY RENEWAL APPLICATION
+                  </td>
+              </tr>
+          </table>
+         
+      </div>
+    
+    <!---HEADER------------------------------------------------------------>
+    <div style="">
+        <c:Application_Header />    
+    </div>
+                <br/>
+                <br/>
+            
+              
+                <div class="c" style="
+                        color: #89001b;
+                        font-size: 16pt;
+                        font-weight: bold;
+                        padding-bottom: 4px;
+                        border-bottom: 2px solid #ededed;"
+                >LAWYERS PROFESSIONAL LIABILITY RENEWAL APPLICATION</div>
+                    
+                <div class="div_pad" style="font-weight: bold;">
+                    NOTICE: THIS APPLICATION IS FOR A CLAIMS-MADE AND REPORTED POLICY. TO BE COVERED, A CLAIM MUST BE BOTH FIRST MADE AGAINST AN INSURED AND REPORTED TO THE COMPANY IN WRITING DURING THE POLICY PERIOD OR EXTENDED REPORTING PERIOD, IF ANY, AND IS SUBJECT TO THE POLICY PROVISIONS.  
+                </div>
+                
+                
+              
+                
+                
+                <table id="quote_table" class="table_head table_spacing ">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">INSTRUCTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                This Application is to be completed by the Named Insured (“Firm”) on behalf of itself, its Predecessor Firm*, and all persons proposed for this insurance. Answer all questions completely. Complete any Supplement(s) requested.
+                                <b>If space is insufficient to fully answer any question, complete the answer on Firm letterhead and attach it to this Application.</b>
+                                <span class="pc">Please attach copies of all letterhead(s) currently in use by the Firm.</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                        
+                
+                
+                
+                
+                <!---FIRM INFORMATION------------------------------------------------------------>
+                <table id="quote_table" class="table_head table_border table_spacing ">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">FIRM INFORMATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                Policy Number:&nbsp;{!policy.Name}
+                                
+                            </td>
+                            <td>
+                                Policy Period:&nbsp;
+                                <apex:outputText value="{0,date,MM/dd/yyyy}" ><apex:param value="{!policy.Effective_Date__c}" /> </apex:outputText>&nbsp;-&nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}" > <apex:param value="{!policy.Expiration_Date__c}" /></apex:outputText>
+                            </td>
+                        </tr>
+                        <tr style="background-color: #ededed; font-size: 8px;">
+                            <td style="width: 20%;">
+                                &nbsp;
+                            </td>
+                            <td style="width: 40%;">
+                                <b>CURRENT</b>
+                            </td>
+                            <td style="width: 40%;">
+                                <b>CHANGES TO REPORT</b> (include date of change):
+                            </td>
+                        </tr>
+                        <tr><td>Named Insured:</td><td>{!policy.Account__r.Name}</td><td>&nbsp;</td></tr>
+                        <tr><td>Trade Name or D/B/A:</td><td>{!policy.Account__r.Trade_Name_or_D_B_A__c}</td><td>&nbsp;</td></tr>
+                        <tr><td>Principal Address:</td><td>{!policy.Account__r.BillingStreet}</td><td>&nbsp;</td></tr>
+                        <tr><td>City, State, Zip Code:</td><td>{!policy.Account__r.BillingCity} {!policy.Account__r.BillingState} {!policy.Account__r.BillingPostalCode}</td><td>&nbsp;</td></tr>
+                        <tr><td>County:</td><td>{!policy.County__r.Name}</td><td>&nbsp;</td></tr>
+                        <tr><td>Contact Name:</td><td>{!policy.Firm_Contact__r.Name}</td><td>&nbsp;</td></tr>
+                        <tr><td>Contact Phone Number:</td>
+                            <td>
+                                <span style="{!IF(policy.Account__r.Phone != '' ,'' , 'display:none')}">{!policy.Account__r.Phone}</span>
+                                <span style="{!IF(policy.Account__r.Phone = '' ,'' , 'display:none')}">{!policy.Firm_Contact__r.Phone}</span>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr><td>Contact E-mail Address:</td><td>{!policy.Firm_Contact__r.Email}</td><td>&nbsp;</td></tr>                  
+                    </tbody>
+                </table>
+
+                <div class="b div_pad" style="padding-left: 10px;">
+                    If Firm has an alternate mailing address, please provide the address on a separate sheet of paper.
+                </div>
+                <!------------------------------------------------------------------------->
+                
+                
+      
+      
+   
+                <!---LAWYER INFO #1------------------------------------------------------------>
+                <table id="lawyer_table" class="table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">List of Lawyers for whom coverage is desired</th>
+                        </tr>
+                        <tr class="th_pad">
+                            <th style="width: 25%;">Laywer Name</th>
+                            <th style="width: 15%;">Designation<br/>(see below)</th>
+                            <th style="width: 15%;">Individual<br/>Prior Acts<br/>Exclusion Date <span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                            <th style="width: 15%;">Average Number<br/>of Hours Worked<br/>per Week on Behalf<br/>of the Firm</th>
+                            <th style="width: 15%;">Still with Firm?<br/>Yes or <span class="pc">No</span></th>
+                            <th style="width: 15%;">If No, provide<br/>last date of<br/>employment<br/>with Firm<br/><span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable var="lawyerCount" value="{!1}"   />        <!-- Initialise-->
+                        <apex:repeat value="{!policyLawyers}" var="pLawyer">
+                                <tr style="{!IF(lawyerCount > 4, 'display:none;', '')}">        <!-- hide lawyers over 4-->
+                                    <td><span class="pc" style="font-weight: bold;">#{!lawyerCount}</span>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Lawyer_Name__c}</td>
+                                    <td>{!pLawyer.Contact_Role__c}</td>
+                                    <td>
+                                        <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                                            <apex:param value="{!pLawyer.Prior_Act_Date__c}" /> 
+                                        </apex:outputText>
+                                    </td>
+                                    <td><div class="lawyer_blank">&nbsp;</div></td>
+                                    <td><div class="lawyer_blank">&nbsp;</div></td>
+                                    <td><div class="lawyer_blank">&nbsp;</div></td>
+                                </tr>
+                                <tr style="{!IF(lawyerCount > 4, 'display:none;', '')}">        <!-- hide lawyers over 4-->
+                                    <td colspan="2">
+                                        <b>Email:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.Email}
+                                        
+                                    </td>
+                                    <td colspan="2"><b>ARDC #:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.ARDC_Number__c}</td>
+                                    <td colspan="2"><b>ISBA #:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.ISBA__c}</td>
+                                </tr>
+                            <apex:variable value="{!lawyerCount + 1}" var="lawyerCount"/>  <!--increment-->
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c < 5,true,false)}">
+                    <div class="div_pad">
+                            <b>Designations:</b> <b>O</b> = Owner, Officer, or Shareholder; <b>P</b> = Partner of a Partnership; <b>A</b> = Associate or Employed Lawyer; <b>S</b> = Solo Practitioner; <b>IC</b> = Independent Contractor; or <b>OC</b> = Of Counsel.
+                        
+                    </div>
+                </apex:outputPanel>
+                <!------------------------------------------------------------------------->        <!---- page break if < 5 lawyers ---->                
+                
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 0,true,false)}">
+                    <div style="page-break-after: always;"></div>
+                </apex:outputPanel>
+                
+                <!---LAWYER INFO #2------------------------------------------------------------>
+                <apex:outputPanel rendered="{!IF(policy.Total_Lawyers__c > 4,true,false)}">     
+                <table id="lawyer_table" class="table_head table_border table_spacing">             <!---- show lawyers over 4---->
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">List of Lawyers included in above quote for whom coverage is desired</th>
+                        </tr>
+                        <tr class="th_pad">
+                            <th style="width: 25%;">Laywer Name</th>
+                            <th style="width: 15%;">Designation<br/>(see below)</th>
+                            <th style="width: 15%;">Individual<br/>Prior Acts<br/>Exclusion Date <span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                            <th style="width: 15%;">Average Number<br/>of Hours Worked<br/>per Week on Behalf<br/>of the Firm</th>
+                            <th style="width: 15%;">Still with Firm?<br/>Yes or <span class="pc">No</span></th>
+                            <th style="width: 15%;">If No, provide<br/>last date of<br/>employment<br/>with Firm<br/><span style="font-weight: normal">(mm/dd/yyyy)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:variable var="lawyerCount" value="{!1}"   />        <!-- Initialise-->
+                        <apex:repeat value="{!policyLawyers}" var="pLawyer">
+                                <tr style="{!IF(lawyerCount < 5, 'display:none;', '')}">        <!-- hide lawyers under 4-->
+                                    <td><span class="pc" style="font-weight: bold;">#{!lawyerCount}</span>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Lawyer_Name__c}</td>
+                                    <td>{!pLawyer.Contact_Role__c}</td>
+                                    <td>
+                                        <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                                            <apex:param value="{!pLawyer.Prior_Act_Date__c}" /> 
+                                        </apex:outputText>
+                                    </td>
+                                    <td><div class="lawyer_blank">&nbsp;</div></td>
+                                    <td><div class="lawyer_blank">&nbsp;</div></td>
+                                    <td><div class="lawyer_blank">&nbsp;</div></td>
+                                </tr>
+                                <tr style="{!IF(lawyerCount < 5, 'display:none;', '')}">        <!-- hide lawyers under 4-->
+                                    <td colspan="2">
+                                        <b>Email:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.Email}
+                                        
+                                    </td>
+                                    <td colspan="2"><b>ARDC #:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.ARDC_Number__c}</td>
+                                    <td colspan="2"><b>ISBA #:</b>&nbsp;&nbsp;{!pLawyer.Lawyer__r.Contact__r.ISBA__c}</td>
+                                </tr>
+                            <apex:variable value="{!lawyerCount + 1}" var="lawyerCount"/>  <!--increment-->
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                <div class="div_pad">
+                    If <span class="pc"><b>No</b></span>, the above quote(s) will be adjusted to reflect removing the Lawyer from the Firm’s policy.<br/>
+                    <span style="font-weight: italics;">
+                        <b>Designations:</b> <b>O</b> = Owner, Officer, or Shareholder; <b>P</b> = Partner of a Partnership; <b>A</b> = Associate or Employed Lawyer; <b>S</b> = Solo Practitioner; <b>IC</b> = Independent Contractor; or <b>OC</b> = Of Counsel.
+                    </span>
+                </div>
+                </apex:outputPanel>
+                <!-------------------------------------------------------------------------> 
+      
+                
+      
+      
+      
+                
+                
+                <!---NON-LAWYER INFORMATION------------------------------------------------------------>
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title sc_header">
+                            <th colspan="99">Number of Non-Lawyer Personnel</th>
+                        </tr>
+                        <tr class="th_pad">
+                            <th style="width: 35%;">Position</th>
+                            <th style="width: 15%;">Number</th>
+                            <th style="width: 35%;">Position</th>
+                            <th style="width: 15%;">Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Paralegal</b></td>
+                            <td>&nbsp;</td>
+                            <td><b>Other (specity title)</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><b>Clerical</b></td>
+                            <td>&nbsp;</td>
+                            <td><b>Other (specity title)</b></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+                        
+                        
+                        
+                
+                
+                <!---ADDITIONAL INFORMATION------------------------------------------------------------>
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title sc_header">
+                            <th colspan="99">Additional Firm Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <!---------- 1 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">1.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                Has any Lawyer(s) joined the Firm in the past twelve (12) months <b>who is not listed above or has not been reported to the Company?</b>
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, please complete the
+                                    <span class="pc">
+                                        Add a Lawyer Supplemental Application
+                                    </span>
+                                    to add the new Lawyer(s) to the Firm’s policy.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        <!---------- 2 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">2.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                Does the firm want an option to increase the Limit of Liability from the expiring limits?
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        <!---------- 3 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">3.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                During the past twelve (12) months, has there been any change in the percentages (%) attributable to the Firm’s Areas of Practice?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, please complete the
+                                    <span class="pc">Area of Practice Supplemental Application</span>.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                                
+                        
+                        <!---------- 4 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">4.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                Does the Firm or any Firm member handle plaintiff personal injury cases?                                
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>:<br/>
+                                    a. Average case size: $_______________
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    b. Number of personal injury cases: _______________
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        <!---------- 5 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">5.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                During the past twelve (12) months, has the Firm opened any other office locations?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, please complete the
+                                    <span class="pc">Additional Office Location Supplemental Application</span>.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        <!---------- 6 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">6.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                During the past twelve (12) months, has the Firm practiced in states other than Illinois (including contingency fee referrals)?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, please complete the
+                                    <span class="pc">Out of State Supplemental Application</span>.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        <!---------- 7 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">7.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                During the past twelve (12) months, has the Firm utilized co-counsel (CC) or local counsel (LC), refer cases (RC) or case share (CS) with any other Lawyer?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, please provide the information requested below:
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <!---------- 7-1 ----------->
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <thead>
+                        <tr class="th_pad">
+                            <th style="width: 25%;">Lawyer’s Name</th>
+                            <th style="width: 25%;">Firm Name</th>
+                            <th style="width: 20%;">City, State</th>
+                            <th style="width: 13%;">Relationship</th>
+                            <th class="yn_pad" style="width: 17%; text-align: center; border-top: 0px solid white; border-left: 0px solid white;">
+                                Confirmed<br/>Professional<br/>Liability is carried?
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="height: 30px;">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!---------- 7-2 ----------->
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <tbody>
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                Does the Firm outline and reduce to writing the relationship indicated above and outline the responsibilities of each Law Firm to the client?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, does the client sign the letter confirming receipt and acceptance of the letter?
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                                <div style="clear:both; padding-top: 6px;"></div>
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        <!---------- 8 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">8.</td>
+                            <td style="border-left: 0px; padding: 0px;">
+                                <table id="" class="question_table" style="border: 0px; padding: 0px;">
+                                    <tr>
+                                        <td style="width: 80%; border: 0px; padding: 0px;">
+                                            <table id="" class="fs-12px" style="font-size: 8pt; border: 0px;">
+                                                <tr>
+                                                    <td colspan="99" style="border: 0px; padding: 0px;">
+                                                        In the past twelve (12) months:
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 3%;  border: 0px;" valign="top">a.</td>
+                                                    <td style="border: 0px;">
+                                                        Has any Lawyer of the Firm served as an officer, director, partner, shareholder or employee of any business enterprise other than the Firm or any <b>Predecessor Firm*</b>;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 3%; border: 0px;" valign="top">b.</td>
+                                                    <td style="border: 0px;">
+                                                        Has any Lawyer of the Firm provided legal services or advice to any business enterprise other than the Firm or any <b>Predecessor Firm*</b>;                            
+                                                        <table id="" class="fs-12px" style="font-size: 8pt; border: 0px">
+                                                            <tr>
+                                                                <td valign="top" style="width: 3%; border: 0px;">(i)</td>
+                                                                <td style="border: 0px;">
+                                                                    which is, was, or will be owned by a Lawyer of the Firm or any member of the <b>Lawyer’s Immediate Family**</b>;
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top" style="width: 3%; border: 0px;">(ii)</td>
+                                                                <td style="border: 0px;">
+                                                                    which is, was, or will be in any way controlled, managed or operated by the Firm, a Lawyer of the Firm or any member
+                                                                    of the <b>Lawyer’s Immediate Family**</b> including the ownership, maintenance, or use of any property in connection
+                                                                    therewith; or
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top" style="width: 3%; border: 0px;">(iii)</td>
+                                                                <td style="border: 0px;">
+                                                                    in which the Lawyer was, is or will be a partner or employee?
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="99" style="border: 0px;" >
+                                                                    If <span class="pc">Yes</span>, please complete the
+                                                                    <span class="pc">Outside Interest Supplemental Application</span>.
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        <!---------- 9 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">9.</td>
+                            <td colspan="99" style="border-left: 0px solid white;">
+                                In the past twelve (12) months, has the Firm, <b>Predecessor Firm*</b>, or any current or former Lawyer(s) with the Firm or <b>Predecessor Firm*</b> provided
+                                legal services in any way related to the following:
+                            </td>
+                        </tr>
+                        <!---------- 9x ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td style="border-left: 0px; padding: 0px;">
+                                <table id="" class="question_table" style="border: 0px; padding: 0px;">
+                                    <tr>
+                                        <td style="width: 80%; border: 0px; padding: 0px;">
+                                            <table id="" class="fs-12px" style="font-size: 8pt; border: 0px;">
+                                                <tr>
+                                                    <td style="width: 3%;  border: 0px;" valign="top">a.</td>
+                                                    <td style="border: 0px;">
+                                                        In connection with the issuance, offering or sale of securities, in connection with:
+                                                        <br/>The Federal Securities Act of 1933 or the Illinois Security Law or any other similar securities laws?
+                                                        <br/>Reliance upon the exemption from registration of such issuance or sale under the Federal Securities Act of 1933 or any other similar securities laws?
+                                                        <div style="padding-top: 6px;">
+                                                            If <span class="pc">Yes</span>, please complete the
+                                                            <span class="pc">Securities Supplemental Application</span>.
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>        
+                            </td>
+                            <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td style="border-left: 0px; padding: 0px;">
+                                <table id="" class="question_table" style="border: 0px; padding: 0px;">
+                                    <tr>
+                                        <td style="width: 80%; border: 0px; padding: 0px;">
+                                            <table id="" class="fs-12px" style="font-size: 8pt; border: 0px;">
+                                                <tr>
+                                                    <td style="width: 3%;  border: 0px;" valign="top">b.</td>
+                                                    <td style="border: 0px;">
+                                                        Served as a trustee or fiduciary such as an administrator, conservator, executor receiver or guardian of any client or have any discretionary investment authority over client funds?
+                                                        <div style="padding-top: 6px;">
+                                                            If <span class="pc">Yes</span>, please complete the
+                                                            <span class="pc">Estate/Trust Supplemental Application</span>.
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>        
+                            </td>
+                            <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td style="border-left: 0px; padding: 0px;">
+                                <table id="" class="question_table" style="font-size: 8pt; border: 0px; padding: 0px;">
+                                    <tr>
+                                        <td style="width: 80%; border: 0px; padding: 0px;">
+                                            <table id="" class="fs-12px" style="border: 0px;">
+                                                <tr>
+                                                    <td style="width: 3%;  border: 0px;" valign="top">c.</td>
+                                                    <td style="border: 0px;">
+                                                        Patent services?
+                                                        <div style="padding-top: 6px;">
+                                                            If <span class="pc">Yes</span>, please complete the
+                                                            <span class="pc">Patent Supplemental Application</span>.
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>        
+                            </td>
+                            <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+
+                        <!---------- 10 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">10.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                Does any one (1) client (including its subsidiaries and/or affiliates) of the Firm represent over forty percent (40%) of the Firm’s revenue?
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td colspan="2" style="width: 80%; border-left: 0px solid white;">
+                                If <span class="pc">Yes</span>, please provide the following information for each client of the Firm who represents over forty percent (40%) of the Firm’s revenue:
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>      
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <thead>
+                        <tr class="th_pad table_title sc_header">
+                            <th style="width: 30%;">Name of Client/<br/>State Client located</th>
+                            <th style="width: 10%;">% of Firm<br/>Revenue</th>
+                            <th style="width: 25%;">Industry of Client</th>
+                            <th style="width: 15%;">Number of<br/>Years as a Client<br/>of the Firm</th>
+                            <th style="width: 20%;">Legal Services Provided</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td align="right">&nbsp;%</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td align="right">&nbsp;%</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+                        
+                        
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <tbody>
+                        
+                        
+                        
+                        <!---------- 11 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">11.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                How many lawsuits or arbitration proceedings has the Firm initiated to collect unpaid fees due and owing to the Firm in the past twelve (12) months that did not include family law?
+                            </td>
+                            <td class="yn_pad">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <!---------- 11x ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td colspan="2" style="border-left: 0px solid white;">
+                                If more than three (3) fee dispute proceedings, please provide the date of suit(s), nature of client representation, the total dollar amount in dispute, current status of the matter and if still a Firm client.
+                                <br/>
+                                <br/>
+                                <br/>
+                            </td>
+                        </tr>
+                        <!---------- 11a ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td style="border-left: 0px; padding: 0px;">
+                                <table id="" class="question_table" style="font-size: 8pt; border: 0px; padding: 0px;">
+                                    <tr>
+                                        <td style="width: 80%; border: 0px; padding: 0px;">
+                                            <table id="" class="fs-12px" style="border: 0px;">
+                                                <tr>
+                                                    <td style="width: 3%;  border: 0px;" valign="top">a.</td>
+                                                    <td style="border: 0px;">
+                                                        When evaluating whether a case should be sent for collection, is a complete review of the underlying work product completed to determine the likelihood of a counter-claim alleging malpractice?
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>        
+                            </td>
+                            <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        <!---------- 11b ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td style="border-left: 0px; padding: 0px;">
+                                <table id="" class="question_table" style="font-size: 8pt; border: 0px; padding: 0px;">
+                                    <tr>
+                                        <td style="width: 80%; border: 0px; padding: 0px;">
+                                            <table id="" class="fs-12px" style="font-size: 8pt; border: 0px;">
+                                                <tr>
+                                                    <td style="width: 3%;  border: 0px;" valign="top">b.</td>
+                                                    <td style="border: 0px;">
+                                                        Does the Firm wait until the applicable statute of limitation of a potential malpractice counter-claim has expired before filing a suit (or instituting arbitration) for fees?
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>        
+                            </td>
+                            <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                                <div class="cb"></div>
+                                <span class="cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        <!---------- 12 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">12.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                Does the Firm currently have coverage under your expiring ISBA Mutual Policy (Endorsement 210 – Separately Owned Title Agency or Title Company Endorsement) for a title agency one hundred percent (100%) owned by the Firm or any member of the Firm?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, please complete the
+                                    <span class="pc">Title Agency or Company Supplemental Application</span>.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        
+                    </tbody>
+              </table>
+      
+              <table id="quote_table" class="table_head table_border table_spacing" style="font-size: 8pt;">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">PRIOR CLAIMS EXPERIENCE AND/OR KNOWLEDGE OF LOSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!---------- 13 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">13.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                After inquiry, during the past twelve (12) months, has any professional liability <b>Claim**</b> been made against the Firm, any <b>Predecessor Firm*</b>, any present Lawyers of the Firm, or to your knowledge, any former Lawyer with the Firm or <b>Predecessor Firm*</b> <u>which has not been reported to ISBA Mutual Insurance Company in writing as a <b>Claim**</b></u>?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, provide number _______________.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        <!---------- 14 ----------->
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">14.</td>
+                            <td style="width: 80%; border-left: 0px solid white;">
+                                After inquiry, is the Firm or any Lawyer in the Firm, aware of any potential <b>Claim**</b>, including but not limited to, an act, error, omission, fact, circumstance, a request for a tolling agreement, a request for a deposition, a subpoena request for any file, ARDC complaint, situation, legal work, or any allegation of negligence that might result in any professional liability <b>Claim**</b> against the Firm, or any <b>Predecessor Firm*</b>, or any past or present Lawyer in the Firm regardless whether such <b>Claim**</b> would be without merit <u>which has not been reported to ISBA Mutual Insurance Company in writing as a <b>Claim**</b></u>?
+                                <div style="padding-top: 6px;">
+                                    If <span class="pc">Yes</span>, provide number _______________.
+                                </div>
+                            </td>
+                            <td class="yn_pad">
+                                <div class="cb"></div>
+                                <span class="pc cb_yes">YES</span>
+                                <div class="cb"></div>NO
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">&nbsp;</td>
+                            <td colspan="99" style="border-left: 0px solid white;">
+                                If <span class="pc">Yes</span>, to questions 13 or 14 above, please complete a <span class="pc">Claim Supplemental Application</span> for each prior <b>Claim**</b> or potential <b>Claim**</b>.
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                
+                
+                
+                
+                
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <tbody>
+                        <!---------- 15 ----------->
+                
+                        <tr>
+                            <td style="width: 3%; border-right: 0px solid white;" valign="top">15.</td>
+                            <td colspan="99" style="border-left: 0px solid white;">
+                                Have any of the Firm’s Lawyers been the subject of any of the following disciplinary actions, investigations or proceedings by any court, bar association, administrative agency or regulatory body, <u>which has not been reported to ISBA Mutual Insurance Company</u>?
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <!------------------------------------------------------------------------->
+                
+                
+                <table id="discipline_table" class="table_border table_spacing">
+                    <tr>
+                        <td style="width: 32%; font-weight: bold;">Investigation/Proceeding</td>
+                        <td style="width: 20%;" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                        <td style="width: 31%; font-weight: bold;">Censured</td>
+                        <td style="width: 17%;" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Refused Admittance to Bar or Court</td>
+                        <td style="" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                        <td style="font-weight: bold;">Suspended</td>
+                        <td style="" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Sanctioned or Fined</td>
+                        <td style="" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                        <td style="font-weight: bold;">Disbarred</td>
+                        <td style="" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Reprimanded</td>
+                        <td style="" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                        <td style="font-weight: bold;">Other (specify)</td>
+                        <td style="" class="yn_pad">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                    </tr>
+                </table>
+                         
+                
+                <!---ADDITIONAL INFORMATION------------------------------------------------------------>
+                <table id="" class="question_table table_head table_border table_spacing">
+                    <tr>
+                        <td colspan="99" style="border-bottom: 0px solid white;">If <span class="pc">Yes</span> to any of the above:</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 3%; border-right: 0px solid white; border-top: 0px solid white;" valign="top"></td>
+                        <td style="width: 80%; border-left: 0px solid white; border-right: 0px solid white; border-top: 0px solid white;">
+                            <table id="discipline_table_questions" style="border: 0px solid white !important;" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="width: 3%">•</td>
+                                    <td><b>Provide number open __________&nbsp;&nbsp;&nbsp;&nbsp;Provide number closed __________ </b></td>
+                                </tr>
+                                <tr>
+                                    <td>•</td>
+                                    <td>Is the Firm reporting any as a <b>Claim**</b> or potential <b>Claim**</b>?</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="99" style="padding-top: 7px;">
+                                        If <span class="pc">Yes</span>, please complete a <span class="pc">Claim Supplemental Application</span> for each prior <b>Claim**</b> or potential <b>Claim**</b>.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>•</td>
+                                    <td>
+                                        Include copies of the complaint, current disposition and/or a copy of the final opinion or decision of the court,
+                                        association, administrative agency or regulatory body.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="yn_pad" style="border-top: 0px solid white; border-left: 0px solid white;">
+                            <div class="cb"></div>
+                            <span class="pc cb_yes">YES</span>
+                            <div class="cb"></div>NO
+                        </td>
+                    </tr>
+                </table>
+                
+                
+                
+                
+                <div class="div_pad" style="padding-left: 10px;">
+                    <b>*Predecessor Firm</b> means any Law Firm which prior to the effective date of the proposed Policy is dissolved and from which the Firm has retained at least fifty percent (50%) of the lawyers who were owners, officers, partners, associates, employees or shareholders.
+                    <br/><b>**Immediate Family</b> member means spouse, party to a civil union, sibling, parent, child or grandparent.
+                    <br/><b>**Claim</b> means a demand received for money or services, or the service of a suit or the initiation of an arbitration proceeding against the Firm that seeks damages arising out of an act, error or omission in rendering professional legal services including an act, error or omission of which the Firm, or anyone associated with the Firm is aware and which they know, or ought reasonably to have known, might give rise to a demand for money or services, or the service of suit or arbitration proceeding against them.
+                </div>
+                
+                
+                <table id="" class="pad6 table_head" border="0" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">REPRESENTATIONS AND WARRANTIES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="99" style="text-align: justify;">
+                                The Firm understands and agrees that the following representations and warranties are material and that the Illinois State Bar Association Mutual Insurance Company (“Company”) is relying on the truthfulness of these representations and warranties, which are made the basis of and a condition for the Company’s acceptance of the risks covered to be insured. The Firm further understands and agrees that if any of the following material representations and warranties are false, or if Firm fails to comply with any of the following representations and warranties at any time during the policy period, the Firm shall be deemed to have breached the insurance policy issued by the Company.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="99">
+                                The Firm hereby represents and warrants that the following are true and correct as of the inception date of the policy:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" style="width: 5%;">a.</td>
+                            <td style="text-align: justify;">
+                                The information contained in this Application, all material and information submitted to the Company in connection with this Application, and all material that is created and submitted to the Company by the Firm in connection with this Application is a full and true exposition of all the facts and circumstances with regard to the risk to be insured.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" style="width: 5%;">b.</td>
+                            <td style="text-align: justify;">
+                                No Claim** has been made against the Firm or any person(s) proposed for this insurance nor has any person proposed for this insurance received a request for deposition in the past five (5) years and no disciplinary action, investigation or proceeding has been filed against any Lawyer proposed for this insurance other than as disclosed in the Application and/or loss runs submitted to the Company.
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" style="width: 5%;">c.</td>
+                            <td style="text-align: justify;">
+                                No person or entity for whom this insurance is intended has any knowledge of any act, error, omission, fact or circumstance, tolling agreement, request for deposition, a subpoena for any file, disciplinary action, investigation or proceeding, situation, legal work or any allegation of negligence that might result in any professional liability Claim** against the Firm, or any Predecessor Firm*, or any past or present Lawyer in the Firm regardless whether such Claim** would be without merit other than as disclosed in this Application.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                
+                <table class="pad6 table_head table_spacing ">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">ACKNOWLEDGMENTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: justify;">
+                                The undersigned declares that to the best of his or her knowledge, the statements set forth herein are true and accurate and that reasonable efforts have been made to obtain sufficient information from all persons proposed for this insurance to facilitate the proper and accurate completion of this Application. The signing of this Application does not bind the Company to issue a policy, but it is agreed that this Application, all material and information submitted to the Company in connection with this Application, and all material that is created by the Firm and submitted to the Company in connection with this Application are the representations of the Firm and are material and shall be the basis of the contract should a policy be issued.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: justify;">
+                                The undersigned further agrees that if any significant adverse change in the condition of the Firm is discovered or occurs between the date of completion of this Application and the date that coverage is bound by the Company, and such change renders this Application inaccurate or incomplete, notice of such change will be immediately reported in writing to the Company.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: justify;">
+                                This Application shall be considered attached to and part of the Policy. Any material submitted with the Application shall be maintained on file with the Company and shall be deemed to be attached hereto as if physically attached.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: justify;">
+                                Coverage is NOT bound until appropriate premiums and any required supplements have been received. The Company reserves the right to withdraw or amend the quoted terms at any time prior to the proposed effective date of coverage if changes material to the underwriting of the Application are received.
+                            </td>
+                        </tr>
+     
+                    </tbody>
+                </table>
+                
+                
+                <!---FIRM INFORMATION------------------------------------------------------------>
+                <table id="signature_table" style="font-size: 12px; font-weight: bold;" class="table_head table_border table_spacing">
+                    <thead>
+                        <tr class="table_title">
+                            <th colspan="99">SIGNATURE</th>
+                        </tr>
+                        <tr class="sc_header">
+                            <th colspan="99">Signature of Owner, Officer, Partner, Shareholder, or Member (only one signature needed)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="sc_header" style="">
+                            <td colspan="2" align="left">Name:</td>
+                            <td colspan="2" align="left">Title:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height: 20px;">    
+                                    &nbsp;
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="height: 20px;">    
+                                    &nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sc_header" width="15%" style="font-size: 14px; height: 20px;">
+                                SIGNATURE>
+                            </td>
+                            <td width="55%">
+                                <div style="height: 20px;">    
+                                    &nbsp;
+                                </div>
+                            </td>
+                            <td class="sc_header" width="15%" style="font-size: 14px; height: 20px;">
+                                DATE>
+                            </td>
+                            <td>
+                                <div style="height: 20px;">    
+                                    &nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+    </body>
+</apex:page>

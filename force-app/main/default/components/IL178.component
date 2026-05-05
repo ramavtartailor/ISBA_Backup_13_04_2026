@@ -1,0 +1,5 @@
+<apex:component >
+    <apex:attribute name="recordIdParam" description="" type="String" />
+    <apex:attribute name="versionParam" description="" type="String" />
+    <c:IL178_1_15 recordIdParam="{!recordIdParam}" rendered="{!IF(versionParam== '1/15',true,false)}" />
+</apex:component>

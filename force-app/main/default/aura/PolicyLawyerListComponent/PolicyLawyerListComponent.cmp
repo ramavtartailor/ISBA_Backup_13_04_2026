@@ -1,0 +1,118 @@
+<aura:component controller="PolicyLawyerListComponentHandler" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="LawyersList" type="Policy_Lawyer__c[]"/>
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="totalLawyers" type="Integer" default="0"/>
+    <aura:attribute name="primary" type="Decimal" default="0"/>
+    <aura:attribute name="excess" type="Decimal" default="0"/>
+    <aura:attribute name="fiveXfive" type="Decimal" default="0"/>
+    <aura:attribute name="tenXten" type="Decimal" default="0"/>
+    <aura:attribute name="AdjMod" type="Decimal" default="0"/>
+    <aura:attribute name="premium" type="Decimal" default="0"/>
+    <aura:attribute name="credit" type="Decimal" default="0"/>
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <!--Table Part-->      
+                                        <table class="" style="{!v.PoliciesList.length==0 ? 'display:none;' :''}"> 
+                                            <thead>
+                                                <tr class="">
+                                                    <th >
+                                                        <div  title="Lawyer Name">Lawyer</div>
+                                                    </th>
+                                                    <th >
+                                                        <div  title="Prior Acts Date">PAD</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div  title="Step">Step</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="Add. Step">Add. Step</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div  title="Rate">Rate</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div  title="Rate">Term</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="Primary">Primary</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="Excess">Excess</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="5x5">5x5</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="10x10">10x10</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div title="Adj Mod">Adj Mod</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="Premium">Premium</div>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <div  title="Credit">Credit</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>   
+                                            <tbody>       
+                                                <aura:iteration items="{!v.LawyersList}" var="item" indexVar="index">
+                                                    <c:InnerPolicyLawyerListComponent LawyerInstance="{!item}" rowIndex="{!index}" />
+                                                </aura:iteration>
+                                            </tbody>
+                                            <thead>
+                                                <tr class="">
+                                                    <th colspan="2">
+                                                        Total Lawyers : {!v.totalLawyers}
+                                                    </th>
+                                                    <th>
+                                                    </th>
+                                                    <th>
+                                                    </th>
+                                                    <th>
+                                                    </th>
+                                                    <th>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.primary}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.excess}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.fiveXfive}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.tenXten}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.adjMod}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.premium}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                    <th scope="col" >
+                                                        <lightning:formattedNumber value="{!v.credit}" style="currency" currencyCode="USD"/>
+                                                    </th>
+                                                </tr>
+                                            </thead>  
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</aura:component>

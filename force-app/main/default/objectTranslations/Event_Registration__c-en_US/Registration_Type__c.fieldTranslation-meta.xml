@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Registration Type --></label>
+    <name>Registration_Type__c</name>
+    <picklistValues>
+        <masterLabel>Complementary - Media</masterLabel>
+        <translation><!-- Complementary - Media --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Complementary - Prospect</masterLabel>
+        <translation><!-- Complementary - Prospect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Complementary - Speaker</masterLabel>
+        <translation><!-- Complementary - Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Complementary - Vendor</masterLabel>
+        <translation><!-- Complementary - Vendor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Paid</masterLabel>
+        <translation><!-- Paid --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

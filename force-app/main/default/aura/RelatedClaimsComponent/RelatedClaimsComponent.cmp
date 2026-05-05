@@ -1,0 +1,144 @@
+<aura:component controller="RelatedClaimsComponentHandler" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <!--Init handler which is call doInit js function on component Load--> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler name="NavigateToClaimRecord" event="c:NavigateToClaimRecord" action="{!c.navigateToClaim}"/>
+    <aura:handler name="NavigateToRowClaimRecord" event="c:NavigateToClaimRecord" action="{!c.navigateToRowClaim}"/>
+    <aura:handler name="NavigateToPolicyRecord" event="c:NavigateToPolicyRecord" action="{!c.navigateToPolicy}"/>
+    
+    <aura:attribute name="ClaimsList" type="Policy_Claim__c[]"/> 
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="allRecords" type="boolean" default="false"/>
+    <aura:attribute name="forApplication" type="boolean" default="false"/>
+    <aura:attribute name="totalClaims" type="Integer" default="0"/>
+    <aura:attribute name="claimNumber" type="String" default=""/>
+	<lightning:quickActionAPI aura:id="quickActionAPI" />
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <!--Header Part-->       
+        <div class="slds-card__header slds-grid" style="{!v.allRecords ?'display:none;':'' }">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="extraSmall forceEntityIcon" style="background-color: #bf7b66" data-aura-class="forceEntityIcon">
+                        <span class="uiImage" data-aura-class="uiImage">
+                            
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <a class="slds-card__header-link baseCard__header-title-container"  onclick="{!c.goToAllClaims}">
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Related Claims">
+                                <aura:if isTrue="{! 7 > v.totalClaims }">
+                                    Related Claims ({!v.totalClaims})
+                                    <aura:set attribute="else">
+                                        Related Claims (6+)
+                                    </aura:set>
+                                </aura:if>
+                            </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <div class="actionsContainer">
+                    <ul class="branding-actions slds-button-group slds-m-left--xx-small small oneActionsRibbon forceActionsContainer" data-aura-class="oneActionsRibbon forceActionsContainer">
+                        <li>
+                            <aura:renderIf isTrue="{!v.forApplication}">
+                                <aura:set attribute="else">
+                                    <lightning:button label="New" onclick="{!c.newRelatedClaim }" />
+                                </aura:set>
+                            </aura:renderIf>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="{!v.allRecords ?'':'display:none;' }" class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader" role="banner"  data-aura-class="forceListViewManagerHeader">
+            <div class="slds-grid" >
+                <div class="slds-col slds-has-flexi-truncate" >
+                    <div class="slds-media slds-no-space slds-grow" >
+                        <!--render facet: 4973:0-->
+                        <div class="slds-media__body slds-align-middle" >
+                            <aura:renderIf isTrue="{!v.forApplication}">
+                                <aura:set attribute="else">
+                                    <nav role="navigation" aria-label="Breadcrumbs" >
+                                        <ol class="slds-breadcrumb slds-list--horizontal" >
+                                            <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                                <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem"  onclick="{!c.navigateToClaims}">
+                                                    <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                        Claims
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                                <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem" onclick="{!c.navigateToClaim}">
+                                                    <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                        {!v.claimNumber}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                </aura:set>
+                            </aura:renderIf>
+                            <h1 class="slds-page-header__title slds-truncate" title="Related Claims" >Related Claims</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <!--Table Part-->      
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid" style="{!v.ClaimsList.length==0 ? 'display:none;' :''}"> 
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Claim Id">Claim Id</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Policy">Policy</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="File Type">File Type</div>
+                                                    </th>
+                                                    <th scope="col"  width="15%">
+                                                        <div class="slds-truncate" title="Report Date">Report Date</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Occur Date">Occur Date</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Claim Status Status">Claim Status</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>   
+                                            <tbody>       
+                                                <aura:iteration items="{!v.ClaimsList}" var="item" indexVar="index">
+                                                    <c:InnerRelatedClaimsComponent ClaimInstance="{!item}" rowIndex="{!index}" />
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a style="{!v.ClaimsList.length==0 ? 'display:none;' :v.allRecords ?'display:none;':'' }" onclick="{!c.goToAllClaims}">
+            <div class="slds-card__footer">
+                <span class="view-all-label">
+                    View All
+                </span>
+            </div>
+        </a>
+    </article>
+</aura:component>

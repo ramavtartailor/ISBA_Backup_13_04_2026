@@ -1,0 +1,137 @@
+<apex:page renderAs="pdf" applyBodyTag="false"  showHeader="false" standardController="AcctSeed__Billing__c"  extensions="PolicyDeductibleInvoiceHandler">
+    
+    
+    
+    <head>
+        <style type="text/css">
+            @page{
+            margin:45px;
+            }
+            body{
+            font-family:"Arial""Sans-Serif";
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align:center">
+            <span style="font-weight:bold;font-size:17px">ISBA Mutual Insurance Company <br/>Policy Deductible Invoice</span>
+        </div>
+        
+        <div style="margin-top:8%;margin-left:70%">
+            <span style="font-size:14px"> Invoice Date: 
+               <apex:outputText value="{0,date,MM/dd/yy}" style="margin-left:40px"> 
+                   <apex:param value="{!acc.AcctSeed__Date__c}"></apex:param>
+                               </apex:outputText>
+                
+                </span>
+        </div>
+        
+        <div style="margin-top:6%;margin-left:8%;font-size:12px">
+            {!acc.AcctSeed__Billing_Contact__c}<br/><br/>
+            <span style="font-size:13px">
+                {!acc.AcctSeed__Billing_Street__c}<br/>
+                {!acc.AcctSeed__Billing_City__c}<br/>
+                {!acc.AcctSeed__Billing_State__c},
+                {!acc.AcctSeed__Billing_PostalCode__c}<br/></span>
+        </div>
+        
+        <table style="margin-top:10%;margin-left:6%;font-size:14px" width="100%">
+            <tr>
+                <td width="25%">Policy Number:</td>
+                <td width="15%"> {!acc.Claim__r.Policy__r.Policy_Number__c}</td>
+                <td width="13%"></td>    
+                <td width="20%">Claim Number:</td>
+                <td width="27%">{!acc.Claim__r.Name} &nbsp;{!acc.Claim__r.File_Type__c}</td>
+            </tr>
+            <tr>
+                <td style="padding-top:1.5em" >Limit per Claim:</td>
+                <td style="padding-top:1.5em">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$
+                        <apex:param value="{!acc.Claim__r.Per_Claim_Limit__c}"/>
+                    </apex:outputText></td>    
+                <td style="padding-top:1.5em"></td>
+                <td style="padding-top:1.5em;">Claimant:</td>
+                <td style="padding-top:1.5em">{!acc.Claim__r.Claimant__c}</td>
+            </tr>
+            <tr>
+                <td style="padding-top:1.5em">Aggregate Limit:</td>
+                <td style="padding-top:1.5em">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$
+                        <apex:param value="{!acc.Claim__r.Aggregate_Limit__c}"/>
+                    </apex:outputText>
+                </td>
+                <td style="padding-top:1.5em"></td>    
+                <td style="padding-top:1.5em">Policy Deductible:</td>
+                <td style="padding-top:1.5em">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$
+                        <apex:param value="{!acc.Claim__r.Policy_Deductible__r.Deductible_Amount__c}"/>
+                    </apex:outputText>
+                </td>    
+            </tr>
+        </table>
+        <br/><br/>
+        <hr/>
+        
+        <table width="100%" style="font-size:14px;margin-top:20px">
+            <tr>
+                <th width="25%"></th>
+                <th width="18%" style="border-bottom:1px solid black">Payments to Date</th>
+                <th width="15%"></th>
+                <th width="20%"></th>
+                <th width="22%" style="border-bottom:1px solid black">Deductibles to Date</th>
+            </tr>
+            <tr>
+                <td style="padding-left:100px">Indemnity:</td>
+                <td style="padding-left:60px"><apex:outputField value="{!acc.Claim__r.Payment_Direct_Loss__c}"/></td>
+                <td></td>
+                <td style="text-align:right">Deductible Billed:</td>    
+                <td style="padding-left:60px">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$
+                        <apex:param value="{!totalBilled}"/>
+                    </apex:outputText>
+                </td>    
+            </tr>
+            <tr>
+                <td style="padding-top:.5em;">Loss Adjustment Expense: </td>
+                <td style="padding-left:60px;padding-top:.5em;border-bottom:1px solid black"><apex:outputField value="{!acc.Claim__r.Payment_Direct_LAE__c}"/></td>
+                <td></td>
+                <td style="text-align:right;padding-top:.5em">Deductible Paid:</td>
+                <td style="padding-left:60px;padding-top:.5em;border-bottom:1px solid black">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$(
+                        <apex:param value="{!totalPaid}"/>
+                    </apex:outputText>)
+                </td>        
+            </tr>
+            <tr>
+                <td style="padding-left:130px;padding-top:.5em">Total:</td>
+                <td style="padding-left:60px;padding-top:.5em;border-bottom:2px double black">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$
+                        <apex:param value="{!totalPayments}"/>
+                    </apex:outputText>
+                </td>
+                <td></td>
+                <th style="text-align:right;padding-top:.5em">Deductible Balance:</th>   
+                <td style="padding-left:60px;padding-top:.5em;border-bottom:2px double black">
+                    <apex:outputText value="{0, number, ###,###,###,##0}">$
+                        <apex:param value="{!totalBalance}"/>
+                    </apex:outputText>
+                </td>   
+            </tr>
+        </table>
+        
+        <hr style="margin-top:7%"/>
+        
+        <div style="margin-top:10%;">
+            <p style="text-align:center">
+                <span style="font-size:16px"> <span style="font-weight:bold">Deductible Balance</span> is due upon receipt of this notice.</span><br/>
+                <span style="font-size:12px;font-weight:900"> ***IF YOU ARE SET UP FOR AUTOMATIC PAYMENTS,PLEASE DISREGARD***</span><br/><br/>
+                <span style="color:red;font-weight:bold;font-size:13px;">FOR CREDIT CARDS PAYMENT, PLEASE CALL (312)379-2005</span><br/><br/>
+                <span style="font-size:12px;">Please include a copy of this invoice with your check made payable to:</span><br/><br/>
+                <span style="font-weight:bold;font-size:12px;">ISBA MUTUAL INSURANCE COMPANY </span><br/>
+                <span style="font-size:12px;">20 S.Clark Street-Suite 800<br/>
+                    Chicago, IL 60603<br/>
+                    800-473-4722 (Toll free)<span style="margin-left:20px">312-379-2049(Fax)</span></span>
+            </p>
+        </div>
+    </body>
+</apex:page>

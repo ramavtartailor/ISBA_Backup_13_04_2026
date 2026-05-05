@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Area of Practice</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Area of Practice</value>
+    </caseValues>
+    <layouts>
+        <layout>Policy AOP Layout</layout>
+        <sections>
+            <label><!-- Area of Practice --></label>
+            <section>Area of Practice</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Temporary Section --></label>
+            <section>Temporary Section</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Percentage should be between 1 to 100 --></errorMessage>
+        <name>Percentage_should_be_between_1_to_100</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Area_of_Practice --></label>
+        <name>Area_of_Practice</name>
+    </webLinks>
+</CustomObjectTranslation>

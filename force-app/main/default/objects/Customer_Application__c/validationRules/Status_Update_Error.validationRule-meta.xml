@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Update_Error</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISCHANGED( Application_Status__c ),
+    ISPICKVAL(Application_Status__c , &quot;Reviewed&quot;),
+    OR(
+        TEXT(PRIORVALUE(Application_Status__c )) = &quot;Incomplete&quot;,
+        TEXT(PRIORVALUE(Application_Status__c )) = &quot;Completed&quot;
+    )
+)</errorConditionFormula>
+    <errorMessage>You cannot change the status from Incomplete or Completed to Reviewed.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Link_Internal_User__c</fullName>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;/apex/PaymentGatewaySitePage?sfInternalId=&quot;+ Id , &quot;Internal Application Form Link&quot;,&quot;_Blank&quot;)</formula>
+    <label>Application Link Internal (User)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

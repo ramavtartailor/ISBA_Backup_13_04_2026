@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(OR(ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Owner&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Officer&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Partner&apos;)),&apos;O&apos;, IF(OR(ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Employee&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Associate&apos;)),&apos;E&apos;,IF(OR(ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Shareholder&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Member&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Director&apos;)),&apos;S&apos;,IF(OR(ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Independent Contractor&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Of Counsel&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Contract Employee&apos;),ISPICKVAL(Lawyer__r.Contact__r.Contact_Role__c,&apos;Temporary Staff Lawyer&apos;)),&apos;I&apos;,&apos;&apos;))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

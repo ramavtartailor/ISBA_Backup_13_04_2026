@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transaction_Sub_Type__c</fullName>
+    <label>Transaction Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Transaction_Type__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Add Lawyer</fullName>
+                <default>false</default>
+                <label>Add Lawyer</label>
+            </value>
+            <value>
+                <fullName>Cancel Policy</fullName>
+                <default>false</default>
+                <label>Cancel Policy</label>
+            </value>
+            <value>
+                <fullName>Change Coverage</fullName>
+                <default>false</default>
+                <label>Change Coverage</label>
+            </value>
+            <value>
+                <fullName>Change Lawyer</fullName>
+                <default>false</default>
+                <label>Change Lawyer</label>
+            </value>
+            <value>
+                <fullName>Close Reserve LAE</fullName>
+                <default>false</default>
+                <label>Close Reserve LAE</label>
+            </value>
+            <value>
+                <fullName>Close Reserve Loss</fullName>
+                <default>false</default>
+                <label>Close Reserve Loss</label>
+            </value>
+            <value>
+                <fullName>Delete Lawyer</fullName>
+                <default>false</default>
+                <label>Delete Lawyer</label>
+            </value>
+            <value>
+                <fullName>ERE</fullName>
+                <default>false</default>
+                <label>ERE</label>
+            </value>
+            <value>
+                <fullName>LAE Payment</fullName>
+                <default>false</default>
+                <label>LAE Payment</label>
+            </value>
+            <value>
+                <fullName>Loss Payment</fullName>
+                <default>false</default>
+                <label>Loss Payment</label>
+            </value>
+            <value>
+                <fullName>Open Reserve LAE</fullName>
+                <default>false</default>
+                <label>Open Reserve LAE</label>
+            </value>
+            <value>
+                <fullName>Open Reserve Loss</fullName>
+                <default>false</default>
+                <label>Open Reserve Loss</label>
+            </value>
+            <value>
+                <fullName>Reinstate Policy</fullName>
+                <default>false</default>
+                <label>Reinstate Policy</label>
+            </value>
+            <value>
+                <fullName>Re-Open Reserve LAE</fullName>
+                <default>false</default>
+                <label>Re-Open Reserve LAE</label>
+            </value>
+            <value>
+                <fullName>Re-Open Reserve Loss</fullName>
+                <default>false</default>
+                <label>Re-Open Reserve Loss</label>
+            </value>
+            <value>
+                <fullName>User Reserve LAE</fullName>
+                <default>false</default>
+                <label>Change Reserve LAE</label>
+            </value>
+            <value>
+                <fullName>User Reserve Loss</fullName>
+                <default>false</default>
+                <label>Change Reserve Loss</label>
+            </value>
+            <value>
+                <fullName>LAE Deductible</fullName>
+                <default>false</default>
+                <label>LAE Deductible</label>
+            </value>
+            <value>
+                <fullName>Loss Deductible</fullName>
+                <default>false</default>
+                <label>Loss Deductible</label>
+            </value>
+            <value>
+                <fullName>Change in Ceded LAE Reserve</fullName>
+                <default>false</default>
+                <label>Change in Ceded LAE Reserve</label>
+            </value>
+            <value>
+                <fullName>Change in Ceded Loss Reserve</fullName>
+                <default>false</default>
+                <label>Change in Ceded Loss Reserve</label>
+            </value>
+            <value>
+                <fullName>Reins. Recoverable-LAE</fullName>
+                <default>false</default>
+                <label>Reins. Recoverable-LAE</label>
+            </value>
+            <value>
+                <fullName>Reins. Recoverable-Loss</fullName>
+                <default>false</default>
+                <label>Reins. Recoverable-Loss</label>
+            </value>
+            <value>
+                <fullName>Claim Coverage - ARDC</fullName>
+                <default>false</default>
+                <label>Claim Coverage - ARDC</label>
+            </value>
+            <value>
+                <fullName>Issue Policy</fullName>
+                <default>false</default>
+                <label>Issue Policy</label>
+            </value>
+            <value>
+                <fullName>Adjust Premium</fullName>
+                <default>false</default>
+                <label>Adjust Premium</label>
+            </value>
+            <value>
+                <fullName>Unallocated LAE Payment</fullName>
+                <default>false</default>
+                <label>Unallocated LAE Payment</label>
+            </value>
+            <value>
+                <fullName>Deductible Expense New</fullName>
+                <default>false</default>
+                <label>Deductible Expense New</label>
+            </value>
+            <value>
+                <fullName>Premium</fullName>
+                <default>false</default>
+                <label>Premium</label>
+            </value>
+            <value>
+                <fullName>5x5</fullName>
+                <default>false</default>
+                <label>5x5</label>
+            </value>
+            <value>
+                <fullName>10x10</fullName>
+                <default>false</default>
+                <label>10x10</label>
+            </value>
+            <value>
+                <fullName>Primary</fullName>
+                <default>false</default>
+                <label>Primary</label>
+            </value>
+            <value>
+                <fullName>PrimaryAndExcess</fullName>
+                <default>false</default>
+                <label>PrimaryAndExcess</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Open Reserve</controllingFieldValue>
+            <valueName>Open Reserve LAE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open Reserve</controllingFieldValue>
+            <valueName>Open Reserve Loss</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reinstate Policy</controllingFieldValue>
+            <valueName>Reinstate Policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reopen Reserve</controllingFieldValue>
+            <valueName>Re-Open Reserve LAE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reopen Reserve</controllingFieldValue>
+            <valueName>Re-Open Reserve Loss</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>User Reserve</controllingFieldValue>
+            <valueName>User Reserve LAE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>User Reserve</controllingFieldValue>
+            <valueName>User Reserve Loss</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Add Lawyer</controllingFieldValue>
+            <valueName>Add Lawyer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Add Lawyer</controllingFieldValue>
+            <controllingFieldValue>Cancel Policy</controllingFieldValue>
+            <controllingFieldValue>Delete Lawyer</controllingFieldValue>
+            <controllingFieldValue>Issue Policy</controllingFieldValue>
+            <valueName>5x5</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Add Lawyer</controllingFieldValue>
+            <controllingFieldValue>Cancel Policy</controllingFieldValue>
+            <controllingFieldValue>Delete Lawyer</controllingFieldValue>
+            <controllingFieldValue>Issue Policy</controllingFieldValue>
+            <valueName>10x10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Add Lawyer</controllingFieldValue>
+            <controllingFieldValue>Cancel Policy</controllingFieldValue>
+            <controllingFieldValue>Delete Lawyer</controllingFieldValue>
+            <valueName>Primary</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Add Lawyer</controllingFieldValue>
+            <controllingFieldValue>Cancel Policy</controllingFieldValue>
+            <controllingFieldValue>Delete Lawyer</controllingFieldValue>
+            <valueName>PrimaryAndExcess</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancel Policy</controllingFieldValue>
+            <valueName>Cancel Policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change Coverage</controllingFieldValue>
+            <valueName>Change Coverage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Change Lawyer</controllingFieldValue>
+            <valueName>Change Lawyer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Close Reserve</controllingFieldValue>
+            <valueName>Close Reserve LAE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Close Reserve</controllingFieldValue>
+            <valueName>Close Reserve Loss</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Delete Lawyer</controllingFieldValue>
+            <valueName>Delete Lawyer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ERE</controllingFieldValue>
+            <valueName>ERE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LAE Payment</controllingFieldValue>
+            <valueName>LAE Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Loss Payment</controllingFieldValue>
+            <valueName>Loss Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Issue Policy</controllingFieldValue>
+            <valueName>Premium</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

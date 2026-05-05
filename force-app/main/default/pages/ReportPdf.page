@@ -1,0 +1,151 @@
+<apex:page controller="ReportPdfConverter" standardStylesheets="false" applyHtmlTag="false" showHeader="false" renderAs="PDF" >
+    <head>
+        <style type="text/CSS">
+            
+            @page{
+              size: A4 landscape !important;
+              margin: 2cm
+            }
+            
+            body{
+              font-family:sans-serif;         
+            }
+            
+            .center{
+              text-align:center;
+            }
+            
+            .table-bordered {
+              border: 1px solid #000;
+              border-collapse : collapse;
+              font-size : .7em;
+            }
+            
+            
+            thead>tr>th {
+              vertical-align: bottom;
+              border-top: 1px solid #000;
+              border-bottom: 1px solid #000;
+              border-right: 1px solid #eaeaea;
+              border-left: 1px solid #eaeaea;
+              border-spacing: 0;
+              text-align:left;
+              border-collapse: collapse;
+              padding: 5px;
+              font-weight: bold;
+            }
+            
+            td {
+              vertical-align: bottom;
+              border-bottom: 1px solid #ededed;
+              border-right: 1px solid #eaeaea;
+              border-left: 1px solid #eaeaea;
+              border-spacing: 0;
+              border-collapse: collapse;
+              text-align:left;
+              padding: 5px;
+            }
+            
+            .header>td{
+              font-weight:bold !important;
+              font-family: sans-serif; 
+              background : #c4c4c4;               
+            }
+            
+            .echoArea>td{
+              padding:10px;
+            }
+            
+            @page {
+              margin: 10mm;
+              margin-top: 0.8cm;
+            
+              @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+              }
+            }
+            
+            .page-break {
+              display:block;
+              page-break-after:always;
+            }
+            
+            body {
+              font-family: sans-serif; ;
+            }
+            
+            .boldfont{
+              font-weight:bold !important;
+              font-family: sans-serif; 
+            }
+            
+            #leftbox { 
+              float:left;  
+              width:40%; 
+            } 
+            
+            #middlebox{ 
+              float:left;  
+              width:40%; 
+            } 
+            
+            #rightbox{ 
+              float:right;  
+              width:20%; 
+            } 
+            
+        </style>
+    </head>
+    
+    <body>
+        <div style="height: 90px;">
+            <div id = "leftbox">
+                <img src="{!$Resource.ISBA_Logo_125x70}" style="height:60px"/>
+            </div >
+            <div id = "middlebox" style="height:60px;font-size : .7em;">
+                
+                {!accRec.Name}<br/>
+                Loss Run For Policy &nbsp; {!accRec.AccountNumber}<br/>
+                {!dateRange} as of &nbsp;
+                <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                    <apex:param value="{!TODAY()}" />
+                </apex:outputText>
+            </div>
+            <div id = "rightbox">
+                
+                
+            </div> 
+        </div>
+        
+        <table width="100%" class="table-bordered">
+            <thead>
+                <tr>
+                    <apex:repeat value="{!ColumnName}" var="colName">
+                        <th>{!colName}</th>
+                    </apex:repeat>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!RowNumberToDataMap}" var="con">
+                    <tr>
+                        <apex:repeat value="{!RowNumberToDataMap[con]}" var="item">
+                            
+                            <td style="">{!item.Label}</td>
+                            
+                        </apex:repeat>
+                    </tr>
+                </apex:repeat>
+                <tr>
+                    <td colspan="5"></td>
+                    <td class="boldfont">{!aggregateValuesList[0]}</td>
+                    <td class="boldfont">{!aggregateValuesList[1]}</td>
+                    <td class="boldfont">{!aggregateValuesList[2]}</td>
+                    <td class="boldfont">{!aggregateValuesList[3]}</td>
+                    <td class="boldfont">{!aggregateValuesList[4]}</td>
+                    <td colspan="2"></td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</apex:page>

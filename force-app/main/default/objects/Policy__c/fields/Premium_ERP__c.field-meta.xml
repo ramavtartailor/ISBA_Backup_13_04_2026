@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Premium_ERP__c</fullName>
+    <label>Premium: ERP</label>
+    <summarizedField>Policy_Endorsement__c.Premium__c</summarizedField>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.Endorsement_Number__c</field>
+        <operation>equals</operation>
+        <value>IL 107</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Policy_Endorsement__c.Event_Status__c</field>
+        <operation>equals</operation>
+        <value>Approved</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Policy_Endorsement__c.Policy__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

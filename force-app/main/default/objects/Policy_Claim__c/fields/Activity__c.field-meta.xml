@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity__c</fullName>
+    <label>Activity</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ARDC</fullName>
+                <default>false</default>
+                <label>ARDC</label>
+            </value>
+            <value>
+                <fullName>Administrative</fullName>
+                <default>false</default>
+                <label>Administrative</label>
+            </value>
+            <value>
+                <fullName>Administrative Procedure</fullName>
+                <default>false</default>
+                <label>Administrative Procedure</label>
+            </value>
+            <value>
+                <fullName>Administrative Review</fullName>
+                <default>false</default>
+                <label>Administrative Review</label>
+            </value>
+            <value>
+                <fullName>Advice</fullName>
+                <default>false</default>
+                <label>Advice</label>
+            </value>
+            <value>
+                <fullName>Bond Work</fullName>
+                <default>false</default>
+                <label>Bond Work</label>
+            </value>
+            <value>
+                <fullName>Bonds</fullName>
+                <default>false</default>
+                <label>Bonds</label>
+            </value>
+            <value>
+                <fullName>Child Support/Custody</fullName>
+                <default>false</default>
+                <label>Child Support/Custody</label>
+            </value>
+            <value>
+                <fullName>Civil Rights</fullName>
+                <default>false</default>
+                <label>Civil Rights</label>
+            </value>
+            <value>
+                <fullName>Class Action</fullName>
+                <default>false</default>
+                <label>Class Action</label>
+            </value>
+            <value>
+                <fullName>Closing</fullName>
+                <default>false</default>
+                <label>Closing</label>
+            </value>
+            <value>
+                <fullName>Collection Practice</fullName>
+                <default>false</default>
+                <label>Collection Practice</label>
+            </value>
+            <value>
+                <fullName>Collections</fullName>
+                <default>false</default>
+                <label>Collections</label>
+            </value>
+            <value>
+                <fullName>Compliance Advice</fullName>
+                <default>false</default>
+                <label>Compliance Advice</label>
+            </value>
+            <value>
+                <fullName>Contract</fullName>
+                <default>false</default>
+                <label>Contract</label>
+            </value>
+            <value>
+                <fullName>Corporate Takeovers</fullName>
+                <default>false</default>
+                <label>Corporate Takeovers</label>
+            </value>
+            <value>
+                <fullName>Distribution of Assets</fullName>
+                <default>false</default>
+                <label>Distribution of Assets</label>
+            </value>
+            <value>
+                <fullName>Document Preparation</fullName>
+                <default>false</default>
+                <label>Document Preparation</label>
+            </value>
+            <value>
+                <fullName>Drafting Will</fullName>
+                <default>false</default>
+                <label>Drafting Will</label>
+            </value>
+            <value>
+                <fullName>Employee Benefits</fullName>
+                <default>false</default>
+                <label>Employee Benefits</label>
+            </value>
+            <value>
+                <fullName>Enforcement of Judgement</fullName>
+                <default>false</default>
+                <label>Enforcement of Judgement</label>
+            </value>
+            <value>
+                <fullName>Equitable Distribution</fullName>
+                <default>false</default>
+                <label>Equitable Distribution</label>
+            </value>
+            <value>
+                <fullName>Establishing Trust</fullName>
+                <default>false</default>
+                <label>Establishing Trust</label>
+            </value>
+            <value>
+                <fullName>Estate Planning/Financial Advice</fullName>
+                <default>false</default>
+                <label>Estate Planning/Financial Advice</label>
+            </value>
+            <value>
+                <fullName>Filing Estate or Inheritance Tax Returns</fullName>
+                <default>false</default>
+                <label>Filing Estate or Inheritance Tax Returns</label>
+            </value>
+            <value>
+                <fullName>Filing of Documents</fullName>
+                <default>false</default>
+                <label>Filing of Documents</label>
+            </value>
+            <value>
+                <fullName>Financial Advice</fullName>
+                <default>false</default>
+                <label>Financial Advice</label>
+            </value>
+            <value>
+                <fullName>Foreclosures</fullName>
+                <default>false</default>
+                <label>Foreclosures</label>
+            </value>
+            <value>
+                <fullName>Forming Partnership/Joint Venture</fullName>
+                <default>false</default>
+                <label>Forming Partnership/Joint Venture</label>
+            </value>
+            <value>
+                <fullName>General Advice to Employer</fullName>
+                <default>false</default>
+                <label>General Advice to Employer</label>
+            </value>
+            <value>
+                <fullName>Giving Advice</fullName>
+                <default>false</default>
+                <label>Giving Advice</label>
+            </value>
+            <value>
+                <fullName>Incorporation</fullName>
+                <default>false</default>
+                <label>Incorporation</label>
+            </value>
+            <value>
+                <fullName>Investigation and Discovery</fullName>
+                <default>false</default>
+                <label>Investigation and Discovery</label>
+            </value>
+            <value>
+                <fullName>Issuing Stock</fullName>
+                <default>false</default>
+                <label>Issuing Stock</label>
+            </value>
+            <value>
+                <fullName>Lis Pendens</fullName>
+                <default>false</default>
+                <label>Lis Pendens</label>
+            </value>
+            <value>
+                <fullName>Litigation</fullName>
+                <default>false</default>
+                <label>Litigation</label>
+            </value>
+            <value>
+                <fullName>Loan Documentation</fullName>
+                <default>false</default>
+                <label>Loan Documentation</label>
+            </value>
+            <value>
+                <fullName>Maintenance</fullName>
+                <default>false</default>
+                <label>Maintenance</label>
+            </value>
+            <value>
+                <fullName>Mechanics Lien</fullName>
+                <default>false</default>
+                <label>Mechanics Lien</label>
+            </value>
+            <value>
+                <fullName>Merger</fullName>
+                <default>false</default>
+                <label>Merger</label>
+            </value>
+            <value>
+                <fullName>Motion Practice/Pretrial</fullName>
+                <default>false</default>
+                <label>Motion Practice/Pretrial</label>
+            </value>
+            <value>
+                <fullName>Negotiation/Settlement</fullName>
+                <default>false</default>
+                <label>Negotiation/Settlement</label>
+            </value>
+            <value>
+                <fullName>Offering Ltd. Partnership Shares</fullName>
+                <default>false</default>
+                <label>Offering Ltd. Partnership Shares</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Personal Injury</fullName>
+                <default>false</default>
+                <label>Personal Injury</label>
+            </value>
+            <value>
+                <fullName>Plea Bargaining</fullName>
+                <default>false</default>
+                <label>Plea Bargaining</label>
+            </value>
+            <value>
+                <fullName>Post Trial/Appeal</fullName>
+                <default>false</default>
+                <label>Post Trial/Appeal</label>
+            </value>
+            <value>
+                <fullName>Preparation of Documents</fullName>
+                <default>false</default>
+                <label>Preparation of Documents</label>
+            </value>
+            <value>
+                <fullName>Preparation of Taxes</fullName>
+                <default>false</default>
+                <label>Preparation of Taxes</label>
+            </value>
+            <value>
+                <fullName>Preparation/Filing Documents</fullName>
+                <default>false</default>
+                <label>Preparation/Filing Documents</label>
+            </value>
+            <value>
+                <fullName>Products Liability</fullName>
+                <default>false</default>
+                <label>Products Liability</label>
+            </value>
+            <value>
+                <fullName>Property</fullName>
+                <default>false</default>
+                <label>Property</label>
+            </value>
+            <value>
+                <fullName>Property Damage</fullName>
+                <default>false</default>
+                <label>Property Damage</label>
+            </value>
+            <value>
+                <fullName>Prospectus Preparation</fullName>
+                <default>false</default>
+                <label>Prospectus Preparation</label>
+            </value>
+            <value>
+                <fullName>Purchase/Sale of Business</fullName>
+                <default>false</default>
+                <label>Purchase/Sale of Business</label>
+            </value>
+            <value>
+                <fullName>Referral</fullName>
+                <default>false</default>
+                <label>Referral</label>
+            </value>
+            <value>
+                <fullName>Regulatory/Compliance Advice</fullName>
+                <default>false</default>
+                <label>Regulatory/Compliance Advice</label>
+            </value>
+            <value>
+                <fullName>Regulatory/Statutory Compliance</fullName>
+                <default>false</default>
+                <label>Regulatory/Statutory Compliance</label>
+            </value>
+            <value>
+                <fullName>Representing Creditor</fullName>
+                <default>false</default>
+                <label>Representing Creditor</label>
+            </value>
+            <value>
+                <fullName>Representing Debtor</fullName>
+                <default>false</default>
+                <label>Representing Debtor</label>
+            </value>
+            <value>
+                <fullName>Representing Governmental Entities (othe</fullName>
+                <default>false</default>
+                <label>Representing Governmental Entities (othe</label>
+            </value>
+            <value>
+                <fullName>Representing Management</fullName>
+                <default>false</default>
+                <label>Representing Management</label>
+            </value>
+            <value>
+                <fullName>Representing Union</fullName>
+                <default>false</default>
+                <label>Representing Union</label>
+            </value>
+            <value>
+                <fullName>Securing Financing</fullName>
+                <default>false</default>
+                <label>Securing Financing</label>
+            </value>
+            <value>
+                <fullName>Serving as BOD/General Counsel</fullName>
+                <default>false</default>
+                <label>Serving as BOD/General Counsel</label>
+            </value>
+            <value>
+                <fullName>Serving as a Mediator</fullName>
+                <default>false</default>
+                <label>Serving as a Mediator</label>
+            </value>
+            <value>
+                <fullName>Serving as a Trustee</fullName>
+                <default>false</default>
+                <label>Serving as a Trustee</label>
+            </value>
+            <value>
+                <fullName>Serving as an Arbitrator</fullName>
+                <default>false</default>
+                <label>Serving as an Arbitrator</label>
+            </value>
+            <value>
+                <fullName>Sexual Harassment/Discrimination</fullName>
+                <default>false</default>
+                <label>Sexual Harassment/Discrimination</label>
+            </value>
+            <value>
+                <fullName>Stock Offerings</fullName>
+                <default>false</default>
+                <label>Stock Offerings</label>
+            </value>
+            <value>
+                <fullName>Syndication</fullName>
+                <default>false</default>
+                <label>Syndication</label>
+            </value>
+            <value>
+                <fullName>Tax Advice</fullName>
+                <default>false</default>
+                <label>Tax Advice</label>
+            </value>
+            <value>
+                <fullName>Tax Preparation</fullName>
+                <default>false</default>
+                <label>Tax Preparation</label>
+            </value>
+            <value>
+                <fullName>Tender Offerings</fullName>
+                <default>false</default>
+                <label>Tender Offerings</label>
+            </value>
+            <value>
+                <fullName>Title Search</fullName>
+                <default>false</default>
+                <label>Title Search</label>
+            </value>
+            <value>
+                <fullName>Transactional</fullName>
+                <default>false</default>
+                <label>Transactional</label>
+            </value>
+            <value>
+                <fullName>Trial</fullName>
+                <default>false</default>
+                <label>Trial</label>
+            </value>
+            <value>
+                <fullName>Workers Compensation</fullName>
+                <default>false</default>
+                <label>Workers Compensation</label>
+            </value>
+            <value>
+                <fullName>Written Opinion</fullName>
+                <default>false</default>
+                <label>Written Opinion</label>
+            </value>
+            <value>
+                <fullName>Wrongful Death</fullName>
+                <default>false</default>
+                <label>Wrongful Death</label>
+            </value>
+            <value>
+                <fullName>Wrongful Termination</fullName>
+                <default>false</default>
+                <label>Wrongful Termination</label>
+            </value>
+            <value>
+                <fullName>Appeal</fullName>
+                <default>false</default>
+                <label>Appeal</label>
+            </value>
+            <value>
+                <fullName>Contracts</fullName>
+                <default>false</default>
+                <label>Contracts</label>
+            </value>
+            <value>
+                <fullName>Investigation</fullName>
+                <default>false</default>
+                <label>Investigation</label>
+            </value>
+            <value>
+                <fullName>Mergers</fullName>
+                <default>false</default>
+                <label>Mergers</label>
+            </value>
+            <value>
+                <fullName>Professional Liability</fullName>
+                <default>false</default>
+                <label>Professional Liability</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

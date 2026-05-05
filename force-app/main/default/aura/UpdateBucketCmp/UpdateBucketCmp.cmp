@@ -1,0 +1,76 @@
+<aura:component controller="UpdateBucketCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionwithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="selectedVal" type="String"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Cold', 'value': 'Cold'},
+                                                        {'label': 'Warm', 'value': 'Warm'},
+                                                        {'label': 'Hot', 'value': 'Hot'}
+                                                        ]"/>
+    
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading"/>
+    </aura:if>
+    <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Update Bucket</h1>
+    </div>
+    <div class="slds-modal__content" style="padding : 1.5rem">
+        <div class="slds-grid"> 
+            <div class="slds-size_3-of-4">
+                <div>
+                  
+                    <lightning:select aura:id="field" name="Select Bucket" label="Select Bucket" value="{!v.selectedVal}">
+                        <option value="ISBAM BUCKET">ISBAM BUCKET</option>         
+                        <option value="ISBAM BUCKET - Prospective Firm">ISBAM BUCKET - Prospective Firm</option>
+                        <option value="ISBAM BUCKET - DDR and Not Authorized">ISBAM BUCKET - DDR and Not Authorized</option>
+                        <option value="ISBAM BUCKET - GOVERNMENT">ISBAM BUCKET - GOVERNMENT</option>
+                        <option value="ISBAM BUCKET - Big Law">ISBAM BUCKET - Big Law</option>
+                        <option value="ISBAM BUCKET - IN HOUSE">ISBAM BUCKET - IN HOUSE</option>
+                        <option value="ISBAM BUCKET - Judicial">ISBAM BUCKET - Judicial</option>
+                        <option value="ISBAM BUCKET - DECEASED">ISBAM BUCKET - DECEASED</option>
+                        
+                        
+                    </lightning:select>
+                </div>
+                <div>
+                    <lightning:input aura:id="field" name="ISBAM Quick Note" label="ISBAM Quick Note" value="{!v.record.ISBAM_Quick_Note__c}"/>
+                </div>
+            </div>
+            <div class="slds-size_1-of-4" style="padding-left: 2rem;">
+                <lightning:radioGroup aura:id="field" name="ISBAM_Rating"
+                                      label="ISBAM Rating"
+                                      options="{! v.options }"
+                                      value="{! v.record.ISBAM_Rating__c}"
+                                      type="radio"/>
+            </div>
+        </div>
+        <div style="font-size: smaller; width: 100%; text-align: right; display: flex; justify-content: flex-end; gap: .5rem">
+            <i>
+                Last Update:
+            </i>
+            <i>
+                <lightning:formattedDateTime value="{!v.record.ISBAM_Rating_Last_Update__c}" year="numeric" month="numeric" day="numeric"/>
+            </i>
+        </div>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button label="Cancel" title="Cancel" onclick="{!c.handleCancel}"/>
+        <lightning:button variant="brand" label="Save" title="save" onclick="{!c.handleSave}" />
+    </div>
+</aura:component>

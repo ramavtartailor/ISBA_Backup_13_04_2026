@@ -1,0 +1,342 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="EndorsementEditVFCtrl" sidebar="false" showHeader="false" id="pg">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+           <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}">
+            </script>
+            <style>
+                .slds-scope .slds-grid--pull-padded {
+                margin-right:0px !important;
+                margin-left:0px !important;
+                }
+                .slds-scope .slds-form--horizontal {
+                margin-top: 1%;
+                }
+                .dateFormat {
+                padding: 0 2px;
+                display: none;
+                }
+                .slds-scope .slds-page-header {
+                padding: 1rem .75rem;
+                border-bottom: 1px solid #d8dde6 !important;
+                background-color: #337AB7 !important;
+                color: white;
+                }
+                .slds-box{
+                }
+                .slds-scope .slds-medium-size--12-of-12 {
+                margin-bottom: 10px;
+                }
+                .slds-scope .slds-medium-size--6-of-12 {
+                margin-bottom: 10px;
+                }
+                .accountRequired{
+                border-left: 4px solid red !important;
+                }
+                .slds-scope .slds-table td, .slds-scope .slds-table th {
+                white-space: normal !important;
+                }
+                .slds-scope .slds-text-heading--label {
+                text-transform: capitalize !important; 
+                }
+                .policy_required{
+                border-left: 4px solid red !important;
+                }
+                .ContactRequired{
+                border-left: 4px solid red !important;
+                }
+                .endorsementRequired{
+                border-left: 4px solid red !important;
+                }            
+                .application_required{
+                border-left: 4px solid red !important;
+                }
+                .slds-scope a:focus, .slds-scope a:hover{
+                display: initial !important;
+                }
+                .lookupInput .slds-input{
+                //border:none !important;
+                }
+                .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                background-color: #fff; 
+                }
+                .lookupInput input[readonly] {
+                cursor: default;
+                color: #333;
+                background-color: #fff !important;
+                border: 1px solid #d8dde6 !important;
+                }
+                .datePicker{
+                z-index: 99999 ;
+                }
+                input[class*="lookupFieldIcon"] {
+                border: 1px solid rgb(221, 219, 218);
+                border-radius: .25rem;
+                display: inline-block;
+                padding: 0 1rem 0 .75rem;
+                min-height: calc(1.875rem + (1px * 2));
+                }
+            </style>
+            <script>
+           $(document).ready(function() {
+                    var startYear=1940; 
+                    var endYear=2034; 
+                    var optionsString='';
+                    if(startYear<endYear){
+                        for(i=startYear;i<endYear+1;i++){
+                            optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                        }
+                        $('#calYearPicker').html(optionsString);
+                    }
+                    
+                    
+               
+                });
+            
+            function addRow(){
+                $('[id$=spinner]').css('display','block');
+                addTermRow();
+            }
+            function validateAndEndorsement(validateType){
+                $('#endorsementInfoDiv input').each(function (){
+                    $(this).css('border','1px solid #d8dde6');
+                });
+                var flagSave=true;
+                $('.endorsementRequired').each(function (){
+                    if($(this).val() == '' || $(this).val() == null || $(this).val() == 'undefined'){
+                        $(this).css('border','1px solid red ');
+                        showError('** Required fields missing . ');
+                        $('[id$=spinner]').css('display','none');
+                        flagSave = false;
+                    }else if($('[id$=ContactType]').val() == ''){
+                        $('[id$=ContactType]').css('border','1px solid red ');
+                        showError('** Required fields missing . ');
+                        $('[id$=spinner]').css('display','none');
+                        flagSave = false;
+                    }
+                });
+                if(flagSave){
+                    if(validateType =='premiumCalculation'){
+                        calculatePremium();
+                    }  
+                }else{
+                    showError('** Required fields missing . ');
+                    $('[id$=spinner]').css('display','none');
+                }
+            }
+            </script>
+        </head>
+        <body>
+            <apex:form id="frm">
+                <apex:actionFunction name="addTermRow" action="{!addRow}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');"/>
+                
+                <apex:actionFunction name="removeTermRow" action="{!removeRow}" reRender="frm" oncomplete="$('[id$=spinner]').css('display','none');">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="calculatePremium" action="{!premiumCalculator}" />
+                
+                <apex:pageMessages escape="false"></apex:pageMessages>
+                <div class="slds-page-header" role="banner" style="{!if(fromPage == 'ManageEndorsements','display:none;','')}">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-page-header__title slds-truncate" title="Application And Policy">
+                                {!endorsementName} - {!Policy_Endorsement__c.Account__r.Name} - {!Policy_Endorsement__c.Policy__r.Name} - <apex:outputText value="{0,date, MM/dd/yyyy}"> <apex:param value="{!Policy_Endorsement__c.Policy__r.Expiration_Date__c}" /> </apex:outputText>
+                            </p>
+                            <p class="slds-text-body--small"></p>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                            <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="    position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+                <div class="slds-notify_container slds-hide">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                            <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                <fieldset class="slds-box slds-theme--default  slds-m-around--small" style="margin-bottom: 55px;">
+                    <legend id="" class="slds-text-heading--small slds-p-vertical--medium legend"></legend>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" id="endorsementInfoDiv">
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-size--12-of-12  slds-theme--shade">
+                                    <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">General Information</h2>
+                                </div>
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                    <apex:pageBlock id="pb1">
+                                        <apex:pageBlockSection columns="2" showHeader="false" id="pbs1">
+                                            <apex:inputField html-placeholder="Enter Policy Endorsement Name"  styleClass="slds-input " id="endorsementName" value="{!Policy_Endorsement__c.Name}" required="true" html-disabled="true"/>
+                                            <apex:inputField html-placeholder="Enter Endorsement Effective Date"  onkeydown="autoFormat(this)" styleClass="slds-input" id="EffectiveDate" value="{!policyEndorsement.Endorsement_Effective_Date__c}" html-disabled="true" rendered="{!effectiveDateDisabled}"/>
+                                            <apex:inputField html-placeholder="Enter Endorsement Effective Date" onkeydown="autoFormat(this)"  styleClass="slds-input" id="EffectiveDate1" value="{!policyEndorsement.Endorsement_Effective_Date__c}"  rendered="{!!effectiveDateDisabled}"/>
+                                            <apex:inputField html-placeholder="Enter Account Name" id="accountName" value="{!Policy_Endorsement__c.Account__r.Name}" required="true"   html-disabled="true" styleClass="slds-input "/>
+                                            <apex:inputField id="isApplicationEndorsement" value="{!policyEndorsement.Is_Application_Endorsement__c}" rendered="{!$Profile.Name == 'System Administrator'}"/>
+                                            <apex:inputField id="glProcessingDate" value="{!policyEndorsement.GL_Processing_Date__c}" rendered="{!$Profile.Name == 'System Administrator'}" styleClass="slds-input "/>
+                                        </apex:pageBlockSection>
+                                    </apex:pageBlock>
+                                </div>
+                                <div class="slds-size--12-of-12  slds-theme--shade" style="{!if(additionalERPPolicySection,'display:block;','display:none;')}">
+                                    <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Lawyer Information</h2>
+                                </div>
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12"  style="{!if(additionalERPPolicySection,'display:block;','display:none;')}">
+                                    <apex:pageBlock id="pb4">
+                                        <apex:pageBlockSection columns="2" showHeader="false" id="pbs3" rendered="{!NOT(singleColumnLayout)}">
+                                            <apex:selectList size="1" styleClass="slds-input" value="{!policyEndorsement.Policy_Lawyer__c }" id="lawyer">
+                                                <apex:SelectOptions value="{!LawyersList}"/>
+                                            </apex:selectList>
+                                        </apex:pageBlockSection>
+                                    </apex:pageBlock>
+                                </div>
+                                <div class="slds-size--12-of-12  slds-theme--shade" >
+                                    <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Additional Information</h2>
+                                </div>
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12"  >
+                                    <apex:pageBlock id="pb2">
+                                        <apex:pageBlockSection columns="2" showHeader="false" id="pbs2" rendered="{!NOT(singleColumnLayout)}">
+                                            <apex:repeat value="{!fields}" var="AI">
+                                                <apex:inputField value="{!policyEndorsement[AI.fieldPath]}" required="{!OR(AI.required, AI.dbrequired)}" styleClass="slds-input " rendered="{!AI.Type != 'reference'}"/>
+                                                <apex:inputField value="{!policyEndorsement[AI.fieldPath]}" required="{!OR(AI.required, AI.dbrequired)}" styleClass="lookupFieldIcon" rendered="{!AI.Type == 'reference'}" style="width:90%"/> 
+                                            </apex:repeat>
+                                        </apex:pageBlockSection>
+                                        <apex:pageBlockSection columns="1" showHeader="false" id="pbs22" rendered="{!singleColumnLayout}">
+                                            <apex:repeat value="{!fields}" var="AI">
+                                                <apex:inputField value="{!policyEndorsement[AI.fieldPath]}" required="{!OR(AI.required, AI.dbrequired)}" styleClass="slds-input " rendered="{!AI.Type != 'reference'}"/>
+                                                <apex:inputField value="{!policyEndorsement[AI.fieldPath]}" required="{!OR(AI.required, AI.dbrequired)}" styleClass="lookupFieldIcon" rendered="{!AI.Type == 'reference'}" style="width:90%"/> 
+                                            </apex:repeat>
+                                        </apex:pageBlockSection>
+                                    </apex:pageBlock>
+                                </div>
+                                
+                                <div class="slds-size--12-of-12  slds-theme--shade" style="{!if(additionalPremiumSection,'display:block;','display:none;')}">
+                                    <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Premium Information</h2>
+                                </div>
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12"  style="{!if(additionalPremiumSection,'display:block;','display:none;')}">
+                                    <apex:pageBlock id="pb3">
+                                        <apex:pageBlockSection columns="2" showHeader="false" id="pbs2" rendered="{!NOT(singleColumnLayout)}">
+                                            <apex:outputText styleClass="slds-input" id="yearsInsured" value="{!policyYears}"  label="Years Insured" rendered="{!isIL107}"/>
+                                            <apex:outputText styleClass="slds-input" id="originalPremium" value="{!policyEndorsement.policy__r.Original_Premium__c}"  label="Original Premium" rendered="{!isIL107}"/>
+                                            <!--<apex:outputText styleClass="slds-input" id="IL106Value" value="{!IL106Value}"  label="IL 106 Value" rendered="{!isIL107}"/>-->
+                                            <!--<apex:outputText styleClass="slds-input" id="IL106Value" value="{!IL106Value}"  label="IL 106 Value" rendered="{!AND(isIL107,has106)}"/>
+                                             <apex:inputText styleClass="slds-input" id="IL106ValueEdit" value="{!policyEndorsement.IL_107_Multiplier__c    }"  label="IL 106 Value" rendered="{!AND(isIL107,NOT(has106))}"/> -->
+                                            <apex:outputText styleClass="slds-input" id="term" value="{!ROUND(term,4)}"  label="Term" rendered="{!isIL190}"/>
+                                            <apex:outputText styleClass="slds-input" id="premium" value="{0, Number, Currency}"  label="Premium" >
+                                                <apex:param value="{!premium}"></apex:param>
+                                            </apex:outputText>
+                                            <apex:outputText styleClass="slds-input" id="primary" value="{0, Number, Currency}"  label="Primary" rendered="{!isIL107}">
+                                                <apex:param value="{!primary}"></apex:param>
+                                            </apex:outputText>
+                                            <apex:outputText styleClass="slds-input" id="excess" value="{0, Number, Currency}"  label="Excess" rendered="{!isIL107}">
+                                                <apex:param value="{!excess}"></apex:param>
+                                            </apex:outputText>
+                                            <apex:outputText styleClass="slds-input" id="p5_5" value="{0, Number, Currency}"  label="5x5" rendered="{!isIL107}">
+                                                <apex:param value="{!x5x5}"></apex:param>
+                                            </apex:outputText>
+                                            <apex:outputText styleClass="slds-input" id="p10_10" value="{0, Number, Currency}"  label="10x10" rendered="{!isIL107}">
+                                                <apex:param value="{!x10x10}"></apex:param>
+                                            </apex:outputText>
+                                        </apex:pageBlockSection>
+                                        <button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndEndorsement('premiumCalculation'); return false;" style="margin-top: 12px !important;float:right;">Calculate Premium</button>
+                                    </apex:pageBlock>
+                                </div>
+                                
+                                <div class="slds-size--12-of-12  slds-theme--shade" style="{!if(termEndorsement,'display:block;','display:none;')}">
+                                    <h2 style="background-color: #337AB7;color:white;" class="slds-section-title slds-theme--shade slds-p-left--small">Policy Endorsement Terms</h2>
+                                </div>
+                                <div class="slds-size--12-of-12"  style="{!if(termEndorsement,'display:block;','display:none;')}">
+                                    <apex:variable value="{!0}" var="i"/>
+                                    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                                        <thead>
+                                            <tr class="slds-text-title--caps">
+                                                <th scope="col">
+                                                    <div class="slds-truncate" title="Action">Action</div>
+                                                </th>
+                                                <!--<th scope="col">
+                                                    <div class="slds-truncate" title="Attorney">Attorney</div>
+                                                </th>-->
+                                                <th scope="col">
+                                                    <div class="slds-truncate" title="Firm / Entity">Firm / Entity</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="slds-truncate" title="Term Start Date">Term Start Date</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="slds-truncate" title="Term End Date">Term End Date</div>
+                                                </th> 
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <apex:variable value="{!0}" var="index"/>
+                                            
+                                            <apex:repeat value="{!termList}" var="modalObj" id="tbl">
+                                                <tr>
+                                                    <th>
+                                                        
+                                                        <apex:commandLink onclick="$('[id$=spinner]').css('display','block');removeTermRow({!index});return false;" value="Remove"/>
+                                                    </th>
+                                                    <!--<td data-label="Attorney">
+                                                        <div class="slds-truncate" title="Attorney">
+                                                            <apex:inputField value="{!modalObj.Attorney__c}" styleClass="slds-input accountRequired" required="true"/>
+                                                        </div>
+                                                    </td>-->
+                                                    <td data-label="Firm / Entity">
+                                                        <div class="slds-truncate" title="Firm / Entity">
+                                                            <apex:inputField value="{!modalObj.Firm_Entity__c}" styleClass="slds-input accountRequired" required="true"/>
+                                                        </div>
+                                                    </td>
+                                                    <td data-label="Term Start Date">
+                                                        <div class="slds-truncate" title="Term Start Date">
+                                                            <apex:inputField value="{!modalObj.Term_Start_Date__c}" onkeydown="autoFormat(this)" styleClass="slds-input accountRequired" required="true"/>
+                                                        </div>
+                                                    </td>
+                                                    <td data-label="Term End Date">
+                                                        <div class="slds-truncate" title="Term End Date">
+                                                            <apex:inputField value="{!modalObj.Term_End_Date__c}" onkeydown="autoFormat(this)" styleClass="slds-input accountRequired" required="true"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <apex:variable value="{!index+1}" var="index"/>
+                                            </apex:repeat>             
+                                            <apex:variable value="{!0}" var="index"/>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="slds-size--1-of-6"  style="{!if(termEndorsement,'display:block;','display:none;')}">
+                                    
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Add New Row" class="slds-button slds-m-around--x-small"  onclick="addRow();return false;"/>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="slds-docked-form-footer">
+                    <button type="button" class="slds-button slds-button--neutral" onclick="window.location.href='{!returnURL}'" style="{!if(fromPage == 'ManageEndorsements','display:none;','')}">Cancel</button> &nbsp;
+                    <button type="button" class="slds-button slds-button--neutral" onclick="parent.removeEndorsement({!manageIndex},'{!policyEndorsement.Id}');" style="{!if(canRemoved,'','display:none;')}">Remove</button> &nbsp;
+                    <!--<apex:commandButton value="Save & Add New" action="{!saveAndNew}" styleclass="slds-button slds-button--brand"/>-->
+                    <apex:commandButton value="Save" action="{!save}" styleclass="slds-button slds-button--brand" onclick="$('[id$=spinner]').css('display','block')"/> &nbsp;
+                    <button type="button" class="slds-button slds-button--neutral" onclick="parent.window.location.href='{!returnURL}'" style="{!if(fromPage == 'ManageEndorsements','','display:none;')}">Close</button>
+                    <!--<button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');validateAndEndorsement('saveEndorsement'); return false;">Save</button> -->
+                </div>
+            </apex:form>
+        </body>
+    </html>
+</apex:page>

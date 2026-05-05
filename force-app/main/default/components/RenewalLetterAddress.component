@@ -1,0 +1,62 @@
+<apex:component controller="RegularRenewalDoc_Ctrl">
+    
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+    <table style="width:100%; padding-top: 10px;">
+        <tr>
+            <td class="colorGray" style="" >
+                <apex:outputText value="{0,date,MMMM d, yyyy}"> 
+                    <!--<apex:param value="{!policy.Effective_Date__c}" /> -->
+                    <apex:param value="{!TODAY()}" />
+                </apex:outputText>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <table cellpadding="0" style="width:100%;">
+        <tr>
+            <td class="tableDataLeft" style="">
+                <b><span class="b"><apex:outputText value="{!policy.Firm_Contact__r.Name}" /></span></b>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="">
+                <apex:outputText value="{!policy.Account__r.Name}" />
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="">
+                <apex:outputText value="{!policy.Account__r.BillingStreet}" />
+            </td>
+        </tr>
+        <tr>
+            <td class="tableDataLeft" style="">
+                <apex:outputText value="{!policy.Account__r.BillingCity} {!policy.Account__r.BillingState} {!policy.Account__r.BillingPostalCode}" />
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <table style="width:100%;" >
+        <tr>
+            <td style="width:5%;"></td>
+            <td class="tableDataLeft colorDarkGray" valign="top" style="width:6%;">
+                <b>Re: </b>
+            </td>
+            <td class="tableDataLeft colorDarkGray" style="color: black; font-weight: bold; width:89%; font-size: 16px;">
+                
+                    Lawyers’ Malpractice Insurance Coverage
+                    <br/>
+                    Policy Number : {!policy.Name}
+                    <br/>
+                    Policy Term : &nbsp; 
+                    <apex:outputText value="{0,date,M/d/yyyy}"> 
+                        <apex:param value="{!policy.Effective_Date__c}" /> 
+                    </apex:outputText>
+                     to&nbsp;
+                    <apex:outputText value="{0,date,M/d/yyyy}"> 
+                        <apex:param value="{!expirationDate}" /> 
+                    </apex:outputText>
+            </td>
+        </tr>            
+    </table>
+</apex:component>

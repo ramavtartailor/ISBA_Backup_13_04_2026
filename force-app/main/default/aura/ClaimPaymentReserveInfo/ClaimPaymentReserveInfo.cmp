@@ -1,0 +1,85 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes" controller="QuickClaimController">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="claim" type="Policy_Claim__c" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <div class="slds-theme--shade slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            
+            <div class="slds-card__header slds-grid ">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <h2 id="header_1420:0" >
+                        <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Payments/ Reserves">
+                            <b>Payments/ Reserves</b> 
+                        </span>
+                    </h2>
+            </header>
+        </div>
+            
+            <table class="slds-theme--shade" width="100%">
+                <tr>
+                    <th width="20%" style="padding:10px;"></th>
+                    <th width="20%" style="text-align: right; padding-right: 5px;">Loss</th>
+                    <th width="20%" style="text-align: right; padding-right: 5px;">LAE</th>
+                    <th width="20%" style="text-align: right; padding-right: 5px;">ARDC</th>
+                    <th width="20%" style="text-align: right; padding-right: 5px;">Coverage</th>
+                </tr>
+                <tr style="border-top-style: solid;">
+                    <td style="padding:10px;">
+                        <b>Unpaid Reserves</b>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5010__c)}" minimumFractionDigits ="2"/><!--  style="currency" currencyCode="USD" -->
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5035__c)}" minimumFractionDigits ="2"/><!--  style="currency" currencyCode="USD" -->
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        &nbsp;
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        &nbsp;
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td style="padding:10px;">
+                        <b>Payment</b>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5000__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5030__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5060__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5050__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    
+                </tr>
+                <tr style="border-top-style: solid;">
+                    <td style="padding:10px;">
+                        <b>Incurred Reserves</b>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5010__c) + (v.claim.GL_5000__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5035__c) + (v.claim.GL_5030__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5060__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                    <td style="text-align: right; padding-right: 5px;">
+                        <lightning:formattedNumber value="{!(v.claim.GL_5050__c)}" minimumFractionDigits ="2"/>
+                    </td>
+                </tr>
+            </table>
+        </div> 
+    </div>
+</aura:component>

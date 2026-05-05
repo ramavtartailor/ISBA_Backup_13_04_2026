@@ -1,0 +1,315 @@
+<apex:page controller="DocumentBundleVF_Ctrl"  renderAs="pdf" applyBodyTag="false" readOnly="true">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <body>
+        <apex:variable var="count" value="{!1}"   />
+        <apex:repeat value="{!documentsList}" var="docsId" id="theRepeat">
+            
+            
+            <div class="header" style="margin-top:50px;">
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Endorsement',true,false)}">
+                    <c:PolicyHeader recordIdParam="{!docsId.recordId}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF((docsId.typeOfDocument == 'Quote'),true,false)}">
+                    <c:QuoteHeader recordIdParam="{!docsId.recordId}"/>
+                </apex:outputPanel>
+                
+                <apex:outputPanel rendered="{!IF((docsId.typeOfDocument == 'Terms Of Service'),true,false)}">
+                    <c:PolicyHeader recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'NAS EOC',true,false)}">
+                    <div>
+                        <p style="text-align:center;color:#000000;font-family: sans-serif;">
+                            <span style="font-weight: bold;font-size: 20px;">
+                                e-JD® Cyber Liability Insurance<br/>
+                                EVIDENCE OF COVERAGE<br/>
+                            </span>
+                            <span style="font-size: 18px;">
+                                (CLAIMS-MADE AND REPORTED BASIS)
+                            </span>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(OR(docsId.typeOfDocument == 'Endorsement', docsId.typeOfDocument == 'NAS EOC',docsId.typeOfDocument == 'Quote',docsId.typeOfDocument == 'Terms Of Service'),false,true)}">
+                    <c:PolicyHeader recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+            </div>
+            
+            
+            
+            <div class="footer" style="width:100%">
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Declaration Page',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                                Dec 10/2015
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                                ISBAMIC Dec 01 2018
+                            </apex:outputPanel>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Certification Of Insurance',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'NAS EOC',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Policy Letter',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            &nbsp;
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Terms Of Service',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            &nbsp;
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(OR(docsId.typeOfDocument == 'Payment Options',docsId.typeOfDocument == 'Authorization Form'),true,false)}">
+                    <div style="width:75%;float:left">
+                        <div style="width:45%;float:left">
+                            <p class="normalParagraph" color="maroon">
+                                ISBA Mutual Insurance Company<br/>
+                                20 S Clark St, Suite 800<br/>
+                                Chicago IL 60603-1826
+                            </p>
+                        </div>
+                        <div style="width:55%;float:left">
+                            <p class="normalParagraph">
+                                <span style="color:#8b2332;">Return This Page to ISBA Mutual by Fax or Mail</span><br/><br/>
+                                <span class="normalBoldParagraph" >FAX: (312) 379-2049</span>
+                            </p>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Quote',true,false)}">
+                    <div style="width:75%;float:left">
+                        <div style="width:45%;float:left">
+                            <p class="normalParagraph">
+                                ISBA Mutual Insurance Company<br/>
+                                20 S Clark St, Suite 800<br/>
+                                Chicago IL 60603-1826
+                            </p>
+                        </div>
+                        <div style="width:55%;float:left">
+                            <p class="normalParagraph">
+                                <span style="color:#8b2332;">Return This Page to ISBA Mutual by Fax or Mail</span><br/><br/>
+                                <span class="normalBoldParagraph" >FAX: (312) 379-2049</span>
+                            </p>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Endorsement',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF(docsId.endorsement.Endorsement_Version__c == '1/15',true,false)}">
+                                <apex:outputText value="{!docsId.endorsement.Endorsement_Number__c}" /> (<apex:outputText value="{!docsId.endorsement.Endorsement_Version__c}" />)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(docsId.endorsement.Endorsement_Version__c == '6/15',true,false)}">
+                                <apex:outputText value="{!docsId.endorsement.Endorsement_Number__c}" /> (<apex:outputText value="{!docsId.endorsement.Endorsement_Version__c}" />)
+                            </apex:outputPanel>
+                            <!--<apex:outputPanel rendered="{!IF(docsId.endorsement.Endorsement_Version__c == '1/18',true,false)}">
+                                ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(docsId.endorsement.Endorsement_Number__c,'IL ','')}" />&nbsp; 01 2018
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(docsId.endorsement.Endorsement_Version__c == '6/18',true,false)}">
+                                ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(docsId.endorsement.Endorsement_Number__c,'IL ','')}" />&nbsp; 06 2018
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(docsId.endorsement.Endorsement_Version__c == '9/18',true,false)}">
+                                ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(docsId.endorsement.Endorsement_Number__c,'IL ','')}" />&nbsp; 09 2018
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(docsId.endorsement.Endorsement_Version__c == '10/19',true,false)}">
+                                ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(docsId.endorsement.Endorsement_Number__c,'IL ','')}" />&nbsp; 10 2019
+                            </apex:outputPanel>-->
+                            <apex:outputPanel rendered="{!IF(OR(docsId.endorsement.Endorsement_Version__c == '1/15',docsId.endorsement.Endorsement_Version__c == '6/15'),false,true)}">
+                                ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE(docsId.endorsement.Endorsement_Number__c,'IL ','')}" />
+                                {!RIGHT(TEXT(VALUE(LEFT(docsId.endorsement.Endorsement_Version__c , FIND('/',docsId.endorsement.Endorsement_Version__c)-1 ))+100),2)}
+                                20{!RIGHT(docsId.endorsement.Endorsement_Version__c , LEN(docsId.endorsement.Endorsement_Version__c) - FIND('/',docsId.endorsement.Endorsement_Version__c) )}
+                            </apex:outputPanel>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 102 Prior Acts Exclusion Endorsement',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                                IL 102 (1/15)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                                ISBAMIC 102 01 2018
+                            </apex:outputPanel>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 230 Annual Aggregate Deductible Endorsement',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                                IL 230 (1/15)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                                ISBAMIC 230 01 2018
+                            </apex:outputPanel>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 234 Loss Only Deductible Endorsement',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                                IL 234 (1/15)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                                ISBAMIC 234 01 2018
+                            </apex:outputPanel>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 261 Claim Expenses Outside the Policy Limits Endorsement',true,false)}">
+                    <div style="width:75%;float:left">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                                IL 261 (1/15)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                                ISBAMIC 261 01 2018
+                            </apex:outputPanel>
+                        </p>
+                    </div>
+                </apex:outputPanel>
+                <div style="width:25%;float:right">
+                    <c:AuthorisedSigntoryComponent rendered="{!IF(OR(docsId.typeOfDocument == 'Endorsement',docsId.typeOfDocument == 'IL 102 Prior Acts Exclusion Endorsement',docsId.typeOfDocument == 'IL 230 Annual Aggregate Deductible Endorsement',docsId.typeOfDocument == 'IL 234 Loss Only Deductible Endorsement',docsId.typeOfDocument == 'IL 261 Claim Expenses Outside the Policy Limits Endorsement'),true,false)}">
+                    </c:AuthorisedSigntoryComponent>
+                    <!-- <p style="text-align:right;" class="normalParagraph">
+                        Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                    </p>-->
+                </div>
+            </div>
+            <div class="content">
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Declaration Page',true,false)}">
+                    <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                        <c:Declaration_Page_Template recordIdParam="{!policyApplicationId}"/>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                        <c:Declaration_Page_Template_1_18 recordIdParam="{!policyApplicationId}"/>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Certification Of Insurance',true,false)}">
+                    <c:CERTIFICATION_OF_INSURANCE_Template recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'NAS EOC',true,false)}">
+                    <c:NAS_EOC_Template recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Policy Letter',true,false)}">
+                     <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',true,false)}">
+                         <c:Policy_Letter_Template recordIdParam="{!policyApplicationId}"/>
+                     </apex:outputPanel>
+                     <apex:outputPanel rendered="{!IF(policy.Policy_Document_Version__c == '1/15',false,true)}">
+                         <c:Policy_Letter_Template_1_18 recordIdParam="{!policyApplicationId}"/>
+                     </apex:outputPanel>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Terms Of Service',true,false)}">
+                    <c:Terms_Of_Service_Template recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Authorization Form',true,false)}">
+                    <c:AuthorizationForm recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Payment Options',true,false)}">
+                    <c:PaymentOptions recordIdParam="{!policyApplicationId}"/>
+                </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Quote',true,false)}">
+                    <c:Quote_Template recordIdParam="{!docsId.recordId}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 102 Prior Acts Exclusion Endorsement',true,false)}">
+                    <c:IL102 recordIdParam="{!policyApplicationId}" versionParam="{!policy.Policy_Document_Version__c}" />
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 230 Annual Aggregate Deductible Endorsement',true,false)}">
+                    <c:IL230 recordIdParam="{!policyApplicationId}" versionParam="{!policy.Policy_Document_Version__c}" />
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 234 Loss Only Deductible Endorsement',true,false)}">
+                    <c:IL234 recordIdParam="{!policyApplicationId}" versionParam="{!policy.Policy_Document_Version__c}" />
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'IL 261 Claim Expenses Outside the Policy Limits Endorsement',true,false)}">
+                    <c:IL261 recordIdParam="{!policyApplicationId}" versionParam="{!policy.Policy_Document_Version__c}" />
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(docsId.typeOfDocument == 'Endorsement',true,false)}">
+                    <c:IL106 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 106',true,false)}"/>
+                    <c:IL104 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 104',true,false)}"/>
+                    <c:IL110 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 110',true,false)}"/>
+                    <c:IL115 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 115',true,false)}"/>
+                    <c:IL150 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 150',true,false)}"/>
+                    <c:IL161 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 161',true,false)}"/>
+                    <c:IL162 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 162',true,false)}"/>
+                    <c:IL163 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 163',true,false)}"/>
+                    <c:IL168 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 168',true,false)}"/>
+                    <c:IL169 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 169',true,false)}"/>
+                    <c:IL169A recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 169A',true,false)}"/>
+                    <c:IL167 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 167',true,false)}"/>
+                    <c:IL160 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 160',true,false)}"/>
+                    <c:IL171 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 171',true,false)}"/>
+                    <c:IL178 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 178',true,false)}"/>
+                    <c:IL179 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 179',true,false)}"/>
+                    <c:IL172 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 172',true,false)}"/>
+                    <c:IL173 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 173',true,false)}"/>
+                    <c:IL174 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 174',true,false)}"/>
+                    <c:IL174A recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 174A',true,false)}"/>
+                    <c:IL175 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 175',true,false)}"/>
+                    <c:IL190 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 190',true,false)}"/>
+                    <c:IL153 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 153',true,false)}"/>
+                    <c:IL191 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 191',true,false)}"/>
+                    <c:IL230 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 230',true,false)}"/>
+                    <c:IL232 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 232',true,false)}"/>
+                    <c:IL245 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 245',true,false)}"/>
+                    <c:IL234 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 234',true,false)}"/>
+                    <c:IL101A recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 101A',true,false)}"/>
+                    <c:IL101B recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 101B',true,false)}"/>
+                    <c:IL177 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 177',true,false)}"/>
+                    <c:IL107 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 107',true,false)}"/>
+                    <c:IL102 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 102',true,false)}"/>
+                    <c:IL152 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 152',true,false)}"/>
+                    <c:IL151 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 151',true,false)}"/>
+                    <c:IL176 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 176',true,false)}"/>
+                    <c:IL176A recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 176A',true,false)}"/>
+                    <c:IL200 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 200',true,false)}"/>
+                    <c:IL246 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 246',true,false)}"/>
+                    <c:IL251 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 251',true,false)}"/>
+                    <c:IL250 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 250',true,false)}"/>
+                    <c:IL247 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 247',true,false)}"/>
+                    <c:IL252 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 252',true,false)}"/>
+                    <c:IL210 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 210',true,false)}"/>
+                    <c:IL130 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 130',true,false)}"/>
+                    <c:IL248 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 248',true,false)}"/>
+                    <c:IL249 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 249',true,false)}"/>
+                    <c:IL107B recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 107B',true,false)}"/>
+                    <c:IL107C recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 107C',true,false)}"/>
+                    <c:IL107D recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 107D',true,false)}"/>
+                    <c:IL151A recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 151A',true,false)}"/>
+                    <c:IL260 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 260',true,false)}"/>
+                    <c:IL301 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 301',true,false)}"/>
+                    <c:IL302 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 302',true,false)}"/>
+                    <c:IL303 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 303',true,false)}"/>
+                    <c:IL120 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 120',true,false)}"/>
+                    <c:IL261 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 261',true,false)}"/>
+                    <c:IL262 recordIdParam="{!docsId.recordId}" versionParam="{!docsId.endorsement.Endorsement_Version__c}" rendered="{!IF(docsId.endorsement.Endorsement_Number__c=='IL 262',true,false)}"/>
+                    &nbsp;
+                </apex:outputPanel>
+            </div>
+            <apex:outputPanel rendered="{!IF(count == documentsList.size,false,true)}">
+                <div style="page-break-after: always;">
+                </div>
+            </apex:outputPanel>
+            <apex:variable value="{!count+1}" var="count"/>
+        </apex:repeat>
+    </body>
+</apex:page>

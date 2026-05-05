@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ERE_Months__c</fullName>
+    <description>This will calculate the number of months between the between policy expiration date and ere expiration date.</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK(ERE_Expiration_Date__c)) &amp;&amp; NOT(ISBLANK(Policy_Expiration_Date__c))
+     ,(((YEAR(ERE_Expiration_Date__c) - YEAR(Policy_Expiration_Date__c) - 1) *12) + (12 - MONTH(Policy_Expiration_Date__c) +1) + MONTH(ERE_Expiration_Date__c))
+     , null
+) - 1</formula>
+    <label>ERE Months</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

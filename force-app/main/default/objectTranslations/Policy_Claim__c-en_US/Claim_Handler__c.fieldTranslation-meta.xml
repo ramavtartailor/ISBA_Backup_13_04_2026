@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Claim Handler --></label>
+    <name>Claim_Handler__c</name>
+    <picklistValues>
+        <masterLabel>Bernardini, Viviana</masterLabel>
+        <translation><!-- Bernardini, Viviana --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cap, Marcy</masterLabel>
+        <translation><!-- Cap, Marcy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Craig, Tori</masterLabel>
+        <translation><!-- Craig, Tori --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fox, Amy</masterLabel>
+        <translation><!-- Fox, Amy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hendrickson, J.</masterLabel>
+        <translation><!-- Hendrickson, J. --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jaskula, Anne</masterLabel>
+        <translation><!-- Jaskula, Anne --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kreide, Cyndi</masterLabel>
+        <translation><!-- Kreide, Cyndi --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kroeger, Karrieann</masterLabel>
+        <translation><!-- Kroeger, Karrieann --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Krulac, Sherm</masterLabel>
+        <translation><!-- Krulac, Sherm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kruse, Corinne</masterLabel>
+        <translation><!-- Kruse, Corinne --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Neil.Bergeron</masterLabel>
+        <translation><!-- Neil.Bergeron --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Roble, Mike</masterLabel>
+        <translation><!-- Roble, Mike --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Shores, Joe</masterLabel>
+        <translation><!-- Shores, Joe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Speulda, Sue</masterLabel>
+        <translation><!-- Speulda, Sue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Stevenson, Ian</masterLabel>
+        <translation><!-- Stevenson, Ian --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Thar, Anne</masterLabel>
+        <translation><!-- Thar, Anne --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tony Abellera</masterLabel>
+        <translation><!-- Tony Abellera --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Walker, Carla</masterLabel>
+        <translation><!-- Walker, Carla --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Witten, Wendy</masterLabel>
+        <translation><!-- Witten, Wendy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wyatt-Vit, K.</masterLabel>
+        <translation><!-- Wyatt-Vit, K. --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>candice.goldstein</masterLabel>
+        <translation><!-- candice.goldstein --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>cinda.berry</masterLabel>
+        <translation><!-- cinda.berry --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>jordan.zelman</masterLabel>
+        <translation><!-- jordan.zelman --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>lisa.garbaty</masterLabel>
+        <translation><!-- lisa.garbaty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>melissa.kaplan</masterLabel>
+        <translation><!-- melissa.kaplan --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>mosea.harris</masterLabel>
+        <translation><!-- mosea.harris --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

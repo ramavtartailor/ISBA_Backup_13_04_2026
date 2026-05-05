@@ -1,0 +1,163 @@
+<apex:page renderAs="pdf" applyBodyTag="false" readOnly="true" contentType="application/pdf">
+    
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+  <head>
+  
+      <style>
+      @page {
+            size:portrait;
+            margin-left: 0.8cm;
+            margin-right: 0.8cm;
+            margin-top: 0.8cm;
+            margin-bottom: 1cm;
+      }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);               
+            }
+            .pagenumber:before {
+                content: counter(page);            
+            }
+      
+            body {
+              font-size: 8pt;
+            }
+      		.pc { 
+      			color: #89001b;
+      			font-weight: bold;
+      		}
+      		.c { text-align: center; }
+    		.u { }
+      		.b { font-weight: bold; }
+    		
+            .div_pad {
+            	padding-top: 5px;
+                padding-bottom: 5px;
+        	}
+      
+            .table_border { border-collapse: collapse; width: 100%; }
+            .table_border, .table_border th, .table_border td { border: 2px solid #ededed; }
+            .table_spacing td {
+              padding-left: 7px;
+              padding-top: 3px;
+              padding-bottom: 3px;
+            }
+      
+      		#discipline_table_questions th, #discipline_table_questions td {
+      			border: 0px solid white;
+      			padding: 2px;
+       		}
+      
+            .table_title { 
+        		background-color: #89001b;
+        		color: white;
+        		font-weight: bold;
+      			font-size: 14px;
+      			padding-top: 3px !important;
+                padding-bottom: 3px !important;
+    		}
+            
+            .sc_header {
+            	background-color: #B7BBB6;
+                color: black;
+            }
+            .sc_header th {
+      			font-weight: bold;
+      			padding-top: 5px !important;
+                padding-bottom: 5px !important;
+                font-weight: normal !important;
+            }
+      
+      		
+      		.table_head tr th {
+                text-align: center;
+            }
+      
+            #quote_table {
+                font-size: 12px;
+            }
+            #quote_table td {
+      			padding: 6px;
+            }
+            #quote_table td:nth-child(1) {
+              text-align: center;
+            }
+            
+            #lawyer_table td {
+      			padding: 6px;
+            }
+      
+            #discipline_table {
+        		font-size: 12px;
+       		}
+      
+      		.fs-12px {
+      			font-size: 12px;
+      		}
+      
+      		.pad6 td {
+      			padding: 6px;
+      		}
+      
+      		.th_pad th {
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+      
+      		.question_table td {
+              padding: 5px;
+              padding-right: 10px !important;
+            }
+	        
+            .cb {
+                height: 9px;
+      			width: 9px;
+      			border: 1px solid black;
+      			float: left;
+                margin-top: 2px;
+      			margin-right: 4px;
+            }
+            .cb_yes {
+                padding-right: 15px;    
+		        float: left;
+            }
+            .yn_pad {
+      			padding-left: 15px !important;
+      		}
+      
+		    tr.page-break  { display: block; page-break-before: always; }
+      
+      		.no_td_border {
+      			border-left: 0px solid white !important;
+      			border-top: 0px; solid white !important;
+      			border-right: 0px solid white !important;
+      			border-bottom: 0px solid white !important;
+      		}
+      
+  </style>
+  </head>
+    
+    <body>
+	    <c:LawyersSupplement recordIdParam="{!$CurrentPage.parameters.Id}" />        
+    </body>
+
+</apex:page>

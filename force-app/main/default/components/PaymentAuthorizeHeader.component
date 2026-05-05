@@ -1,0 +1,16 @@
+<apex:component >
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    
+    <table style="width:100%;">
+        <tr>
+            <td style="width:55%;" class="tableDataLeft">
+                <apex:image url="{!$Resource.ISBA_Logo}" width="250" height="80"/>
+            </td>
+            <td style="width:45%;" class="tableDataRight">
+                <b>
+                    Payment Options and Authorization
+                </b>
+            </td>
+        </tr>
+    </table>
+</apex:component>

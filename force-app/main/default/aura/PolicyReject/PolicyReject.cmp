@@ -1,0 +1,20 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="PolicyEndorsReject">
+	
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="msg" type="String" />
+    <aura:attribute name="objPolicyEndorse" type="Policy_Endorsement__c" />    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div aura:id="confirmBox">
+        Are you sure you want to Delete ? <br/>
+        <ui:button press="{!c.approve}" label="Yes"/>
+        <ui:button press="{!c.hideConfirmBox}" label="No"/>
+    </div>
+    
+    <div aura:id="errorMsg" class="hide">
+    	<p><br/><br/><b></b></p>
+        <ui:outputText value="{!v.msg}" />
+        <ui:button press="{!c.hideConfirmBox}" label="Back"/>
+    </div>
+    
+</aura:component>

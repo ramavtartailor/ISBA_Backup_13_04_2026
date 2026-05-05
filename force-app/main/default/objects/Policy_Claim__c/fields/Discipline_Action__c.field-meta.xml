@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discipline_Action__c</fullName>
+    <inlineHelpText>None = Memo / Discipline action is not decided so far In case of ARDC Complaint. 
+No = ISBA will contribute in case of ARDC Complaint.
+Yes = Lawyer will contribute in case of ARDC Complaint.</inlineHelpText>
+    <label>Discipline Action</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No action</fullName>
+                <default>false</default>
+                <label>No action</label>
+            </value>
+            <value>
+                <fullName>Sanctioned</fullName>
+                <default>false</default>
+                <label>Sanctioned</label>
+            </value>
+            <value>
+                <fullName>Reprimanded</fullName>
+                <default>false</default>
+                <label>Reprimanded</label>
+            </value>
+            <value>
+                <fullName>Suspended</fullName>
+                <default>false</default>
+                <label>Suspended</label>
+            </value>
+            <value>
+                <fullName>Disbarred</fullName>
+                <default>false</default>
+                <label>Disbarred</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

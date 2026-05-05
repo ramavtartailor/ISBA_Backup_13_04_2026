@@ -1,0 +1,17 @@
+.THIS .header{
+    position: relative;
+}
+
+.THIS .leftHeadSection{
+    text-align: left;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.THIS .heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3.5rem;
+}

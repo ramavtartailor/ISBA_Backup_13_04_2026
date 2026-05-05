@@ -1,0 +1,12 @@
+.THIS .slds-modal__container{
+    max-width: 70rem !important;
+    width:80% !important;
+}
+
+.THIS .slds-form-element__label{
+    display:none;
+}
+
+.THIS .minimumElementHeight{
+    min-height: 52px;
+}

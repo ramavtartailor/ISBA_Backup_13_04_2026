@@ -1,0 +1,118 @@
+<apex:page sidebar="false" showHeader="false" renderAs="pdf">
+  <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <body>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:20%;" class="tableDataLeft">
+                    <apex:image url="{!$Resource.ISBA_Logo}" width="250" height="100"/>
+                </td>
+                <td style="width:80%;vertical-align:bottom;" class="tableDataRight">
+                    <p>
+                       <b> Lawyers Supplemental Application </b> 
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p style=""><center>
+        <b>
+            Lawyers Supplemental Application
+        </b></center>
+        </p>
+        <p style="padding:10px;">
+            Please complete the following for each attorney in the Firm, FOR WHOM COVERAGE IS DESIRED, including independent contractors and Of Counsel lawyers. If you are a sole practitioner, your
+information must be listed.
+        </p>
+        <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:10%;padding:10px;">
+               &nbsp; 
+            </td>
+            <td style="width:45%;padding:10px;">
+               <b>Insured Name:</b> &nbsp;&nbsp;  «firmName» 
+                
+            </td>
+            <td style="width:45%;padding:10px;">
+               <b>Policy No:</b>  &nbsp;&nbsp; «policyNumber»
+
+ 
+            </td>
+        </tr>
+        </table>
+        <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <th align="center">
+                Attorney Name/<br/>email Address
+            </th>
+            <th align="center">
+                ISBA Member <br/>Number
+            </th>
+            <th align="center">
+                ARDC Number<br/>(3)
+            </th>
+            <th align="center">
+                O, OF, D,
+                <br/>P, OC, E,
+                <br/>IC (1)
+            </th>
+            <th align="center">
+                Date<br/>
+                Admitted to<br/>
+                ILLINOIS Bar<br/>
+                MM/DD/YY<br/>
+            </th>
+            <th align="center">
+                Date Private<br/>
+                Practice<br/>
+                Started<br/>
+                MM/DD/YY (2)<br/>
+            </th>
+            <th align="center">
+                Date Joined<br/>
+                Insured<br/>
+                MM/DD/YY<br/>
+            </th>
+            <th align="center">
+                Lawyer’s<br/>
+                Individual Prior<br/>
+                Acts Exclusion<br/>
+                Date<br/>
+                MM/DD/YY<br/>
+            </th>
+            <th align="center">
+                # hours per<br/>
+                year worked for<br/>
+                Insured<br/>
+            </th>
+        </tr>
+        <tr>
+            <td>
+               test Name 
+            </td>
+            <td>
+               256499 
+            </td>
+            <td>
+               6309473
+            </td>
+            <td>
+               E
+            </td>
+            <td>
+              On File 
+            </td>
+            <td>
+               On File
+            </td>
+            <td>
+               On File
+            </td>
+            <td>
+               05/11/16
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+        </table>
+     </body>
+</apex:page>

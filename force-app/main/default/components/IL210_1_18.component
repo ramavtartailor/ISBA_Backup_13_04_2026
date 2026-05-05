@@ -1,0 +1,284 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Separately Owned Title Agency or Title Company Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is understood that this Policy is amended to include the following:<br/><br/>
+        The<span class="normalBoldParagraph"> Company </span>will pay<span class="normalBoldParagraph"> Damages </span>and<span class="normalBoldParagraph"> Claim Expenses </span>for a<span class="normalBoldParagraph"> Claim </span>made against:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    1.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    the<span class="normalBoldParagraph"> Title Insurance Agency </span>for an actual or alleged<span class="normalBoldParagraph"> Wrongful Act </span>occurring on or after the<span class="normalBoldParagraph"> Title Insurance Agency Prior Acts Date. </span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    2.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    any<span class="normalBoldParagraph"> Title Insured </span>for an actual or alleged<span class="normalBoldParagraph"> Wrongful Act </span>on behalf of the<span class="normalBoldParagraph"> Title Insurance Agency, </span>occurring on or after the<span class="normalBoldParagraph"> Title Insurance Agency Prior Acts Date, </span>and occurring on or after the<span class="normalBoldParagraph"> Title Insured’s Prior Acts Date </span>if the<span class="normalBoldParagraph"> Title Insured </span>has been assigned a<span class="normalBoldParagraph"> Prior Acts Date </span>under a current or prior policy issued to the<span class="normalBoldParagraph"> Named Insured </span>or its<span class="normalBoldParagraph"> Predecessor Firm. </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <br/>
+    <p class="normalParagraph">
+        The<span class="normalBoldParagraph"> Title Insurance Agency </span>and<span class="normalBoldParagraph"> Title Insurance Agency Prior Acts Date </span>are the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <span class="normalBoldParagraph"> Title Insurance Agency </span>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <span class="normalBoldParagraph"> Title Insurance Agency Prior Acts Date </span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputField value="{!endorsement.Title_Insurance_Agency__c}"/>
+                </p>
+            </td>
+            <td style="width:50%;" class="tableDataCenter">
+                <p class="normalParagraph tableDataCenter">
+                    <apex:outputText value="{0,date,MMMM dd,yyyy}"> <apex:param value="{!endorsement.Prior_Act_Date__c}" /> </apex:outputText>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <p class="normalParagraph">
+        It is understood that<span class="normalBoldParagraph"> III. DEFINITIONS </span>is amended to add the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> A. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> Title Insurance Agency </span> <br/>
+                    &nbsp;&nbsp;The title insurance agency or title company identified above.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> B. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> Title Insured </span>
+                </p>
+                    
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                1.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                            any Lawyer, limited liability corporation, limited liability partnership, partnership, professional association or professional corporation;
+                            </p>
+                            <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                <tr>
+                                    <td style="width:5%;" class="tableDataLeft">
+                                        <p class="normalParagraph">
+                                            <span class="normalBoldParagraph"> a. </span>
+                                        </p>
+                                    </td>
+                                    <td style="width:95%;" class="tableDataLeft">
+                                        <p class="normalParagraph">
+                                            named in the<span class="normalBoldParagraph"> Application </span>that forms a part of this Policy;
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:5%;" class="tableDataLeft">
+                                        <p class="normalParagraph">
+                                            <span class="normalBoldParagraph"> b. </span>
+                                        </p>
+                                    </td>
+                                    <td style="width:95%;" class="tableDataLeft">
+                                        <p class="normalParagraph">
+                                            who becomes an employee, partner or shareholder who during the<span class="normalBoldParagraph"> Policy Period, </span>becomes qualified as an<span class="normalBoldParagraph"> Insured </span>under the Policy and is reported to the<span class="normalBoldParagraph"> Company </span>in accordance with<span class="normalBoldParagraph"> V. CONDITIONS, N. Newly Added Lawyers; </span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:5%;" class="tableDataLeft">
+                                        <p class="normalParagraph">
+                                            <span class="normalBoldParagraph"> c. </span>
+                                        </p>
+                                    </td>
+                                    <td style="width:95%;" class="tableDataLeft">
+                                        <p class="normalParagraph">
+                                            who was formerly an employee, partner or shareholder of the<span class="normalBoldParagraph"> Named Insured </span>or its<span class="normalBoldParagraph"> Predecessor Firm; </span><br/>
+                                            but only for<span class="normalBoldParagraph"> Claims </span>arising out of<span class="normalBoldParagraph"> Wrongful Acts </span>committed within the scope of their employment for the<span class="normalBoldParagraph"> Named Insured </span>or its<span class="normalBoldParagraph"> Predecessor Firm </span>and on behalf of the<span class="normalBoldParagraph"> Title Insurance Agency. </span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td style="width:5%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                                2.
+                            </p>
+                        </td>
+                        <td style="width:95%;" class="tableDataLeft">
+                            <p class="normalParagraph">
+                            any former, current or future non-lawyer employee of the<span class="normalBoldParagraph"> Named Insured, Predecessor Firm </span>or<span class="normalBoldParagraph"> Title Insurance Agency, </span>but only for service performed on behalf of the<span class="normalBoldParagraph"> Title Insurance Agency. </span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <p class="normalParagraph">
+        It is further understood that<span class="normalBoldParagraph"> III. DEFINITIONS, P. Professional Services </span>is deleted in its entirety and replaced with the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> P. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> Professional Services </span> <br/>
+                    Services rendered by the<span class="normalBoldParagraph"> Insured </span>as a Lawyer with a license in good standing, including services, whether or not for a fee, as an administrator, arbitrator, conservator, executor, guardian, mediator, notary public, personal representative, real estate title insurance agent including services rendered as a title abstractor, title searcher, escrow agent, or closing agent, receiver, trustee or in any other similar fiduciary activity.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both">
+    </div>
+    <p class="normalParagraph">
+        It is further understood that<span class="normalBoldParagraph"> VI. EXCLUSIONS </span>is amended to add the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> A. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Title Defect<br/>
+                    A defect in title of which any<span class="normalBoldParagraph"> Insured, Title Insured, </span>or<span class="normalBoldParagraph"> Title Insurance Agency </span>had actual or constructive knowledge at the date of issuance of any title insurance policy;
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> B. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Contractual Liability<br/>
+                    Liability assumed by any<span class="normalBoldParagraph"> Insured, Title Insured, </span>or<span class="normalBoldParagraph"> Title Insurance Agency </span>under any oral or written contract or agreement in which an<span class="normalBoldParagraph"> Insured, Title Insured, </span>or<span class="normalBoldParagraph"> Title Insurance Agency </span>has agreed to pay loss, damages, attorney’s fees, court costs or expenses, including those payable under a title insurance policy;
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> C. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Breach of Underwriting Authority<br/>
+                    The breach of underwriting authority by an<span class="normalBoldParagraph"> Insured, Title Insured, </span>or<span class="normalBoldParagraph"> Title Insurance Agency </span>in the capacity of agent to a title insurance company;
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> D. </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Insolvency or Bankruptcy<br/>
+                    The insolvency or bankruptcy of any title insurance company for which the Title Insurance Agency acted in the capacity as title insurance agent.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;page-break-after:always;">
+    </div>
+<br/>
+
+    <p class="normalParagraph">
+        It is understood that<span class="normalBoldParagraph"> V. CONDITIONS </span>is amended to add the following:
+    </p>
+<br/>
+    <p class="normalParagraph">
+        If the<span class="normalBoldParagraph"> Title Insurance Agency </span>named above dissolves or ceases doing business, then this endorsement will not apply to any<span class="normalBoldParagraph"> Claim </span>made against the<span class="normalBoldParagraph"> Title Insured </span>or the<span class="normalBoldParagraph"> Title Insurance Agency </span>based upon any<span class="normalBoldParagraph"> Wrongful Act </span>committed or alleged to have been committed on or subsequent to the time and date of said dissolution or cessation of business.  Coverage will be provided pursuant to the terms of this endorsement but only with respect to a<span class="normalBoldParagraph"> Wrongful Act </span>committed prior to the date of dissolution or cessation of business in accordance with all other terms and conditions of this Policy.
+    </p>
+<br/>
+<br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    Additional Premium:&nbsp;<apex:outputField value="{!endorsement.Additional_Premium__c}"/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both">
+    </div>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <br/>
+    <br/>
+    <!-- <div style="width:30%;margin-top:0px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+    <div style="clear:both">
+    </div>
+    <br/>
+</apex:component>

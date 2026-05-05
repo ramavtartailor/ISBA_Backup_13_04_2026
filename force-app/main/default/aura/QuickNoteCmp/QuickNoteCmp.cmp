@@ -1,0 +1,40 @@
+<aura:component controller="QuickNoteCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="showEdit" type="Boolean" default="false"/> 
+    <aura:attribute name="spinner" type="Boolean" default="true"/> 
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="contact" type="Object"/>
+    <div class="card" >
+        <aura:if isTrue="{!v.spinner}">
+            <lightning:spinner alternativeText="Loading" size="small" />
+        </aura:if>
+        <div class="heading" onclick="{!c.handleEdit}">
+            <lightning:icon iconName="standard:note" alternativeText="Note" title="Note" />
+            Quick Note
+        </div>
+        <aura:if isTrue="{!!v.showEdit}">            
+            <div class="body" onclick="{!c.handleEdit}">
+                <aura:if isTrue="{!v.contact != null}">
+                    <div>
+                        {!v.contact.ISBAM_Quick_Note__c}
+                    </div>
+                    <div>
+                        <lightning:formattedDateTime value="{!v.contact.ISBAM_Rating_Last_Update__c}" year="numeric" month="numeric" day="numeric"/>                    
+                    </div>
+                </aura:if>
+            </div>
+            <aura:set attribute="else">
+                <div class="container">
+                    <div class="contbody">
+                        <lightning:input aura:id="field" required="true" name="ISBAM Quick Note" label="ISBAM Quick Note" value="{!v.note}"/>
+                    </div>
+                    <div class="contfoot">
+                        <lightning:button label="Cancel" title="Cancel" onclick="{!c.handleCancel}"/>
+                        <lightning:button variant="brand" label="Save" title="save" onclick="{!c.updateContact}" />
+                    </div>
+                </div>
+            </aura:set>
+        </aura:if>
+        
+    </div>
+</aura:component>

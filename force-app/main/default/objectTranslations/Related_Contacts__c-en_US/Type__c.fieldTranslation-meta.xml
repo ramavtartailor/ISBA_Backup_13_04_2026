@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Claimant</masterLabel>
+        <translation><!-- Claimant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claimant Attorney</masterLabel>
+        <translation><!-- Claimant Attorney --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claimant Firm</masterLabel>
+        <translation><!-- Claimant Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claimant Lawyer</masterLabel>
+        <translation><!-- Claimant Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Claimant Lawyer Firm</masterLabel>
+        <translation><!-- Claimant Lawyer Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Coverage Attorney</masterLabel>
+        <translation><!-- Coverage Attorney --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Coverage Firm</masterLabel>
+        <translation><!-- Coverage Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Deductible</masterLabel>
+        <translation><!-- Deductible --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defendant</masterLabel>
+        <translation><!-- Defendant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Attorney</masterLabel>
+        <translation><!-- Defense Attorney --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Expert</masterLabel>
+        <translation><!-- Defense Expert --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Expert Firm</masterLabel>
+        <translation><!-- Defense Expert Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Firm</masterLabel>
+        <translation><!-- Defense Firm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Lawyer</masterLabel>
+        <translation><!-- Defense Lawyer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defense Lawyer Firm</masterLabel>
+        <translation><!-- Defense Lawyer Firm --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,26 @@
+<aura:component >
+    <aura:attribute name="transactionInstance" type="object"/>
+    <!--Attribute for store Index of Particular Instance -->
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <!-- <aura:registerEvent name="NavigateToPolicyRecord" type="c:NavigateToPolicyRecord"/> 
+    <aura:registerEvent name="NavigateToPolicyLawyerRecord" type="c:NavigateToPolicyLawyerRecord"/> -->
+    <!-- Table Row -->  
+    <tr class="">
+        <th scope="row">
+            <ui:outputText  value="{!v.transactionInstance.tranName}"/>
+        </th>
+        <th scope="row">
+            <ui:outputDate  value="{!v.transactionInstance.tranDate}"/>
+        </th>
+        <th scope="row">
+            <ui:outputCurrency  value="{!v.transactionInstance.tranAmount}"/>
+        </th>
+        <th scope="row">
+            <ui:outputText value="{!v.transactionInstance.tranGLaccount}"/>
+        </th>
+         <th scope="row">
+            <ui:outputText  value="{!v.transactionInstance.relatedTo}"/>
+        </th>
+    </tr>
+</aura:component>

@@ -1,0 +1,1746 @@
+<apex:page controller="QuotesDetailController" sidebar="false" showHeader="false" id="pg">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        
+        <apex:pageMessages ></apex:pageMessages>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+            
+            
+            <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.standalone.css"/>
+            <apex:includeScript value="{!$Resource.AutoDateFormat}"/>
+            <script src="{!URLFOR($Resource.LightningPlugin, '/jquery.min.js')}">
+            </script>  
+            
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+            document.addEventListener('click', function (event) {
+                console.log('clicked listner');
+                const tableContainer = document.getElementById('tableScrollId');
+                const activeElement = document.activeElement;
+                
+                if (tableContainer && !activeElement.contains(event.target)) {
+                    console.log('Clicked outside the table.');
+                    if(activeElement.id == 'pg:frm:tbl:0:adjustmentId' || activeElement.id == 'pg:frm:tbl:0:Mod_230Id' || activeElement.id == 'pg:frm:tbl:0:Mod_234Id' || activeElement.id == 'pg:frm:tbl:0:Mod_261Id' ){
+                        activeElement.onchange();
+                    }
+                } else if (activeElement) {
+                    console.log('Input field focus changed.');
+                }
+            });
+            
+            function handleBlur() {
+                console.log('Onblur logic executed.');
+                // Add your logic here, e.g., save data or trigger validation.
+            }
+            </script>
+            <script>
+            function cloneRow(sqnc,objId){
+                cloneFun(sqnc,objId);
+            }
+            
+            $( document ).ready(function() {
+                
+                var fixHelperModified = function(e, tr) {
+                    var $originals = tr.children();
+                    var $helper = tr.clone();
+                    $helper.children().each(function(index) {
+                        $(this).width($originals.eq(index).width());                        
+                    });
+                    return $helper;
+                },
+                    updateIndex = function(e, ui) {
+                        var draggedValue;
+                        $('input[class=sqnc]', ui.item).each(function (i) {
+                            draggedValue = $(this).val();
+                        });
+                        var currentVal = 1;
+                        $('input[class=sqnc]', ui.item.parent()).each(function (i) {
+                            $(this).val(currentVal++); 
+                            console.log($(this).val());
+                        });
+                        $('[id$=spinner]').css('display','block');
+                        updatePolicyQuoteFun();
+                    };
+                $(document.getElementById("tableScrollId")).find("tbody").sortable({
+                    helper: fixHelperModified,
+                    stop: updateIndex
+                }).disableSelection();
+                
+                $(document.getElementById("tableScrollId")).find("tbody").sortable({
+                    distance: 5,
+                    delay: 100,
+                    opacity: 0.6,
+                    cursor: 'move',
+                    update: function() {}
+                });
+            });
+            
+            function showError(error){
+                $(".slds-notify_container h2").each(function() {
+                    $(this).text(error);
+                });
+                $(".slds-notify_container").removeClass('slds-hide');
+                setTimeout(function() {
+                    $(".slds-notify_container").addClass('slds-hide');
+                }, 5000);
+            }
+            
+            function markedFinal(obj){
+                if($(obj).prop('checked') == true){
+                    
+                    $('.chkbox').each(function(){
+                        this.checked = false;
+                    });
+                    obj.checked = true;
+                }
+            }
+            function markedAdjRO(obj){
+                if($(obj).prop('checked') == true){
+                    obj.checked = true;
+                }
+            }
+            function addRow(){
+                $('[id$=spinner]').css('display','block');
+                addQuoteRow();
+            }
+            function removeAddRowCompletion(){
+                if({! $User.UIThemeDisplayed == 'Theme3' }){
+                    parent.adjustHeightQuote(numberOfRows);
+                }
+            }
+            
+            function savedRedirect(){
+                location.href = '/{!$CurrentPage.parameters.id}';
+            }
+            
+            $( document ).ready(function() {
+                
+                chkBoxStatus();
+                if({! $User.UIThemeDisplayed == 'Theme3' }){
+                    //parent.adjustHeightQuote(numberOfRows);
+                }
+                var startYear=1940; 
+                var endYear=2034; 
+                var optionsString='';
+                if(startYear<endYear){
+                    for(i=startYear;i<endYear+1;i++){
+                        optionsString += "<option value=\""+i+"\">"+i+"</option>";
+                    }
+                    $('#calYearPicker').html(optionsString);
+                }
+                $(".actualMod").keydown(function(event) {
+                    if (event.keyCode === 13) {
+                        toggleModalOk();
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+                $(".actualMod").keyup(function(event) {
+                    if (event.keyCode === 13) {
+                        
+                    }else{
+                        //if (this.value < -5) this.value = -5;
+                        //if (this.value > 10) this.value = 10;
+                    }
+                });
+                $(".actualModNew2").keydown(function(event) {
+                    if (event.keyCode === 13) {
+                        toggleModalOkNew2();
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+                $(".actualTerms").keydown(function(event) {
+                    if (event.keyCode === 13) {
+                        toggleModalTermsSave();
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+            });
+            
+            
+            
+            </script>
+            
+            <style>
+                .headerCls{
+                background-color : #337ab7 !important;
+                }
+                .paragraphClass{
+                color : white !important;
+                font-size: 17px !important;
+                }
+                
+                .slds-scope .slds-grid--pull-padded {
+                margin-right:0px !important;
+                margin-left:0px !important;
+                }
+                .slds-scope .slds-form--horizontal {
+                margin-top: 1%;
+                }
+                .dateFormat {
+                padding: 0 2px;
+                display: none;
+                }
+                .slds-scope .slds-page-header {
+                padding: 1rem .75rem;
+                border-bottom: 1px solid #d8dde6 !important;
+                background-color: #337AB7 !important;
+                color: white;
+                }
+                .slds-box{
+                }
+                .slds-scope .slds-medium-size--12-of-12 {
+                margin-bottom: 10px;
+                }
+                .slds-scope .slds-medium-size--6-of-12 {
+                margin-bottom: 10px;
+                }
+                .accountRequired{
+                border-left: 4px solid red !important;
+                }
+                .slds-scope .slds-table td, .slds-scope .slds-table th {
+                white-space: normal !important;
+                }
+                .slds-scope .slds-text-heading--label {
+                text-transform: capitalize !important; 
+                }
+                .quoteRequired{
+                border-left: 4px solid red !important;
+                }
+                .slds-scope a:focus, .slds-scope a:hover{
+                display: initial !important;
+                }
+                .lookupInput .slds-input{
+                //border:none !important;
+                }
+                .slds-scope .slds-input:read-only:focus, .slds-scope .slds-input:read-only:hover{
+                background-color: #fff; 
+                }
+                .slds-scope .slds-truncate{
+                white-space: normal !important;
+                }
+                .lookupInput input[readonly] {
+                cursor: default;
+                color: #333;
+                background-color: #fff !important;
+                border: 1px solid #d8dde6 !important;
+                }
+                .datePicker{
+                z-index: 99999 ;
+                }
+                .div-table {
+                display: table;         
+                width: auto;         
+                
+                border-spacing: 5px; 
+                }
+                .div-table-row {
+                display: table-row;
+                width: auto;
+                clear: both;
+                }
+                .div-table-col {
+                float: left; 
+                display: table-column;         
+                width: 200px;  
+                margin-left:10px;
+                }
+                .fooicon-plus:before {
+                content: "\2b" !important;
+                font-family: fantasy;
+                font-size: xx-large;
+                }
+                .fooicon-minus:before {
+                content: "\2212";
+                font-family: fantasy;
+                font-size: xx-large;
+                }
+                .fa-bars{
+                cursor: move;
+                }
+                .sqnc{
+                display:none;
+                }
+                table.footable > tbody > tr.footable-empty > td{
+                font-size: 16px !important;
+                font-weight: 100 !important;
+                }
+            </style>
+            <script>
+            
+            
+            
+            function validateAndSave_Application_Policy(nextOrSave){
+                saveData();
+                /*if($('.schMod').val() > 1.25 || $('.schMod').val() < 0.75){
+                    showError('** SCH Mod value should be between 0.75 and 1.25');
+                    $('[id$=spinner]').css('display','none');
+                }else{
+                    saveData();
+                }*/ 
+            }
+            function toggleModalNew2(){
+                
+                var modalElementClasses = document.getElementById('templateModalNew2').classList;
+                var backdropElementClasses = document.getElementById('backdropNew2').classList;
+                
+                if(modalElementClasses.contains('slds-fade-in-open')){
+                    modalElementClasses.remove('slds-fade-in-open');
+                    modalElementClasses.add('slds-fade-in-close');
+                    
+                    backdropElementClasses.remove('slds-backdrop_open');
+                    backdropElementClasses.add('slds-backdrop_close');
+                }
+                else{
+                    modalElementClasses.remove('slds-fade-in-close');
+                    modalElementClasses.add('slds-fade-in-open');
+                    
+                    backdropElementClasses.remove('slds-backdrop_close');
+                    backdropElementClasses.add('slds-backdrop_open');
+                    
+                }
+            }
+            function toggleModalNew(){
+                
+                var modalElementClasses = document.getElementById('templateModalNew').classList;
+                var backdropElementClasses = document.getElementById('backdropNew').classList;
+                
+                if(modalElementClasses.contains('slds-fade-in-open')){
+                    modalElementClasses.remove('slds-fade-in-open');
+                    modalElementClasses.add('slds-fade-in-close');
+                    
+                    backdropElementClasses.remove('slds-backdrop_open');
+                    backdropElementClasses.add('slds-backdrop_close');
+                }
+                else{
+                    modalElementClasses.remove('slds-fade-in-close');
+                    modalElementClasses.add('slds-fade-in-open');
+                    
+                    backdropElementClasses.remove('slds-backdrop_close');
+                    backdropElementClasses.add('slds-backdrop_open');
+                    
+                }
+            }
+            function toggleModalTerms(){
+                
+                var modalElementClasses = document.getElementById('templateModalTerms').classList;
+                var backdropElementClasses = document.getElementById('backdropTerms').classList;
+                
+                if(modalElementClasses.contains('slds-fade-in-open')){
+                    modalElementClasses.remove('slds-fade-in-open');
+                    modalElementClasses.add('slds-fade-in-close');
+                    
+                    backdropElementClasses.remove('slds-backdrop_open');
+                    backdropElementClasses.add('slds-backdrop_close');
+                }
+                else{
+                    modalElementClasses.remove('slds-fade-in-close');
+                    modalElementClasses.add('slds-fade-in-open');
+                    
+                    backdropElementClasses.remove('slds-backdrop_close');
+                    backdropElementClasses.add('slds-backdrop_open');
+                    
+                }
+            }
+            function toggleModal(){
+                
+                var modalElementClasses = document.getElementById('templateModal').classList;
+                var backdropElementClasses = document.getElementById('backdrop').classList;
+                
+                if(modalElementClasses.contains('slds-fade-in-open')){
+                    modalElementClasses.remove('slds-fade-in-open');
+                    modalElementClasses.add('slds-fade-in-close');
+                    
+                    backdropElementClasses.remove('slds-backdrop_open');
+                    backdropElementClasses.add('slds-backdrop_close');
+                }
+                else{
+                    modalElementClasses.remove('slds-fade-in-close');
+                    modalElementClasses.add('slds-fade-in-open');
+                    
+                    backdropElementClasses.remove('slds-backdrop_close');
+                    backdropElementClasses.add('slds-backdrop_open');
+                    
+                }
+            }
+            
+            function toggleModalOk(){
+                if($('#templateModal').find('input:text').hasClass('errorMod')){
+                    console.log('error');
+                    $('.slds-m-top_x-small').show();
+                }
+                else{
+                    $('.slds-m-top_x-small').hide();
+                    var sum = 0;
+                    $(".actualMod").each(function(){
+                        if($(this).val() != 'NaN' && $(this).val() != '' && $(this).val()  != null && $(this).val() != undefined){
+                            console.log('$(this).val()-----:'+$(this).val());
+                            sum += parseInt($(this).val(), 10);
+                        }
+                    });
+                    
+                    console.log('sum-----:'+sum);
+                    if(sum == -100){
+                        sum = 0;
+                    } 
+                    else{
+                        if(sum < 0){
+                            sum = sum / 100 + 1;
+                        }
+                        else if(sum == 0){
+                            sum = 0
+                        }
+                            else{
+                                sum = sum / 100 + 1;
+                            }
+                    } 
+                    
+                    /*if(sum > 1.25 || sum < 0.75){
+                           showError('** SCH Mod value should be between 0.75 and 1.25');
+                        }else{
+                            document.getElementById('pg:frm:SCHModApp').value = sum;
+                            $('[id$=spinner]').css('display','block');
+                            updatePolicyRecord();
+                            toggleModal();
+                        }*/    
+                    document.getElementById('pg:frm:SCHModApp').value = sum;
+                    $('[id$=spinner]').css('display','block');
+                    updatePolicyRecord();
+                    toggleModal();
+                }
+            }
+            function toggleModalTermsSave(){
+                if($('#templateModalTerms').find('input:text').hasClass('errorMod')){
+                    console.log('error');
+                    $('.slds-m-top_x-small').show();
+                }
+                else{
+                    $('.slds-m-top_x-small').hide();
+                    $(".actualTerms").each(function(){
+                        if($(this).val() != 'NaN' && $(this).val() != '' && $(this).val()  != null && $(this).val() != undefined){
+                            console.log('$(this).val()-----:'+$(this).val());
+                            document.getElementById('pg:frm:TermsConditions').value = $(this).val();
+                        }
+                    });
+                    $('[id$=spinner]').css('display','block');
+                    updatePolicyRecord();
+                    toggleModalTerms();
+                    
+                }
+            }
+            function toggleModalOkNew2(){
+                if($('#templateModalNew2').find('input:text').hasClass('errorMod')){
+                    console.log('error');
+                    $('.slds-m-top_x-small').show();
+                }
+                else{
+                    $('.slds-m-top_x-small').hide();
+                    $(".actualModNew2").each(function(){
+                        if($(this).val() != 'NaN' && $(this).val() != '' && $(this).val()  != null && $(this).val() != undefined){
+                            console.log('$(this).val()-----:'+$(this).val());
+                            document.getElementById('pg:frm:ClaimsFactorApp').value = $(this).val();
+                        }
+                    });
+                    $('[id$=spinner]').css('display','block');
+                    updatePolicyRecord();
+                    toggleModalNew2();
+                    
+                }
+            }
+            function setCommentVal(thisVal, comment){
+                $('#'+comment+'> .comment').val(thisVal.value);
+            }
+            
+            function clearModal(){
+                var usr = '{!$User.Id}'; 
+                
+                $('#templateModal').find('input:text').val('0');
+                
+                if('{!showAdvancedFields}'){
+                    $('#templateModal :checkbox').each(function () { 
+                        
+                        if ($(this).is(':checked'))
+                        {
+                            $(this).click();   
+                        }
+                    }); 
+                }
+                else{
+                    var checks = document.getElementById("templateModal").querySelectorAll(' input[type="checkbox"]');
+                    for(var i =0; i< checks.length;i++){
+                        var check = checks[i];
+                        if(check.checked){
+                            console.log(check.checked);
+                            check.removeAttribute("disabled");
+                            check.click();
+                            check.disabled = true;
+                            
+                        }
+                    }
+                    
+                }
+                $('#templateModal').find('textarea').val('');
+                document.getElementById('pg:frm:SCHModApp').value = 1; 
+                $('[id$=spinner]').css('display','block');
+                updatePolicyRecord();
+                toggleModal();
+            }
+            
+            function displayComment(thisVal, elementMod, elementComment, elementCheck, label){
+                
+                var usr = '{!$User.Id}'; 
+                
+                if(thisVal != 'NaN'  && thisVal != '' && thisVal != null && thisVal.value != 0 && thisVal != undefined && !isNaN(thisVal.value)){
+                    if('{!showAdvancedFields}'){
+                        //document.getElementById(elementComment).style.display='inline-block';
+                        //$('#'+elementCheck).children().attr('checked',true);
+                        
+                        if($('#'+elementCheck).children().prop('checked') == true){
+                            document.getElementById(elementComment).style.display='inline-block';
+                        }
+                        else{
+                            validateMods(thisVal, elementMod, elementComment, elementCheck, label);
+                        }
+                    }
+                    else{
+                        validateMods(thisVal, elementMod, elementComment, elementCheck, label);   
+                    }
+                }
+                else{
+                    document.getElementById(elementComment).style.display='none';
+                    thisVal.value = 0;
+                    if(thisVal.value == 0){
+                        $("#"+elementComment+" > .comment").val('');
+                    }
+                    
+                    if($("#"+elementMod+" > .actualMod").hasClass('errorMod')){
+                        $("#"+elementMod+" > .actualMod").removeClass('errorMod');
+                    }
+                }
+                
+            }
+            
+            function validateMods(thisVal, elementMod, elementComment, elementCheck, label){
+                console.log('thisVal----'+thisVal);
+                console.log('$("#"+elementMod+" > .actualMod").val()----'+$("#"+elementMod+" > .actualMod").val());
+                console.log('label----'+label);
+                var isWrong = false;
+                if(label == 'Size of Firm (1% credit/attorney after 1st attorney – up to 10% credit allowed)'){
+                    if(($("#"+elementMod+" > .actualMod").val() < -20) || ($("#"+elementMod+" > .actualMod").val() > 10)){
+                        isWrong = true;
+                    }
+                    else if(($("#"+elementMod+" > .actualMod").val() >= -20) && ($("#"+elementMod+" > .actualMod").val() <= 10)){
+                        isWrong = false;
+                    }
+                }
+                else if(label == 'AOP Adjustment (Debit only allowed)'){
+                    if(($("#"+elementMod+" > .actualMod").val() < 1) || ($("#"+elementMod+" > .actualMod").val() > 10)){
+                        isWrong = true;
+                    }
+                    else if(($("#"+elementMod+" > .actualMod").val() >= 1) && ($("#"+elementMod+" > .actualMod").val() <= 10)){
+                        isWrong = false;
+                    }
+                }
+                    else{
+                        if(($("#"+elementMod+" > .actualMod").val() < -5) || ($("#"+elementMod+" > .actualMod").val() > 10)){
+                            isWrong = true;
+                        }
+                        else if(($("#"+elementMod+" > .actualMod").val() >= -5) && ($("#"+elementMod+" > .actualMod").val() <= 10)){
+                            isWrong = false;
+                        }
+                        
+                    }
+                
+                console.log('isWrong----'+isWrong);
+                if(isWrong && label != 'General Override'){
+                    console.log($('#'+elementCheck).children().prop('checked'));
+                    if($('#'+elementCheck).children().prop('checked') == false){
+                        $("#"+elementMod+" > .actualMod").addClass('errorMod');
+                        document.getElementById(elementComment).style.display='none';
+                        $("#"+elementComment+" > .comment").val('');
+                    }
+                }
+                
+                if(!isWrong){
+                    $("#"+elementMod+" > .actualMod").removeClass('errorMod');
+                    document.getElementById(elementComment).style.display='inline-block';                       
+                }
+            }
+            
+            function overrideMods(thisVal, elementMod, elementComment, elementCheck,label){
+                console.log('elementCheck---'+elementCheck);
+                if(thisVal.checked){   
+                    $("#"+elementCheck+" > .overrider").click();
+                    
+                    if($("#"+elementMod+" > .actualMod").hasClass('errorMod')){
+                        $("#"+elementMod+" > .actualMod").removeClass('errorMod');
+                        document.getElementById(elementComment).style.display='inline-block';               
+                    }
+                    
+                }
+                else{
+                    $("#"+elementCheck+" > .overrider").checked = false;
+                    validateMods( $("#"+elementMod+" > .actualMod"), elementMod, elementComment, elementCheck, label);
+                }
+            }
+            function chkBoxStatus(){
+                $( ".chkBoxindex" ).each(function( index ) {
+                    $(this).closest('.slds-form-element').find('.chkbox').attr('id',$(this).val());
+                });
+                $( ".chkBoxindex1" ).each(function( index ) {
+                    $(this).closest('.slds-form-element').find('.chkbox1').attr('id',$(this).val());
+                });
+                $( ".chkBoxindex2" ).each(function( index ) {
+                    $(this).closest('.slds-form-element').find('.chkbox2').attr('id',$(this).val());
+                });
+            }
+            </script>
+        </head>
+        
+        <body>
+            <apex:form id="frm">
+                <apex:outputPanel id="errorPanel">
+                    <script>
+                    var numberOfRows = '{!modalList.size}';
+                    if('{!error}' != '' && '{!error}' != null && '{!error}' != 'undefined'){
+                        showError('{!error}');
+                    } 
+                    
+                    console.log('Error => 1','{!error}', {!error});
+                    
+                    function callRedirect(){
+                        if('{!error}' != '' && '{!error}' != null && '{!error}' != 'undefined'){
+                            showError('{!error}');
+                        } else {
+                            savedRedirect();
+                        }                                        
+                    }
+                    
+                    </script>
+                </apex:outputPanel>
+                
+                <apex:outputPanel id="printQuotePanel">
+                    <script>
+                    var printURL = '{!printQuoteURL}';
+                    if(printURL){
+                        var win = window.open(printURL, '_blank');
+                        win.focus();
+                    }    
+                    </script>
+                </apex:outputPanel>
+                <apex:actionFunction name="cloneFun" action="{!ClonePolicy}" oncomplete="$('[id$=spinner]').css('display','none');" reRender="frmPanel,errorPanel">
+                    <apex:param assignTo="{!squenceNum}" name="sqnc" value=""/>
+                    <apex:param assignTo="{!policyId}" name="objId" value=""/>
+                </apex:actionFunction>
+                <apex:actionFunction name="updatePolicyQuoteFun" action="{!updatePolicyQuote}" reRender="none" oncomplete="$('[id$=spinner]').css('display','none');"/>
+                <apex:actionFunction name="addQuoteRow" action="{!addRow}" reRender="frmPanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();removeAddRowCompletion();"/>
+                <!--<apex:actionFunction name="saveDataFinal" action="{!saveQuoteFinal}" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();savedRedirect();" reRender="errorPanel"/> -->
+                <apex:actionFunction name="saveData" action="{!saveQuote}" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();callRedirect();" reRender="errorPanel"/>
+                
+                
+                <apex:actionFunction name="removeQuoteRow" action="{!removeRow}" reRender="frmPanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();removeAddRowCompletion();">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="updateQuote10X10And5X5" action="{!update10X10And5X5}" reRender="frmPanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();removeAddRowCompletion();">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="updateQuoteFinalPremium" action="{!updateFinalPremium}" reRender="frmPanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+                <apex:actionFunction name="updatePremiumByPolicyLawyer" action="{!updateQuotePremiumByPolicyLawyer}" reRender="errorPanel,lawyersPanel,lawyerFooterPanel,lawyerlimitFooterPanel" oncomplete="$('[id$=spinner]').css('display','none');toggleModalNew();">
+                    <apex:param assignTo="{!rowIdx}" name="rowIndex" value=""/>
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="updatePolicyRecord" action="{!updatePolicy}" reRender="frmPanel,errorPanel,modPanel,termsPanel" oncomplete="$('[id$=spinner]').css('display','none');"  />
+                <apex:actionFunction name="addLimits" action="{!addLimit}" reRender="frmPanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();removeAddRowCompletion();"/>
+                
+                <apex:actionFunction name="printQuotes" action="{!printSelectedQuotes}" reRender="printQuotePanel" oncomplete="$('[id$=spinner]').css('display','none');chkBoxStatus();removeAddRowCompletion();"/>
+                <apex:actionFunction name="recalculatePremium" action="{!recalculateQuotesPremium}" reRender="frmPanel,errorPanel" oncomplete="$('[id$=spinner]').css('display','none');window.location.href = window.location.href;"/>
+                <div class="slds-spinner_container" id="spinner" style="display:none;position: fixed;z-index: 100;">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert" style="    position: fixed;">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+                
+                <div class="slds-notify_container slds-hide">
+                    <div class="slds-notify slds-notify--toast slds-theme--error" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        <button class="slds-button slds-notify__close slds-button--icon-inverse closeSvg" id="closeBtn" title="Close">
+                            <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true" onclick="return false;" data="msg">
+                                <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading--small"></h2>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Heading    -->
+                <div class="slds-page-header headerCls" role="banner">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-truncate paragraphClass" title="Quotes">Quotes - {!policy.Account__r.Name} - {!policy.Name} </p>
+                            <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate"></h1>
+                        </div>
+                        <ul class="slds-global-header__item slds-grid slds-grid--vertical-align-center">
+                            <li class="slds-dropdown-trigger slds-dropdown-trigger--click slds-p-horizontal--xxx-small">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br/>
+                <!-- Table -->
+                <fieldset class="slds-box slds-theme--default  slds-m-around--small">
+                    <div class="slds-size--1-of-1">
+                        <!-- ========================= Record List ========================== -->
+                        <apex:outputPanel id="modPanel" styleclass="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-size--12-of-12  slds-theme--shade">
+                                    <button class="slds-button slds-button--icon" title="Toggle" style="float:right;padding-right: 15px;padding-top: 4px;" onclick="return false;">
+                                        <svg class="slds-button__icon" aria-hidden="true" data="toggle" onclick="console.log($(this).find('.down').toggle(0 , $(this).find('.up').toggle() )); ">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}" class="down" style="display:none"></use>
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,'/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"  class="up" ></use>
+                                        </svg>
+                                        <span class="slds-assistive-text"></span>
+                                    </button>
+                                    <h2 class="slds-section-title slds-theme--shade slds-p-left--small">Firm Mod Information</h2>
+                                </div>
+                                <!-- 1 row -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="SCHMod">SCH Mod</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-disabled="true"  html-placeholder="Enter SCH Mod" styleClass="slds-input application_required schMod" id="SCHModApp" value="{!policy.SCH_Mod__c}" style="width:78%;" />
+                                                <button type="button" class="slds-button slds-button--brand" onClick="toggleModal();" style="width:20%;" >Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="ClaimsFactor">Claims Factor</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-disabled="true"  html-placeholder="Enter Claims Factor" styleClass="slds-input application_required" id="ClaimsFactorApp" value="{!policy.Claims_Factor__c}"  style="width:78%;"/>
+                                                <button type="button" class="slds-button slds-button--brand" onClick="toggleModalNew2();" style="width:20%;" >Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 2 row -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--6-of-12 slds-large-size--6-of-12">
+                                    
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="GEOMod">GEO Mod </label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-disabled="true" styleClass="slds-input" id="GEOModApp" value="{!policy.GEO_Mod__c}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="AOPFactor">AOP Mod</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-disabled="true" styleClass="slds-input" id="AOPFactorApp" value="{!policy.AOP_Factor__c}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form--horizontal">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="FirmMod">Firm Mod</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField html-disabled="true" styleClass="slds-input" id="FirmModApp" value="{!policy.Firm_Mod__c}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-box" style="padding:0px;">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <apex:outputPanel id="frmPanel" styleClass="slds-size--12-of-12">
+                                    <div class="slds-size--12-of-12  slds-theme--shade">
+                                        <h3 style="display:inline-block;padding-bottom: 15px;" class="slds-section-title slds-theme--shade slds-p-left--small slds-m-top--small">Quotes</h3>
+                                    </div>
+                                    <div class="slds-size--12-of-12" style="padding:0px;">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                            <div class="slds-size--3-of-12">
+                                                <div class="slds-form--horizontal">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="Limit">Limits </label>
+                                                        <div class="slds-form-element__control">
+                                                            <apex:selectList value="{!limits}"  multiselect="true" size="5" styleClass="slds-input">
+                                                                <apex:selectOptions value="{!Limit}"/>
+                                                            </apex:selectList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size--3-of-12">
+                                                <div class="slds-form--horizontal">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="Deductible">Deductibles </label>
+                                                        <div class="slds-form-element__control">
+                                                            <apex:selectList value="{!deductibles}"  multiselect="true" size="5" styleClass="slds-input">
+                                                                <apex:selectOptions value="{!Deductible}"/>
+                                                            </apex:selectList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/><br/><br/>
+                                            <div class="slds-size--1-of-12">
+                                                <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');addLimits();">Add Limits</button>
+                                            </div>
+                                            <div class="slds-size--8-of-12">
+                                                &nbsp;
+                                            </div><br/><br/><br/>
+                                        </div>
+                                    </div>
+                                    <!-- ====================================== Table ===============================-->
+                                    <div class="slds-size--12-of-12">
+                                        <apex:variable value="{!0}" var="i"/>
+                                        <table id="tableScrollId" class="slds-table slds-table--bordered slds-table--cell-buffer footable toggle-circle" data-toggle-column="last" data-empty="No quotes currently added">
+                                            <thead>
+                                                <tr class="slds-text-title--caps">
+                                                    <th scope="col">
+                                                        
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-truncate" title="Action">Action</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        
+                                                    </th>
+                                                    <th scope="col" style="width:15%">
+                                                        <div class="slds-truncate" title="Limits">Limits</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-truncate" title="Deductibles">Deductibles</div>
+                                                    </th>
+                                                    <th scope="col"  style="width:15%">
+                                                        <div class="slds-truncate" title="Quote Expiry Date">QUOTE EXP</div>
+                                                    </th>
+                                                    <apex:outputPanel layout="none" rendered="{!showAdvancedFields}">
+                                                        <th scope="col" data-breakpoints="all">
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate" title="5X5 Override">5X5 Override<br/>(per lawyer)</div>
+                                                        </th>  
+                                                        <th scope="col">
+                                                            <div class="slds-truncate" title="10X10">10X10<br/>(per lawyer)</div>
+                                                        </th>
+                                                        
+                                                    </apex:outputPanel> 
+                                                    <th scope="col">
+                                                        <div class="slds-truncate" title="Accept Quote">ACCEPTED</div>
+                                                    </th>
+                                                    <th  scope="col">
+                                                        <div class="slds-truncate" title="Additional Premium">Add. Premium</div>
+                                                    </th>
+                                                    <th  scope="col">
+                                                        <div class="slds-truncate" title="Title Premium">Title Premium</div>
+                                                    </th>
+                                                    <th  scope="col">
+                                                        <div class="slds-truncate" title="Final Premium">Final Premium</div>
+                                                    </th>
+                                                    <th  scope="col">
+                                                        <div class="slds-truncate" title="Print Quote">Print Quote</div>
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:variable value="{!0}" var="index"/>
+                                                
+                                                <apex:repeat value="{!modalList}" var="modalObj" id="tbl">
+                                                    <tr data-expanded="{!if(modalObj.isExpandable,true,false)}">
+                                                        <th>
+                                                            <i class="fa fa-bars"  ></i>
+                                                            <apex:inputField styleclass="sqnc" value="{!modalObj.policyQuoteObj.Sequence__c}"/>
+                                                        </th>
+                                                        <th>
+                                                            <apex:commandLink onclick="$('[id$=spinner]').css('display','block');removeQuoteRow({!index});return false;" value="Remove"/>
+                                                        </th>
+                                                        <th>
+                                                            <apex:commandLink onclick="$('[id$=spinner]').css('display','block');cloneRow({!modalObj.policyQuoteObj.Sequence__c},'{!modalObj.policyQuoteObj.id}');return false;" value="Clone"/>
+                                                        </th>
+                                                        <td data-label="Limits">
+                                                            <div class="slds-truncate" title="Contact Name">
+                                                                <apex:selectList value="{!modalObj.policyQuoteObj.Coverage__c}" onchange="$('[id$=spinner]').css('display','block');updateQuote10X10And5X5({!index});updateQuoteFinalPremium({!index});return false;" multiselect="false" size="1" styleClass="slds-input quoteRequired">
+                                                                    <apex:selectOptions value="{!Limit}"/>
+                                                                </apex:selectList>
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Deductibles">
+                                                            <div class="slds-truncate" title="Contact Type">
+                                                                <apex:selectList value="{!modalObj.policyQuoteObj.Deductible__c}"  onchange="$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;" multiselect="false" size="1" styleClass="slds-input quoteRequired">
+                                                                    <apex:selectOptions value="{!Deductible}"/>
+                                                                </apex:selectList>
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Quote Expiry Date">
+                                                            <div class="slds-truncate" title="Email">
+                                                                <!--<apex:outputText value="{0,date,dd'/'MM'/'yyyy}"> <apex:param value="{!modalObj.policyQuoteObj.Quote_Expire_Date__c}"/></apex:outputText>-->
+                                                                <apex:inputField value="{!modalObj.policyQuoteObj.Quote_Expire_Date__c}" onkeydown="autoFormat(this)" styleClass="slds-input"/>
+                                                            </div>
+                                                        </td>
+                                                        <apex:outputPanel layout="none" rendered="{!showAdvancedFields}">
+                                                            <td>
+                                                                <div class="slds-text-title--caps">
+                                                                    <div class="div-table">
+                                                                        <div class="div-table-col slds-truncate" style="width:80px !important;">ADJ R.O.</div>
+                                                                        <div class="div-table-col slds-truncate">ADJ. MOD</div>
+                                                                        <div class="div-table-col slds-truncate">Mod_230</div>
+                                                                        <div class="div-table-col slds-truncate">Mod_234</div>
+                                                                        <div class="div-table-col slds-truncate">Mod_261</div>
+                                                                    </div>
+                                                                    <div class="div-table-row">
+                                                                        <div class="div-table-col slds-truncate"  style="width:80px !important;">
+                                                                            <div class="slds-form-element">
+                                                                                <div class="slds-form-element__control">
+                                                                                    <span class="slds-checkbox">
+                                                                                        <input type="hidden" class="chkBoxindex1" value="chk1{!index}" />
+                                                                                        <apex:inputCheckbox value="{!modalObj.isAdjRO}" styleclass="chkbox1"   onchange="markedAdjRO(this);" />
+                                                                                        <label class="slds-checkbox__label" for="chk1{!index}">
+                                                                                            <span class="slds-checkbox--faux"></span>
+                                                                                        </label>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="div-table-col slds-truncate">
+                                                                            <apex:inputField id="adjustmentId"  value="{!modalObj.policyQuoteObj.ADJ_MOD__c}" styleClass="slds-input" onchange="$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;"/>
+                                                                        </div>
+                                                                        <div class="div-table-col slds-truncate">
+                                                                            <apex:inputField id="Mod_230Id" onfocus="console.log('Focus on input')" 
+                                                                                             value="{!modalObj.policyQuoteObj.Mod_230__c}" styleClass="slds-input" onchange="console.log('outsideClick');$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;"/>
+                                                                        </div>
+                                                                        <div class="div-table-col slds-truncate">
+                                                                            <apex:inputField id="Mod_234Id" value="{!modalObj.policyQuoteObj.Mod_234__c}" 
+                                                                                            styleClass="slds-input" onchange="$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;"/>
+                                                                        </div>
+                                                                        <div class="div-table-col slds-truncate">
+                                                                            <apex:inputField id="Mod_261Id" value="{!modalObj.policyQuoteObj.Mod_261__c}" styleClass="slds-input" onchange="$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="5X5 Override">
+                                                                <div class="slds-truncate" title="5X5 Override">
+                                                                    <apex:outputPanel rendered="{!(modalObj.is5X5)}">
+                                                                        <apex:inputField value="{!modalObj.policyQuoteObj.X5X5_Override__c}" styleClass="slds-input" onchange="$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;"/>
+                                                                    </apex:outputPanel>
+                                                                    <apex:outputPanel rendered="{!NOT(modalObj.is5X5)}">
+                                                                        <apex:inputField value="{!modalObj.policyQuoteObj.X5X5_Override__c}" styleClass="slds-input" style="pointer-events: none"/>
+                                                                    </apex:outputPanel>
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="10X10">
+                                                                <div class="slds-truncate" title="10X10">
+                                                                    <apex:outputPanel rendered="{!(modalObj.is10X10)}">
+                                                                        <apex:inputField value="{!modalObj.policyQuoteObj.X10X10__c}" styleClass="slds-input" onchange="$('[id$=spinner]').css('display','block');updateQuoteFinalPremium({!index});return false;"/>
+                                                                    </apex:outputPanel>
+                                                                    <apex:outputPanel rendered="{!NOT(modalObj.is10X10)}">
+                                                                        <apex:inputField value="{!modalObj.policyQuoteObj.X10X10__c}" styleClass="slds-input" style="pointer-events: none"/>
+                                                                    </apex:outputPanel>
+                                                                </div>
+                                                            </td>
+                                                        </apex:outputPanel>
+                                                        <th scope="row" data-label="Action">
+                                                            <div class="slds-form-element">
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                        <input type="hidden" class="chkBoxindex" value="chk{!index}" />
+                                                                        <apex:inputCheckbox value="{!modalObj.isFinal}" styleclass="chkbox"  disabled="{!If(modalObj.policyQuoteObj.Id == '',true,false)}" onchange="markedFinal(this);" />
+                                                                        
+                                                                        <label class="slds-checkbox__label" for="chk{!index}">
+                                                                            <span class="slds-checkbox--faux"></span>
+                                                                            
+                                                                        </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                        <td data-label="Additional Premium">
+                                                            <div class="slds-truncate" title="Additional Premium">
+                                                                <apex:outputText value="{!modalObj.policyQuoteObj.Additional_Premium__c}" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Title Premium">
+                                                            <div class="slds-truncate" title="Title Premium">
+                                                                <apex:outputText value="{!modalObj.policyQuoteObj.Title_Premium__c}" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="FinalPremium" width="12%">
+                                                            <div class="slds-truncate" title="FinalPremium">
+                                                                <button type="button" style="{!if(OR(policy.Total_CLE_Credit__c == 0,policy.Total_CLE_Credit__c == null),'','display:none;' )}" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');updatePremiumByPolicyLawyer({!index});return false;" >
+                                                                    {!modalObj.finalPremium}
+                                                                </button>
+                                                                <button type="button" style="{!if(OR(policy.Total_CLE_Credit__c == 0,policy.Total_CLE_Credit__c == null),'display:none;','' )}"  class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');updatePremiumByPolicyLawyer({!index});return false;" >
+                                                                    {!modalObj.finalPremium} (- {!policy.Total_CLE_Credit__c})
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="Print Quote">
+                                                            <div class="slds-form-element">
+                                                                <div class="slds-form-element__control">
+                                                                    <span class="slds-checkbox">
+                                                                        <input type="hidden" class="chkBoxindex2" value="chk2{!index}" />
+                                                                        <apex:inputCheckbox value="{!modalObj.printQuote}" styleclass="chkbox2" />
+                                                                        
+                                                                        <label class="slds-checkbox__label" for="chk2{!index}">
+                                                                            <span class="slds-checkbox--faux"></span>
+                                                                            
+                                                                        </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <apex:variable value="{!index+1}" var="index"/>
+                                                </apex:repeat>             
+                                                <apex:variable value="{!0}" var="index"/>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="slds-size--6-of-6">
+                                        
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Add New Row" class="slds-button slds-m-around--x-small"  onclick="addRow();return false;"/>
+                                        <button type="button" style="float:right;margin:10px;" class="slds-button slds-button--brand" onClick="printQuotes();return false;" >Print Quote Bundle</button>
+                                        <button type="button" style="float:right;margin:10px;" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');recalculatePremium();return false;" >Recalculate</button>
+                                        
+                                    </div>
+                                    <script>
+                                    renderFootable();
+                                    </script>
+                                </apex:outputPanel>
+                                <!-- ====================================== Table ===============================-->
+                                <div class="slds-size--12-of-12" >
+                                    <apex:outputPanel layout="none" rendered="{!showAdvancedFields}" id="termsPanel">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded filter" >
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-box" style="padding:0px;">
+                                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                                    <div class="slds-size--1-of-1  slds-theme--shade">
+                                                        <h3 style="display:inline-block;padding-bottom: 15px;" class="slds-section-title slds-theme--shade slds-p-left--small slds-m-top--small">Terms &amp; Conditions</h3>
+                                                    </div>
+                                                    <div class="slds-size--3-of-4" >
+                                                        <div class="slds-form--horizontal" style="text-align: left;">
+                                                            <div class="slds-form-element">
+                                                                <label class="slds-form-element__label" for="TermsConditions" style="text-align: left;margin-left: 20px;width: 15%;">Terms &amp; Conditions</label>
+                                                                <div class="slds-form-element__control" style="width: 75%;">
+                                                                    <!--<apex:inputField html-placeholder="Enter Terms & Conditions" styleClass="slds-input" id="TermsConditions" value="{!policy.Terms_Conditions__c}" />-->
+                                                                    <apex:outputText styleClass="slds-input termsAndConditions" id="TermsConditions" value="{!policy.Terms_Conditions__c}" escape="false"/> <br/><br/>
+                                                                    <!--<apex:inputTextarea html-placeholder="Enter Terms & Conditions" styleClass="slds-input" id="TermsConditions" value="{!policy.Terms_Conditions__c}" rows="20" richText="true"/><br/>-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size--1-of-4" style="margin-top: 1%;">
+                                                        <div>
+                                                            <button type="button" class="slds-button slds-button--brand" onClick="toggleModalTerms();" style="width:20%;" >Edit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                </div>
+                                <div class="slds-size--1-of-6">
+                                    &nbsp;
+                                </div>
+                            </div>
+                            <!--<div class="slds-grid slds-wrap slds-theme--shade">
+<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-12 slds-large-size--1-of-12"></div>
+<div class="slds-p-horizontal--small slds-size--5-of-12 slds-medium-size--3-of-12 slds-large-size--3-of-12">
+<input type="button" value="Add New Row" class="slds-button slds-m-around--x-small"  onclick="addRow();return false;"/>
+</div>  
+
+<div class="slds-p-horizontal--small slds-size--7-of-12 slds-medium-size--8-of-12 slds-large-size--8-of-12" style="padding-top: 7px;">
+<button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');saveDataFinal();">Submit</button>
+<button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');saveData();">Save &amp; Accept</button>
+<button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onclick="location.href = '/{!$CurrentPage.parameters.id}'">Cancel</button>
+<apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+<button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="location.href='/apex/PolicyRelatedPopup?id={!appId}&page=AOP&showNext=true'" style="margin-right: 10px;" >Back</button>
+</apex:outputPanel>
+</div>
+
+</div> -->
+                        </div>
+                        <!--<div class="slds-grid slds-wrap slds-theme--shade" style="height: 50px;padding-top: 10px;">
+<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-6 slds-large-size--9-of-12"></div>
+<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-6 slds-large-size--1-of-12">
+<button type="button" class="slds-button slds-button--neutral" onclick="location.href='/{!appId}'">Cancel</button>
+</div> 
+<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-6 slds-large-size--1-of-12">
+<button type="button" class="slds-button slds-button--brand" onClick="$('[id$=spinner]').css('display','block');saveData();">Save</button>
+</div>
+</div> 
+</div>-->
+                    </div>
+                    <div class="slds-badge" id="TotalOfPer" style="width: 42px;float: right;text-align: center;background-color: green;color: white;"></div>
+                    
+                    
+                </fieldset>
+                <!-- Close Table -->
+                <div class="slds-docked-form-footer">
+                    <apex:outputPanel rendered="{!$CurrentPage.parameters.showNext}">  
+                        <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onClick="location.href='/apex/FirmModDetailVF?id={!appId}&showNext=true'" style="margin-right: 10px;" >Back</button>
+                    </apex:outputPanel>
+                    <button type="button" class="slds-button slds-button--neutral slds-float--right slds-m-around--x-small" onclick="location.href = '/{!$CurrentPage.parameters.id}'">Cancel</button>
+                    <button type="button" class="slds-button slds-button--brand slds-float--right slds-m-around--x-small" onClick="$('[id$=spinner]').css('display','block');unsaved=false;validateAndSave_Application_Policy();">Save &amp; Accept</button>
+                </div>
+                <div >
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" id="templateModalNew" class="slds-modal slds-fade-in-close slds-modal_large">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                    </svg>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Lawyer's Premium By Selected Quote</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                                    <apex:outputPanel id="lawyersPanel">
+                                        <apex:variable value="{!1}" var="count"/>
+                                        <table  class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="slds-text-heading--label">
+                                                    <th></th>
+                                                    <th>Lawyer Name</th>
+                                                    <th>Prior Act Date</th>
+                                                    <th>Step</th>
+                                                    <th>Add. Step</th>
+                                                    <th>Rate At(%)</th>
+                                                    <th>Primary</th>
+                                                    <th>Excess</th>
+                                                    <th>5x5</th>
+                                                    <th>10x10</th>
+                                                    <th>Adj Mod</th>
+                                                    <th>Lawyer Premium</th>
+                                                    <th>CLE Credit</th>
+                                                </tr>
+                                            </thead>
+                                            
+                                            <tbody>
+                                                <apex:repeat value="{!policyLawyers}" var="law">
+                                                    <tr>
+                                                        <td>{!FLOOR(count)}</td>
+                                                        <td>{!law.Lawyer_Name__c}</td>
+                                                        <td>
+                                                            <apex:outputText value="{0,date,MM/dd/yy}"> 
+                                                                <apex:param value="{!law.Prior_Act_Date__c}"/> 
+                                                            </apex:outputText> 
+                                                        </td>
+                                                        <td>{!law.Step__c}</td>
+                                                        <td>{!law.Overriding_Step_Value__c}</td>
+                                                        <td>{!law.Rate_At__c}</td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.Primary__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.Excess__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.X5_5__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.X10_10__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.ADJ_MOD__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.Premium__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, Number, Currency}">
+                                                                <apex:param value="{!law.CLE_Credit__c}"/>
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <apex:variable var="count" value="{!count+ 1}"/>
+                                                    </tr>
+                                                </apex:repeat>
+                                                <tr class="slds-text-heading--label">
+                                                    <th></th>
+                                                    <th><b>Total</b></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>{!totalLawyerRate}</th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!totalPrimary}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!totalExcess}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!total5x5}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!total10x10}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!totalAdjMod}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!totalLawyerPremium}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                    <th>
+                                                        <apex:outputText value="{0, Number, Currency}">
+                                                            <apex:param value="{!totalCLECredit}"/>
+                                                        </apex:outputText>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <footer class="slds-modal__footer slds-modal__footer_directional">
+                                <button type="button" class="slds-button slds-button--neutral" onclick="toggleModalNew()" style="float: right !important;">Close</button>
+                                <apex:outputPanel style="float:left;" id="lawyerlimitFooterPanel">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<b>Limit </b> {!quoteLimit}&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>Deductible</b> {!quoteDeductible}
+                                </apex:outputPanel>    
+                                <apex:outputPanel id="lawyerFooterPanel" style="float:left;" >
+                                    
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<b>Base Rate </b> {!baseRate} &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>Limit Factor</b> {!limitFactor} &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>Deductible Factor</b> {!deductibleFactor} &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>Firm Mod</b> {!firmMod} &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>ADJ MOD </b> {!adjMod}&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>MOD_230 </b> {!mod_230}&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>MOD_234 </b> {!mod_234}&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <b>MOD_261 </b> {!mod_261}&nbsp;&nbsp;&nbsp;&nbsp;
+                                </apex:outputPanel>    
+                            </footer>
+                        </div>
+                    </section>
+                    <div id="backdropNew" class="slds-backdrop slds-backdrop_close"></div>
+                </div>
+                <div  >
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" id="templateModal" class="slds-modal slds-fade-in-close slds-modal_large">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                    </svg>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">SCH Mods</h2>
+                                <p class="slds-m-top_x-small" style="color:red;font-weight:bold;font-size:18px;display:none;">Please add correct modifiers.</p>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                
+                                <!-- Start Internal Procedure Mods -->
+                                <div class="slds-section">
+                                    <h3 class="slds-section__title">
+                                        <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                            <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                            </svg>
+                                            <span class="slds-truncate" title="Section Title">Schedule Modifiers - Internal Procedures (-5% to +10%):</span>
+                                        </p>
+                                    </h3>
+                                </div>
+                                
+                                <div class="slds-form slds-form_horizontal">
+                                    <div class="slds-form-element">
+                                        <apex:variable value="{!0}" var="index"/>
+                                        
+                                        <apex:repeat value="{!allModFields}" var="modVar">
+                                            
+                                            <label class="slds-form-element__label">
+                                                <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <div id="{!index}-actualMod" >
+                                                    <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                        <apex:inputField html-disabled="{!IF(showAdvancedFields,false,true)}" rendered="{!IF(AND(!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField rendered="{!IF(showAdvancedFields, true,false)}" required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', showAdvancedFields), true,false)}">
+                                                        <apex:inputField required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField required="false" rendered="{!!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                </div>
+                                                <div id="{!index}-check" >
+                                                    <apex:inputCheckbox disabled="{!IF(showAdvancedFields, false,true)}"  label="override" value="{!policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualMod', '{!index}-comment', '{!index}-check', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                    <apex:inputField styleClass="overrider" value="{!policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                                </div>
+                                                <div id="{!index}-comment" style="{!IF(policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                    <apex:panelGroup rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-comment')"  value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(showAdvancedFields,true,false)}">
+                                                        <apex:inputField required="false" rendered="{!IF(showAdvancedFields,true,false)}" onchange="setCommentVal(this,'{!index}-comment')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                    </apex:panelGroup>
+                                                    <apex:inputField styleClass="comment" value="{!policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                                </div>                   
+                                            </div>
+                                            <div style="clear:both"/>
+                                            <apex:variable value="{!index + 1}" var="index"/>
+                                            <br/>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                                <!-- End Internal Procedure Mods -->
+                                
+                                <!-- Start Firm Management Mods -->
+                                <div class="slds-section">
+                                    <h3 class="slds-section__title">
+                                        <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                            <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                            </svg>
+                                            <span class="slds-truncate" title="Section Title">Schedule Modifiers - Firm Management (-5% to +10%):</span>
+                                        </p>
+                                    </h3>
+                                </div>
+                                
+                                <div class="slds-form slds-form_horizontal">
+                                    <div class="slds-form-element">
+                                        <apex:variable value="{!0}" var="index"/>
+                                        
+                                        <apex:repeat value="{!allModFieldsFM}" var="modVar">
+                                            
+                                            <label class="slds-form-element__label">
+                                                <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <div id="{!index}-actualModFM" >
+                                                    <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                        <apex:inputField html-disabled="{!IF(showAdvancedFields,false,true)}" rendered="{!IF(AND(!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField rendered="{!IF(showAdvancedFields, true,false)}" required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod"  html-min="-5" html-max="10" />
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', showAdvancedFields), true,false)}">
+                                                        <apex:inputField required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField required="false" rendered="{!!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                </div>
+                                                <div id="{!index}-checkFM" >
+                                                    <apex:inputCheckbox disabled="{!IF(showAdvancedFields, false,true)}"  label="override" value="{!policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModFM', '{!index}-commentFM', '{!index}-checkFM', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                    <apex:inputField styleClass="overrider" value="{!policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                                </div>
+                                                <div id="{!index}-commentFM" style="{!IF(policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                    <apex:panelGroup rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" onchange="setCommentVal(this,'{!index}-commentFM')" required="false" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!IF(showAdvancedFields,false, true)}" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(showAdvancedFields,true,false)}">
+                                                        <apex:inputField required="false" rendered="{!IF(showAdvancedFields,true,false)}" onchange="setCommentVal(this,'{!index}-commentFM')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                    </apex:panelGroup>
+                                                    <apex:inputField styleClass="comment" value="{!policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                                </div>                   
+                                            </div>
+                                            <div style="clear:both"/>
+                                            <apex:variable value="{!index + 1}" var="index"/>
+                                            <br/>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                                <!-- End Firm Management Mods -->
+                                
+                                <!-- Start Branch Offices Mods -->
+                                <!--
+<div class="slds-section">
+<h3 class="slds-section__title">
+<p aria-controls="expando-unique-id" class="slds-section__title-action">
+<svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+</svg>
+<span class="slds-truncate" title="Section Title">Schedule Modifiers - Branch Offices (-5% to +10%):</span>
+</p>
+</h3>
+</div>
+
+<div class="slds-form slds-form_horizontal">
+<div class="slds-form-element">
+<apex:variable value="{!0}" var="index"/>
+
+<apex:repeat value="{!allModFieldsBO}" var="modVar">
+
+<label class="slds-form-element__label">
+<apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+</label>
+<div class="slds-form-element__control">
+<div id="{!index}-actualModBO" >
+<apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+<apex:inputField html-disabled="{!IF(showAdvancedFields,false,true)}" rendered="{!IF(AND(!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+<apex:inputField rendered="{!IF(showAdvancedFields, true,false)}" required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', showAdvancedFields), true,false)}">
+<apex:inputField required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !showAdvancedFields), true,false)}">
+<apex:inputField html-disabled="true" rendered="{!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+<apex:inputField required="false" rendered="{!!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+</apex:panelGroup>
+</div>
+<div id="{!index}-checkBO" >
+<apex:inputCheckbox disabled="{!IF(showAdvancedFields, false,true)}"  label="override" value="{!policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModBO', '{!index}-commentBO', '{!index}-checkBO', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+<apex:inputField styleClass="overrider" value="{!policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+</div>
+<div id="{!index}-commentBO" style="{!IF(policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+<apex:panelGroup rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+<apex:inputField rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-commentBO')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+<apex:inputField html-disabled="true" rendered="{!IF(showAdvancedFields,false, true)}" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(showAdvancedFields,true,false)}">
+<apex:inputField required="false" rendered="{!IF(showAdvancedFields,true,false)}" onchange="setCommentVal(this,'{!index}-commentBO')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+</apex:panelGroup>
+<apex:inputField styleClass="comment" value="{!policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+</div>                   
+</div>
+<div style="clear:both"/>
+<apex:variable value="{!index + 1}" var="index"/>
+<br/>
+</apex:repeat>
+</div>
+</div>
+-->
+                                <!-- End Branch Offices Mods -->
+                                
+                                <!-- Start Training Mods -->
+                                <!--
+<div class="slds-section">
+<h3 class="slds-section__title">
+<p aria-controls="expando-unique-id" class="slds-section__title-action">
+<svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+</svg>
+<span class="slds-truncate" title="Section Title">Schedule Modifiers - Training (-5% to +10%):</span>
+</p>
+</h3>
+</div>
+
+<div class="slds-form slds-form_horizontal">
+<div class="slds-form-element">
+<apex:variable value="{!0}" var="index"/>
+
+<apex:repeat value="{!allModFieldsTraining}" var="modVar">
+
+<label class="slds-form-element__label">
+<apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+</label>
+<div class="slds-form-element__control">
+<div id="{!index}-actualModTraining" >
+<apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+<apex:inputField html-disabled="{!IF(showAdvancedFields,false,true)}" rendered="{!IF(AND(!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+<apex:inputField rendered="{!IF(showAdvancedFields, true,false)}" required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', showAdvancedFields), true,false)}">
+<apex:inputField required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !showAdvancedFields), true,false)}">
+<apex:inputField html-disabled="true" rendered="{!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+<apex:inputField required="false" rendered="{!!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+</apex:panelGroup>
+</div>
+<div id="{!index}-checkTraining" >
+<apex:inputCheckbox disabled="{!IF(showAdvancedFields, false,true)}"  label="override" value="{!policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModTraining', '{!index}-commentTraining', '{!index}-checkTraining', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+<apex:inputField styleClass="overrider" value="{!policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+</div>
+<div id="{!index}-commentTraining" style="{!IF(policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+<apex:panelGroup rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+<apex:inputField rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" onchange="setCommentVal(this,'{!index}-commentTraining')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+<apex:inputField html-disabled="true" rendered="{!IF(showAdvancedFields,false, true)}" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+</apex:panelGroup>
+<apex:panelGroup rendered="{!IF(showAdvancedFields,true,false)}">
+<apex:inputField required="false" rendered="{!IF(showAdvancedFields,true,false)}" onchange="setCommentVal(this,'{!index}-commentTraining')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+</apex:panelGroup>
+<apex:inputField styleClass="comment" value="{!policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+</div>                   
+</div>
+<div style="clear:both"/>
+<apex:variable value="{!index + 1}" var="index"/>
+<br/>
+</apex:repeat>
+</div>
+</div>
+-->
+                                <!-- End Training Mods -->
+                                
+                                
+                                <!-- Start General Modifications Mods -->
+                                <div class="slds-section">
+                                    <h3 class="slds-section__title">
+                                        <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                            <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                            </svg>
+                                            <span class="slds-truncate" title="Section Title">Schedule Modifiers - General Modifications (-5% to +10%):</span>
+                                        </p>
+                                    </h3>
+                                </div>
+                                
+                                <div class="slds-form slds-form_horizontal">
+                                    <div class="slds-form-element">
+                                        <apex:variable value="{!0}" var="index"/>
+                                        
+                                        <apex:repeat value="{!allModFieldsGM}" var="modVar">
+                                            
+                                            <label class="slds-form-element__label">
+                                                <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <div id="{!index}-actualModGM" >
+                                                    <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                        <apex:inputField html-disabled="{!IF(showAdvancedFields,false,true)}" rendered="{!IF(AND(!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField rendered="{!IF(showAdvancedFields, true,false)}" required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-20" html-max="10" />
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', showAdvancedFields), true,false)}">
+                                                        <apex:inputField required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-20" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField required="false" rendered="{!!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-20" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                </div>
+                                                <div id="{!index}-checkGM" >
+                                                    <apex:inputCheckbox disabled="{!IF(showAdvancedFields, false,true)}"  label="override" value="{!policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModGM', '{!index}-commentGM', '{!index}-checkGM', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                    <apex:inputField styleClass="overrider" value="{!policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                                </div>
+                                                <div id="{!index}-commentGM" style="{!IF(policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                    <apex:panelGroup rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-commentGM')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!IF(showAdvancedFields,false, true)}" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(showAdvancedFields,true,false)}">
+                                                        <apex:inputField required="false" rendered="{!IF(showAdvancedFields,true,false)}" onchange="setCommentVal(this,'{!index}-commentGM')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                    </apex:panelGroup>
+                                                    <apex:inputField styleClass="comment" value="{!policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                                </div>                   
+                                            </div>
+                                            <div style="clear:both"/>
+                                            <apex:variable value="{!index + 1}" var="index"/>
+                                            <br/>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                                <!-- End General Modifications Mods -->
+                                
+                                <!-- Start Override Mods -->
+                                <div class="slds-section">
+                                    <h3 class="slds-section__title">
+                                        <p aria-controls="expando-unique-id" class="slds-section__title-action">
+                                            <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" >
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                            </svg>
+                                            <span class="slds-truncate" title="Section Title">Schedule Modifiers - Override (needs Approval):</span>
+                                        </p>
+                                    </h3>
+                                </div>
+                                
+                                <div class="slds-form slds-form_horizontal">
+                                    <div class="slds-form-element">
+                                        <apex:variable value="{!0}" var="index"/>
+                                        
+                                        <apex:repeat value="{!allModFieldsOver}" var="modVar">
+                                            
+                                            <label class="slds-form-element__label">
+                                                <apex:outputLabel value="{!modVar.label}" style="font-weight:bold;font-size:13px;" />
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <div id="{!index}-actualModOver" >
+                                                    <apex:panelGroup rendered="{!IF(modVar.label == 'General Override', true,false)}">
+                                                        <apex:inputField html-disabled="{!IF(showAdvancedFields,false,true)}" rendered="{!IF(AND(!showAdvancedFields), true,false)}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField rendered="{!IF(showAdvancedFields, true,false)}" required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', showAdvancedFields), true,false)}">
+                                                        <apex:inputField required="false" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(modVar.label != 'General Override', !showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" rendered="{!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" styleClass="slds-input slds-size_1-of-6 actualMod"  />
+                                                        <apex:inputField required="false" rendered="{!!policy[modVar.fsmOverride.fieldPath]}" value="{!policy[modVar.fsmModVal.fieldPath]}" onchange="displayComment(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" styleClass="slds-input slds-size_1-of-6 actualMod" html-min="-5" html-max="10" />                                                
+                                                    </apex:panelGroup>
+                                                </div>
+                                                <div id="{!index}-checkOver" >
+                                                    <apex:inputCheckbox disabled="{!IF(showAdvancedFields, false,true)}"  label="override" value="{!policy[modVar.fsmOverride.fieldPath]}" onchange="overrideMods(this, '{!index}-actualModOver', '{!index}-commentOver', '{!index}-checkOver', '{!modVar.label}')" style="position: absolute;width: 1.5%;margin-left:12%;margin-right: 10%;margin-top: -30px;" styleClass="slds-input slds-size_1-of-4 isModOverride" />  
+                                                    <apex:inputField styleClass="overrider" value="{!policy[modVar.fsmOverride.fieldPath]}" style="display:none;" />
+                                                </div>
+                                                <div id="{!index}-commentOver" style="{!IF(policy[modVar.fsmComment.fieldPath] != null,'width:43%;position: absolute;margin-left: 15%;margin-top: -30px;' ,'display:none;width:43%;position: absolute;margin-left: 15%;margin-top: -30px;')}">
+                                                    <apex:panelGroup rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField rendered="{!IF(AND(!policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}" required="false" onchange="setCommentVal(this,'{!index}-commentOver')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(AND(policy[modVar.fsmOverride.fieldPath],!showAdvancedFields), true,false)}">
+                                                        <apex:inputField html-disabled="true" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />                                               
+                                                    </apex:panelGroup>
+                                                    <apex:panelGroup rendered="{!IF(showAdvancedFields,true,false)}">
+                                                        <apex:inputField required="false" rendered="{!IF(showAdvancedFields,true,false)}" onchange="setCommentVal(this,'{!index}-commentOver')" value="{!policy[modVar.fsmComment.fieldPath]}" style="width:100%;height:20px;" styleClass="slds-input slds-size_1-of-1 comment" html-placeholder="Add Comment" html-min="-5" html-max="10" />   
+                                                    </apex:panelGroup>
+                                                    <apex:inputField styleClass="comment" value="{!policy[modVar.fsmComment.fieldPath]}" style="display:none;" />
+                                                </div>                   
+                                            </div>
+                                            <div style="clear:both"/>
+                                            <apex:variable value="{!index + 1}" var="index"/>
+                                            <br/>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                                <!-- End Override Mods -->
+                                
+                                <!--                           </p>-->
+                            </div>
+                            <footer class="slds-modal__footer">
+                                
+                                <button type="button" class="slds-button slds-button--neutral" onclick="toggleModal()">Cancel</button>
+                                <button id="saveSCH" type="button" class="slds-button slds-button_brand" onclick="toggleModalOk()">Save</button>
+                                <button type="button" class="slds-button slds-button--neutral" onclick="clearModal()">Clear</button>
+                                <!--<apex:commandButton styleClass="slds-button slds-button_brand" value="Save" onclick="toggleModalOk()" reRender="null"/>-->
+                            </footer>
+                        </div>
+                    </section>
+                    <div id="backdrop" class="slds-backdrop slds-backdrop_close"></div>
+                </div>
+                <div  >
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" id="templateModalNew2" class="slds-modal slds-fade-in-close slds-modal_large">
+                        <div class="slds-modal__container" style="    width: 50% !important;">
+                            <header class="slds-modal__header">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                    </svg>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Claims Factor</h2>
+                                <p class="slds-m-top_x-small" style="color:red;font-weight:bold;font-size:18px;display:none;">Please add claim factor</p>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                
+                                
+                                <div class="slds-form slds-form_horizontal">
+                                    <div class="slds-form-element">
+                                        <apex:panelGroup >
+                                            <label class="slds-form-element__label">
+                                                <apex:outputLabel value="Claims Factor" style="font-weight:bold;font-size:13px;" />
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputText html-placeholder="Enter Claims Factor" styleClass="slds-input application_required actualModNew2" id="ClaimsFactorAppEdit" value="{!claimsFactor}"/>                 
+                                            </div>
+                                        </apex:panelGroup>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <button type="button" class="slds-button slds-button--neutral" onclick="toggleModalNew2()">Cancel</button>
+                                <button id="saveSCH" type="button" class="slds-button slds-button_brand" onclick="toggleModalOkNew2()">Save</button>
+                            </footer>
+                        </div>
+                    </section>
+                    <div id="backdropNew2" class="slds-backdrop slds-backdrop_close"></div>
+                </div>
+                <div>
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" id="templateModalTerms" class="slds-modal slds-fade-in-close slds-modal_large">
+                        <div class="slds-modal__container" style="    width: 50% !important;">
+                            <header class="slds-modal__header">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                    </svg>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Terms &amp; Conditions</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                
+                                
+                                <div class="slds-form slds-form_horizontal">
+                                    <div class="slds-form-element">
+                                        <apex:panelGroup >
+                                            <apex:inputTextarea html-placeholder="Enter Terms & Conditions" styleClass="slds-input actualTerms" id="TermsConditionsinput" value="{!termsConditions}" rows="20" richText="true"/>                 
+                                        </apex:panelGroup>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <button type="button" class="slds-button slds-button--neutral" onclick="toggleModalTerms()">Cancel</button>
+                                <button id="saveSCH" type="button" class="slds-button slds-button_brand" onclick="toggleModalTermsSave()">Save</button>
+                            </footer>
+                        </div>
+                    </section>
+                    <div id="backdropTerms" class="slds-backdrop slds-backdrop_close"></div>
+                </div>
+            </apex:form>
+        </body>
+    </html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.js">
+    </script>
+    <script>
+    function renderFootable(){
+        $('.footable').footable();
+    }    
+    renderFootable();
+    var unsaved = false;
+    
+    $(":input").change(function(){ 
+        unsaved = true;
+    });
+    
+    function unloadPage(){ 
+        if(unsaved){
+            return "You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?";
+        }
+    }
+    window.onbeforeunload = unloadPage; 
+    </script>
+</apex:page>

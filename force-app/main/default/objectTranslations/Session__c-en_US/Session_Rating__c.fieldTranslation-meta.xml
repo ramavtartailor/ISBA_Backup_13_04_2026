@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter session evaluation score (1-5, with 5 as the highest) - if applicable --></help>
+    <label><!-- Session Rating --></label>
+    <name>Session_Rating__c</name>
+</CustomFieldTranslation>

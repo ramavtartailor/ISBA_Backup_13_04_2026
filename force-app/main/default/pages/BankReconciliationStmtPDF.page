@@ -1,0 +1,7 @@
+<apex:page controller="BankReconciliationStmtPDFCtrl" action="{!makePDF}">
+    
+    <apex:pageblock >
+    <apex:pageMessages id="showmsg"></apex:pageMessages>
+    </apex:pageblock>
+    
+</apex:page>

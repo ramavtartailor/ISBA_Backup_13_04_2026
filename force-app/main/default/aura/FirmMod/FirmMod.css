@@ -1,0 +1,11 @@
+.THIS th{
+    color: rgb(0, 109, 204);
+}
+.THIS td{
+    color: rgb(0, 109, 204);
+    font-weight: bolder !important;
+    display: flex;
+}
+.THIS .prevPolDetails{
+    color : #bab7b7;
+}

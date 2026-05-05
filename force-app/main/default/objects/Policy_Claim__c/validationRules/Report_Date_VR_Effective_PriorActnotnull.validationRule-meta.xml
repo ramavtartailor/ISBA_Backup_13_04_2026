@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Report_Date_VR_Effective_PriorActnotnull</fullName>
+    <active>false</active>
+    <description>In case prior act date is not null.</description>
+    <errorConditionFormula>NOT(ISPICKVAL(File_Type__c, &quot;Memo&quot;) ) &amp;&amp; 
+!ISNULL( Report_Date__c ) &amp;&amp;
+!ISNULL(Policy__r.Policy_Retroactive_Date__c) &amp;&amp;
+Report_Date__c &lt; Policy__r.Policy_Retroactive_Date__c</errorConditionFormula>
+    <errorDisplayField>Report_Date__c</errorDisplayField>
+    <errorMessage>&apos;Report Date&apos; should not be Less than Policy&apos;s &apos;Prior Act Date&apos;!</errorMessage>
+</ValidationRule>

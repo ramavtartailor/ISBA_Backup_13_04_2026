@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Select which type of document you would like to generate. --></help>
+    <label><!-- Document Type --></label>
+    <name>DocumentType__c</name>
+    <picklistValues>
+        <masterLabel>Certification of Insurance</masterLabel>
+        <translation><!-- Certification of Insurance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Declaration Page</masterLabel>
+        <translation><!-- Declaration Page --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Merge All</masterLabel>
+        <translation><!-- Merge All --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Policy Letter</masterLabel>
+        <translation><!-- Policy Letter --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

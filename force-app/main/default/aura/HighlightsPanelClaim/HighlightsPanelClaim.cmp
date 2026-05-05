@@ -1,0 +1,141 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="HighlightsPanelCtrl" access="global">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="record" type="Policy_Claim__c"
+                    description="The record object to be displayed"/>
+    <aura:attribute name="hasAnyBlock" type="boolean" default="false"/>
+    <aura:attribute name="isActiveClaim" type="boolean" default="false"/>
+    
+    <aura:attribute name="balance" type="Decimal"/>
+    <aura:attribute name="total" type="Decimal"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="{! 'mainDiv ' + if(v.hasAnyBlock,if(v.isActiveClaim,'block activeClaim','block normal'),if(v.isActiveClaim,'activeClaim','normal'))}"  >
+        <table>
+            <tr>
+                <th width="10%;">
+                    Firm ({!v.record.Policy__r.Account__r.AccountNumber})
+                </th>
+                <th width="10%;">
+                    Firm Address
+                </th>
+                <th width="10%;">
+                    Contact
+                </th>
+                <th width="10%;">
+                    Claim User
+                </th>
+                <th width="10%;">
+                    Firm Phone Number
+                </th>
+                <th width="10%;">
+                    Claimant
+                </th>
+                <th width="10%;">
+                    Lawyer
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <aura:if isTrue="{! v.record.Claim_Firm_Name__c != null }">
+                        <a href="{!'/one/one.app?#/sObject/'+ v.record.Policy__r.Account__c + '/view'}" target="">{!v.record.Claim_Firm_Name__c}</a>
+                        <aura:set attribute="else">
+                            <a href="{!'/one/one.app?#/sObject/'+ v.record.Policy__r.Account__c + '/view'}" target="">{!v.record.Policy__r.Account__r.Name}</a>
+                        </aura:set>
+                    </aura:if>
+                    <aura:if isTrue="{! v.record.Policy__r.Account__r.Policy_Series_Age_display__c != null }">
+                        <br/>
+                        Policy Holder:&nbsp;{!v.record.Policy__r.Account__r.Policy_Series_Age_display__c} years
+                    </aura:if>
+                </td>
+                <td>
+                    <pre style="margin: 0 !important;font-family: inherit;font-size: inherit;">
+                        {!v.record.Policy__r.Account__r.BillingStreet}
+                    </pre>
+                    {!v.record.Policy__r.Account__r.BillingCity}, {!v.record.Policy__r.Account__r.BillingState}&nbsp;{!v.record.Policy__r.Account__r.BillingPostalCode}
+                </td>
+                <td>
+                    {!v.record.Policy__r.Firm_Contact__r.Name}<br/>
+                    <a href="{!'mailto:'+v.record.Policy__r.Firm_Contact__r.Email}">{!v.record.Policy__r.Firm_Contact__r.Email}</a><br/>
+                    <lightning:clickToDial value="{!v.record.Firm_Contact__r.Phone}"/>
+                    <a style="display:none;" href="{!'tel:'+v.record.Firm_Contact__r.Phone}">{!v.record.Firm_Contact__r.Phone}</a>
+                </td>
+                <td>
+                    {!v.record.Claim_Handler_Lookup__r.Name}
+                </td>
+                <td>
+                    <lightning:clickToDial value="{!v.record.Account__r.Phone}"/>
+                    <a style="display:none;" href="{!'tel:'+v.record.Account__r.Phone}">{!v.record.Account__r.Phone}</a>
+                </td>
+                <td>
+                    {!v.record.Claimant__c}
+                </td>
+                <td>
+                    {!v.record.LawyerNew__r.Contact__r.Name}
+                </td>
+            </tr>
+            <tr>
+                &nbsp;
+            </tr>
+            <tr>
+                <th width="10%;">
+                    Claim Type
+                </th>
+                <th width="10%;">
+                    Remaining Claim Limits
+                </th>
+                <th width="10%;">
+                    Remaining Claim Deductible 
+                </th>
+                <th width="10%;">
+                    Policy Limits
+                </th>
+                <th width="10%;">
+                    Policy Deductible/
+                    Balance
+                </th>
+                <th width="10%;">
+                    Loss Reserves
+                </th>
+                <th width="10%;">
+                    LAE Reserves
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    {!v.record.File_Type__c}
+                </td>
+                <td>
+                    <lightning:formattedNumber value="{!v.record.Per_Claim_Limit_Balance__c }" style="currency" currencyCode="USD"/>
+                </td>
+                <td>
+                    <lightning:formattedNumber value="{!v.record.Per_Claim_Deductible_Balance__c}" style="currency" currencyCode="USD"/>
+                </td>
+                <td>
+                    {!v.record.Policy__r.Limits__c}
+                </td>
+                
+                <td>
+                    {!v.record.Policy__r.Deductible__c}<br/>
+                    <lightning:formattedNumber value="{!v.balance}" style="currency" currencyCode="USD"/>
+                </td>
+                <td>
+                    <lightning:formattedNumber value="{!v.record.GL_5010__c}" style="currency" currencyCode="USD"/>
+                </td>
+                <td>
+                    <lightning:formattedNumber value="{!v.record.GL_5035__c}" style="currency" currencyCode="USD"/>
+                </td>
+            </tr>
+            <tr>
+                <th width="10%;">
+                    Total
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <lightning:formattedNumber value="{!v.total}" style="currency" currencyCode="USD"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</aura:component>

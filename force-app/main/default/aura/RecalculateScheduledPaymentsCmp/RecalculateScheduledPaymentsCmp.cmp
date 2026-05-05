@@ -1,0 +1,30 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="RecalculateScheduledPayments">
+	<aura:html tag="style">
+        .slds-modal__footer{
+        	display:none !important;
+        }      
+        .slds-modal__content{
+            height:initial !important;
+            max-height:15rem !important;
+        	padding:0px !important;
+        }
+        .cuf-content {
+        	padding:0px !important;
+        }
+    </aura:html>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="String" default=''/>
+    <div class="dflexc_col">
+    	<div class="container_body">
+        	Are you sure you want to recalculate scheduled payments?
+        </div>
+        <div class="modal_footer">
+            <div>
+            	<lightning:button variant="neutral" label="No" title="No" onclick="{! c.handleNo }" />
+            </div>
+            <div>
+            	<lightning:button variant="brand" label="Yes" title="Yes" onclick="{! c.handleYes }" />
+            </div>
+        </div>
+    </div>
+</aura:component>

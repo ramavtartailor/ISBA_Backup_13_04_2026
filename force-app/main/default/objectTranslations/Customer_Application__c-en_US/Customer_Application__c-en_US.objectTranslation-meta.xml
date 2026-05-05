@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Online Application</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Online Applications</value>
+    </caseValues>
+    <layouts>
+        <layout>Customer Application Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel>Online Application Number</nameFieldLabel>
+    <quickActions>
+        <label><!-- Close NBA --></label>
+        <name>Close_NBA</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Convert NBA --></label>
+        <name>Convert_NBA</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Incomplete --></label>
+        <name>Incomplete</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Mark as Lost --></label>
+        <name>Mark_as_Lost</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Process Regular Renewal --></label>
+        <name>Process_Regular_Renewal</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Re-Open NBA --></label>
+        <name>Re_Open_NBA</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reject Application --></label>
+        <name>Reject_Application</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Request Delete --></label>
+        <name>Request_Delete</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Restore from Lost --></label>
+        <name>Restore_from_Lost</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Retry Match --></label>
+        <name>Retry_Match</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reviewed --></label>
+        <name>Reviewed</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- New Business --></label>
+        <name>New_Business</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Regular Renewal --></label>
+        <name>Regular_Renewal</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You cannot mark the status as &quot;Converted&quot;. --></errorMessage>
+        <name>Converted_Status_Validation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You cannot change the status from Incomplete or Completed to Reviewed. --></errorMessage>
+        <name>Status_Update_Error</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Create_New_App --></label>
+        <name>Create_New_App</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Create_New_App1 --></label>
+        <name>Create_New_App1</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Print_Application --></label>
+        <name>Print_Application</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Application_Link --></label>
+        <name>Send_Application_Link</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Send_Final_Email --></label>
+        <name>Send_Final_Email</name>
+    </webLinks>
+</CustomObjectTranslation>

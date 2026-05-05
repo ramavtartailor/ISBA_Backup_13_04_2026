@@ -1,0 +1,63 @@
+<apex:page standardController="Policy__c" extensions="RegularRenewalPDFExtn" renderAs="pdf" applyBodyTag="false" readOnly="true">
+    <head>
+        <style>
+            @page {
+                size:portrait;
+                margin-left: 0.8cm;
+                margin-right: 0.8cm;
+                margin-top: 0.8cm;
+                margin-bottom: 0.8cm;
+            }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+            
+            
+        </style>
+    </head>
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />    
+    <body>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:55%;" class="tableDataLeft">
+                    <apex:image url="{!$Resource.ISBAM_info_logo}" width="293" height="75"/>
+                </td>
+                <td style="width:25%;vertical-align:bottom;" class="tableDataLeft">
+                    <p class="normalParagraph tableDataLeft colorMaroon" >
+                        {!$Organization.Street}
+                        <br/>
+                        {!$Organization.City}, {!$Organization.State} {!$Organization.PostalCode}
+                    </p>
+                </td>
+                <td style="width:20%;vertical-align:bottom;" class="tableDataRight">
+                    <p class="normalParagraph tableDataLeft colorMaroon">
+                        {!$Organization.Phone}
+                        <br/>
+                        {!$Organization.Fax}
+                        <br/>
+                        <b class="colorRed">isba</b><b class="colorMaroon">mutual.com</b>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <br/>
+                
+        <c:RenewalLetter recordIdParam="{!Policy__c.Id}"  />
+    </body>
+</apex:page>

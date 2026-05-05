@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- URL for redirecting the user after the survey is completed. The Thank You Text will not be shown if this field has a value. --></help>
+    <label><!-- Thank You Link --></label>
+    <name>Thank_You_Link__c</name>
+</CustomFieldTranslation>

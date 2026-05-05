@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Session Format --></label>
+    <name>Session_Format__c</name>
+    <picklistValues>
+        <masterLabel>Customer Panel and Demo</masterLabel>
+        <translation><!-- Customer Panel and Demo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Demo with customer(s)</masterLabel>
+        <translation><!-- Demo with customer(s) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hands-on training</masterLabel>
+        <translation><!-- Hands-on training --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Keynote</masterLabel>
+        <translation><!-- Keynote --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Panel with customers</masterLabel>
+        <translation><!-- Panel with customers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner Session</masterLabel>
+        <translation><!-- Partner Session --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Presentation with customer(s)</masterLabel>
+        <translation><!-- Presentation with customer(s) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Presentation without customer(s)</masterLabel>
+        <translation><!-- Presentation without customer(s) --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,89 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access='global' controller='OverDueTaskComponentExt'>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="valuesList" type="List[]" />
+    <aura:attribute name="objTask" type="Object" />
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="ListIsEmpty" type="boolean" />
+    <aura:attribute name="todayDate" type="Date" />
+    
+    <aura:if isTrue="{!v.ListIsEmpty}">
+        <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <div class="slds-media__body" >
+                        <h2 id="header_1420:0" >
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Policy Lawyers">
+                                <b>OPEN TASKS</b> 
+                            </span>
+                        </h2>
+                        <p>No current tasks</p>
+                    </div>
+                </header>
+            </div>
+        </article>
+    </aura:if>
+    <aura:if isTrue="{!!v.ListIsEmpty}">
+        <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <div class="slds-media__body" >
+                        <h2 id="header_1420:0" >
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="OPEN TASKS">
+                                <b>OPEN TASKS</b> 
+                            </span>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                        <div class="listViewContent" >
+                            <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                    <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid"> 
+                                        
+                                        <tbody>
+                                            <aura:iteration var="val" items="{!v.valuesList}" indexVar="index">
+                                                <tr style="cursor: pointer;text-decoration: underline;" data-recId="{!val.Id}" data-value="{!val.value}" onclick="{!c.Navigate}">
+                                                    <td scope="row" width="25%" >
+                                                        <aura:if isTrue="{!val.ActivityDate == v.todayDate}">
+                                                            <span style="color: blue; font-weight: bold;">{!val.ActivityDate}</span>
+                                                            <aura:set attribute="else">
+                                                                <aura:if isTrue="{!val.ActivityDate > v.todayDate}">
+                                                                    <span  style="color: maroon; font-weight: bold;">{!val.ActivityDate}</span>
+                                                                    <aura:set attribute="else">
+                                                                        <span  style="color: green; font-weight: bold;">{!val.ActivityDate}</span>
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </td>
+                                                    <td scope="row" width="75%" data-selected-Index="{!index}" data-id="{!index}" style="white-space: normal !important;">
+                                                        <aura:if isTrue="{!val.ActivityDate == v.todayDate}">
+                                                            <span style="color: blue; font-weight: bold;">{!val.Subject}</span>
+                                                            <aura:set attribute="else">
+                                                                <aura:if isTrue="{!val.ActivityDate > v.todayDate}">
+                                                                    <span  style="color: maroon; font-weight: bold;">{!val.Subject}</span>
+                                                                    <aura:set attribute="else">
+                                                                        <span  style="color: green; font-weight: bold;">{!val.Subject}</span>
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                            </aura:iteration>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>XXXUnallocated_Memo_Fields_Control</fullName>
+    <active>false</active>
+    <errorConditionFormula>RecordType.Name = &apos;Unallocated LAE&apos; 
+&amp;&amp;
+ ISPICKVAL(  Policy_Claim__r.File_Type__c , &apos;ARDC Complaint&apos;) &amp;&amp;
+ ISPICKVAL(  Type__c , &apos;Claim Coverage - Memo&apos;)
+&amp;&amp;
+ Not(
+   OR(
+  ISBLANK(ISBA_First_Payment__c),
+  ISBLANK(ISBA_Contribution__c) )
+ )</errorConditionFormula>
+    <errorMessage>&apos;ARDC Information&apos; Section should be empty in case of &apos;Memo&apos;!</errorMessage>
+</ValidationRule>

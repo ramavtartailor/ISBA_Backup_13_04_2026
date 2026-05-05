@@ -1,0 +1,32 @@
+.THIS.block {
+    border-style: solid;
+    border-color: red;
+    border-width: 5px;
+}
+.THIS.latestApplication {
+    background-color: #d8ecff;
+    padding: .75rem 1rem;
+}
+.THIS.isApplication {
+    background-color: #ffc890;
+    padding: .75rem 1rem;
+}
+.THIS.latestPolicy {
+    background-color: #b4ffb4;
+    padding: .75rem 1rem;
+}
+.THIS.policy {
+    background-color: #ffffff;
+    padding: .75rem 1rem;
+}
+.THIS.EREPolicy{
+    background-color: #05fe05;
+    padding: .75rem 1rem;
+}
+
+.THIS th {
+  padding-left: 15px;
+}
+.THIS td {
+  padding-left: 15px;
+}

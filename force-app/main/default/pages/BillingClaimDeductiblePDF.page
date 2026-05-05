@@ -1,0 +1,262 @@
+<apex:page standardController="AcctSeed__Billing__c" extensions="BillingClaimDeductiblePDFCtrl" applyBodyTag="false" renderAs="pdf">
+    <head>
+        <style type="text/css" media="print">
+            @page:first {
+                @top-right {
+                    content: element(headerFirst);
+                }
+                @bottom-left {
+                    content: element(footer);
+                }
+                margin-top:200px;
+            }
+            @page {
+                @top-right {
+                    content: element(header);
+                }
+                @bottom-left {
+                    content: element(footer);
+                }
+                margin-top:200px;
+            }
+            div.headerFirst {
+                position: running(headerFirst);
+            }
+            div.header {
+                position: running(header);
+                margin-bottom: -55px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);
+            }
+            .pagenumber:before {
+                content: counter(page);
+            }
+            .pagecount:before {
+                content: counter(pages);
+            }
+            
+            
+            .columnHeader {
+                text-align: right;
+            }
+                      
+            .alignRight {
+                text-align: right
+            }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="headerFirst">
+            
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:55%;" class="tableDataLeft">
+                        <apex:image url="{!$Resource.ISBAM_info_logo}" width="293" height="75"/>
+                    </td>
+                </tr>
+            </table>
+            <h1 style="text-align:center; color:red;">
+                INVOICE
+            </h1>
+        </div>
+        <div class="header">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:55%;" class="tableDataLeft">
+                        <apex:image url="{!$Resource.ISBAM_info_logo}" width="293" height="75"/>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <!--<div>Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+            </div>-->
+        </div>
+        <div class="content">
+            <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                <apex:param value="{!AcctSeed__Billing__c.AcctSeed__Date__c}" />
+            </apex:outputText>
+            <br/>
+
+            <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                <apex:param value="{!AcctSeed__Billing__c.AcctSeed__Date__c + 30}" />
+            </apex:outputText>
+            <br/>
+            <br/>
+            <apex:outputText value="{!AcctSeed__Billing__c.AcctSeed__Billing_Contact__r.Name}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Contact__c)}"/>
+            <br/>
+            <apex:outputText value="{!AcctSeed__Billing__c.Claim__r.Policy__r.Firm_Contact__r.Name}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Contact__c)}"/>
+            <br/>
+            <apex:outputText value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.Name}" />
+            <br/>
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_Street__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Street__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingStreet}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_Street__c)}" />
+            <br/>
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_City__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_City__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingCity}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_City__c)}" />
+            <apex:outputText value=",&nbsp;" escape="false" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_City__c) || !ISBLANK(AcctSeed__Billing__c.AcctSeed__Customer__r.BillingCity)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_State__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_State__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingState}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_State__c)}" />&nbsp;
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Billing_PostalCode__c}" rendered="{!!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_PostalCode__c)}" />
+            <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Customer__r.BillingPostalCode}" rendered="{!ISBLANK(AcctSeed__Billing__c.AcctSeed__Billing_PostalCode__c)}" />
+            
+            <!-- Add On-->
+            
+            <apex:outputField value="{!AcctSeed__Billing__c.Claim__r.Policy__r.Name}" rendered="{!ISBLANK(AcctSeed__Billing__c.Claim__r.Policy__r.Name)}" />
+            <br/>
+            <apex:outputField value="{!AcctSeed__Billing__c.Claim__r.Name}" rendered="{!ISBLANK(AcctSeed__Billing__c.Claim__r.Name)}" />
+            <br/>
+            <apex:outputField value="{!AcctSeed__Billing__c.Policy__r.Deductible__c}" rendered="{!ISBLANK(AcctSeed__Billing__c.Policy__r.Deductible__c)}" />
+            
+            <br/>
+            <br/><br/>
+            <table style="border: 1px solid black; border-collapse: collapse; margin: 0 auto; width: 100%;">
+            <tr style="text-align:center; color:red;">
+                <td style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                    <b>INVOICE AMOUNT DUE: 
+                    <apex:outputText value=" $ {0,number,###,###,##0.00}">
+                        <apex:param value="{!AcctSeed__Billing__c.AcctSeed__Balance__c}" />
+                    </apex:outputText></b>
+                </td>
+            </tr>
+            <tr style="text-align:center; color:red;">
+                <td style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                    <b>DUE DATE:&nbsp;
+                    <apex:outputText value="{0,date,MM/dd/yyyy}"> 
+                        <apex:param value="{!AcctSeed__Billing__c.AcctSeed__Date__c + 30}" />
+                    </apex:outputText></b>
+                </td>
+            </tr>
+
+        </table>
+            <br/>
+            
+            <table style="border: 1px solid black; border-collapse: collapse; margin: 0 auto; text-align:center; width: 100%;">
+                <tr>
+                    <th colspan="5" style="border: 1px solid black; padding: 10px; line-height: 2px;">Invoice Details:</th>
+                </tr>
+                <tr>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Date of Invoice</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Billing Number</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Total</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Paid</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Balance</th>
+                </tr>
+                <tr>
+                    <td width="20%" style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Date__c}"/>
+                    </td>
+                    <td width="20%" style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                        <apex:outputField value="{!AcctSeed__Billing__c.Name}"/>
+                    </td>
+                    <td width="20%" style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Total__c}"/>
+                    </td>
+                    <td width="20%" style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Received_Amount__c}"/>
+                    </td>
+                    <td width="20%" style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                        <apex:outputField value="{!AcctSeed__Billing__c.AcctSeed__Balance__c}"/>
+                    </td>
+                </tr>
+            </table>
+        
+            <br/>
+            <br/>
+
+            <table style="border: 1px solid black; border-collapse: collapse; margin: 0 auto; text-align:center; width: 100%;">
+                <tr>
+                    <th colspan="5" style="border: 1px solid black; padding: 10px; line-height: 2px;">Previous Deductible Payment Information:</th>
+                </tr>
+                <tr>
+                    <td colspan="4" style="border: 1px solid black; padding: 10px; line-height: 2px; text-align:left;">Policy Deductible Amount:</td>
+                    <td style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                    <apex:outputText value="$ {0,number,###,###,##0.00}">
+                        <apex:param value="{!AcctSeed__Billing__c.Policy_Deductible_Amount__c}" />
+                    </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="border: 1px solid black; padding: 10px; line-height: 2px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Date of Invoice</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Billing Number</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Total</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Paid</th>
+                    <th width="20%" style="border: 1px solid black; padding: 10px; line-height: 20px;">Balance</th>
+                </tr>
+                <apex:repeat value="{!relatedBillings}" var="b">
+                    <tr>
+                        <td style="border:1px solid black;padding:15px; line-height: 2px;">
+                            <apex:outputText value="{0,date,MM/dd/yyyy}">
+                                <apex:param value="{!b.AcctSeed__Date__c}"/>
+                            </apex:outputText>
+                        </td>
+                        <td style="border:1px solid black;padding:15px; line-height: 2px;">
+                            {!b.Name}
+                        </td>
+                        <td style="border:1px solid black;padding:15px; line-height: 2px;">
+                            <apex:outputText value="$ {0,number,###,###,##0.00}">
+                                <apex:param value="{!b.AcctSeed__Total__c}"/>
+                            </apex:outputText>
+                        </td>
+                        <td style="border:1px solid black;padding:15px; line-height: 2px;">
+                            <apex:outputText value="$ {0,number,###,###,##0.00}">
+                                <apex:param value="{!b.AcctSeed__Received_Amount__c}"/>
+                            </apex:outputText>
+                        </td>
+                        <td style="border:1px solid black;padding:15px; line-height: 2px;">
+                            <apex:outputText value="$ {0,number,###,###,##0.00}">
+                                <apex:param value="{!b.AcctSeed__Balance__c}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            
+            <p>
+                Per_Claim_Deductible
+                {!AcctSeed__Billing__c.Claim__r.Per_Claim_Deductible__c}
+            </p>
+            <p>
+                Deductible_Remaining
+                {!AcctSeed__Billing__c.Claim__r.Deductible_Remaining__c} 
+            </p>
+            <p>
+                Deductible_Applied 
+                {!AcctSeed__Billing__c.Claim__r.Deductible_Applied__c} 
+            </p>
+            <p>
+                {!AcctSeed__Billing__c.Payment_Link__c}
+            </p>
+            <p>
+                If you have any questions, please contact our Accounting Team at
+                312‑379‑2005 or accounting@ISBAMutual.com.
+            </p>
+        </div>
+    </body>
+</apex:page>

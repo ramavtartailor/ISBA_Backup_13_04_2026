@@ -1,0 +1,64 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Past Acts Coverage Buyback Endorsement
+    </p>
+    <p class="normalParagraph">
+        This endorsement amends this Policy.
+    </p>
+    <br/>
+    <ol>
+        <li>
+            <p class="normalParagraph">
+                Such coverage as is afforded by this Policy is extended to include a CLAIM for a WRONGFUL ACT committed by &nbsp;<apex:outputField value="{!endorsement.Attorney__c}"/>&nbsp; during the following terms at 12:01 a.m. Central Standard Time:
+                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr>
+                        <td style="width:50%;" class="tableDataCenter">
+                            <p class="normalParagraph tableDataCenter">
+                                <u>Name of Firm</u>
+                            </p>
+                        </td>
+                        <td style="width:50%;" class="tableDataCenter">
+                            <p class="normalParagraph tableDataCenter">
+                                <u>Term</u>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%;" class="tableDataCenter">
+                            <p class="normalParagraph tableDataCenter">
+                                <apex:outputField value="{!endorsement.Firm_Entity__c}"/>
+                            </p>
+                        </td>
+                        <td style="width:50%;" class="tableDataCenter">
+                            <p class="normalParagraph tableDataCenter">
+                                <!-- <apex:outputField value="{!endorsement.Term__c}"/> -->
+                                <apex:outputText value="{0,date,MM/dd/yyyy}" > <apex:param value="{!endorsement.Term_Start_Date__c}" /> </apex:outputText> <apex:outputText value=" to " rendered="{!if(endorsement.Term_Start_Date__c!=null,true,false)}"></apex:outputText>  <apex:outputText value="{0,date,MM/dd/yyyy}" > <apex:param value="{!endorsement.Term_End_Date__c}" /> </apex:outputText>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </p>
+        </li>
+        <li>
+            <p class="normalParagraph">
+                The above extension of coverage does not include any CLAIM against the INSURED named above that is based upon liability for a WRONGFUL ACT which occurred prior to the date the lawyer named above joined the above described firm(s)/entity(ies).
+            </p>
+        </li>
+    </ol>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:310px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

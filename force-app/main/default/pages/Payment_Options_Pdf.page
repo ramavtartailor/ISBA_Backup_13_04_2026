@@ -1,0 +1,23 @@
+<apex:page standardController="Policy__c" applyBodyTag="false" readOnly="true" renderAs="pdf">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <body>
+        <div class="header" style="margin-top:50px;">
+            <c:PolicyHeader recordIdParam="{!Policy__c.Id}"/>
+        </div>
+        <div class="footer" style="width:100%">
+            <div style="width:50%;float:left">
+                <p class="normalParagraph">
+                    &nbsp;
+                </p>
+            </div>
+            <div style="width:50%;float:right">
+                <p style="text-align:right;" class="normalParagraph">
+                    Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                </p>
+            </div>
+        </div>  
+        <div class="content">
+            <c:PaymentOptions recordIdParam="{!Policy__c.Id}"/>
+        </div>
+    </body>
+</apex:page>

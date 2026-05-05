@@ -1,0 +1,25 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Optional Extended Reporting Period Election Endorsement
+    </p>
+    <p class="">
+        In consideration of the payment of the additional premium of&nbsp;<apex:outputField value="{!endorsement.Premium__c}"/>, it is agreed that the<span class="b"> Named Insured </span>has elected to purchase
+        <apex:outputPanel rendered="{!endorsement.ERE_Months__c != 1200}">
+            a&nbsp;<apex:outputField value="{!endorsement.ERE_Months__c}"/>&nbsp;month 
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!endorsement.ERE_Months__c == 1200}">
+            an unlimited
+        </apex:outputPanel>
+        Optional <b>Extended Reporting Period</b> in accordance with<b> VII. EXTENDED REPORTING PERIODS, A. </b>Optional <b>Extended Reporting Period</b>.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:330px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

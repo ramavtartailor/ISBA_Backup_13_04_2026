@@ -1,0 +1,2 @@
+<apex:page standardController="Policy_Endorsement__c" extensions="CreateEndorsementsEXT" action="{!onLoadPage}">
+</apex:page>

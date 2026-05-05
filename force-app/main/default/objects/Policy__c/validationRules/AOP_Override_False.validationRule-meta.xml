@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AOP_Override_False</fullName>
+    <active>true</active>
+    <description>When AOP Override is unchecked then value must not be there.</description>
+    <errorConditionFormula>AND( AOP_Override__c =False, 
+NULLVALUE(AOP_Override_Value__c, 0)&gt;0)</errorConditionFormula>
+    <errorDisplayField>AOP_Override_Value__c</errorDisplayField>
+    <errorMessage>Please check mark AOP Override first !</errorMessage>
+</ValidationRule>

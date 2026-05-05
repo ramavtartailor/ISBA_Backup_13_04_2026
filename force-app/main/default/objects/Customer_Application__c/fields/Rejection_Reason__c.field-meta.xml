@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rejection_Reason__c</fullName>
+    <label>Rejection Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CUSTOMER - ERE</fullName>
+                <default>false</default>
+                <label>CUSTOMER - ERE</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Price</fullName>
+                <default>false</default>
+                <label>CUSTOMER - Price</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Coverage</fullName>
+                <default>false</default>
+                <label>CUSTOMER - Coverage</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Practice Closed</fullName>
+                <default>false</default>
+                <label>CUSTOMER - Practice Closed</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Complaint</fullName>
+                <default>false</default>
+                <label>CUSTOMER - Complaint</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER - Other</fullName>
+                <default>false</default>
+                <label>CUSTOMER - Other</label>
+            </value>
+            <value>
+                <fullName>--------------------------------------------</fullName>
+                <default>false</default>
+                <label>--------------------------------------------</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Internal Procedures</fullName>
+                <default>false</default>
+                <label>ISBAM - Internal Procedures</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Disciplinary Issues</fullName>
+                <default>false</default>
+                <label>ISBAM - Disciplinary Issues</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Claims</fullName>
+                <default>false</default>
+                <label>ISBAM - Claims</label>
+            </value>
+            <value>
+                <fullName>ISBAM - No Response</fullName>
+                <default>false</default>
+                <label>ISBAM - No Response</label>
+            </value>
+            <value>
+                <fullName>ISBAM - Other</fullName>
+                <default>false</default>
+                <label>ISBAM - Other</label>
+            </value>
+            <value>
+                <fullName>ISBAM - IMPORT</fullName>
+                <default>false</default>
+                <label>ISBAM - IMPORT</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

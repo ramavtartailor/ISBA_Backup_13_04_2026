@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Application created</fullName>
+        <default>true</default>
+        <label>Created</label>
+    </customValue>
+    <customValue>
+        <fullName>Inquiry</fullName>
+        <default>false</default>
+        <label>Inquiry</label>
+    </customValue>
+    <customValue>
+        <fullName>Approved</fullName>
+        <default>false</default>
+        <label>Approved</label>
+    </customValue>
+    <customValue>
+        <fullName>Sent</fullName>
+        <default>false</default>
+        <label>App Sent</label>
+    </customValue>
+    <customValue>
+        <fullName>Received</fullName>
+        <default>false</default>
+        <label>Received</label>
+    </customValue>
+    <customValue>
+        <fullName>Requested Additional Information</fullName>
+        <default>false</default>
+        <label>Requested Additional Information</label>
+    </customValue>
+    <customValue>
+        <fullName>Quoted</fullName>
+        <default>false</default>
+        <label>Quoted</label>
+    </customValue>
+    <customValue>
+        <fullName>Accepted</fullName>
+        <default>false</default>
+        <label>Accepted</label>
+    </customValue>
+    <customValue>
+        <fullName>Rejected</fullName>
+        <default>false</default>
+        <label>Lost</label>
+    </customValue>
+    <customValue>
+        <fullName>Bound</fullName>
+        <default>false</default>
+        <label>Bound</label>
+    </customValue>
+    <customValue>
+        <fullName>Printed</fullName>
+        <default>false</default>
+        <label>Printed</label>
+    </customValue>
+    <customValue>
+        <fullName>Emailed</fullName>
+        <default>false</default>
+        <label>Emailed</label>
+    </customValue>
+    <customValue>
+        <fullName>Policy Sent</fullName>
+        <default>false</default>
+        <label>Policy Sent</label>
+    </customValue>
+    <customValue>
+        <fullName>Quote Pending</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Quote Pending</label>
+    </customValue>
+    <masterLabel>Policy Status</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

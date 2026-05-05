@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_Applications</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Full_Legal_Name_of_the_Firm__c</columns>
+    <columns>Firm_Phone_Number__c</columns>
+    <columns>City__c</columns>
+    <columns>Annual_Premium__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Signed_By__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Application_Status__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>notEqual</operation>
+        <value>Customer_Application__c.Regular_Renewal</value>
+    </filters>
+    <label>NBA - Completed Applications</label>
+</ListView>

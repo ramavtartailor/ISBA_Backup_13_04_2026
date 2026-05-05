@@ -1,0 +1,27 @@
+<apex:page controller="RegularRenewalPDFCtrl"  renderAs="pdf" applyBodyTag="false" readOnly="true" contentType="application/pdf">
+    <head>
+        <style>
+            @page {
+            	size:portrait;
+            	margin-left: 0.8cm;
+            	margin-right: 0.8cm;
+            	margin-top: 0.8cm;
+            	margin-bottom: 1cm;
+      		}
+            
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+        TEST
+        
+    </body>
+    
+</apex:page>

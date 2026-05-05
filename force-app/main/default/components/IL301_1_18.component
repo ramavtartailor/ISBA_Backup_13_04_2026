@@ -1,0 +1,418 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Separately Owned Title Agency or Title Company Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended as follows:
+    </p><br/>
+    <p class="normalParagraph">
+        Section<span class="normalBoldParagraph"> III. DEFINITIONS, M. PRIOR ACTS DATE </span>is deleted in its entirety and replaced with the following:
+    </p>
+     <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> &nbsp; </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> PRIOR ACTS DATE </span>means the first date on or after which a<span class="normalBoldParagraph"> Wrongful Act </span>giving rise to a<span class="normalBoldParagraph"> Claim </span>may be covered during this Policy Period.  This date is specified in Item 3 of the Declarations or an endorsement(s) attached to this Policy.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <p class="normalParagraph">
+        Section<span class="normalBoldParagraph"> III. DEFINITIONS </span>is amended to include the following:
+    </p>
+     <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> &nbsp; </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED </span>means an<span class="normalBoldParagraph"> INSURED </span>who is:
+                    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+                        <tr>
+                            <td style="width:5%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    1.
+                                </p>
+                            </td>
+                            <td style="width:95%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    wholly prevented from working as a lawyer and rendering<span class="normalBoldParagraph"> PROFESSIONAL SERVICES; </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:5%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    2.
+                                </p>
+                            </td>
+                            <td style="width:95%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    a physician has concluded that the disability is expected to be continuous and permanent; and
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:5%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    3.
+                                </p>
+                            </td>
+                            <td style="width:95%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    such<span class="normalBoldParagraph"> INSURED’s </span>status with the Attorney Registration &amp; Disciplinary Commission and all lawyer licensing bodies is “inactive”.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="clear:both;">
+                    </div>
+                    <p class="normalParagraph">
+                        <span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW </span>means<span class="normalBoldParagraph"> PROFESSIONAL SERVICES </span>rendered by an<span class="normalBoldParagraph"> INSURED </span>as a solo practitioner or as a lawyer of the<span class="normalBoldParagraph"> NAMED INSURED. </span>
+                    </p>
+                    <div style="clear:both;">
+                    </div>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div><br/>
+    <p class="normalParagraph">
+        Section<span class="normalBoldParagraph"> VIII. DEATH, TOTAL AND PERMANENT DISABILITY, OR U.S. ACTIVE DUTY MILITARY SERVICES </span>is deleted in its entirety and replaced with the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> &nbsp; </span>
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <span class="normalBoldParagraph"> VIII.  UNLIMITED EXTENDED REPORTING PERIOD OPTIONS DUE TO U.S. ACTIVE DUTY MILITARY SERVICE, DEATH OR DISABILITY, OR RETIREMENT </span>
+                    <table border="0" cellspacing="0" cellpadding="0" style="width:95%" align="right">
+                        <tr>
+                            <td style="width:5%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    <span class="normalBoldParagraph"> A. </span>
+                                </p>
+                            </td>
+                            <td style="width:95%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span><br/><br/>
+                                    If during the<span class="normalBoldParagraph"> POLICY TERM, </span> any lawyer who qualifies as an<span class="normalBoldParagraph"> INSURED </span>pursuant to<span class="normalBoldParagraph"> III. DEFINITIONS, H. 2., </span> an owner, officer, partner, employee, associate, shareholder, member or director of the<span class="normalBoldParagraph"> NAMED INSURED </span>and who has been identified as such on the<span class="normalBoldParagraph"> APPLICATION </span>immediately preceding the issuance of this Policy, or added by endorsement during the<span class="normalBoldParagraph"> POLICY TERM </span>as such, activates U.S. Active Duty Military Service, such<span class="normalBoldParagraph"> INSURED </span>will be entitled to a 24-month U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>at no additional premium.<br/><br/>
+                                    The U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will provide coverage for a<span class="normalBoldParagraph"> CLAIM </span>first made against such<span class="normalBoldParagraph"> INSURED </span>during the twenty-four (24) months immediately following the end of the<span class="normalBoldParagraph"> POLICY TERM, </span>for an amount up to, but not to exceed, the lesser of the following:<br/>
+                                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    $1,000,000 per<span class="normalBoldParagraph"> CLAIM, </span>$1,000,000 Policy aggregate;
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    the Limit of Liability in effect on the date of activation of U.S. Active Duty Military Service as stated in Item 6 of the Declarations; or 
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 3. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    an endorsement in effect on the date of activation of U.S. Active Duty Military Service amending the Limit of Liability.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                Limits will be provided separately to each such<span class="normalBoldParagraph"> INSURED </span>who elects a U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span> No<span class="normalBoldParagraph"> DEDUCTIBLE </span>shall apply to<span class="normalBoldParagraph"> CLAIMs </span>made against the<span class="normalBoldParagraph"> INSURED </span>and reported to the<span class="normalBoldParagraph"> COMPANY </span>during the U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span><br/><br/>
+                                The U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>applies only if the<span class="normalBoldParagraph"> CLAIM </span>arises out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed by such<span class="normalBoldParagraph"> INSURED </span>on or after such<span class="normalBoldParagraph"> INSURED’s </span>Individual<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>and prior to the date when such<span class="normalBoldParagraph"> INSURED </span>activates U.S. Active Duty Military Service and which is otherwise covered by this Policy, and not for vicarious liability.  The<span class="normalBoldParagraph"> CLAIM </span>must be reported to the<span class="normalBoldParagraph"> COMPANY </span>in writing during the U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>and in accordance with<span class="normalBoldParagraph"> V. CONDITIONS, O. Notice of CLAIM. </span>  All terms and conditions of the Policy apply to the U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span><br/><br/>
+                                The U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is effective on the date of such<span class="normalBoldParagraph"> INSURED’s </span>activation of U.S. Active Duty Military Service and is conditioned upon the<span class="normalBoldParagraph"> COMPANY’s </span>receipt of:<br/>
+                                <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    Satisfactory written proof of activation of U.S. Active Duty Military Service; and
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    Written notice from such<span class="normalBoldParagraph"> INSURED </span>of intent to exercise the U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>no later than sixty (60) days after the end of the<span class="normalBoldParagraph"> POLICY TERM. </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                If the<span class="normalBoldParagraph"> NAMED INSURED </span>consists of only one lawyer who is an<span class="normalBoldParagraph"> INSURED, </span>then cancellation of this Policy must coincide with activation of U.S. Active Duty Military Service.<br/><br/>
+                                Nothing contained in<span class="normalBoldParagraph"> VIII. UNLIMITED EXTENDED REPORTING PERIOD OPTIONS DUE TO U.S. ACTIVE DUTY MILITARY SERVICE, DEATH OR DISABILITY, OR RETIREMENT, A. </span> U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will increase, reinstate or be in addition to the Limit of Liability as stated in Item 6 of the Declarations or any endorsement amending the Limit of Liability of this Policy.<br/><br/>
+                                The U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is not available if an Optional<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is exercised and purchased.<br/><br/>
+                                The U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is not a new policy.  The U.S. Active Duty Military Service<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will be endorsed hereto.<br/><br/>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:5%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    <span class="normalBoldParagraph"> B. </span>
+                                </p>
+                            </td>
+                            <td style="width:95%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span><br/><br/>
+                                    If during the<span class="normalBoldParagraph"> POLICY TERM, </span>any lawyer who qualifies as an<span class="normalBoldParagraph"> III. DEFINITIONS, H. 2., </span>an owner, officer, partner, employee, associate, shareholder, member or director of the<span class="normalBoldParagraph"> NAMED INSURED </span>and who has been identified as such on the<span class="normalBoldParagraph"> APPLICATION </span>immediately preceding the issuance of this Policy, or added by endorsement during the<span class="normalBoldParagraph"> POLICY TERM </span>as such, dies or becomes<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED, </span>such<span class="normalBoldParagraph"> INSURED </span>will be entitled to an Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>for an unlimited period of time at no additional premium.<br/><br/>
+                                    The Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will provide coverage for a<span class="normalBoldParagraph"> CLAIM </span>first made against such<span class="normalBoldParagraph"> INSURED </span>for an amount up to, but not to exceed, the lesser of the following:<br/>
+                                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    $1,000,000 per<span class="normalBoldParagraph"> CLAIM, </span>$1,000,000 Policy aggregate;
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    the Limit of Liability in effect on the date of death or the date when such<span class="normalBoldParagraph"> INSURED </span>becomes<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED </span>as stated in Item 6 of the Declarations; or
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 3. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    an endorsement in effect on the date of death or the date when such<span class="normalBoldParagraph"> INSURED </span>becomes<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED </span>amending the Limit of Liability.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                Limits will be provided separately to each such<span class="normalBoldParagraph"> INSURED </span>who elects an Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span> No<span class="normalBoldParagraph"> DEDUCTIBLE </span>shall apply to<span class="normalBoldParagraph"> CLAIMs </span>made against the<span class="normalBoldParagraph"> INSURED </span>and reported to the<span class="normalBoldParagraph"> COMPANY </span>during the Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span><br/><br/>
+                                The Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>applies only if the<span class="normalBoldParagraph"> CLAIM </span>arises out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed by such<span class="normalBoldParagraph"> INSURED </span>on or after such<span class="normalBoldParagraph"> INSURED’s </span>Individual<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>and prior to the date of death or the date when such<span class="normalBoldParagraph"> INSURED </span>becomes<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED </span>which is otherwise covered by this Policy, and not for vicarious liability. The<span class="normalBoldParagraph"> CLAIM </span>must be reported to the<span class="normalBoldParagraph"> COMPANY </span>in writing during the Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>in accordance with<span class="normalBoldParagraph"> V. CONDITIONS, O. Notice of CLAIM. </span> All terms and conditions of the Policy apply to the Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span><br/><br/>
+                                The Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is effective on the date of such<span class="normalBoldParagraph"> INSURED’s </span>date of death or the date when such<span class="normalBoldParagraph"> INSURED </span>became<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED </span>and is conditioned upon the<span class="normalBoldParagraph"> COMPANY’s </span>receipt of:
+                                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    written proof<span class="normalBoldParagraph"> INSURED </span>became<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED </span>which includes the date when the disability began, certified by such<span class="normalBoldParagraph"> INSURED’s </span>physician. The<span class="normalBoldParagraph"> COMPANY </span>retains the right to require such<span class="normalBoldParagraph"> INSURED </span>to submit to medical examinations by a physician designated by the<span class="normalBoldParagraph"> COMPANY </span>and to rely on the designated physician’s determination; or
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    a copy of such<span class="normalBoldParagraph"> INSURED’s </span>Certificate of Death from such<span class="normalBoldParagraph"> INSURED’s </span>estate, heirs, executors or administrators; and
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 3. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    written notice of intent to exercise the Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>no later than sixty (60) days after the end of the<span class="normalBoldParagraph"> POLICY TERM. </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                If the<span class="normalBoldParagraph"> NAMED INSURED </span>consists of only one lawyer, then cancellation of this Policy must coincide with the date of Death or the date when such<span class="normalBoldParagraph"> INSURED </span>became<span class="normalBoldParagraph"> TOTALLY AND PERMANENTLY DISABLED. </span><br/><br/>
+                                Nothing contained in<span class="normalBoldParagraph"> VIII. UNLIMITED EXTENDED REPORTING PERIOD OPTIONS DUE TO U.S. ACTIVE DUTY MILITARY SERVICE, DEATH OR DISABILITY, OR RETIREMENT, B. </span>Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will increase, reinstate or be in addition to the Limit of Liability stated in Item 6 of the Declarations or any endorsement amending the Limit of Liability of this Policy.<br/><br/>
+                                The Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is not a new policy. The Unlimited Death or Disability<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will be endorsed hereto.<br/><br/>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:5%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    <span class="normalBoldParagraph"> C. </span>
+                                </p>
+                            </td>
+                            <td style="width:95%;" class="tableDataLeft">
+                                <p class="normalParagraph">
+                                    Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span><br/><br/>
+                                    If during the<span class="normalBoldParagraph"> POLICY TERM, </span>any lawyer who qualifies as an<span class="normalBoldParagraph"> INSURED </span>pursuant to<span class="normalBoldParagraph"> III. DEFINITIONS, H. 2., </span>an owner, officer, partner, employee, associate, shareholder, member or director and who has been identified as such on the<span class="normalBoldParagraph"> APPLICATION </span>immediately preceding the issuance of this Policy, or added by endorsement during the<span class="normalBoldParagraph"> POLICY TERM </span>as such, retires or otherwise voluntarily ceases, permanently and totally, the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW, </span>will be entitled to an Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>for an unlimited period of time if the following conditions are met:<br/>
+                                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    such<span class="normalBoldParagraph"> INSURED </span>has reached the age of 59½ years of age; and
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    has been insured with the<span class="normalBoldParagraph"> COMPANY </span>for three (3) consecutive years commencing on the effective date of the Policy to which this endorsement is attached.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                The Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will provide coverage for a<span class="normalBoldParagraph"> CLAIM </span>first made against such<span class="normalBoldParagraph"> INSURED </span>for an amount up to, but not to exceed, the lesser of the following:<br/>
+                                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    $1,000,000 per<span class="normalBoldParagraph"> CLAIM, </span>$1,000,000 Policy aggregate;
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    the Limit of Liability in effect on the date such<span class="normalBoldParagraph"> INSURED </span>retires or otherwise voluntarily ceases, permanently and totally, the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW </span>as stated in Item 6 of the Declarations; or
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 3. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    an endorsement in effect on the date such<span class="normalBoldParagraph"> INSURED </span>retires or otherwise voluntarily ceases, permanently and totally, the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW </span>amending the Limit of Liability.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                Limits will be provided separately to each such<span class="normalBoldParagraph"> INSURED </span>who elects an Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span> No<span class="normalBoldParagraph"> DEDUCTIBLE </span>shall apply to<span class="normalBoldParagraph"> CLAIMs </span>made against the<span class="normalBoldParagraph"> INSURED </span>and reported to the<span class="normalBoldParagraph"> COMPANY </span>during the Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span><br/><br/>
+                                The Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>applies only if the<span class="normalBoldParagraph"> CLAIM </span>arises out of a<span class="normalBoldParagraph"> WRONGFUL ACT </span>committed by such<span class="normalBoldParagraph"> INSURED </span>on or after such<span class="normalBoldParagraph"> INSURED’s </span>Individual<span class="normalBoldParagraph"> PRIOR ACTS DATE </span>and prior to the date such<span class="normalBoldParagraph"> INSURED </span>retires or otherwise voluntarily ceases, permanently and totally, the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW, </span>and not for vicarious liability.  The<span class="normalBoldParagraph"> CLAIM </span>must be reported to the<span class="normalBoldParagraph"> COMPANY </span>in writing during the Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>in accordance with<span class="normalBoldParagraph"> V. CONDITIONS, Q. Notice of CLAIM. </span> All terms and conditions of the Policy apply to the Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD. </span><br/><br/>
+                                The Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is effective on the date such<span class="normalBoldParagraph"> INSURED </span>retired or otherwise voluntarily ceased, permanently and totally, the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW </span>and is conditioned upon the<span class="normalBoldParagraph"> COMPANY’s </span>receipt of: <br/>
+                                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 1. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    Written notice from such<span class="normalBoldParagraph"> INSURED </span>of the date he or she retired or otherwise voluntarily ceased, permanently and totally, the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW; </span>and 
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:5%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    <span class="normalBoldParagraph"> 2. </span>
+                                                </p>
+                                            </td>
+                                            <td style="width:95%;" class="tableDataLeft">
+                                                <p class="normalParagraph">
+                                                    Written notice of intent to exercise the Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>no later than sixty (60) days after the end of the<span class="normalBoldParagraph"> POLICY TERM. </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                If the<span class="normalBoldParagraph"> NAMED INSURED </span>consists of only one lawyer, then cancellation of this Policy must coincide with the date of retirement from, permanently and totally, or voluntarily ceases the<span class="normalBoldParagraph"> PRIVATE PRACTICE OF LAW. </span><br/><br/>
+                                Nothing contained in<span class="normalBoldParagraph"> VIII. UNLIMITED EXTENDED REPORTING PERIOD OPTIONS DUE TO U.S. ACTIVE DUTY MILITARY SERVICE, DEATH OR DISABILITY, OR RETIREMENT, C. </span>Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will increase, reinstate or is in addition to the Limit of Liability stated in Item 6 of the Declarations or any endorsement amending the Limit of Liability of this Policy.<br/><br/>
+                                The Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>is not a new policy. The Unlimited Retirement<span class="normalBoldParagraph"> EXTENDED REPORTING PERIOD </span>will be endorsed hereto.<br/><br/><br/>
+                                    
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="clear:both;">
+                    </div>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both;">
+    </div>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <br/>
+    <br/>
+    <!-- <div style="width:30%;margin-top:0px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+    <div style="clear:both">
+    </div>
+</apex:component>

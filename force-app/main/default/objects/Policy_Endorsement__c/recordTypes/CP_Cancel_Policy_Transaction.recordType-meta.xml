@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CP_Cancel_Policy_Transaction</fullName>
+    <active>true</active>
+    <description>Functional</description>
+    <label>IL 190 Cancellation of Coverage</label>
+    <picklistValues>
+        <picklist>Coverage_Term__c</picklist>
+        <values>
+            <fullName>1 Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3 Years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6 Years</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Endorsement_Type_For_Lawyer__c</picklist>
+        <values>
+            <fullName>Add Lawyer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Adjust Premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancel Policy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change Coverage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change Lawyer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delete Lawyer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ERE Transaction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reinstate Policy</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Event_Status__c</picklist>
+        <values>
+            <fullName>Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IL_152_Contact_Role__c</picklist>
+        <values>
+            <fullName>A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>O</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>P</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TSL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

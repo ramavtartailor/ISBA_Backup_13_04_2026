@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grouping_Practive_Setting__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF ((Active_Laywers__c == 1), &apos;A: Solo Firm&apos;,
+IF ((Active_Laywers__c &gt;= 2 &amp;&amp; Active_Laywers__c &lt;= 5), &apos;B: Firm of 2-5 Attys&apos;,
+IF ((Active_Laywers__c &gt;= 6 &amp;&amp; Active_Laywers__c &lt;= 10), &apos;C: Firm of 6-10 Attys&apos;,
+IF ((Active_Laywers__c &gt;= 11 &amp;&amp; Active_Laywers__c &lt;= 25), &apos;D: Firm of 11-25 Attys&apos;,
+IF ((Active_Laywers__c &gt; 25), &apos;E: Firm of 26+ Attys&apos;,
+&apos;Unknown&apos;
+)))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Grouping - Practice Setting</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

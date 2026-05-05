@@ -1,0 +1,1342 @@
+<aura:component controller="NBA_LawyerCompareCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="wrapper" type="Object"/> 
+    <aura:attribute name="searchTerm" type="String"/> 
+    
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="isLawyer" type="Boolean" default="false"/>
+
+    <aura:attribute name="isLinkContactModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="contactList" type="Contact[]"/>
+    <aura:attribute name="contactSearchKey" type="String"/>
+    
+    <aura:attribute name="isCreateContactModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="showAccountUnlinkModal" type="boolean" default="false"/>
+    <aura:attribute name="showContactUnlinkModal" type="boolean" default="false"/>
+    <aura:attribute name="selectedLawyerId" type="Id"/>
+    <aura:attribute name="selectedLawyerName" type="String"/>
+    <aura:attribute name="baseURL" type="String"/>
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    
+    <aura:attribute name="isLinkModalOpen" type="boolean" default="false"/>
+    <aura:handler event="c:closeLinkAccountModalEvt" action="{!c.closeModalLinkAccount}"/>
+    <aura:attribute name="selectedLawyer" type="Object"/>
+    
+    <aura:if isTrue="{!v.wrapper}" >
+        <div class="body">
+            
+            <div class="Section">
+                <div class="{!(v.wrapper.onlineNBA.Account__c != null) ? 'sectionHeader greenBox' : 'sectionHeader blueBox'}">Account</div>
+                <div class="sectionBody" style="overflow-y: scroll;">
+                    <aura:if isTrue="{!v.wrapper.onlineNBA.RecordType.Name != 'New Business'}">
+                        <table class="nbaTable slds-table_cell-buffer">
+                            <tr>
+                                <th class="leftTop"></th>
+                                <th>Customer Application</th>
+                                <th></th>
+                                <th class="rightTop">Policy</th>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.Name != v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>Name</div></th>
+                                <td>
+                                    <div>{!v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}</div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.Name != v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}">
+                                        <div data-accField="Name" data-nbaField="Full_Legal_Name_of_the_Firm__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>{!v.wrapper.acc.Name}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.Trade_Name_or_D_B_A__c != v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>Trade Name or D/B/A</div></th>
+                                <td>
+                                    <div>{!v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c}</div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.Trade_Name_or_D_B_A__c != v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c}">
+                                        <div data-accField="Trade_Name_or_D_B_A__c" data-nbaField="Trade_Name_or_D_B_A__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>{!v.wrapper.acc.Trade_Name_or_D_B_A__c}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.BillingStreet != v.wrapper.onlineNBA.Street__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>Principal Street Address</div></th>
+                                <td>
+                                    <div>{!v.wrapper.onlineNBA.Street__c}</div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.BillingStreet != v.wrapper.onlineNBA.Street__c}">
+                                        <div data-accField="BillingStreet" data-nbaField="Street__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon class="icon" iconName="utility:forward" size="x-small"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>{!v.wrapper.acc.BillingStreet}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.BillingCity != v.wrapper.onlineNBA.City__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>City</div></th>
+                                <td>
+                                    <div>{!v.wrapper.onlineNBA.City__c}</div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.BillingCity != v.wrapper.onlineNBA.City__c}">
+                                        <div data-accField="BillingCity" data-nbaField="City__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>{!v.wrapper.acc.BillingCity}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.BillingState != v.wrapper.onlineNBA.State__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>State</div></th>
+                                <td>
+                                    <div>{!v.wrapper.onlineNBA.State__c}</div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.BillingState != v.wrapper.onlineNBA.State__c}">
+                                        <div data-accField="BillingState" data-nbaField="State__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>{!v.wrapper.acc.BillingState}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.BillingPostalCode != v.wrapper.onlineNBA.Zip_Code__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>Zip Code</div></th>
+                                <td>
+                                    <div>
+                                        {!v.wrapper.onlineNBA.Zip_Code__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.BillingPostalCode != v.wrapper.onlineNBA.Zip_Code__c}">
+                                        <div data-accField="BillingPostalCode" data-nbaField="Zip_Code__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>
+                                        {!v.wrapper.acc.BillingPostalCode}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.Billing_Address_County__c != v.wrapper.onlineNBA.County__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>County</div></th>
+                                <td>
+                                    <div>
+                                        {!v.wrapper.onlineNBA.County__r.Name}
+                                    </div>                                                                  
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.Billing_Address_County__c != v.wrapper.onlineNBA.County__c}">
+                                        <div data-accField="Billing_Address_County__c" data-nbaField="County__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div>
+                                        {!v.wrapper.acc.Billing_Address_County__r.Name}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.Phone != v.wrapper.onlineNBA.Firm_Phone_Number__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th><div>Firm Phone Number</div></th>
+                                <td>
+                                    <div><lightning:formattedPhone value="{!v.wrapper.onlineNBA.Firm_Phone_Number__c}"/></div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.Phone != v.wrapper.onlineNBA.Firm_Phone_Number__c}">
+                                        <div data-accField="Phone" data-nbaField="Firm_Phone_Number__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <div><lightning:formattedPhone value="{!v.wrapper.acc.Phone}"/></div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.Establish_Date__c != v.wrapper.onlineNBA.Date_Firm_Established__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th class=""><div>Date Firm Established</div></th>
+                                <td>
+                                    <div><lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Date_Firm_Established__c}" year="numeric"
+                                                                      month="2-digit" day="2-digit" /></div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.Establish_Date__c != v.wrapper.onlineNBA.Date_Firm_Established__c}">
+                                        <div data-accField="Establish_Date__c" data-nbaField="Date_Firm_Established__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td class="">
+                                    <div><lightning:formattedDateTime  value="{!v.wrapper.acc.Establish_Date__c}" year="numeric"
+                                                                      month="2-digit" day="2-digit" /></div>
+                                </td>
+                            </tr>
+                            <tr style="{!v.wrapper.acc.Website__c != v.wrapper.onlineNBA.Website__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                <th class="leftBottom"><div>Website</div></th>
+                                <td>
+                                    <div>{!v.wrapper.onlineNBA.Website__c}</div>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!v.wrapper.acc.Website__c != v.wrapper.onlineNBA.Website__c}">
+                                        <div data-accField="Website__c" data-nbaField="Website__c" onclick="{!c.handleUpdateAccData}">
+                                            <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                        </div>
+                                    </aura:if>
+                                </td>
+                                <td class="rightBottom">
+                                    <div>{!v.wrapper.acc.Website__c}</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <aura:set attribute="else">
+                            <table class="nbaTable slds-table_cell-buffer">
+                                <tr>
+                                    <th class="leftTop"></th>
+                                    <th>
+                                        Application Account [<a href="{!v.baseURL+'/c/SearchApp.app?search='+v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}"
+                                           target="_blank">Search</a>]
+                                    </th>
+                                    <th></th>
+                                    <th class="rightTop">Existing Account  
+                                        <aura:if isTrue="{!!v.wrapper.onlineNBA.PolicyId__c}">[
+                                            <aura:if isTrue="{!(v.wrapper.onlineNBA.Account__c != null)}">
+                                                <a href="javascript:void(0)" onclick="{!c.openUnLinkModel}" >Unlink</a>
+                                                <aura:set attribute="else">
+                                                    <a href="javascript:void(0)" onclick="{!c.openLinkModel}" >Link</a>
+                                                    &nbsp;|&nbsp;
+                                                    <a href="javascript:void(0)" onclick="{!c.openCreateModel}" >Create</a>
+                                                </aura:set>
+                                            </aura:if>]
+                                        </aura:if>
+                                    </th>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Name != v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>Name</div></th>
+                                    <td>
+                                        <div>{!v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Name != v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c)}">
+                                            <div data-accField="Name" data-nbaField="Full_Legal_Name_of_the_Firm__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!v.wrapper.acc.Name}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Trade_Name_or_D_B_A__c != v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>Trade Name or D/B/A</div></th>
+                                    <td>
+                                        <div>{!v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Trade_Name_or_D_B_A__c != v.wrapper.onlineNBA.Trade_Name_or_D_B_A__c)}">
+                                            <div data-accField="Trade_Name_or_D_B_A__c" data-nbaField="Trade_Name_or_D_B_A__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!v.wrapper.acc.Trade_Name_or_D_B_A__c}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingStreet != v.wrapper.onlineNBA.Street__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>Principal Street Address</div></th>
+                                    <td>
+                                        <div>{!v.wrapper.onlineNBA.Street__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingStreet != v.wrapper.onlineNBA.Street__c)}">
+                                            <div data-accField="BillingStreet" data-nbaField="Street__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon class="icon" iconName="utility:forward" size="x-small"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!v.wrapper.acc.BillingStreet}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingCity != v.wrapper.onlineNBA.City__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>City</div></th>
+                                    <td>
+                                        <div>{!v.wrapper.onlineNBA.City__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingCity != v.wrapper.onlineNBA.City__c)}">
+                                            <div data-accField="BillingCity" data-nbaField="City__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!v.wrapper.acc.BillingCity}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingState != v.wrapper.onlineNBA.State__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>State</div></th>
+                                    <td>
+                                        <div>{!v.wrapper.onlineNBA.State__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingState != v.wrapper.onlineNBA.State__c)}">
+                                            <div data-accField="BillingState" data-nbaField="State__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!v.wrapper.acc.BillingState}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingPostalCode != v.wrapper.onlineNBA.Zip_Code__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>Zip Code</div></th>
+                                    <td>
+                                        <div>
+                                            {!v.wrapper.onlineNBA.Zip_Code__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.BillingPostalCode != v.wrapper.onlineNBA.Zip_Code__c)}">
+                                            <div data-accField="BillingPostalCode" data-nbaField="Zip_Code__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {!v.wrapper.acc.BillingPostalCode}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Billing_Address_County__c != v.wrapper.onlineNBA.County__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>County</div></th>
+                                    <td>
+                                        <div>
+                                            {!v.wrapper.onlineNBA.County__r.Name}
+                                        </div>                                                                  
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Billing_Address_County__c != v.wrapper.onlineNBA.County__c)}">
+                                            <div data-accField="Billing_Address_County__c" data-nbaField="County__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {!v.wrapper.acc.Billing_Address_County__r.Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Phone != v.wrapper.onlineNBA.Firm_Phone_Number__c ? 'background: rgba(235, 51, 16, 0.12);' : '')}">
+                                    <th><div>Firm Phone Number</div></th>
+                                    <td>
+                                        <div><lightning:formattedPhone value="{!v.wrapper.onlineNBA.Firm_Phone_Number__c}"/></div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Phone != v.wrapper.onlineNBA.Firm_Phone_Number__c)}">
+                                            <div data-accField="Phone" data-nbaField="Firm_Phone_Number__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div><lightning:formattedPhone value="{!v.wrapper.acc.Phone}"/></div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Establish_Date__c != v.wrapper.onlineNBA.Date_Firm_Established__c) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th class=""><div>Date Firm Established</div></th>
+                                    <td>
+                                        <div><lightning:formattedDateTime  value="{!v.wrapper.onlineNBA.Date_Firm_Established__c}" year="numeric"
+                                                                          month="2-digit" day="2-digit" /></div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Establish_Date__c != v.wrapper.onlineNBA.Date_Firm_Established__c)}">
+                                            <div data-accField="Establish_Date__c" data-nbaField="Date_Firm_Established__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td class="">
+                                        <div><lightning:formattedDateTime  value="{!v.wrapper.acc.Establish_Date__c}" year="numeric"
+                                                                          month="2-digit" day="2-digit" /></div>
+                                    </td>
+                                </tr>
+                                <tr style="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Website__c != v.wrapper.onlineNBA.Website__c) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th class=""><div>Website</div></th>
+                                    <td>
+                                        <div>{!v.wrapper.onlineNBA.Website__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!AND(v.wrapper.onlineNBA.Account__c != null ,v.wrapper.acc.Website__c != v.wrapper.onlineNBA.Website__c)}">
+                                            <div data-accField="Website__c" data-nbaField="Website__c" onclick="{!c.handleUpdateAccData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td class="">
+                                        <div>{!v.wrapper.acc.Website__c}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="leftBottom"><div>Created Date</div></th>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedDateTime value="{!v.wrapper.onlineNBA.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                         minute="2-digit" hour12="true"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                     
+                                    </td>
+                                    <td class="rightBottom">
+                                        <div>
+                                            <lightning:formattedDateTime value="{!v.wrapper.acc.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                         minute="2-digit" hour12="true"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+            
+            
+            <!-- CONTACT SECTION -->
+            <div class="Section">
+                
+                <div class="sectionHeader greenBox">
+                    Contact <aura:if isTrue="{!!v.wrapper.showLinkContact}">(Matched with Lawyer)</aura:if>
+                </div>
+                
+                <div class="sectionBody">
+                    <table class="nbaTable slds-table_cell-buffer">
+                        
+                        <tr>
+                            <th class="leftTop"></th>
+                            <th>
+                                Application Contact [<a href="{!v.baseURL+'/c/SearchApp.app?search='+v.wrapper.onlineNBA.Contact_Name__c+' '+v.wrapper.onlineNBA.Contact_Last_Name__c}"
+                                   target="_blank">Search</a>]
+                            </th>
+                            <th></th>
+                            <!--<th class="rightTop">Existing Contact</th>-->
+                            <th class="rightTop">
+                                Existing Contact
+                                <aura:if isTrue="{!v.wrapper.showLinkContact}">
+                                    &nbsp;[
+                                    <a href="javascript:void(0)"
+                                       onclick="{!c.openLinkContactApp}">
+                                        Link
+                                    </a>
+                                    &nbsp;|&nbsp;
+                                    <a href="javascript:void(0)"
+                                       onclick="{!c.openCreateContactApp}"> 
+                                        Create
+                                    </a>
+                                    ]
+                                </aura:if>
+                            </th>
+                        </tr>
+                        
+                        <!-- NAME -->
+                        <tr style="{!AND(v.wrapper.appContact, v.wrapper.appContact.FirstName != v.wrapper.onlineNBA.Contact_Name__c) ?
+                                   'background: rgba(235, 51, 16, 0.12);' : ''}">
+                            <th>FirstName</th>
+                            
+                            <td>{!v.wrapper.onlineNBA.Contact_Name__c}</td>
+                            
+                            <td>
+                                <aura:if isTrue="{!AND(v.wrapper.appContact, v.wrapper.appContact.FirstName != v.wrapper.onlineNBA.Contact_Name__c)}">
+                                    <div data-field="FirstName" data-nbaField="Contact_Name__c" onclick="{!c.handleUpdateContactField}">
+                                        <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                            
+                            <td>{!v.wrapper.appContact.FirstName}</td>
+                        </tr>
+                        <tr style="{!AND(v.wrapper.appContact, v.wrapper.appContact.LastName != v.wrapper.onlineNBA.Contact_Last_Name__c) ?
+                                   'background: rgba(235, 51, 16, 0.12);' : ''}">
+                            <th>LastName</th>
+                            
+                            <td>{!v.wrapper.onlineNBA.Contact_Last_Name__c}</td>
+                            
+                            <td>
+                                <aura:if isTrue="{!AND(v.wrapper.appContact, v.wrapper.appContact.LastName != v.wrapper.onlineNBA.Contact_Last_Name__c)}">
+                                    <div data-field="LastName" data-nbaField="Contact_Last_Name__c" onclick="{!c.handleUpdateContactField}">
+                                        <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                            
+                            <td>{!v.wrapper.appContact.LastName}</td>
+                        </tr>
+                        
+                        <!-- EMAIL -->
+                        <tr style="{!AND(v.wrapper.appContact, v.wrapper.appContact.Email != v.wrapper.onlineNBA.Contact_E_mail_Address__c) ?
+                                   'background: rgba(235, 51, 16, 0.12);' : ''}">
+                            <th>Email</th>
+                            
+                            <td>{!v.wrapper.onlineNBA.Contact_E_mail_Address__c}</td>
+                            
+                            <td>
+                                <aura:if isTrue="{!AND(v.wrapper.appContact, v.wrapper.appContact.Email != v.wrapper.onlineNBA.Contact_E_mail_Address__c)}">
+                                    <div data-field="Email" data-nbaField="Contact_E_mail_Address__c" onclick="{!c.handleUpdateContactField}">
+                                        <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                            
+                            <td>{!v.wrapper.appContact.Email}</td>
+                        </tr>
+                        
+                        <!-- PHONE -->
+                        <tr style="{!AND(v.wrapper.appContact, v.wrapper.appContact.Phone != v.wrapper.onlineNBA.Contact_Phone_Number__c) ?
+                                   'background: rgba(235, 51, 16, 0.12);' : ''}">
+                            <th class="">Phone</th>
+                            
+                            <td>
+                                <lightning:formattedPhone value="{!v.wrapper.onlineNBA.Contact_Phone_Number__c}" />
+                            </td>
+                            
+                            <td>
+                                <aura:if isTrue="{!AND(v.wrapper.appContact, v.wrapper.appContact.Phone != v.wrapper.onlineNBA.Contact_Phone_Number__c)}">
+                                    <div data-field="Phone" data-nbaField="Contact_Phone_Number__c" onclick="{!c.handleUpdateContactField}">
+                                        <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                            
+                            <td class="">
+                                <lightning:formattedPhone value="{!v.wrapper.appContact.Phone}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="leftBottom">Created Date</th>                            
+                            <td>
+                                <lightning:formattedDateTime value="{!v.wrapper.onlineNBA.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                 minute="2-digit" hour12="true"/>
+                            </td>
+                            <td></td>
+                            <td class="rightBottom">
+                                <lightning:formattedDateTime value="{!v.wrapper.appContact.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                 minute="2-digit" hour12="true"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <aura:iteration items="{!v.wrapper.lawyers}" var="item" indexVar="index">
+                <div class="Section">
+                    <div class="sectionHeader greenBox"> 
+                        <!--class="{!item.diffFieldsCount ? 'sectionHeader' : 'sectionHeader allMatched'}"-->
+                        <aura:if isTrue="{!item.isExpended}">
+                            <div data-val="false" data-index="{!index}" onclick="{!c.handleExpand}">
+                                <lightning:icon variant="inverse" class="icon" iconName="utility:chevrondown" alternativeText="Expand" size="x-small"/>
+                            </div><!--{!item.diffFieldsCount ? 'inverse' :''}-->
+                            <aura:set attribute="else">
+                                <div data-val="true" data-index="{!index}" onclick="{!c.handleExpand}">
+                                    <lightning:icon variant="inverse" class="icon" iconName="utility:chevronright" alternativeText="Collapse" size="x-small"/>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        <div>
+                            {!item.con.ARDC_Number__c} &nbsp; - &nbsp; {!item.fullName}
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!item.isExpended}">
+                        <div aura:id="bodySections" class="sectionBody">
+                            
+                            
+                            <table class="nbaTable slds-table_cell-buffer">
+                                <tr>
+                                    <th class="leftTop"></th>
+                                    <th>User Data</th>
+                                    <th></th>
+                                    <th class="rightTop">Contact Data</th>
+                                </tr>
+                                <tr style="{!item.lawyer.Name != item.con.FirstName ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>First Name</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Name}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Name != item.con.FirstName}">
+                                            <div data-index="{!index}" data-lwField="Name" data-conField="FirstName" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!item.con.FirstName}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Middle_Initial__c != item.con.Middle_Name__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>Middle Name</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Middle_Initial__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Middle_Initial__c != item.con.Middle_Name__c}">
+                                            <div data-index="{!index}" data-lwField="Middle_Initial__c" data-conField="Middle_Name__c" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!item.con.Middle_Name__c}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Last_Name__c != item.con.LastName ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>Last Name</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Last_Name__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Last_Name__c != item.con.LastName}">
+                                            <div data-index="{!index}" data-lwField="Last_Name__c" data-conField="LastName" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon class="icon" iconName="utility:forward" size="x-small"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!item.con.LastName}</div>
+                                    </td>
+                                </tr>
+                                <!--<tr style="{!item.lawyer.ISBA_Number__c != item.con.ISBA__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>ISBA #</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.ISBA_Number__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.ISBA_Number__c != item.con.ISBA__c}">
+                                            <div data-index="{!index}" data-lwField="ISBA_Number__c" data-conField="ISBA__c" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!item.con.ISBA__c}</div>
+                                    </td>
+                                </tr>-->
+                                <tr style="{!item.lawyer.ARDC_Number__c != item.con.ARDC_Number__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>ARDC Number</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.ARDC_Number__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.ARDC_Number__c != item.con.ARDC_Number__c}">
+                                            <div data-index="{!index}" data-lwField="ARDC_Number__c" data-conField="ARDC_Number__c" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!item.con.ARDC_Number__c}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Cell_Phone__c != item.con.MobilePhone ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>Cell Phone</div></th>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedPhone value="{!item.lawyer.Cell_Phone__c}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Cell_Phone__c != item.con.MobilePhone}">
+                                            <div data-index="{!index}" data-lwField="Cell_Phone__c" data-conField="MobilePhone" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedPhone value="{!item.con.MobilePhone}"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Birthday__c != item.con.Birthdate ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>Birthdate</div></th>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedDateTime  value="{!item.lawyer.Birthday__c}" year="numeric"
+                                                                         month="2-digit" day="2-digit" />
+                                        </div>                                                                   
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Birthday__c != item.con.Birthdate}">
+                                            <div data-index="{!index}" data-lwField="Birthday__c" data-conField="Birthdate" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedDateTime  value="{!item.con.Birthdate}" year="numeric"
+                                                                         month="2-digit" day="2-digit" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Firm_Email_Address__c != item.con.Email ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>Firm Email</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Firm_Email_Address__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Firm_Email_Address__c != item.con.Email}">
+                                            <div data-index="{!index}" data-lwField="Firm_Email_Address__c" data-conField="Email" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>{!item.con.Email}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Personal_Email_Address__c != item.con.Personal_Email__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th class="leftBottom"><div>Personal Email</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Personal_Email_Address__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Personal_Email_Address__c != item.con.Personal_Email__c}">
+                                            <div data-index="{!index}" data-lwField="Personal_Email_Address__c" data-conField="Personal_Email__c" onclick="{!c.handleUpdateData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td class="rightBottom">
+                                        <div>{!item.con.Personal_Email__c}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Designation__c != item.policyLawyer.Contact_Role__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th class="leftBottom"><div>Designation</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Designation__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Designation__c != item.policyLawyer.Contact_Role__c}">
+                                            <div data-index="{!index}" data-lwField="Designation__c" data-conField="Contact_Role__c" onclick="{!c.handleUpdatePolicyLawyerData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td class="rightBottom">
+                                        <div>{!item.policyLawyer.Contact_Role__c}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Average_Number_of_Hours_Worked__c != item.policyLawyer.Average_Hours_Per_Week__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th class="leftBottom"><div>Avg Hours/week</div></th>
+                                    <td>
+                                        <div>{!item.lawyer.Average_Number_of_Hours_Worked__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Average_Number_of_Hours_Worked__c != item.policyLawyer.Average_Hours_Per_Week__c}">
+                                            <div data-index="{!index}" data-lwField="Average_Number_of_Hours_Worked__c" data-conField="Average_Hours_Per_Week__c" onclick="{!c.handleUpdatePolicyLawyerData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td class="rightBottom">
+                                        <div>{!item.policyLawyer.Average_Hours_Per_Week__c}</div>
+                                    </td>
+                                </tr>
+                                <tr style="{!item.lawyer.Date_of_Hire__c != item.policyLawyer.Hire_Date__c ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                    <th><div>Hire Date</div></th>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedDateTime  value="{!item.lawyer.Date_of_Hire__c}" year="numeric"
+                                                                         month="2-digit" day="2-digit" />
+                                        </div>                                                                   
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!item.lawyer.Date_of_Hire__c != item.policyLawyer.Hire_Date__c}">
+                                            <div data-index="{!index}" data-lwField="Date_of_Hire__c" data-conField="Hire_Date__c" onclick="{!c.handleUpdatePolicyLawyerData}">
+                                                <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <lightning:formattedDateTime  value="{!item.policyLawyer.Hire_Date__c}" year="numeric"
+                                                                         month="2-digit" day="2-digit" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="leftBottom"><div>Created Date</div></th>
+                                    <td>
+                                        <lightning:formattedDateTime value="{!item.lawyer.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                         minute="2-digit" hour12="true"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td class="rightBottom">
+                                        <lightning:formattedDateTime value="{!item.con.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                         minute="2-digit" hour12="true"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </aura:if>
+                    
+                </div>
+            </aura:iteration>
+            
+            <aura:if isTrue="{!v.wrapper.unMatchedLawyers.length > 0}">
+                <aura:iteration items="{!v.wrapper.unMatchedLawyers}" var="item" indexVar="index">
+                    <div class="Section">
+                        <div class="{!(item.lawyer.Contact__c != null) ? 'sectionHeader greenBox' : 'sectionHeader blueBox'}" ><!--class="sectionHeader newLawyer"-->
+                            <aura:if isTrue="{!item.isExpended}">
+                                <div data-val="false" data-index="{!index}" onclick="{!c.handleExpandUnMatched}">
+                                    <lightning:icon variant="inverse" class="icon" iconName="utility:chevrondown" alternativeText="Expand" size="x-small"/>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div data-val="true" data-index="{!index}" onclick="{!c.handleExpandUnMatched}">
+                                        <lightning:icon variant="inverse" class="icon" iconName="utility:chevronright" alternativeText="Collapse" size="x-small"/>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                            <div>
+                                {!item.lawyer.ARDC_Number__c} &nbsp; - &nbsp; {!item.fullName}
+                            </div>
+                        </div>
+                        <aura:if isTrue="{!item.isExpended}">
+                            <div aura:id="bodySections" class="sectionBody">
+                                
+                                <table class="nbaTable slds-table_cell-buffer">
+                                    <tr>
+                                        <th class="leftTop"></th>
+                                        <th>
+                                            Application Lawyer [<a href="{!v.baseURL+'/c/SearchApp.app?search='+item.lawyer.Lawyer_Name__c}"
+                                               target="_blank">Search</a>]
+                                        </th>
+                                        <th></th>
+                                        <th class="rightTop">Existing Contact [
+                                            <aura:if isTrue="{!(item.lawyer.Contact__c != null)}">
+                                                <a href="javascript:void(0)" data-index="{!index}" data-row="{!item.lawyer.Id}" onclick="{!c.openUnLinkContact}">
+                                                    Unlink
+                                                </a>
+                                                <aura:set attribute="else">
+                                                    <a href="javascript:void(0)" data-index="{!index}" onclick="{!c.openLinkContact}">
+                                                        Link
+                                                    </a>
+                                                    &nbsp;|&nbsp;
+                                                    <a href="javascript:void(0)" data-index="{!index}" onclick="{!c.openCreateContact}"> Create </a>
+                                                </aura:set>
+                                            </aura:if>
+                                            ]
+                                        </th>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Name != item.lawyer.Contact__r.FirstName) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>First Name</div></th>
+                                        <td><div>{!item.lawyer.Name}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Name != item.lawyer.Contact__r.FirstName)}">
+                                                <div data-index="{!index}" data-accField="Name" data-nbaField="FirstName" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>
+                                            {!item.lawyer.Contact__r.FirstName}
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Middle_Initial__c != item.lawyer.Contact__r.Middle_Name__c) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>Middle Name</div></th>
+                                        <td><div>{!item.lawyer.Middle_Initial__c}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Middle_Initial__c != item.lawyer.Contact__r.Middle_Name__c)}">
+                                                <div data-index="{!index}" data-accField="Middle_Initial__c" data-nbaField="Middle_Name__c" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>
+                                            {!item.lawyer.Contact__r.Middle_Name__c}
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Last_Name__c != item.lawyer.Contact__r.LastName) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>Last Name</div></th>
+                                        <td><div>{!item.lawyer.Last_Name__c}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Last_Name__c != item.lawyer.Contact__r.LastName)}">
+                                                <div data-index="{!index}" data-accField="Last_Name__c" data-nbaField="lastName" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>                                             
+                                            {!item.lawyer.Contact__r.LastName} 
+                                        </td>
+                                    </tr>
+                                    
+                                    <!--<tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.ISBA_Number__c != item.lawyer.Contact__r.ISBA__c) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>ISBA #</div></th>
+                                        <td><div>{!item.lawyer.ISBA_Number__c}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.ISBA_Number__c != item.lawyer.Contact__r.ISBA__c)}">
+                                                <div data-index="{!index}" data-accField="ISBA_Number__c" data-nbaField="ISBA__c" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>                                             
+                                            {!item.lawyer.Contact__r.ISBA__c} 
+                                        </td>
+                                    </tr>-->
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.ARDC_Number__c != item.lawyer.Contact__r.ARDC_Number__c) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>ARDC Number</div></th>
+                                        <td><div>{!item.lawyer.ARDC_Number__c}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.ARDC_Number__c != item.lawyer.Contact__r.ARDC_Number__c)}">
+                                                <div  data-index="{!index}" data-accField="ARDC_Number__c" data-nbaField="ARDC_Number__c" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>                                             
+                                            {!item.lawyer.Contact__r.ARDC_Number__c}                                         
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Cell_Phone__c != item.lawyer.Contact__r.MobilePhone) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>Cell Phone</div></th>
+                                        <td>
+                                            <lightning:formattedPhone value="{!item.lawyer.Cell_Phone__c}"/>
+                                        </td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Cell_Phone__c != item.lawyer.Contact__r.MobilePhone)}">
+                                                <div data-index="{!index}" data-accField="Cell_Phone__c" data-nbaField="MobilePhone" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>                                             
+                                            {!item.lawyer.Contact__r.MobilePhone}                                         
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Birthday__c != item.lawyer.Contact__r.Birthdate) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>Birthdate</div></th>
+                                        <td>
+                                            <lightning:formattedDateTime value="{!item.lawyer.Birthday__c}" year="numeric" month="2-digit" day="2-digit"/>
+                                        </td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Birthday__c != item.lawyer.Contact__r.Birthdate)}">
+                                                <div data-index="{!index}" data-accField="Birthday__c" data-nbaField="Birthdate" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td> 
+                                            <lightning:formattedDateTime value="{!item.lawyer.Contact__r.Birthdate}" year="numeric" month="2-digit" day="2-digit"/>                                                                           
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Firm_Email_Address__c != item.lawyer.Contact__r.Email) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>Firm Email</div></th>
+                                        <td><div>{!item.lawyer.Firm_Email_Address__c}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Firm_Email_Address__c != item.lawyer.Contact__r.Email)}">
+                                                <div data-index="{!index}" data-accField="Firm_Email_Address__c" data-nbaField="Email" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>                                             
+                                            {!item.lawyer.Contact__r.Email}                                         
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr style="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Personal_Email_Address__c != item.lawyer.Contact__r.Personal_Email__c) ? 'background: rgba(235, 51, 16, 0.12);' : ''}">
+                                        <th><div>Personal Email</div></th>
+                                        <td><div>{!item.lawyer.Personal_Email_Address__c}</div></td>
+                                        <td>
+                                            <aura:if isTrue="{!AND(item.lawyer.Contact__c != null ,item.lawyer.Personal_Email_Address__c != item.lawyer.Contact__r.Personal_Email__c)}">
+                                                <div data-index="{!index}" data-accField="Personal_Email_Address__c" data-nbaField="Personal_Email__c" onclick="{!c.handleUpdateContactData}">
+                                                    <lightning:icon iconName="utility:forward" size="x-small" class="icon"/>
+                                                </div>
+                                            </aura:if>
+                                        </td>
+                                        <td>                                             
+                                            {!item.lawyer.Contact__r.Personal_Email__c}
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th><div>Designation</div></th>
+                                        <td><div>{!item.lawyer.Designation__c}</div></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th><div>Avg Hours/week</div></th>
+                                        <td><div>{!item.lawyer.Average_Number_of_Hours_Worked__c}</div></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th class=""><div>Hire Date</div></th>
+                                        <td>
+                                            <lightning:formattedDateTime
+                                                                         value="{!item.lawyer.Date_of_Hire__c}"
+                                                                         year="numeric"
+                                                                         month="2-digit"
+                                                                         day="2-digit"/>
+                                        </td>
+                                        <td></td>
+                                        <td class=""></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="leftBottom"><div>Created Date</div></th>
+                                        <td>
+                                            <lightning:formattedDateTime value="{!item.lawyer.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                         minute="2-digit" hour12="true"/>
+                                        </td>
+                                        <td></td>
+                                        <td class="rightBottom">
+                                            <lightning:formattedDateTime value="{!item.lawyer.Contact__r.CreatedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                         minute="2-digit" hour12="true"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                        </aura:if>
+                        
+                    </div>
+                </aura:iteration>
+                <!-- <div style="overflow-y: scroll;">
+                    <table class="slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th class="leftTop rightTop" style="text-align: center;" colspan="9">
+                                    Customer Application Lawyer
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="slds-truncate" width="10%">FirstName</th>
+                                <th class="slds-truncate" width="10%">MiddleName</th>
+                                <th class="slds-truncate" width="10%">LastName</th>
+                                <th class="slds-truncate" width="10%">ISBA #</th>
+                                <th class="slds-truncate" width="10%">ARDC Number</th>
+                                <th class="slds-truncate" width="10%">Cell Phone</th>
+                                <th class="slds-truncate" width="10%">Birthdate</th>
+                                <th class="slds-truncate" width="15%">Firm Email</th>
+                                <th class="slds-truncate" width="15%">Personal Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.wrapper.unMatchedLawyers}" var="item">
+                                <tr>
+                                    <td class="leftBottom">{!item.Name}</td>
+                                    <td>{!item.Middle_Initial__c}</td>
+                                    <td>{!item.Last_Name__c}</td>
+                                    <td>{!item.ISBA_Number__c}</td>
+                                    <td>{!item.ARDC_Number__c}</td>
+                                    <td>{!item.Cell_Phone__c}</td>
+                                    <td>{!item.Birthday__c}</td>
+                                    <td>{!item.Firm_Email_Address__c}</td>
+                                    <td class="rightBottom">{!item.Personal_Email_Address__c}</td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div> -->
+            </aura:if>
+            
+            <aura:if isTrue="{!v.wrapper.unMatchedContact.length > 0}">
+                <div style="overflow-y: scroll;">
+                    <table class="nbaTable slds-table_cell-buffer" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th class="leftTop rightTop" style="background-color: red;color:white;" colspan="10">
+                                    Remove Lawyer Requests
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="slds-truncate" width="10%">FirstName</th>
+                                <th class="slds-truncate" width="10%">MiddleName</th>
+                                <th class="slds-truncate" width="10%">LastName</th>
+                                <th class="slds-truncate" width="10%">ISBA #</th>
+                                <th class="slds-truncate" width="10%">ARDC Number</th>
+                                <th class="slds-truncate" width="10%">Cell Phone</th>
+                                <th class="slds-truncate" width="10%">Birthdate</th>
+                                <th class="slds-truncate" width="15%">Firm Email</th>
+                                <th class="slds-truncate" width="15%">Personal Email</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.wrapper.unMatchedContact}" var="item">
+                                <tr>
+                                    <td class="leftBottom">{!item.FirstName}</td>
+                                    <td>{!item.Middle_Name__c}</td>
+                                    <td>{!item.LastName}</td>
+                                    <td>{!item.ISBA__c}</td>
+                                    <td>{!item.ARDC_Number__c}</td>
+                                    <td>{!item.MobilePhone}</td>
+                                    <td>{!item.Birthdate}</td>
+                                    <td>{!item.Email}</td>
+                                    <td class="rightBottom">{!item.Personal_Email__c}</td>
+                                    <td>
+                                        <div data-row="{!item.Id}"  onclick="{!c.handleDeletePolicyLawyer}">
+                                            <lightning:icon iconName="utility:delete" size="x-small" class="icon"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </aura:if>
+        </div>
+        <aura:set attribute="else">
+            <div>
+                No records found.
+            </div>
+        </aura:set>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container ">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModal }"
+                                          alternativeText="close"
+                                          
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Account</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    Are you sure you want to create account: {!v.wrapper.onlineNBA.Full_Legal_Name_of_the_Firm__c}
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{! c.closeModal }"/>
+                    <lightning:button variant="brand" label="Create" title="Create" onclick="{!c.saveAcc}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isLinkModalOpen}">
+        <c:LinkAccount recordId="{!v.recordId}" searchTerm="{!v.searchTerm}"/>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isLinkContactModalOpen}">
+        <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_large">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeContactModal}" class="slds-modal__close"/>
+                    <div class="header" style="margin: 1rem">
+                    <div class="leftHeadSection">
+                        <div><b>Name: &nbsp;</b> {!v.selectedLawyer.Name}&nbsp; {!v.selectedLawyer.Last_Name__c}</div>
+                        <div><b>Email: &nbsp;</b> {!v.selectedLawyer.Firm_Email_Address__c}</div>
+                        <div><b>ARDC #: &nbsp;</b> {!v.selectedLawyer.ARDC_Number__c}</div>
+                        <div><b>Birthday: &nbsp;</b> <lightning:formattedDateTime
+                                                     value="{!v.selectedLawyer.Birthday__c}"
+                                                     year="numeric"
+                                                     month="2-digit"
+                                                     day="2-digit"/></div>
+                    </div>
+                    <h2 class="heading slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                        Link Existing Contact
+                    </h2>
+                </div>
+                   
+
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" style="overflow:hidden;">
+                    
+                    <lightning:input label="Search Contact" value="{!v.contactSearchKey}" onchange="{!c.searchContact}"/>
+                    <div style="max-height: 300px; overflow-y:auto;">
+                    	<table class="nbaTable slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th width="10%"> </th>
+                                <th>Contact Name</th>
+                                <th>ARDC #</th>
+                                <th>ISBA #</th>
+                                <th>Email</th>
+                                <th>Birthday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.contactList}" var="con">
+                                <tr>
+                                    <td>
+                                        <a href="javascript:void(0);" class="slds-text-link" data-id="{!con.Id}" onclick="{!c.handleLinkContact}">
+                                            Select
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{!'/'+con.Id}"
+                                           target="_blank">
+                                            {!con.Contact_Full_Name__c}
+                                        </a>                                     
+                                    </td>
+                                    <td>{!con.ARDC_Number__c}</td>
+                                    <td>{!con.ISBA__c}</td>
+                                    <td>{!con.Email}</td>
+                                    <td>
+                                        <lightning:formattedDateTime
+                                                                     value="{!con.Birthdate}"
+                                                                     year="numeric"
+                                                                     month="2-digit"
+                                                                     day="2-digit"/>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="slds-backdrop slds-backdrop_open"></div>  
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isCreateContactModalOpen}">
+        <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_small">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeCreateContactModal}" class="slds-modal__close"/>
+                    <h2 class="slds-text-heading_medium">
+                        Create Contact
+                    </h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium">
+                    Are you sure you want to create contact:
+                    <b>{!v.selectedLawyerName}</b>
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Cancel" onclick="{!c.closeCreateContactModal}"/>
+                    <lightning:button variant="brand" label="Create" onclick="{!c.confirmCreateContact}"/>
+                </footer>
+                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showAccountUnlinkModal}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container" style="width: 50% !important;">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModal }"
+                                          alternativeText="close"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Unlink Account</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div style="width: 100%; text-align: center;">
+                        Are you sure you want to unlink the Account.
+                    </div>  
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="No"
+                                      title="No"
+                                      onclick="{! c.closeModal }"/>
+                    <lightning:button variant="brand"
+                                      label="Yes"
+                                      title="Yes"
+                                      onclick="{!c.unLinkAccount}" aura:id = "policyContact"/>
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showContactUnlinkModal}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-modal__container" style="width: 50% !important;">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModal }"
+                                          alternativeText="close"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Unlink Contact</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div style="width: 100%; text-align: center;">
+                        Are you sure you want to unlink the Contact.
+                    </div>  
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="No"
+                                      title="No"
+                                      onclick="{! c.closeModal }"/>
+                    <lightning:button variant="brand"
+                                      label="Yes"
+                                      title="Yes"
+                                      onclick="{!c.unLinkContact}" aura:id = "policyContact"/>
+                    
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

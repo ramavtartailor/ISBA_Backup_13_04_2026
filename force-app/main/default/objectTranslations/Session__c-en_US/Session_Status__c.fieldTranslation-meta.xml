@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Session Status --></label>
+    <name>Session_Status__c</name>
+    <picklistValues>
+        <masterLabel>Abstract - Copy Edited</masterLabel>
+        <translation><!-- Abstract - Copy Edited --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Abstract - Finalized</masterLabel>
+        <translation><!-- Abstract - Finalized --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Abstract - Submitted</masterLabel>
+        <translation><!-- Abstract - Submitted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Creative Brief - Approved</masterLabel>
+        <translation><!-- Creative Brief - Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Creative Brief - Submitted</masterLabel>
+        <translation><!-- Creative Brief - Submitted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Draft Slides - Submitted</masterLabel>
+        <translation><!-- Draft Slides - Submitted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dry Run - Complete</masterLabel>
+        <translation><!-- Dry Run - Complete --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dry Run - Scheduled</masterLabel>
+        <translation><!-- Dry Run - Scheduled --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ready to Publish</masterLabel>
+        <translation><!-- Ready to Publish --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Session cancelled</masterLabel>
+        <translation><!-- Session cancelled --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Slides - Locked</masterLabel>
+        <translation><!-- Slides - Locked --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Slides - Submitted</masterLabel>
+        <translation><!-- Slides - Submitted --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

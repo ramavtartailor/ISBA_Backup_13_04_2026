@@ -1,0 +1,16 @@
+<apex:page standardController="Policy__c" recordSetVar="policies"  extensions="MassRenewalPolicyCtrl" lightningStylesheets="true" action="{!massRenewPolicies}"> 
+    <apex:pageMessage severity="Error" summary="{!error}" strength="1" rendered="{!error!=null}"></apex:pageMessage>
+    <apex:pageMessage severity="Confirm" summary="{!success}" strength="1"  rendered="{!success!=null}"></apex:pageMessage>
+    <apex:pageMessages ></apex:pageMessages>
+    <div style="
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px -2px 2px 0px;
+    z-index: 8000;
+    display: flex;
+    justify-content: center;
+    background: rgb(243, 242, 242);
+    padding: 0.5rem 0px;
+}">
+        <button type="button" onclick="window.history.back();">Back</button>
+    </div>
+</apex:page>

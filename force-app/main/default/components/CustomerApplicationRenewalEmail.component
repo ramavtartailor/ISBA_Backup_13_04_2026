@@ -1,0 +1,450 @@
+<apex:component controller="CustomerApplicationRenewalEmail_Ctrl" access="global" >
+    <apex:attribute name="customerApplicationId" type="Id" description="Id of Customer Application" assignTo="{!customerAppId}"/>
+    <apex:outputPanel >
+        <p>
+            Dear Underwriter Team, <br/><br/>
+            We have received a new Online NBA recently filled by customer on our website. Please follow the link to review the same : <a id="linkCustomerApp" href="{!salesforceBaseURL}/{!customerAppId}" >{!application.Name}</a><br/><br/>
+            Please also find some details below of the online NBA : <br/><br/>
+        </p>
+        <h2>
+            Firm Information
+        </h2>
+        <table border="1">
+            <tr>
+                <th align="left">
+                    Application Number
+                </th>
+                <td colspan="3">
+                    {!application.Name}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    Full Legal Name of the Firm
+                </th>
+                <td>
+                    {!application.Full_Legal_Name_of_the_Firm__c}
+                </td>
+                <th align="left">
+                    Trade Name or D/B/A
+                </th>
+                <td>
+                    {!application.Trade_Name_or_D_B_A__c}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    Principal Street Address
+                </th>
+                <td>
+                    {!application.Street__c}
+                </td>
+                <th align="left">
+                    City
+                </th>
+                <td>
+                    {!application.City__c}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    State
+                </th>
+                <td>
+                    {!application.State__c}
+                </td>
+                <th align="left">
+                    Zip Code
+                </th>
+                <td>
+                    {!application.Zip_Code__c}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    County
+                </th>
+                <td>
+                    {!application.County__r.Name}
+                </td>
+                <th align="left">
+                    Website
+                </th>
+                <td>
+                    {!application.Website__c}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    Firm Phone Number
+                </th>
+                <td>
+					{!application.Firm_Phone_Number__c}                    
+                </td>
+                <th align="left">
+                    Effective Date Requested
+                </th>
+                <td>
+                    <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!application.Effective_Date_Requested__c}" /> </apex:outputText>   
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    Contact First Name
+                </th>
+                <td>
+                    {!application.Contact_Name__c}
+                </td>
+                <th align="left">
+                    Contact Last Name
+                </th>
+                <td>
+                    {!application.Contact_Last_Name__c}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    Contact E-mail Address
+                </th>
+                <td>
+                    {!application.Contact_E_mail_Address__c}
+                </td>
+                <th align="left">
+                    Contact Phone Number
+                </th>
+                <td>
+                    {!application.Contact_Phone_Number__c}
+                </td>
+            </tr>
+            <tr>
+                <th align="left">
+                    Date Firm Established
+                </th>
+                <td>
+                    <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!application.Date_Firm_Established__c}" /> </apex:outputText>
+                </td>
+                <th align="left">
+                    How did you hear about us?
+                </th>
+                <td>
+                    {!application.NBA_App_Source__c}
+                </td>
+            </tr>
+        </table><br/>
+        <hr/>
+        <apex:outputPanel rendered="{!(Lawyers.size!=0)}">
+            <h2>
+                Lawyer Information
+            </h2>
+            <table border = "1">
+                <tr>
+                    <th align="left">First Name</th>
+                    <th align="left">Middle Initial</th>
+                    <th align="left">Last Name</th>   
+                    <th align="left">Designation</th>
+                    <th align="left">Date of Hire</th>
+                    <th align="left">ISBA Number</th>  
+                    <th align="left">ARDC Number</th>
+                    <th align="left"># hours / week</th>
+                    <th align="left">Firm Email Address</th>
+                    <th align="left">Personal Email Address</th>
+                    <th align="left">Cell Phone</th>
+                    <th align="left">Date of Birth</th>
+                </tr>
+                <apex:repeat value="{!Lawyers}" var="lawyer">
+                    <tr>
+                        <td>{!lawyer.Name}</td> 
+                        <td>{!lawyer.Middle_Initial__c}</td>
+                        <td>{!lawyer.Last_Name__c}</td> 
+                        <td>{!lawyer.Designation__c}</td>
+                        <td><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!lawyer.Date_of_Hire__c}" /> </apex:outputText></td> 
+                        <td>{!lawyer.ISBA_Number__c}</td>
+                        <td>{!lawyer.ARDC_Number__c}</td> 
+                        <td>{!lawyer.Average_Number_of_Hours_Worked__c}</td>
+                        <td>{!lawyer.Firm_Email_Address__c}</td>
+                        <td>{!lawyer.Personal_Email_Address__c}</td>
+                        <td>{!lawyer.Cell_Phone__c}</td>
+                        <td><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!lawyer.Birthday__c}" /> </apex:outputText></td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            
+            <br/>
+            <br/>
+            Does the firm practice in states other than Illinois?
+            <b><apex:outputText value="Yes" rendered="{!application.Q_Outside_IL__c}"/><apex:outputText value="No" rendered="{!NOT(application.Q_Outside_IL__c)}"/></b><br/><br/>
+            
+            <apex:outputPanel rendered="{!application.Q_Outside_IL__c == true}">
+                Please list the state(s) and/or country(ries) including the percentage (%) of practice in each for the past twelve (12) months below.
+                <b><apex:outputText value="{!application.Q_Outside_IL_Description__c}"/></b><br/><br/>
+            </apex:outputPanel>
+            
+            Does the firm use engagement letters?
+            <b><apex:outputText value="Yes" rendered="{!application.Q_Engagement_Letters__c}"/><apex:outputText value="No" rendered="{!NOT(application.Q_Engagement_Letters__c)}"/></b><br/><br/>
+                        
+            Does the Firm utilize co-counsel, local counsel, refer cases, or case share with any other Lawyer?
+            <b><apex:outputText value="Yes" rendered="{!application.Q_Firm_Share_Cases__c}"/><apex:outputText value="No" rendered="{!NOT(application.Q_Firm_Share_Cases__c)}"/></b><br/><br/>
+            <apex:outputPanel rendered="{!application.Q_Firm_Share_Cases__c == true}">
+                Does the Firm confirm Lawyers Professional Liability is carried by the other Firm or Lawyer?
+                <b><apex:outputText value="Yes" rendered="{!application.Q_Firm_Share_Cases_Insured__c}"/><apex:outputText value="No" rendered="{!NOT(application.Q_Firm_Share_Cases_Insured__c)}"/></b><br/><br/>
+            </apex:outputPanel>
+            
+            Does the Firm have a procedure for evaluating New Clients/New Matters, such as, but not limited to, fit with Firm’s Areas of Practice, conflict of interest check, the client’s expectations, merits of the client’s case and/or client’s history of changing Lawyers? 
+            <b><apex:outputText value="Yes" rendered="{!application.Q_Firm_Evaluate_New_Clients__c}"/><apex:outputText value="No" rendered="{!NOT(application.Q_Firm_Evaluate_New_Clients__c)}"/></b><br/><br/>
+            
+            Does the Firm notify clients in writing when an existing relationship is terminated, or when the Firm declines to represent a prospective client’s matter?
+            <b><apex:outputText value="Yes" rendered="{!application.Q_Firm_Notify_Clients_Terminated__c}"/><apex:outputText value="No" rendered="{!NOT(application.Q_Firm_Notify_Clients_Terminated__c)}"/></b><br/><br/>
+                       
+            Describe how the Firm calendars and tracks dates and deadlines of<br/>
+            client matters:
+            <b><apex:outputText value="{!application.Q_Firm_Maintain_a_Docket__c}"/></b><br/><br/>
+            
+            Please describe how the Firm identifies and resolves conflicts of<br/>
+            interest:
+            <b><apex:outputText value="{!application.Q_Firm_Conflict_Of_Interest_System__c}"/></b><br/><br/>
+            
+            Number of non-lawyer personnel:
+            <b><apex:outputText value="{!application.Q_Non_Lawyer_Personnel__c}"/></b><br/><br/>
+            
+        </apex:outputPanel>
+        <br/>
+        <hr/>
+        <h2>
+            Area of Practice
+        </h2>
+        <table border = "1">
+                <tr>
+                    <th align="left">Area of Practice</th>
+                    <th align="left" style="width:30%">%</th>
+                </tr>
+                <apex:repeat value="{!aopList}" var="aop">
+                    <tr>
+                        <td>{!aop.AOP_Factor__r.Name}</td> 
+                        <td>
+                            <apex:outputText value="{0, number, ##.##}"><apex:param value="{!aop.Percentage__c}"/></apex:outputText>
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table>
+        <br/>
+        <hr/>
+        <h2>
+            Prior Insurance
+        </h2>
+        Is the firm currently insured?
+        <b>{!application.Is_the_firm_currently_insured__c}</b><br/>
+        
+        <apex:outputPanel rendered="{!application.Is_the_firm_currently_insured__c == 'Yes'}">
+            <br/>
+            <table border="1">
+                <tr>
+                    <th align="left">
+                        Effective Date
+                    </th>
+                    <td>
+                        <apex:outputField value="{!application.Prior_Insurance_Effective_Date__c}"/>
+                    </td>
+                    <th align="left">
+                        Expiration Date
+                    </th>
+                    <td>
+                        <apex:outputField value="{!application.Prior_Insurance_Expiration_Date__c}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th  align="left">
+                        Prior Acts/Retroactive Date
+                        
+                    </th>
+                    <td>
+                        <b><apex:outputField value="{!application.Retroactive_Date__c}"/></b>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        Insurance Carrier
+                    </th>
+                    <td colspan="3">
+                        <apex:outputField value="{!application.Insurance_Carrier__c}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        Limits of Liability
+                    </th>
+                    <td>
+                        <apex:outputField value="{!application.Limits_of_Liability__c}"/>
+                    </td>
+                    <th align="left">
+                        Deductible
+                    </th>
+                    <td>
+                        <apex:outputField value="{!application.Deductible__c}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        Annual Premium
+                    </th>
+                    <td>
+                        <apex:outputField value="{!application.Annual_Premium__c}"/>
+                    </td>
+                    <th align="left">
+                        # of Insured Lawyers
+                    </th>
+                    <td>
+                        <apex:outputField value="{!application.of_Insured_Lawyers__c}"/>
+                    </td>
+                </tr>
+                
+            </table>
+        </apex:outputPanel><br/>
+        <hr/>
+        <h2>
+            Prior Claims
+        </h2>
+        Has any professional liability claim or suit been made against the Firm or any past or present Lawyers with the Firm during the past five (5) years?
+        <b><apex:outputText value="Yes" rendered="{!application.Professional_Liability_Claim__c}"/><apex:outputText value="No" rendered="{!NOT(application.Professional_Liability_Claim__c)}"/>
+        <apex:outputText value=" , Claim Number - {!application.Professional_Claim_Number_Against_Firm__c}" rendered="{!application.Professional_Liability_Claim__c}" /></b><br/><br/>
+        
+        Is the Firm, or any Lawyer with the Firm, aware of any potential claim?
+        <b><apex:outputText value="Yes" rendered="{!application.Any_Potential_Claim__c}"/><apex:outputText value="No" rendered="{!NOT(application.Any_Potential_Claim__c)}"/>
+        <apex:outputText value=" , Claim Number - {!application.Potential_Claim_Number__c}" rendered="{!application.Any_Potential_Claim__c}" /></b><br/><br/>
+        
+        Have any of the Firm’s Lawyers been the subject of any disciplinary action, investigation or proceeding by any court, administrative agency or regulatory body in the past five (5) years that resulted in a disciplinary sanction?
+        <b><apex:outputText value="Yes" rendered="{!application.Any_Disciplinary_Action__c}"/><apex:outputText value="No" rendered="{!NOT(application.Any_Disciplinary_Action__c)}"/></b><br/><br/>
+        
+        <table width="100%" style="{!IF(application.Any_Disciplinary_Action__c, 'display:block;', 'display:none')}">
+            
+            <tbody>
+                <tr>
+                    <td scope="row">
+                        Ongoing Investigation/Proceeding
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Pending_Investigation_Proceeding__c}"/><apex:outputText value="No" rendered="{!NOT(application.Pending_Investigation_Proceeding__c)}"/>
+                    </td>
+                    <td scope="row">
+                        Censured
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Censured__c}"/><apex:outputText value="No" rendered="{!NOT(application.Censured__c)}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        Refused Admittance to Bar or Court
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Refused_Admittance_to_Bar_or_Court__c}"/><apex:outputText value="No" rendered="{!NOT(application.Refused_Admittance_to_Bar_or_Court__c)}"/>
+                    </td>
+                    <td scope="row">
+                        Suspended
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Suspended__c}"/><apex:outputText value="No" rendered="{!NOT(application.Suspended__c)}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        Sanctioned or Fined
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Sanctioned_or_Fined__c}"/><apex:outputText value="No" rendered="{!NOT(application.Sanctioned_or_Fined__c)}"/>
+                    </td>
+                    <td scope="row">
+                        Disbarred
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Disbarred__c}"/><apex:outputText value="No" rendered="{!NOT(application.Disbarred__c)}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        Reprimanded
+                    </td>
+                    <td scope="row">
+                        <apex:outputText value="Yes" rendered="{!application.Reprimanded__c}"/><apex:outputText value="No" rendered="{!NOT(application.Reprimanded__c)}"/>
+                    </td>
+                    <td scope="row">
+                        Other (specify)
+                    </td>
+                    <td scope="row">
+                        <apex:outputField value="{!application.Any_Other_Action__c}" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <hr/>
+        <apex:outputPanel rendered="{!(Quotes.size!=0)}">
+            <h2>
+                Limits and Deductibles
+            </h2>
+            <table>
+                <tr>
+                <th align="left">
+                    Past Fiscal Year
+                </th>
+                <td>
+                    <apex:outputText value="{0,number,Currency}">
+                        <apex:param value="{!application.Q_Firm_Gross_Revenue_Past_Year__c}" />
+                    </apex:outputText>
+                </td>
+                <th align="left">
+                    Estimate for Next Fiscal Year
+                </th>
+                <td>
+                    <apex:outputText value="{0,number,Currency}">
+                        <apex:param value="{!application.Q_Firm_Gross_Revenue_Next_Year__c}" />
+                    </apex:outputText>
+                </td>
+            </tr>
+            </table>
+            <br/>
+            <br/>
+            <table border = "1">
+                <tr>
+                    <th align="left">Limit</th>
+                    <th align="left">Deductible</th>
+                </tr>
+                <apex:repeat value="{!Quotes}" var="quote">
+                    <tr>
+                        <td>{!quote.Coverage__r.Name}</td> 
+                        <td>{!quote.Deductible__r.Name}</td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            <br/><br/>
+                
+            <h2>
+                SIGNATURE                
+            </h2>
+            <p>
+                Signature of Owner, Officer, Partner or Shareholder (only one signature needed)
+            </p>
+            <table style="">
+                <tr>
+                    <td width="25%">Name:</td>
+                    <td width="25%">
+                        {!application.Signed_By__c}
+                    </td>
+                    <td width="25%">Title:</td>
+                    <td width="25%">
+                        {!application.Title__c}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%"></td>
+                    <td width="25%">
+                    </td>
+                    <td width="25%">Date:</td>
+                    <td width="25%">
+                        <apex:outputText value="{0,date,MM/dd/yy}"> <apex:param value="{!application.Signed_Date__c}" /> </apex:outputText>
+                    </td>
+                </tr>
+            </table>
+                
+        </apex:outputPanel>
+    </apex:outputPanel>
+</apex:component>

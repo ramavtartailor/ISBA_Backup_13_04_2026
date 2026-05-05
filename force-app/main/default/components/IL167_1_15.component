@@ -1,0 +1,60 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Disciplinary/Practice Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that <span class="boldSpan"> II. SUPPLEMENTARY PAYMENTS, B. </span>of this Policy is deleted in its entirety and replaced with the following:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    B.
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    The <span class="boldSpan">COMPANY</span> will pay legal fees, costs, and expenses (collectively “Disciplinary Fees”) up to $25,000 per <b class="boldSpan">INSURED</b> lawyer per <b class="boldSpan">POLICY TERM</b> and $100,000 as the total available for all <b class="boldSpan">INSUREDs</b> per <b class="boldSpan">POLICY TERM</b> for a lawyer designated by <b class="boldSpan">US</b> to investigate and defend <b class="boldSpan">DISCIPLINARY PROCEEDINGS.</b> The <b class="boldSpan">DISCIPLINARY PROCEEDINGS</b> must be reported during the <b class="boldSpan">POLICY TERM</b> and brought against the <b class="boldSpan">INSURED</b> by reason of any act, error, omission or <b class="boldSpan">PERSONAL INJURY</b> occurring on or after the <b class="boldSpan">PRIOR ACTS DATE</b> and arising out of <b class="boldSpan">PROFESSIONAL SERVICES</b> not involving residential mortgage, loan foreclosure, forbearance, work out, origination, modification, or sales/lease back, provided that:
+                    <ol>
+                        <li>
+                            <p class="normalParagraph">
+                                notice of the <span class="boldSpan"> DISCIPLINARY PROCEEDINGS </span> must be reported in writing to and received by the <span class="boldSpan"> COMPANY </span> during the <span class="boldSpan"> POLICY TERM </span> and prior to any response by the <span class="boldSpan"> INSURED </span> to the <span class="boldSpan"> DISCIPLINARY PROCEEDINGS; </span>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="normalParagraph">
+                                by requesting that the <span class="boldSpan"> COMPANY </span> investigate and defend <span class="boldSpan"> DISCIPLINARY PROCEEDINGS, </span> the <span class="boldSpan"> INSURED </span> is not reporting a <span class="boldSpan"> CLAIM, </span> unless the <span class="boldSpan"> INSURED </span> reports to the <span class="boldSpan"> COMPANY </span> in accordance with <span class="boldSpan"> V. CONDITIONS, O. </span> of this Policy;
+                            </p>
+                        </li>
+                        <li>
+                            <p class="normalParagraph">
+                                disciplinary Fees above $5,000 are on a reimbursement basis and reimbursement to the <span class="boldSpan"> NAMED INSURED </span> is conditioned upon a determination of Not To Proceed against the <span class="boldSpan"> INSURED </span> against whom the <span class="boldSpan"> DISCIPLINARY PROCEEDINGS </span> have been brought.  Not To Proceed means a final determination by the regulatory or disciplinary agency or official not to further investigate and no action has or will be taken against the <span class="boldSpan"> INSURED </span> including but not limited to suspension, probation, censure, license revocation, reprimand, disbarment, or settlement;
+                            </p>
+                        </li>
+                        <li>
+                            <p class="normalParagraph">
+                                <span class="boldSpan"> OUR </span> determination as to the reasonableness of Disciplinary Fees will be conclusive.
+                            </p>
+                        </li>
+                </ol>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:120px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

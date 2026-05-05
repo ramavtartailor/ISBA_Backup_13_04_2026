@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SCH_Mod_Should_be_Positive</fullName>
+    <active>true</active>
+    <description>SCH Mod value should be Positive.</description>
+    <errorConditionFormula>SCH_Mod__c &lt;0</errorConditionFormula>
+    <errorDisplayField>SCH_Mod__c</errorDisplayField>
+    <errorMessage>Please input positive SCH Mode value!</errorMessage>
+</ValidationRule>

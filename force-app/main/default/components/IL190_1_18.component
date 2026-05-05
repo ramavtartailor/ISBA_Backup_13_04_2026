@@ -1,0 +1,27 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Policy Cancellation
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is cancelled effective&nbsp;<apex:outputText value="{0,date,MMMM d, yyyy}"> <apex:param value="{!endorsement.Endorsement_Effective_Date__c}" /> </apex:outputText>&nbsp;at 12:01 a.m. Central Standard Time.
+    </p>
+    <br/>
+    <br/>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:90%;" align="center">
+        <tr>
+            <td class="tableDataLeft normalParagraph">
+                Return Premium:&nbsp;<apex:outputField value="{!endorsement.Refund_Amount__c}"/>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!-- <div style="width:30%;margin-top:490px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div> -->
+</apex:component>

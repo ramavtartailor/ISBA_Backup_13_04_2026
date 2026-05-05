@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ISBAM_Automatic_Renewal_Send__c</fullName>
+    <formula>ISPICKVAL( Status__c ,&quot;Approved&quot;)
+&amp;&amp; ISPICKVAL(Renewal_Type__c,&quot;Online Invoice&quot;)
+&amp;&amp; Effective_Date__c&gt;= DATE(2025,1,1) &amp;&amp; Effective_Date__c &lt;=  (TODAY() + 40) &amp;&amp;  RecordType.Name = &apos;Application&apos;</formula>
+    <label>ISBAM Automatic Renewal Send</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

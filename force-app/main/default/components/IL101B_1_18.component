@@ -1,0 +1,20 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Specific Lawyer(s) or Law Firm(s) Exclusion Endorsement
+    </p>
+    <p class="normalParagraph">
+        It is agreed that this Policy is amended to exclude any<span class="normalBoldParagraph"> Claim </span>arising out of a<span class="normalBoldParagraph"> Wrongful Act </span>committed or alleged to have been committed by<br/><br/><br/>
+        <apex:outputField value="{!endorsement.Attorney_Firm_Name__c}"/><br/><br/><br/>
+        regardless of whether such Lawyer(s) or Law Firm(s) would otherwise be deemed an<span class="normalBoldParagraph"> Insured </span>under this Policy, and also excludes<span class="normalBoldParagraph"> Vicarious Liability </span>of an<span class="normalBoldParagraph"> Insured </span>provided, however, that this endorsement shall not exclude any<span class="normalBoldParagraph"> Wrongful Act </span>in which an<span class="normalBoldParagraph"> Insured </span> personally participated to the extent and only to the extent that the liability arises directly from such personal participation.
+    </p>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <!--<div style="width:30%;margin-top:280px;float:right">
+        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+    </div>-->
+</apex:component>

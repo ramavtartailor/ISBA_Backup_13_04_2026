@@ -1,0 +1,43 @@
+<apex:component controller="EndorsementDocuments_Ctrl">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <p class="heading"> 
+        Name Change and Address Change Endorsement
+    </p>
+    <br/>
+    <p class="normalParagraph">
+        It is agreed that Item 2. of the Declarations,<span class="normalBoldParagraph"> NAMED INSURED </span>and Principal Address, is amended as follows:
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+            <td style="width:5%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    &nbsp;
+                </p>
+            </td>
+            <td style="width:95%;" class="tableDataLeft">
+                <p class="normalParagraph">
+                    <apex:outputField value="{!endorsement.Account_Name__c}"/><br/>
+                    <apex:outputField value="{!endorsement.Account_Billing_Street__c}"/><br/>
+                    <apex:outputField value="{!endorsement.Account_Billing_City__c}"/><br/>
+                    <apex:outputField value="{!endorsement.Account_Billing_State__c}"/><br/>
+                    <apex:outputField value="{!endorsement.Account_Billing_PostalCode__c}"/><br/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <p class="normalParagraph">
+        All other terms, conditions, limitations and exclusions of the Policy to which this endorsement is attached remain unchanged.
+    </p>
+    <table border="0" cellspacing="0" cellpadding="0" style="width:30%;margin-top:400px;" align="right">
+        <tr>
+            <td class="tableDataLeft">
+                <apex:image url="{!$Resource.Authorised_Signature }" width="150" height="50"/>
+                <br/>
+                Authorized Representative
+            </td>
+        </tr>
+    </table>
+</apex:component>

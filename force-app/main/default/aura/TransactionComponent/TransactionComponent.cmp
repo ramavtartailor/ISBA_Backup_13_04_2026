@@ -1,0 +1,123 @@
+<aura:component controller="TransactionComponentHandler" Implements="force:hasRecordId,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <!--Init handler which is call doInit js function on component Load--> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+ <!--   <aura:handler name="NavigateToTransactionRecord" event="c:NavigateToTransactionRecord" action="{!c.navigateToPolicyLawyer}"/>
+    <aura:handler name="NavigateToPolicyRecord" event="c:NavigateToPolicyRecord" action="{!c.navigateToPolicy}"/>-->
+    
+    <aura:attribute name="transactionList" type="object[]"/> 
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="allRecords" type="boolean" default="false"/>
+    <aura:attribute name="totalTransaction" type="Integer" default="0"/>
+    <aura:attribute name="claimName" type="String" default=""/>
+
+    <article class="slds-card slds-card_boundary forceRelatedListCardDesktop" data-aura-class="forceRelatedListCardDesktop">
+        <!--Header Part-->       
+        <div class="slds-card__header slds-grid" style="{!v.allRecords ?'display:none;':'' }">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="extraSmall forceEntityIcon" style="background-color: #bf7b66" data-aura-class="forceEntityIcon">
+                        <span class="uiImage" data-aura-class="uiImage">
+                            
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-media__body" >
+                    <h2 id="header_1420:0" >
+                        <a class="slds-card__header-link baseCard__header-title-container"  onclick="{!c.goToAllTransaction}">
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Lawyer History">
+                                <aura:if isTrue="{! 7 > v.totalTransaction }">
+                                    Transactions ({!v.totalTransaction})
+                                    <aura:set attribute="else">
+                                        Transactions (6+)
+                                    </aura:set>
+                                </aura:if>
+                            </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div style="{!v.allRecords ?'':'display:none;' }" class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader" role="banner"  data-aura-class="forceListViewManagerHeader">
+            <div class="slds-grid" >
+                <div class="slds-col slds-has-flexi-truncate" >
+                    <div class="slds-media slds-no-space slds-grow" >
+                        <!--render facet: 4973:0-->
+                        <div class="slds-media__body slds-align-middle" >
+                            <nav role="navigation" aria-label="Breadcrumbs" >
+                                <ol class="slds-breadcrumb slds-list--horizontal" >
+                                    <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                        <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem"  onclick="{!c.navigateToClaims}">
+                                            <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                Claim
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="slds-breadcrumb__item slds-line-height--reset" >
+                                        <a  class="forceBreadCrumbItem" data-aura-class="forceBreadCrumbItem" onclick="{!c.navigateToClaim}">
+                                            <span  class="uiOutputText" data-aura-class="uiOutputText">
+                                                {!v.claimName}
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <h1 class="slds-page-header__title slds-truncate" title="Transactions" >Transactions</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-card__body" >
+            <div class="" >
+                <div class="previewMode MEDIUM forceRelatedListPreview" data-aura-class="forceRelatedListPreview">
+                    <div class="">
+                        <div class="useHeaderBarFix forceBaseListView forceRelatedListPreviewGrid"  data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="listViewContent" >
+                                <div class="scrollable uiScroller scroller-wrapper scroll-bidirectional native" tabindex="-1" style=""  data-aura-class="uiScroller">
+                                    <div  class="scroller actionBarPlugin fixedHeaderPlugin">
+                                        <!--Table Part-->      
+                                        <table class="forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid" style="{!v.transactionList.length==0 ? 'display:none;' :''}"> 
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Name">Transaction Name</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Date">Date</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="Amount">Amount</div>
+                                                    </th>
+                                                    <th scope="col"  width="10%">
+                                                        <div class="slds-truncate" title="GL Account">GL Account</div>
+                                                    </th>
+                                                    <th scope="col"  width="15%">
+                                                        <div class="slds-truncate" title="Related to">Related to</div>
+                                                    </th>
+               
+                                                </tr>
+                                            </thead>   
+                                            <tbody>       
+                                                <aura:iteration items="{!v.transactionList}" var="item" indexVar="index">
+                                                    <c:InnerTransactionsComponent transactionInstance="{!item}" rowIndex="{!index}" />
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a style="{!v.transactionList.length==0 ? 'display:none;' :v.allRecords ?'display:none;':'' }" onclick="{!c.goToAllTransaction}">
+            <div class="slds-card__footer">
+                <span class="view-all-label">
+                    View All
+                </span>
+            </div>
+        </a>
+    </article>
+</aura:component>

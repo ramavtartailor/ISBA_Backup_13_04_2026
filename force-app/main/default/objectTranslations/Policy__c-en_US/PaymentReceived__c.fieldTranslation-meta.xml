@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Payment Received on Bind --></label>
+    <name>PaymentReceived__c</name>
+    <picklistValues>
+        <masterLabel>Check</masterLabel>
+        <translation><!-- Check --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Payment Received</masterLabel>
+        <translation><!-- No Payment Received --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>e-Payment Authorization Form</masterLabel>
+        <translation><!-- e-Payment Authorization Form --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

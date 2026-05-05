@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Items include invitations, name badges, program booklets, event signage and banners. --></help>
+    <label><!-- Printing Budget --></label>
+    <name>Budget_Printing__c</name>
+</CustomFieldTranslation>

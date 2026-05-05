@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Cash Disbursement Batch</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Cash Disbursement Batches</value>
+    </caseValues>
+    <quickActions>
+        <label><!-- Generate PP --></label>
+        <name>Generate_PP</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Print_Checks --></label>
+        <name>Print_Checks</name>
+    </webLinks>
+</CustomObjectTranslation>

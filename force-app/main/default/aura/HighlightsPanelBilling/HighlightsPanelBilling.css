@@ -1,0 +1,23 @@
+.THIS.block {
+    border-style: solid;
+    border-color: red;
+    border-width: 5px;
+}
+.THIS.normal{
+    background-color: #ffffff;
+}
+.THIS.overdue{
+    border: 2px solid red;
+}
+.THIS.balanceNormal{
+    background-color: #b4ffb4;
+}
+.THIS.activeClaim{
+    background-color: #b4ffb4;
+}
+.THIS th {
+  padding-left: 15px;
+}
+.THIS td {
+  padding-left: 15px;
+}

@@ -1,0 +1,18 @@
+<apex:page standardController="Policy__c" extensions="newQuoteExtension"  renderAs="pdf" showHeader="false"  applyBodyTag="false" readOnly="true">
+  <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+  <head>
+  <style>
+    @page{ margin-top:50px;}  
+  </style>
+  </head>
+  <body>
+      <c:Quotepdf1 recordIdParam="{!quote.id}"/>
+      <div style="page-break-after: always"/>
+      <c:Quotepdf2 recordIdParam="{!quote.id}" policyIdParam="{!Policy__c.Id}"/>
+        <div style="page-break-after: always"/>
+        <c:PaymentOptions recordIdParam="{!Policy__c.Id}" />
+        <div style="page-break-after: always"/>
+        <c:AuthorizationForm recordIdParam="{!Policy__c.Id}" />
+  </body>
+  
+</apex:page>

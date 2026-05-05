@@ -1,0 +1,69 @@
+<apex:page tabStyle="Policy__c" controller="ViewAllCustomNotes_Ctrl">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <style>
+                th, td {
+                text-align: left;
+                padding: 8px;
+                }
+                
+                tr:nth-child(even){background-color: #f2f2f2}
+            </style>
+        </head>
+        <apex:sectionHeader title="View All Notes" subtitle="{!recordName}" />
+        <apex:form id="form">
+            <apex:pageBlock id="mainBlock" >
+                <!-- Page Buttons -->
+                <apex:pageBlockButtons >
+                    <!--<apex:commandButton action="{!doCancel}" value="Cancel" immediate="true" html-formnovalidate="formnovalidate"/> -->
+                </apex:pageBlockButtons>
+                <!-- Page Fields -->
+                <apex:repeat value="{!notesList}" var="noteObj"> 
+                    <apex:pageBlockSection title="{!noteObj.Subject__c}" showHeader="true" columns="1" >
+                        <table width="100%"  style="border:2px solid #34b7f0;border-right:2px solid #34b7f0;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:30%">
+                                        <table width="100%" style="border:2px solid #34b7f0;">
+                                            <tr>
+                                                <th>
+                                                    Type:
+                                                </th>
+                                                <td>
+                                                    {!noteObj.Type__C}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    Created:
+                                                </th>
+                                                <td>
+                                                    {!noteObj.CreatedDate}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    By:
+                                                </th>
+                                                <td>
+                                                    {!noteObj.CreatedBy.Name}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="width:70%;">
+                                        <table width="100%">
+                                            <tr>
+                                                <td valign="top"><apex:outputText label="" value="{!noteObj.Description__c}" escape="false"></apex:outputText></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </apex:pageBlockSection>
+                </apex:repeat>
+            </apex:pageBlock>
+        </apex:form>
+    </html>
+</apex:page>

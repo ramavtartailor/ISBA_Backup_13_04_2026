@@ -1,0 +1,19 @@
+<apex:component controller="Policy_Header_Ctrl" >
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%;" class="tableDataLeft">
+                <apex:image url="{!$Resource.ISBA_Logo_125x70 }" width="125" height="70"/>
+            </td>
+            <td style="width:50%;" class="tableDataRight">
+                <apex:outputPanel >
+                    <p class="normalParagraph tableDataRight">Effective:&nbsp;<apex:outputText value="{0,date,MMM d, yyyy}" > <apex:param value="{!quote.Policy__r.Effective_Date__c}" /> </apex:outputText> </p>
+                </apex:outputPanel>
+                
+                <p class="normalParagraph tableDataRight"><apex:outputField value="{!quote.Name}" /></p>
+                <p class="normalParagraph tableDataRight">Policy #:&nbsp;<apex:outputField value="{!quote.Policy__r.Name}" /></p>
+                <p class="normalParagraph tableDataRight"> <apex:outputField value="{!quote.Policy__r.Account__r.Name}" /></p>
+            </td>
+        </tr>
+    </table>
+</apex:component>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PolicyEffectiveExceedEffectiveDate</fullName>
+    <active>true</active>
+    <description>Endorsement effective date cannot be before policy effective date.</description>
+    <errorConditionFormula>Endorsement_Effective_Date__c &lt; Policy__r.Effective_Date__c</errorConditionFormula>
+    <errorDisplayField>Endorsement_Effective_Date__c</errorDisplayField>
+    <errorMessage>Endorsement effective date cannot be before policy effective date.</errorMessage>
+</ValidationRule>

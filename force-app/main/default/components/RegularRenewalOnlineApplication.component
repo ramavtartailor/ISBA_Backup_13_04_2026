@@ -1,0 +1,72 @@
+<apex:component controller="RegularRenewalOnlineApplicationCtrl" access="global">
+    <apex:attribute name="recId" type="String" assignTo="{!recordId}" description="recordId"/>
+
+    <table style="width: 100%;" valign="top" border="0">
+        <tr>
+            <td>Dear {!obj.name},</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="arial" style="">
+                Thank you for insuring your practice with ISBA Mutual Insurance Company. We truly appreciate the trust you’ve placed in us to protect your firm over the past year.
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <td style="text-align: justify;">
+            Your Lawyers Professional Liability Policy is set to expire soon. To ensure continuous coverage, we are providing your firm with the renewal application in advance. If any supplemental forms are attached, please complete them and upload them to the portal along with your application.
+        </td>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                You can access the renewal application using the link below:
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                {!obj.link}
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="arial" style="text-align: justify;">
+                Once we receive and review your completed application, we will send you a quote for the upcoming policy period from <b>underwriting@isbamutual.com.</b>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="" style="text-align: justify;">
+                If you have any questions or need assistance during the renewal process, please don’t hesitate to reach out. I look forward to helping you with your policy renewal.
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Regards,</td>
+        </tr>
+    </table>
+
+    <br/> {!obj.underwriter_User}
+    <br/> {!obj.underwriter_Title}
+    <br/> {!obj.underwriter_Phone}
+    <br/> {!obj.underwriter_Email}
+    <br/>
+    <br/> <b>ISBA Mutual Insurance Company</b>
+    <br/> 20 S. Clark, Suite 800
+    <br/> Chicago, IL 60603
+    <br/>Office: (312) 379-2000
+    <br/>Fax: (312) 379-2049
+</apex:component>

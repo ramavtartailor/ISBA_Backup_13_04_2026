@@ -1,0 +1,240 @@
+<apex:component controller="RegularRenewalDoc_Ctrl">
+    <apex:attribute name="recordIdParam" description="" type="String" assignTo="{!recordId}" />
+    
+    
+    
+    <head>
+  <style>
+      @page {
+      		margin-top: 10cm !important;
+      		padding-top: 10cm !important;
+            size: portrait;
+            margin-left: 0.8cm;
+            margin-right: 0.8cm;
+      		margin-bottom: 1cm !important;
+      }
+            .colorMaroon{
+                color: #89001a;
+            }
+            .colorRed{
+                color: #e64542;
+            }
+            .colorGray{
+                color: #212121;
+            }
+            .colorDarkGray{
+                color: #424242;
+            }
+            .fontCss{
+                font-size:14px;
+            }
+            .fontCssSmall{
+                font-size:13px;
+            }
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);               
+            }
+            .pagenumber:before {
+                content: counter(page);            
+            }
+      
+            
+      		.pc { 
+      			color: #89001b;
+      			font-weight: bold;
+      		}
+      		.c { text-align: center; }
+    		.u { }
+      		.b { font-weight: bold; }
+    		
+            .div_pad {
+            	padding-top: 5px;
+                padding-bottom: 5px;
+        	}
+      
+            .table_border { border-collapse: collapse; width: 100%; }
+            .table_border, .table_border th, .table_border td { border: 2px solid #ededed; }
+            .table_spacing td {
+              padding-left: 7px;
+              padding-top: 3px;
+              padding-bottom: 3px;
+            }
+      
+      		#discipline_table_questions th, #discipline_table_questions td {
+      			border: 0px solid white;
+      			padding: 2px;
+       		}
+      
+            .table_title { 
+        		background-color: #89001b;
+        		color: white;
+        		font-weight: bold;
+      			font-size: 14px;
+      			padding-top: 3px !important;
+                padding-bottom: 3px !important;
+    		}
+            
+            .sc_header {
+            	background-color: #B7BBB6;
+                color: black;
+            }
+            .sc_header th {
+      			font-weight: bold;
+      			padding-top: 5px !important;
+                padding-bottom: 5px !important;
+                font-weight: normal !important;
+            }
+      
+      		
+      		.table_head tr th {
+                text-align: center;
+            }
+      
+            #quote_table {
+                font-size: 12px;
+            }
+            #quote_table td {
+      			padding: 6px;
+            }
+            #quote_table td:nth-child(1) {
+              text-align: center;
+            }
+            
+            #lawyer_table td {
+      			padding: 6px;
+            }
+      
+            #discipline_table {
+        		font-size: 12px;
+       		}
+      
+      		.fs-12px {
+      			font-size: 12px;
+      		}
+      
+      		.pad6 td {
+      			padding: 6px;
+      		}
+      
+      		.th_pad th {
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+      
+      		.question_table td {
+              padding: 5px;
+              padding-right: 10px !important;
+            }
+	        
+            .cb {
+                height: 9px;
+      			width: 9px;
+      			border: 1px solid black;
+      			float: left;
+                margin-top: 2px;
+      			margin-right: 4px;
+            }
+            .cb_yes {
+                padding-right: 15px;    
+		        float: left;
+            }
+            .yn_pad {
+      			padding-left: 15px !important;
+      		}
+      
+		    tr.page-break  { display: block; page-break-before: always; }
+      
+      		.no_td_border {
+      			border-left: 0px solid white !important;
+      			border-top: 0px; solid white !important;
+      			border-right: 0px solid white !important;
+      			border-bottom: 0px solid white !important;
+      		}
+      
+  </style>
+  </head>
+  <body>
+    
+      <div class="footer" style="width:100%">
+          <table style="display:none;" width="100%">
+              <tr>
+                  <td width="20%">
+                      
+                  </td>
+                  <td width="30%" style="text-align:right;">
+                      Page&nbsp;<b><span class="pagenumber" /></b>&nbsp;of&nbsp;<b><span class="pagecount" /></b>
+                  </td>
+                  <td width="50%" style="text-align:right;">
+                      
+                  </td>
+              </tr>
+          </table>
+         
+      </div>
+  	
+    
+    <!---HEADER------------------------------------------------------------>
+    <div style="">
+    	<c:Application_Header />    
+    </div>
+
+    <c:RenewalLetterAddress recordIdParam="{!policy.Id}" />
+      
+    <table style="text-justify: center; width:100%;">
+        <tr>
+            <td class="colorGray" style="">
+                Dear {!policy.Firm_Contact__r.FirstName}:
+                <p style="text-align: justify;">
+                    Thank you for insuring your practice with ISBA Mutual.  As you may be aware, your ISBA Mutual Lawyers Professional Liability Policy is expiring soon.  Enclosed please find the renewal documents for your upcoming policy period.  To renew your policy, please follow these steps:
+                </p>
+                <ul>
+                    <li>
+                        <p style="text-align: justify;">
+                            Review the <b>Renewal Quote Application and Acceptance Form</b>, which provides your renewal quote(s).  If multiple limit options are available, please select the limit option desired.  Complete, sign and date this form.
+                        </p>
+                    </li>
+                    <li>
+                        <p style="text-align: justify;">
+                        	Review the list of Lawyers for Lawyer accuracy and provide the number of hours worked per week for each Lawyer listed.  This list confirms the Lawyers included in the quote(s) provided.Any change to the list will result in a change in premium accordingly.  If the firm has added a Lawyer who is not listed, the Add Lawyer Supplement will need to be completed and is included for your convenience.  Please contact me by email if there is a change in the firm’s Lawyer roster.
+                        </p>
+                    </li>
+                    <li>
+                        <p style="text-align: justify;">
+                        	Review the <b>Policy Endorsement List &amp; Policy Terms and Conditions</b>.
+                        </p>
+                    </li>
+                    <li>Return the following to ISBA Mutual by email, fax or mail:
+                    	<ul>
+                            <li>Completed <b>Renewal Quote Application and Acceptance Form</b>.</li>
+                            <li>Copy of Firm Letterhead.</li>
+                            <li>ISBA Mutual Premium Payment <b>Invoice</b> confirming the Firm's payment selection.</li>
+                            <li>E-Payment Authorization Form or Credit Card Authorization Form, if applicable - <b>please return by fax or mail only</b>.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p style="text-align: justify;">
+                    <b>As a reminder, Coverage is not bound until aprropriate premiums have been recived by ISBA Mutual Insurance Company.</b>
+                </p>
+                <p style="text-align: justify;">
+                    We appreciate the opportunity to provide you with this valuable protection and thank you for supporting ISBA Mutual Insurance Company. Please call or e-mail me at any time if you have questions about the application or your policy.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="colorGray" style="" >
+                <br/>
+                <div style="{!if(policy.Underwriter_User__r.FirstName!=null,'','display:none;')}">
+                    Sincerely,
+                    <br/><br/>
+                    {!policy.Underwriter_User__r.FirstName}&nbsp;{!policy.Underwriter_User__r.LastName}<br/>
+					{!policy.Underwriter_User__r.Title}<br/>
+                    {!policy.Underwriter_User__r.Phone}<br/>
+                    {!policy.Underwriter_User__r.Email}<br/>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </body>
+</apex:component>

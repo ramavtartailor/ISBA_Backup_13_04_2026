@@ -1,0 +1,100 @@
+<apex:page renderAs="pdf" applyBodyTag="false" readOnly="true" applyHtmlTag="false" showHeader="false">
+    <apex:stylesheet value="{!$Resource.PolicyDocumentsCSS}" />
+    
+    <body>
+        <div class="header" style="margin-top:30px;">
+            <c:PolicyHeader recordIdParam="{!$CurrentPage.parameters.id}"/>
+        </div>
+        <div class="footer" style="width:100%">
+            <table width="100%">
+                <tr>
+                    <td width="25%" style="text-align:bottom;">
+                        <p class="normalParagraph">
+                            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '1/15',true,false)}">
+                                <apex:outputText value="{!$CurrentPage.parameters.number}" /> (<apex:outputText value="{!$CurrentPage.parameters.version}" />)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.version == '6/15',true,false)}">
+                                <apex:outputText value="{!$CurrentPage.parameters.number}" /> (<apex:outputText value="{!$CurrentPage.parameters.version}" />)
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(OR($CurrentPage.parameters.version == '1/15',$CurrentPage.parameters.version == '6/15'),false,true)}">
+                                ISBAMIC&nbsp;<apex:outputText value="{!SUBSTITUTE($CurrentPage.parameters.number,'IL ','')}" />
+                                {!RIGHT(TEXT(VALUE(LEFT($CurrentPage.parameters.version , FIND('/',$CurrentPage.parameters.version)-1 ))+100),2)}
+                                20{!RIGHT($CurrentPage.parameters.version , LEN($CurrentPage.parameters.version) - FIND('/',$CurrentPage.parameters.version) )}
+                            </apex:outputPanel>
+                        </p>
+                    </td>
+                    <td width="20%"  style="text-align:bottom;">
+                        <p style="text-align:right;" class="normalParagraph">
+                            Page&nbsp;<span class="pagenumber" />&nbsp;of&nbsp;<span class="pagecount" />
+                        </p>
+                    </td>
+                    <td width="40%"  style="text-align:bottom;">
+                        <c:AuthorisedSigntoryComponent ></c:AuthorisedSigntoryComponent>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="content">
+            <c:IL106 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 106',true,false)}"/>
+            <c:IL104 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 104',true,false)}"/>
+            <c:IL110 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 110',true,false)}"/>
+            <c:IL115 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 115',true,false)}"/>
+            <c:IL150 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 150',true,false)}"/>
+            <c:IL161 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 161',true,false)}"/>
+            <c:IL162 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 162',true,false)}"/>
+            <c:IL163 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 163',true,false)}"/>
+            <c:IL168 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 168',true,false)}"/>
+            <c:IL169 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 169',true,false)}"/>
+            <c:IL169A recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 169A',true,false)}"/>
+            <c:IL167 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 167',true,false)}"/>
+            <c:IL160 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 160',true,false)}"/>
+            <c:IL171 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 171',true,false)}"/>
+            <c:IL178 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 178',true,false)}"/>
+            <c:IL179 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 179',true,false)}"/>
+            <c:IL172 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 172',true,false)}"/>
+            <c:IL173 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 173',true,false)}"/>
+            <c:IL174 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 174',true,false)}"/>
+            <c:IL174A recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 174A',true,false)}"/>
+            <c:IL175 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 175',true,false)}"/>
+            <c:IL190 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 190',true,false)}"/>
+            <c:IL153 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 153',true,false)}"/>
+            <c:IL191 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 191',true,false)}"/>
+            <c:IL230 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 230',true,false)}"/>
+            <c:IL232 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 232',true,false)}"/>
+            <c:IL245 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 245',true,false)}"/>
+            <c:IL234 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 234',true,false)}"/>
+            <c:IL101A recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 101A',true,false)}"/>
+            <c:IL101B recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 101B',true,false)}"/>
+            <c:IL177 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 177',true,false)}"/>
+            <c:IL107 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 107',true,false)}"/>
+            <c:IL102 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 102',true,false)}"/>
+            <c:IL152 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 152',true,false)}"/>
+            <c:IL151 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 151',true,false)}"/>
+            <c:IL176 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 176',true,false)}"/>
+            <c:IL176A recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 176A',true,false)}"/>
+            <c:IL200 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 200',true,false)}"/>
+            <c:IL246 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 246',true,false)}"/>
+            <c:IL251 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 251',true,false)}"/>
+            <c:IL250 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 250',true,false)}"/>
+            <c:IL247 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 247',true,false)}"/>
+            <c:IL252 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 252',true,false)}"/>
+            <c:IL210 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 210',true,false)}"/>
+            <c:IL130 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 130',true,false)}"/>
+            <c:IL248 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 248',true,false)}"/>
+            <c:IL249 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 249',true,false)}"/>
+            <c:IL107B recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 107B',true,false)}"/>
+            <c:IL107C recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 107C',true,false)}"/>
+            <c:IL107D recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 107D',true,false)}"/>
+            <c:IL151A recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 151A',true,false)}"/>
+            <c:IL260 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 260',true,false)}"/>
+            <c:IL301 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 301',true,false)}"/>
+            <c:IL302 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 302',true,false)}"/>
+            <c:IL303 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 303',true,false)}"/>
+            <c:IL120 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 120',true,false)}"/>
+            <c:IL261 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 261',true,false)}"/>
+            <c:IL262 recordIdParam="{!$CurrentPage.parameters.id}" versionParam="{!$CurrentPage.parameters.version}" rendered="{!IF($CurrentPage.parameters.number=='IL 262',true,false)}"/>
+            &nbsp;
+        </div>
+        
+    </body>
+</apex:page>

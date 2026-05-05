@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Marketing Source --></label>
+    <name>Marketing_Source__c</name>
+    <picklistValues>
+        <masterLabel>DIRCT-AM</masterLabel>
+        <translation><!-- DIRCT-AM --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DIRCT-KB</masterLabel>
+        <translation><!-- DIRCT-KB --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DIRCT-WM</masterLabel>
+        <translation><!-- DIRCT-WM --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>EXM</masterLabel>
+        <translation><!-- EXM --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OTHER</masterLabel>
+        <translation><!-- OTHER --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SEMI</masterLabel>
+        <translation><!-- SEMI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>WEB</masterLabel>
+        <translation><!-- WEB --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

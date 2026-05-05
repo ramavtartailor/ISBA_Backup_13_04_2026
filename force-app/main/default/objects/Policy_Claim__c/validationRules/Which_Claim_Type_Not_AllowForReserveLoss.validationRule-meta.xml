@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Which_Claim_Type_Not_AllowForReserveLoss</fullName>
+    <active>false</active>
+    <errorConditionFormula>Not(ISNULL(Reserve_Loss__c)) &amp;&amp;
+OR( 
+ISPICKVAL(File_Type__c, &apos;ARDC Complaint&apos;), 
+ISPICKVAL(File_Type__c, &apos;Memo&apos;) 
+)</errorConditionFormula>
+    <errorDisplayField>Reserve_Loss__c</errorDisplayField>
+    <errorMessage>Reserve cannot be set for &apos;ARDC&apos; or &apos;Memo&apos; types!</errorMessage>
+</ValidationRule>

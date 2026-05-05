@@ -1,0 +1,27 @@
+<apex:page >
+    <apex:includeLightning />
+    <div id="lightning" />
+    <style>
+        body{
+        padding:0 !important;
+        }
+    </style>
+    <script>
+    var flag = "{!$CurrentPage.parameters.fromPolicyLawyerRelatedList}";
+    console.log('flag => ',flag);
+    if(flag == "true"){
+        //get Policy Id from URL
+        var recId = "{!$CurrentPage.parameters.policyId}";
+        console.log('recId => ',recId);
+        $Lightning.use("c:New_SA_ERP_APP", function() {
+            $Lightning.createComponent("c:New_SA_ERP_Cmp",
+                                       { "recordId" : recId },
+                                       "lightning",
+                                       function(component) {
+                                           console.log("This function is inside VF page");
+                                       }
+                                      );
+        });
+    }
+    </script>
+</apex:page>

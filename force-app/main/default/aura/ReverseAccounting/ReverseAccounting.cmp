@@ -1,0 +1,9 @@
+<aura:component  controller="RegenerateDocumentsCtrl" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global"  >
+	
+    <div aura:id="confirmBox">
+        Are you sure you want to Regenerate Documents?<br/>
+        <ui:button press="{!c.regenerateDocuments}" label="Yes"/>
+        <ui:button press="{!c.hideConfirmBox}" label="No"/>
+    </div>
+    <lightning:spinner alternativeText="Loading" size="medium" aura:id="spinner" class ="slds-hide"/>
+</aura:component>
